@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.AllianceVO;
+import com.example.demo.domain.AllianceVO;
 
 import java.util.List;
 

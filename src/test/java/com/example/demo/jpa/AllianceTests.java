@@ -1,6 +1,6 @@
 package com.example.demo.jpa;
 
-import com.example.demo.entity.AllianceVO;
+import com.example.demo.domain.AllianceVO;
 import com.example.demo.repository.AllianceRepository;
 import lombok.extern.java.Log;
 import org.junit.jupiter.api.Test;

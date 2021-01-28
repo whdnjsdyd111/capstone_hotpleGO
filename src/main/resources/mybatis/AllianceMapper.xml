@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.AllianceMapper">
-    <select id="findAll">
-        SELECT * FROM alliance;
+    <select id="findAll" resultType="com.example.demo.domain.AllianceVO">
+        SELECT * FROM alliance
     </select>
 </mapper>

@@ -1,6 +1,5 @@
-package com.example.demo.entity;
+package com.example.demo.domain;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Entity;
