@@ -16,7 +16,7 @@ public class AllianceImpl implements AllianceService {
 
     @Override
     public void register(AllianceVO vo) {
-        repository.saveAndFlush(vo);
+        repository.save(vo);
     }
 
     @Override
