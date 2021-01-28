@@ -3,15 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $('button').click(function() {
+                $.ajax({
+                    type: 'post',
+                    data: new FormData($('form')[0]),
+                    contentType: false,
+                    processData: false,
+                    url: '/register',
+                    success: function(data, status) {
+                        alert(data);
+                        console.log(data, status);
+                        self.location = "/";
+                    }
+                })
+            })
+        })
+    </script>
 </head>
 <body>
 <h1>제휴신청</h1>
-<form action="/register" method="post">
+<form>
     이름<input type="text" name="name">
     폰<input type="text" name="phone">
     내용<input type="text" name="content">
     이메일<input type="email" name="email">
-    <button type="submit">submit</button>
+    <button type="button">submit</button>
 </form>
 </body>
 </html>

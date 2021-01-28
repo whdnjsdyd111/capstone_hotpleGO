@@ -26,7 +26,7 @@ public interface AllianceService {
      * @param vo 이름, 이메일, 전화번호, 내용 입력
      * 제휴 페이지에서 등록
      */
-    public void register(AllianceVO vo);
+    public boolean register(AllianceVO vo);
 
     /**
      *
@@ -35,4 +35,11 @@ public interface AllianceService {
      * 제휴를 선택 했을 때 해당되는 제휴 데이터 조회
      */
     public AllianceVO get(String code);
+
+    /**
+     *
+     * @param code 기본키
+     * 관리자가 미처리된 제휴를 확인하고 처리할 수 있는 기능
+     */
+    public boolean change(String code);
 }
