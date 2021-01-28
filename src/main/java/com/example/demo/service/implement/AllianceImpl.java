@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AllianceImpl implements AllianceService {
@@ -14,17 +15,23 @@ public class AllianceImpl implements AllianceService {
     private AllianceRepository repository;
 
     @Override
-    public int register(AllianceVO vo) {
-        return 0;
+    public void register(AllianceVO vo) {
+        repository.saveAndFlush(vo);
     }
 
     @Override
     public List<AllianceVO> getListN() {
-        return null;
+        return repository.findAllByAlcCodeEndsWith("N");
     }
 
     @Override
     public List<AllianceVO> getListY() {
-        return null;
+        return repository.findAllByAlcCodeEndsWith("Y");
+    }
+
+    @Override
+    public AllianceVO get(String code) {
+        Optional<AllianceVO> opt = repository.findById(code);
+        return opt.orElse(null);
     }
 }

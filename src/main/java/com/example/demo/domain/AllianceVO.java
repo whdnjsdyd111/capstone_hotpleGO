@@ -2,6 +2,7 @@ package com.example.demo.domain;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,7 +12,8 @@ import javax.persistence.Table;
 @Data
 public class AllianceVO {
     @Id
-    private String alc_code;
+    @Column(name = "alc_code")
+    private String alcCode;
 
     private String name;
     private String email;

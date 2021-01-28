@@ -14,7 +14,7 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("all", alliance.getList().get(0));
+        model.addAttribute("all", alliance.getListY());
         return "home";
     }
 }
