@@ -12,9 +12,10 @@ import java.util.List;
 @Repository
 public interface AllianceRepository extends JpaRepository<AllianceVO, String> {
     List<AllianceVO> findAllByAlcCodeEndsWith(String pro);
+
     @Transactional
     @Modifying
     @Query(value = "INSERT INTO alliance VALUES (TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHHmmss/') || LPAD(seq_alc.NEXTVAL, 2, '0') || '/N'," +
-            " :#{vo.name}, :#{vo.email}, :#{vo.phone}, :#{vo.content})", nativeQuery = true)
+            " :#{#vo.name}, :#{#vo.email}, :#{#vo.phone}, :#{#vo.content})", nativeQuery = true)
     void insertAlliance(AllianceVO vo);
 }
