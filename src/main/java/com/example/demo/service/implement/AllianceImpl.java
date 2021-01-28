@@ -14,8 +14,17 @@ public class AllianceImpl implements AllianceService {
     private AllianceRepository repository;
 
     @Override
-    public List<AllianceVO> getList() {
-        List<AllianceVO> list = repository.findAll();
-        return list;
+    public int register(AllianceVO vo) {
+        return 0;
+    }
+
+    @Override
+    public List<AllianceVO> getListN() {
+        return null;
+    }
+
+    @Override
+    public List<AllianceVO> getListY() {
+        return null;
     }
 }
