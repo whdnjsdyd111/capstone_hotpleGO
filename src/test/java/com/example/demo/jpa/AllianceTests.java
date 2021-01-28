@@ -22,6 +22,11 @@ public class AllianceTests {
 
     @Test
     public void insertTests() {
-        log.info(repository.findAllByAlcCodeEndsWith("Y"));
+        AllianceVO vo = new AllianceVO();
+        vo.setContent("제휴신청");
+        vo.setEmail("whdnjsdyd111@naver.com");
+        vo.setName("조원용");
+        vo.setPhone("01068480083");
+        repository.insertAlliance(vo);
     }
 }
