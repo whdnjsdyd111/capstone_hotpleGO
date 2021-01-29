@@ -27,4 +27,7 @@ public class HomeController {
     public String alliance() {
         return "alliance";
     }
+
+
+
 }
