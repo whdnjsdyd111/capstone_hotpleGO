@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.web;
 
 import com.example.demo.domain.AllianceVO;
 import com.example.demo.service.implement.AllianceImpl;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/")
-@AllArgsConstructor
 public class HomeController {
     @Autowired
     AllianceImpl service;
@@ -29,9 +28,6 @@ public class HomeController {
         return "alliance";
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> allianceRegister(AllianceVO vo) {
-        service.register(vo);
-        return new ResponseEntity<>("제휴신청 감사합니다.", HttpStatus.OK);
-    }
+
+
 }
