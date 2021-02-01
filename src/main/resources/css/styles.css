@@ -135,3 +135,47 @@ button:hover {
     font-size: 20px;
     font-weight:bold;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body {
+    height: 100%;
+}
+
+
+
+ul {
+    text-align: center;
+}
+
+ul li {
+    display: inline-block;
+    padding: 0 15px;
+}
+a {
+    text-decoration: none;
+}
+a:link {
+    color: black;
+}
+a:visited {
+    color: black;
+}
+.footer {
+    align-items: center;
+    background-color: gainsboro;
+    bottom: 0;
+    color: #666666;
+    display: flex;
+    font-size: 1em;
+    height: 200px;
+    justify-content: center;
+    position: fixed;
+    text-transform: uppercase;
+    width: 100%;
+    z-index: 1;
+}
