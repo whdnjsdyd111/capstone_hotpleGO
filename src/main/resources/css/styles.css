@@ -146,8 +146,6 @@ html,body {
     height: 100%;
 }
 
-
-
 ul {
     text-align: center;
 }
@@ -156,15 +154,19 @@ ul li {
     display: inline-block;
     padding: 0 15px;
 }
+
 a {
     text-decoration: none;
 }
+
 a:link {
     color: black;
 }
+
 a:visited {
     color: black;
 }
+
 .footer {
     align-items: center;
     background-color: gainsboro;
