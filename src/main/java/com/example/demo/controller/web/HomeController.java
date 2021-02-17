@@ -24,6 +24,4 @@ public class HomeController {
         return "alliance";
     }
 
-
-
 }

@@ -18,6 +18,12 @@ public class AllianceTests {
    private AllianceService service;
 
     @Test
+    public void getY() {
+        service.getListY().forEach(vo -> log.info(vo.getAlcCode() + ", " + vo.getName() + ", " +
+                vo.getEmail() + ", " + vo.getPhone() + ", " + vo.getContent()));
+    }
+
+    @Test
     public void insertTests() {
         AllianceVO vo = new AllianceVO();
         vo.setContent("매퍼로 제휴 신청");
@@ -31,6 +37,6 @@ public class AllianceTests {
 
     @Test
     public void updateTests() {
-        service.change(null);
+        service.change("210217010255/32/n");
     }
 }

@@ -9,11 +9,11 @@
     </select>
 
     <select id="getList" resultType="AllianceVO">
-        SELECT * FROM alliance WHERE INSTR(alc_code, '0', -1) = #{c}
+        SELECT * FROM alliance WHERE INSTR(alc_code, #{c}, -1) = 0
     </select>
 
     <insert id="insert">
-        INSERT INTO alliance VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHHmmss/') || LPAD(seq_alc.NEXTVAL, 2, '0') || '/n',
+        INSERT INTO alliance VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHHmmss/') || LPAD(seq_alc.NEXTVAL, 2, '0') || '/N',
         #{name}, #{email}, #{phone}, #{content})
     </insert>
 
