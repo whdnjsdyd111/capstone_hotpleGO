@@ -2,8 +2,26 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.AllianceMapper">
-    <select id="findAll" resultType="com.example.demo.domain.AllianceVO">
-        SELECT * FROM alliance
+<mapper namespace="com.example.demo.mapper.web.AllianceMapper">
+
+    <select id="read" resultType="AllianceVO">
+        SELECT * FROM alliance WHERE alc_code = #{code}
     </select>
+
+    <select id="getList" resultType="AllianceVO">
+        SELECT * FROM alliance WHERE INSTR(alc_code, '0', -1) = #{c}
+    </select>
+
+    <insert id="insert">
+        INSERT INTO alliance VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHHmmss/') || LPAD(seq_alc.NEXTVAL, 2, '0') || '/n',
+        #{name}, #{email}, #{phone}, #{content})
+    </insert>
+
+    <update id="update">
+        UPDATE alliance SET alc_code = REPLACE(alc_code, 'N', 'Y') WHERE alc_code = #{code}
+    </update>
+
+    <delete id="delete">
+        DELETE alliance WHERE alc_code = #{code}
+    </delete>
 </mapper>

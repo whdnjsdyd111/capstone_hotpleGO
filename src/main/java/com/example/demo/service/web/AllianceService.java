@@ -1,10 +1,19 @@
-package com.example.demo.service;
+package com.example.demo.service.web;
 
-import com.example.demo.domain.AllianceVO;
+import com.example.demo.domain.web.AllianceVO;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 public interface AllianceService {
+
+    /**
+     *
+     * @param code 기본키
+     * @return AllianceVO
+     * 제휴를 선택 했을 때 해당되는 제휴 데이터 조회
+     */
+    public AllianceVO get(String code);
 
     /**
      *
@@ -31,15 +40,16 @@ public interface AllianceService {
     /**
      *
      * @param code 기본키
-     * @return AllianceVO
-     * 제휴를 선택 했을 때 해당되는 제휴 데이터 조회
+     * @return 바뀐 여부
+     * 관리자가 미처리된 제휴를 확인하고 처리할 수 있는 기능
      */
-    public AllianceVO get(String code);
+    public boolean change(String code);
 
     /**
      *
      * @param code 기본키
-     * 관리자가 미처리된 제휴를 확인하고 처리할 수 있는 기능
+     * @return 삭제 여부
+     * 엉뚱하거나 이상한 제휴건을 삭제할 수 있는 기능
      */
-    public boolean change(String code);
+    public boolean remove(String code);
 }
