@@ -9,7 +9,13 @@
     </select>
 
     <select id="getList" resultType="AllianceVO">
-        SELECT * FROM alliance WHERE INSTR(alc_code, #{c}, -1) = 0
+        SELECT * FROM alliance WHERE SUBSTR(alc_code, -1) = #{c}
+        <if test="c == 'Y'.toString()">
+            ORDER BY alc_code DESC
+        </if>
+        <if test="c == 'N'.toString()">
+            ORDER BY alc_code ASC
+        </if>
     </select>
 
     <insert id="insert">
