@@ -5,16 +5,16 @@
 <mapper namespace="com.example.demo.mapper.web.AllianceMapper">
 
     <select id="read" resultType="AllianceVO">
-        SELECT * FROM alliance WHERE alc_code = #{code}
+        SELECT * FROM alliance WHERE alcCode = #{code}
     </select>
 
     <select id="getList" resultType="AllianceVO">
-        SELECT * FROM alliance WHERE SUBSTR(alc_code, -1) = #{c}
+        SELECT * FROM alliance WHERE SUBSTR(alcCode, -1) = #{c}
         <if test="c == 'Y'.toString()">
-            ORDER BY alc_code DESC
+            ORDER BY alcCode DESC
         </if>
         <if test="c == 'N'.toString()">
-            ORDER BY alc_code ASC
+            ORDER BY alcCode ASC
         </if>
     </select>
 
@@ -24,10 +24,10 @@
     </insert>
 
     <update id="update">
-        UPDATE alliance SET alc_code = REPLACE(alc_code, 'N', 'Y') WHERE alc_code = #{code}
+        UPDATE alliance SET alcCode = REPLACE(alcCode, 'N', 'Y') WHERE alcCode = #{code}
     </update>
 
     <delete id="delete">
-        DELETE alliance WHERE alc_code = #{code}
+        DELETE alliance WHERE alcCode = #{code}
     </delete>
 </mapper>

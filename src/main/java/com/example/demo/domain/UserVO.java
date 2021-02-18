@@ -6,11 +6,13 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 @Data
-public class MemberVO {
-    private String mem_code;
+public class UserVO {
+    private String Ucode;
     private String pw;
     private String nick;
     private Date birth;
     private Timestamp regdate;
     private Character gender;
+    private String phone;
+    private long point;
 }
