@@ -135,3 +135,132 @@ button:hover {
     font-size: 20px;
     font-weight:bold;
 }
+
+.imq {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.osnOAq {
+    font-size: 32px;
+}
+
+.aqnxpQs {
+    font-size: 24px;
+}
+.Goanb {
+    padding: 70px 0px;
+    width: 90%;
+}
+
+.Idbxz {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.BWosna {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    max-width: 1100px;
+}
+
+.lijvsY {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.fNakta {
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+textarea {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    flex-direction: column;
+    cursor: text;
+    letter-spacing: normal;
+    word-spacing: normal;
+    column-count: initial !important;
+    overflow: auto;
+    resize: none;
+
+}
+
+.jQEkax {
+    height: 62px;
+    background: #fff;
+    border: 0px;
+    outline: 0px;
+    padding: 5px 18px;
+    border-radius: 4px;
+    appearance: none;
+    box-shadow: rgb(0 0 0 / 10%) 0px 6px 10px 0px;
+    width: 600px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+input {
+    height: 62px;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+
+}
+
+.footer {
+    align-items: center;
+    background-color: gainsboro;
+    bottom: 0;
+    color: #666666;
+    display: flex;
+    font-size: 1em;
+    height: 200px;
+    justify-content: center;
+    position: fixed;
+    text-transform: uppercase;
+    width: 100%;
+    z-index: 1;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    text-align: center;
+}
+
+ul li {
+    display: inline-block;
+    padding: 0 15px;
+}
+
+a:link {
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
