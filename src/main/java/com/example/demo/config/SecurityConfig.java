@@ -1,7 +1,10 @@
 package com.example.demo.config;
 
+import com.example.demo.security.CustomAccessDeniedHandler;
 import com.example.demo.security.CustomUserDetailsService;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,11 +14,25 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 @Log4j2
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    @Setter(onMethod_ = @Autowired)
+    DataSource dataSource;
+
+    @Autowired
+    public SecurityConfig(CustomAccessDeniedHandler customAccessDeniedHandler) {
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -31,11 +48,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+        repo.setDataSource(dataSource);
+        return repo;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/alliance").permitAll()
-                .antMatchers("/company").permitAll();
+                .antMatchers("/company").access("hasRole('U')");
+
+        http.formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login");
+
+        http.logout().logoutUrl("/logout").invalidateHttpSession(true)
+                .deleteCookies("remember-me", "JSESSION_ID");
+
+        http.rememberMe().key("hotpleGO")
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(604800);
+
+        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
     }
 }
