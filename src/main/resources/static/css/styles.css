@@ -365,3 +365,89 @@ form.user .btn-user {
 .show > .btn-facebook.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
 }
+
+.btn-naver {
+    color: #fff;
+    background-color: #00ca30;
+    border-color: #fff;
+}
+
+.btn-naver:hover {
+    color: #fff;
+    background-color: #02a729;
+    border-color: #e6e6e6;
+}
+
+.btn-naver:focus, .btn-naver.focus {
+    color: #fff;
+    background-color: #01801f;
+    border-color: #e6e6e6;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.btn-naver.disabled, .btn-naver:disabled {
+    color: #fff;
+    background-color: #00ca30;
+    border-color: #fff;
+}
+
+.btn-naver:not(:disabled):not(.disabled):active, .btn-naver:not(:disabled):not(.disabled).active,
+.show > .btn-naver.dropdown-toggle {
+    color: #fff;
+    background-color: #00ca30;
+    border-color: #dfdfdf;
+}
+
+.btn-naver:not(:disabled):not(.disabled):active:focus, .btn-naver:not(:disabled):not(.disabled).active:focus,
+.show > .btn-naver.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.fa-naver:before {
+    font-family: Arial; /* your font family here! */
+    font-weight: bold;
+    content: 'N';
+}
+
+.btn-kakako {
+    color: #fff;
+    background-color: rgba(255, 238, 51, 0.99);
+    border-color: #fff;
+}
+
+.btn-kakako:hover {
+    color: #fff;
+    background-color: rgba(191, 181, 35, 0.99);
+    border-color: #e6e6e6;
+}
+
+.btn-kakako:focus, .btn-kakako.focus {
+    color: #fff;
+    background-color: rgba(186, 173, 35, 0.99);
+    border-color: #e6e6e6;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.btn-kakako.disabled, .btn-kakako:disabled {
+    color: #fff;
+    background-color: rgba(255,238,51,0.99);
+    border-color: #fff;
+}
+
+.btn-kakako:not(:disabled):not(.disabled):active, .btn-kakako:not(:disabled):not(.disabled).active,
+.show > .btn-kakako.dropdown-toggle {
+    color: #fff;
+    background-color: rgba(255,238,51,0.99);
+    border-color: #dfdfdf;
+}
+
+.btn-kakako:not(:disabled):not(.disabled):active:focus, .btn-kakako:not(:disabled):not(.disabled).active:focus,
+.show > .btn-kakako.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.5);
+}
+
+.fa-kakao:before {
+    font-family: Arial; /* your font family here! */
+    font-weight: bold;
+    content: 'K';
+}

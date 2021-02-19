@@ -21,15 +21,9 @@ public class CustomUser extends User {
     }
 
     public CustomUser(UserVO vo) {
-        super(vo.getUcode().split("/")[0], vo.getPw(), createRole(vo.getUcode()));
+        super(vo.getUcode().split("/")[0], vo.getPw(),
+                Collections.singleton(new SimpleGrantedAuthority(vo.getUcode().split("/")[1])));
         log.info(vo);
         this.user = vo;
-    }
-
-    private static Collection<? extends GrantedAuthority> createRole(String code) {
-        List<String> list = new ArrayList<>();
-        list.add(code.split("/")[1]);
-
-        return list.stream().map(auth -> new SimpleGrantedAuthority(auth)).collect(Collectors.toList());
     }
 }

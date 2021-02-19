@@ -1,10 +1,10 @@
 package com.example.demo.config;
 
 import com.example.demo.security.CustomAccessDeniedHandler;
+import com.example.demo.security.CustomOAuth2UserService;
 import com.example.demo.security.CustomUserDetailsService;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,17 +21,12 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @Log4j2
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
-
-    @Setter(onMethod_ = @Autowired)
-    DataSource dataSource;
-
-    @Autowired
-    public SecurityConfig(CustomAccessDeniedHandler customAccessDeniedHandler) {
-        this.customAccessDeniedHandler = customAccessDeniedHandler;
-    }
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final DataSource dataSource;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -67,11 +62,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login");
 
         http.logout().logoutUrl("/logout").invalidateHttpSession(true)
-                .deleteCookies("remember-me", "JSESSION_ID");
+                .deleteCookies("remember-me", "JSESSION_ID")
+                .logoutSuccessUrl("/");
 
         http.rememberMe().key("hotpleGO")
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(604800);
+
+        http.oauth2Login().loginPage("/login").
+                userInfoEndpoint().userService(customOAuth2UserService);
 
         http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
     }

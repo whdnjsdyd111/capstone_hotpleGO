@@ -1,11 +1,13 @@
 package com.example.demo.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
+@Builder
 public class UserVO {
     private String Ucode;
     private String pw;
