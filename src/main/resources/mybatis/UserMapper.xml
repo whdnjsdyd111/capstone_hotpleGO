@@ -5,10 +5,15 @@
 <mapper namespace="com.example.demo.mapper.UserMapper">
 
     <select id="read" resultType="UserVO">
-        SELECT * FROM users WHERE uCode LIKE #{code} || '%'
+        SELECT * FROM users WHERE uCode = #{code}
+    </select>
+
+    <select id="readByEmail" resultType="UserVO">
+        SELECT * FROM users WHERE uCode LIKE #{email} || '%'
     </select>
 
     <insert id="insert">
-
+        INSERT INTO users (uCode, pw, nick, birth, gender, phone)
+        VALUES (#{Ucode}, #{pw}, #{nick}, #{birth}, #{gender}, #{phone})
     </insert>
 </mapper>

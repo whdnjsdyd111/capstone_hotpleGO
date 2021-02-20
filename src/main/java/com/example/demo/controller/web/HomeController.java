@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class HomeController {
-    @Setter(onMethod_ = @Autowired)
-    AllianceService alliance;
 
     @GetMapping("/")
     public String index() {

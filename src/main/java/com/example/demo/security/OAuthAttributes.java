@@ -61,8 +61,7 @@ public class OAuthAttributes {
 
     public UserVO toEntity() {
         return UserVO.builder()
-                .Ucode(email + "/A/GO")
-                .nick("원용임")
+                .Ucode(email + "/AN/GO")
                 .regdate(new Timestamp(System.currentTimeMillis()))
                 .build();
     }
