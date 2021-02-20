@@ -26,7 +26,9 @@ public class UserImpl implements UserService {
 
     @Override
     public boolean register(UserVO vo) {
-        vo.setPw(new BCryptPasswordEncoder().encode(vo.getPw()));
+        if (!vo.getPw().isEmpty()) {
+            vo.setPw(new BCryptPasswordEncoder().encode(vo.getPw()));
+        }
         return userMapper.insert(vo) == 1;
     }
 }

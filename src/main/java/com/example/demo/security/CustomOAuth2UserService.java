@@ -2,9 +2,11 @@ package com.example.demo.security;
 
 import com.example.demo.domain.UserVO;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.implement.UserImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -21,8 +23,8 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final UserMapper userMapper;
-    private final HttpSession httpSession;
+    private final UserImpl user;
+    private final HttpSession session;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -41,14 +43,17 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes
                 .of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
+        String socialType = registrationId.substring(0, 2).toUpperCase();
+        log.info(socialType);
         oAuth2User.getAttributes().forEach((k, v) -> log.info(k + " : " + v));
-
-        UserVO user = attributes.toEntity();
-        httpSession.setAttribute("user", user);
+        UserVO vo = user.get(attributes.getEmail() + "/U/" + socialType);
+        if(vo == null) {
+            session.setAttribute("registrationId", socialType);
+        }
 
         return new DefaultOAuth2User(
                 Collections.singleton(
-                        new SimpleGrantedAuthority(user.getUcode().split("/")[1])),
+                        new SimpleGrantedAuthority(vo == null ? "N" : "U")),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey()
         );

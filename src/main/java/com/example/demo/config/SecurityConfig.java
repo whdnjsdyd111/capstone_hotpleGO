@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.security.CustomAccessDeniedHandler;
+import com.example.demo.security.CustomOAuth2LoginSuccessHandler;
 import com.example.demo.security.CustomOAuth2UserService;
 import com.example.demo.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
     private final DataSource dataSource;
 
     @Bean
@@ -67,8 +69,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(604800);
 
-        http.oauth2Login().loginPage("/login").
-                userInfoEndpoint().userService(customOAuth2UserService);
+        http.oauth2Login().loginPage("/login")
+                .successHandler(customOAuth2LoginSuccessHandler)
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
 
         http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
     }
