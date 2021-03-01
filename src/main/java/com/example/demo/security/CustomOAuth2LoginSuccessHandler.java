@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.util.Map;
 
 @Log4j2
 @Component
@@ -31,10 +32,17 @@ public class CustomOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
         DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
         String auth = oAuth2User.getAuthorities().toArray()[0].toString();
 
+        String email = null;
+        try {
+            email = oAuth2User.getAttributes().get("email").toString();
+        } catch (NullPointerException e) {
+            email = ((Map<String, Object>) oAuth2User.getAttributes().get("kakao_account")).get("email").toString();
+        }
+
         log.info(auth);
 
         if (auth.equals("N")) {
-            UserVO vo = UserVO.builder().Ucode(oAuth2User.getAttributes().get("email").toString()).build();
+            UserVO vo = UserVO.builder().Ucode(email).build();
             authentication.setAuthenticated(false);
             request.getSession().setAttribute("OAuthUser", vo);
             response.sendRedirect("/oauth2_subscription");

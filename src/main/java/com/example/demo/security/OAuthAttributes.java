@@ -31,6 +31,8 @@ public class OAuthAttributes {
             return ofNaver("id", attributes);
         } else if("facebook".equals(registrationId)){
             return ofFacebook(userNameAttributeName, attributes);
+        } else if("kakao".equals(registrationId)) {
+            return ofKakao(userNameAttributeName, attributes);
         }
 
         return ofGoogle(userNameAttributeName, attributes);
@@ -61,6 +63,16 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofFacebook(String userNameAttributeName, Map<String, Object> attributes) {
+        attributes.forEach((k, v) -> log.info(k + " : " + v));
+        return OAuthAttributes.builder()
+                .name((String) attributes.get("name"))
+                .email((String) attributes.get("email"))
+                .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
         attributes.forEach((k, v) -> log.info(k + " : " + v));
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
