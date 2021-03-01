@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Log4j2
 public class AllianceTests {
     @Setter(onMethod_ = @Autowired)
-   private AllianceService service;
+    private AllianceService service;
 
     @Test
     public void getY() {
