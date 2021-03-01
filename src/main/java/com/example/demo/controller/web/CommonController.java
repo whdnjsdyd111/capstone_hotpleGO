@@ -32,7 +32,14 @@ public class CommonController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(value = "err", required = false) String err, Model model) {
+        String msg = "Log In!";
+        if (err != null) {
+            msg = err.equals("exist") ? "This email has already been signed up in a different way." : "Error";
+        }
+        model.addAttribute("msg", msg);
+
+
         return "login";
     }
 

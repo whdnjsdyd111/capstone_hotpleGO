@@ -44,16 +44,27 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         String socialType = registrationId.substring(0, 2).toUpperCase();
-        log.info(socialType);
+        boolean exist = false;
+        boolean match = false;
         oAuth2User.getAttributes().forEach((k, v) -> log.info(k + " : " + v));
-        UserVO vo = user.get(attributes.getEmail() + "/U/" + socialType);
+
+        UserVO vo = user.getByEmail(attributes.getEmail());
+
         if(vo == null) {
             session.setAttribute("registrationId", socialType);
+        } else  {
+            exist = true;
+
+            if (vo.getUcode().equals(attributes.getEmail() + "/U/" + socialType)) {
+                match = true;
+            }
         }
 
         return new DefaultOAuth2User(
                 Collections.singleton(
-                        new SimpleGrantedAuthority(vo == null ? "N" : "U")),
+                        new SimpleGrantedAuthority(exist ? (
+                                match ? "U" : "E"
+                        ) : "N")),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey()
         );

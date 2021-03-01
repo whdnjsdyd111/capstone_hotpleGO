@@ -48,6 +48,9 @@ public class CustomOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
             response.sendRedirect("/oauth2_subscription");
         } else if (auth.equals("U")) {
             response.sendRedirect("/");
+        } else if (auth.equals("E")) {
+            authentication.setAuthenticated(false);
+            response.sendRedirect("/login?err=exist");
         }
     }
 }
