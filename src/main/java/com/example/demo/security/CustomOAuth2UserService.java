@@ -1,12 +1,9 @@
 package com.example.demo.security;
 
 import com.example.demo.domain.UserVO;
-import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.implement.UserImpl;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -55,7 +52,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         } else  {
             exist = true;
 
-            if (vo.getUcode().equals(attributes.getEmail() + "/U/" + socialType)) {
+            if (vo.getUCode().equals(attributes.getEmail() + "/U/" + socialType)) {
                 match = true;
             }
         }

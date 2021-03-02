@@ -13,7 +13,7 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO users (uCode, pw, nick, birth, gender, phone)
-        VALUES (#{Ucode}, #{pw}, #{nick}, #{birth}, #{gender}, #{phone})
+        INSERT INTO users (uCode, pw, nick, birth, gender, phone, profileImg)
+        VALUES (#{uCode}, #{pw}, #{nick}, #{birth}, #{gender}, #{phone}, #{profileImg})
     </insert>
 </mapper>

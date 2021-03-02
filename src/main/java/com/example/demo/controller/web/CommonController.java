@@ -77,7 +77,7 @@ public class CommonController {
         if (!vo.getPw().equals(repeatPw)) {
             model.addAttribute("msg", "Passwords do not match.");
             return "register";
-        } else if (user.getByEmail(vo.getUcode()) != null) {
+        } else if (user.getByEmail(vo.getUCode()) != null) {
             model.addAttribute("msg", "This email has already been signed up.");
             return "register";
         }
@@ -97,10 +97,11 @@ public class CommonController {
         String socialType = session.getAttribute("registrationId").toString();
 
         if (socialType == null) {
-            vo.setUcode(vo.getUcode() + "/U/");
+            vo.setUCode(vo.getUCode() + "/U/");
         } else {
-            vo.setUcode(vo.getUcode() + "/U/" + socialType);
+            vo.setUCode(vo.getUCode() + "/U/" + socialType);
         }
+        if(vo.getProfileImg().isEmpty()) vo.setProfileImg(null);
 
         log.info(vo);
         return user.register(vo) ? "redirect:login" : "error_page";

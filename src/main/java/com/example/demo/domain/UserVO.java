@@ -11,12 +11,13 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class UserVO {
-    private String Ucode;
+    private String uCode;
     private String pw;
     private String nick;
     private Date birth;
-    private Timestamp regdate;
     private Character gender;
     private String phone;
+    private String profileImg;
     private Long point;
+    private Timestamp regDate;
 }

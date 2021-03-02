@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Log4j2
 public class CustomUser extends User {
@@ -23,8 +22,8 @@ public class CustomUser extends User {
     }
 
     public CustomUser(UserVO vo) {
-        super(vo.getUcode().split("/")[0], vo.getPw(),
-                Collections.singleton(new SimpleGrantedAuthority(vo.getUcode().split("/")[1])));
+        super(vo.getUCode().split("/")[0], vo.getPw(),
+                Collections.singleton(new SimpleGrantedAuthority(vo.getUCode().split("/")[1])));
         log.info(vo);
         this.user = vo;
     }

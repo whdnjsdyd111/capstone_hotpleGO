@@ -76,7 +76,7 @@ public class OAuthAttributes {
         attributes.forEach((k, v) -> log.info(k + " : " + v));
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
-                .email((String) attributes.get("email"))
+                .email((String) ((Map<String, Object>) attributes.get("kakao_account")).get("email"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
