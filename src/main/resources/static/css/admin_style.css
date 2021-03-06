@@ -1,0 +1,57 @@
+@charset "UTF-8";
+
+.container-fluid {
+    background-color: #AA00FF;
+}
+
+.header {
+    background-color: #4A148C;
+}
+@media (min-width: 992px) {
+    .sidebar {
+        height: 0px;
+    }
+}
+@media (min-width: 992px) {
+    .side-menu {
+        width: 250px;
+    }
+}
+.side-menu > li {
+    padding: 20px;
+    background-color: #AA00FF;
+}
+
+.side-menu > li:hover {
+    background-color: #B39DDB;
+}
+
+.side-menu > li > a {
+    display: block;
+    text-decoration: none;
+    color: white;
+}
+
+@media (min-width: 992px) {
+    .dashboard-content {
+        margin: 0 0 0 250px;
+    }
+}
+
+.dashboard-content {
+    padding: 30px 15px;
+    background-color: #fff;
+}
+
+.hov:hover {
+    cursor: pointer;
+}
+
+caption {
+    caption-side: top;
+}
+
+.chat_message {
+    display: inline-block;
+    max-width: 250px;
+}

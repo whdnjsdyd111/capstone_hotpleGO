@@ -39,7 +39,6 @@ public class CommonController {
         }
         model.addAttribute("msg", msg);
 
-
         return "login";
     }
 

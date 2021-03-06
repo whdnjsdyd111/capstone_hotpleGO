@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="main_fragment::head ('Main')">
+<head th:replace="layout::head ('Main')">
 </head>
 <body id="myDidPage" data-spy="scroll" data-target=".navbar" data-offset="100">
-<div th:insert="main_fragment::nav"></div>
+<div th:insert="layout::nav"></div>
 
 <div class="logo__image" >
     <img src="images/logo.jpg" alt="LOGO" >
