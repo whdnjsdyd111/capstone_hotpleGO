@@ -13,7 +13,20 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO users (uCode, pw, nick, birth, gender, phone, profileImg)
-        VALUES (#{uCode}, #{pw}, #{nick}, #{birth}, #{gender}, #{phone}, #{profileImg})
+        INSERT INTO users (uCode, pw, nick, birth, gender, phone
+        <if test="!(profileImg == null or profileImg == '')">
+            , profileImg
+        </if>
+        )
+        VALUES (#{uCode}, #{pw}, #{nick}, #{birth}, #{gender}, #{phone}
+
+        <if test="!(profileImg == null or profileImg == '')">
+            , #{profileImg}
+        </if>
+        )
     </insert>
+
+    <select id="readAdmin" resultType="AdminVO">
+        SELECT * FROM admin WHERE uCode = #{code}
+    </select>
 </mapper>

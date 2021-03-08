@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.UserVO;
+import com.example.demo.domain.web.AdminVO;
 
 public interface UserService {
 
@@ -24,4 +25,11 @@ public interface UserService {
      * @return 회원 등록 여부
      */
     public boolean register(UserVO vo);
+
+    /**
+     *
+     * @param code
+     * @return 관리자 정보
+     */
+    public AdminVO getAdmin(String code);
 }

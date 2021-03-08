@@ -1,15 +1,22 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.domain.web.AllianceVO;
+import com.example.demo.domain.web.ChatLogVO;
+import com.example.demo.security.CustomUser;
+import com.example.demo.security.CustomUserDetailsService;
+import com.example.demo.service.implement.UserImpl;
 import com.example.demo.service.web.implement.AllianceImpl;
+import com.example.demo.service.web.implement.ChatLogImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -18,6 +25,8 @@ import java.util.List;
 @Log4j2
 public class AdminController {
     private final AllianceImpl alliance;
+    private final ChatLogImpl chatLog;
+    private final UserImpl user;
 
     @GetMapping("/main")
     public String index() {
@@ -39,9 +48,12 @@ public class AdminController {
         return "admin/index";
     }
 
-    @GetMapping("/chat")
-    public String chattingRoom() {
-        return "admin/index";
+    @GetMapping("/chattingRoom")
+    public String chattingRoom(Model model, @AuthenticationPrincipal CustomUser admin) {
+        model.addAttribute("chatLog", chatLog.getListChatLog());
+        model.addAttribute("admin", user.getAdmin(admin.getUsername() + "/"
+                + admin.getAuthorities().toArray()[0] + "/"));
+        return "admin/chattingRoom";
     }
 
     @GetMapping("/alliances")

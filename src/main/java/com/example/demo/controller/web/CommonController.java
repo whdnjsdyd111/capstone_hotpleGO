@@ -93,7 +93,11 @@ public class CommonController {
             return "subscription";
         }
 
-        String socialType = session.getAttribute("registrationId").toString();
+        String socialType = null;
+        Object obj = session.getAttribute("registrationId");
+        if (obj != null) {
+            socialType = obj.toString();
+        }
 
         if (socialType == null) {
             vo.setUCode(vo.getUCode() + "/U/");

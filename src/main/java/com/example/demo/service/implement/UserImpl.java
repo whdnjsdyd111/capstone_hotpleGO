@@ -1,6 +1,7 @@
 package com.example.demo.service.implement;
 
 import com.example.demo.domain.UserVO;
+import com.example.demo.domain.web.AdminVO;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
 import lombok.Setter;
@@ -29,5 +30,10 @@ public class UserImpl implements UserService {
             vo.setPw(new BCryptPasswordEncoder().encode(vo.getPw()));
         }
         return userMapper.insert(vo) == 1;
+    }
+
+    @Override
+    public AdminVO getAdmin(String code) {
+        return userMapper.readAdmin(code);
     }
 }

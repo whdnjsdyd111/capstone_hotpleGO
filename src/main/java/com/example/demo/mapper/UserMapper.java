@@ -1,6 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.domain.UserVO;
+import com.example.demo.domain.web.AdminVO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -11,6 +12,5 @@ public interface UserMapper {
 
     public int insert(UserVO vo);
 
-    public int insertOAuth2(UserVO vo);
-
+    public AdminVO readAdmin(String code);
 }
