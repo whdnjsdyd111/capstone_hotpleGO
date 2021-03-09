@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.web.EventMapper">
+    <select id="read" resultType="EventVO">
+        SELECT * FROM event WHERE eveId = #{id}
+    </select>
+
+    <select id="getList" resultType="EventVO">
+        SELECT * FROM event WHERE eveStart <![CDATA[<]]> SYSTIMESTAMP AND SYSTIMESTAMP <![CDATA[<]]> eveExpi;
+    </select>
+
+    <insert id="insert">
+        INSERT INTO alliance VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_alc.NEXTVAL, 2, '0'),
+        #{eveTitle}, #{eveCont}, #{eveStart}, #{eveExpi}, #{uCode})
+    </insert>
+
+    <delete id="delete">
+        DELETE event WHERE eveId = #{id}
+    </delete>
+</mapper>
