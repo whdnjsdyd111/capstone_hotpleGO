@@ -84,6 +84,11 @@ public class AdminController {
         return "admin/feedback";
     }
 
+    @GetMapping("/announce")
+    public String announce() {
+        return "admin/announce";
+    }
+
     @GetMapping("/reports")
     public String reports() {
         return "admin/index";

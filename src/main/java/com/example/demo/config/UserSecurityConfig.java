@@ -57,7 +57,9 @@ public class UserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/*").permitAll();
+                .antMatchers("/company").access("hasRole('A')");
+
+        http.csrf().ignoringAntMatchers("/popup/jusoPopup");
 
         http.formLogin().loginPage("/login")
                 .loginProcessingUrl("/login");

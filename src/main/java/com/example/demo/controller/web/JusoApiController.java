@@ -69,31 +69,31 @@ public class JusoApiController {
         model.addAttribute("lnbrSlno", lnbrSlno);
         model.addAttribute("emdNo", emdNo);
 
-        log.info("input : " + inputYn + "/n"+
-                "roadFullAddr : " + roadFullAddr + "/n" +
-                "roadAddrPart1 : " + roadAddrPart1 + "/n" +
-                "roadAddrPart2 : " + roadAddrPart2 + "/n" +
-                "engAddr : " + engAddr + "/n" +
-                "jibunAddr : " + jibunAddr + "/n" +
-                "zipNo : " + zipNo + "/n" +
-                "addrDetail : " + addrDetail + "/n" +
-                "admCd : " + admCd + "/n" +
-                "rnMgtSn : " + rnMgtSn + "/n" +
-                "bdMgtSn : " + bdMgtSn + "/n" +
-                "detBdNmList : " + detBdNmList + "/n" +
-                "bdNm : " + bdNm + "/n" +
-                "bdKdcd : " + bdKdcd + "/n" +
-                "siNm : " + siNm + "/n" +
-                "sggNm : " + sggNm + "/n" +
-                "emdNm : " + emdNm + "/n" +
-                "liNm : " + liNm + "/n" +
-                "rn : " + rn + "/n" +
-                "udrtYn : " + udrtYn + "/n" +
-                "buldMnnm : " + buldMnnm + "/n" +
-                "buldSlno : " + buldSlno + "/n" +
-                "mtYn : " + mtYn + "/n" +
-                "lnbrMnnm : " + lnbrMnnm + "/n" +
-                "lnbrSlno : " + lnbrSlno + "/n" +
+        log.info("\ninput : " + inputYn + "\n"+
+                "roadFullAddr : " + roadFullAddr + "\n" +
+                "roadAddrPart1 : " + roadAddrPart1 + "\n" +
+                "roadAddrPart2 : " + roadAddrPart2 + "\n" +
+                "engAddr : " + engAddr + "\n" +
+                "jibunAddr : " + jibunAddr + "\n" +
+                "zipNo : " + zipNo + "\n" +
+                "addrDetail : " + addrDetail + "\n" +
+                "admCd : " + admCd + "\n" +
+                "rnMgtSn : " + rnMgtSn + "\n" +
+                "bdMgtSn : " + bdMgtSn + "\n" +
+                "detBdNmList : " + detBdNmList + "\n" +
+                "bdNm : " + bdNm + "\n" +
+                "bdKdcd : " + bdKdcd + "\n" +
+                "siNm : " + siNm + "\n" +
+                "sggNm : " + sggNm + "\n" +
+                "emdNm : " + emdNm + "\n" +
+                "liNm : " + liNm + "\n" +
+                "rn : " + rn + "\n" +
+                "udrtYn : " + udrtYn + "\n" +
+                "buldMnnm : " + buldMnnm + "\n" +
+                "buldSlno : " + buldSlno + "\n" +
+                "mtYn : " + mtYn + "\n" +
+                "lnbrMnnm : " + lnbrMnnm + "\n" +
+                "lnbrSlno : " + lnbrSlno + "\n" +
                 "emdNo : " + emdNo);
 
 
