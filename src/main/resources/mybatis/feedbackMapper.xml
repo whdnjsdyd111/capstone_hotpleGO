@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.web.FeedbackMapper">
+
+    <select id="read" resultType="FeedbackVO">
+        SELECT * FROM feedback WHERE feedCode = #{code}
+    </select>
+
+    <select id="getList" resultType="FeedbackVO">
+        SELECT * FROM feedback WHERE SUBSTR(feedCode, -1) = #{s}
+        <if test="s == 'Y'.toString()">
+            ORDER BY feedCode DESC
+        </if>
+        <if test="s == 'N'.toString()">
+            ORDER BY feedCode ASC
+        </if>
+    </select>
+
+    <insert id="insert">
+        INSERT INTO feedback VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_feed.NEXTVAL, 2, '0') || '/N',
+        #{feedCont}, #{uCode})
+    </insert>
+
+    <update id="update">
+        UPDATE feedback SET feedCode = REPLACE(feedCode, 'N', 'Y') WHERE feedCode = #{code}
+    </update>
+
+    <delete id="delete">
+        DELETE feedback WHERE feedCode = #{code}
+    </delete>
+</mapper>

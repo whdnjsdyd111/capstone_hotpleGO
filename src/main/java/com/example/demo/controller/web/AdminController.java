@@ -7,6 +7,7 @@ import com.example.demo.security.CustomUserDetailsService;
 import com.example.demo.service.implement.UserImpl;
 import com.example.demo.service.web.implement.AllianceImpl;
 import com.example.demo.service.web.implement.ChatLogImpl;
+import com.example.demo.service.web.implement.FeedbackImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -27,6 +28,7 @@ public class AdminController {
     private final AllianceImpl alliance;
     private final ChatLogImpl chatLog;
     private final UserImpl user;
+    private final FeedbackImpl feedback;
 
     @GetMapping("/main")
     public String index() {
@@ -67,6 +69,19 @@ public class AdminController {
         }
 
         return "admin/alliances";
+    }
+
+    @GetMapping("/feedback")
+    public String feedback(@RequestParam(value = "sort", defaultValue = "nonProcessed") String sort, Model model) {
+        if (sort.equals("nonProcessed")) {
+            model.addAttribute("NFeedback", feedback.getListN());
+        } else if (sort.equals("processed")) {
+            model.addAttribute("YFeedback", feedback.getListY());
+        } else {
+            return "redirect:/admin/feedback";
+        }
+
+        return "admin/feedback";
     }
 
     @GetMapping("/reports")
