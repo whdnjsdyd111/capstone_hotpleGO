@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="layout::head ('enrollment')">
+
+</head>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <script language="javascript">
+        // opener관련 오류가 발생하는 경우 아래 주석을 해지하고, 사용자의 도메인정보를 입력합니다. ("팝업API 호출 소스"도 동일하게 적용시켜야 합니다.)
+        //document.domain = "abc.go.kr";
+
+        function goPopup(){
+            // 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
+            var pop = window.open("/jusopopup","pop","width=570,height=420, scrollbars=yes, resizable=yes");
+
+            //var pop = window.open("/popup/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
+            // 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
+            //var pop = window.open("/popup/jusoPopup.jsp","pop","scrollbars=yes, resizable=yes");
+        }
+        /** API 서비스 제공항목 확대 (2017.02) **/
+        function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
+            , detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){
+            // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
+            document.form.roadAddrPart1.value = roadAddrPart1;
+            document.form.roadAddrPart2.value = roadAddrPart2;
+            document.form.addrDetail.value = addrDetail;
+            document.form.zipNo.value = zipNo;
+        }
+    </script>
+    <title>업체 등록</title>
+    <style>
+
+        #enrollment_wrap .card{margin:0 auto; border: 0px;}
+        .table{margin:0 auto;width:50%}
+        .swiper-container{height:700px;}
+
+    </style>
+</head>
+<body id="myDidPage" data-spy="scroll" data-target=".navbar" data-offset="100">
+<!--<div th:insert="layout::nav"></div>-->
+<div class="swiper-container">
+    <div class="swiper-wrapper" id="enrollment_wrap">
+
+        <div class="swiper-slide">
+            <div class="card align-middle" style="width:20rem; border-radius:20px;">
+                <form class="form-signin" method="POST">
+                            <div class="card-title" style="margin-top:30px;">
+                                <h2 class="card-title text-center" style="color:#113366;">업체명</h2>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="form-signin-heading">업체명을 입력하세요</h5>
+                                <input type="text" id="uid" class="form-control" placeholder="업체명" required autofocus><BR>
+                            </div>
+                </form>
+            </div>
+            <button  class="btn btn-secondary"  type="button"onclick=" prev_slide()" >이전</button>
+            <button  class="btn btn-primary" type="button" onclick="next_slide()">다음</button>
+        </div><!--1번 슬라이드 끝-->
+        <div class="swiper-slide">
+            <div class="card align-middle" style="width:20rem; border-radius:20px;">
+                <form class="form-signin" method="POST">
+
+                            <div class="card-title" style="margin-top:30px;">
+                                <h2 class="card-title text-center" style="color:#113366;">카테고리</h2>
+                            </div>
+                            <div class="card-body">
+
+                                <h5 class="form-signin-heading">카테고리를 입력하세요</h5>
+
+                                <input type="text" id="asdf" class="form-control" placeholder="카테고리" required autofocus><BR>
+                            <!--전에 버튼 있던 곳-->
+
+
+                            </div>
+                </form>
+            </div>
+            <button  class="btn btn-secondary " type="button" onclick=" prev_slide()">이전</button>
+            <button  class="btn btn-primary " type="button" onclick="next_slide()">다음</button>
+        </div><!--2번 슬라이드 끝-->
+        <div class="swiper-slide">
+            <div class="card-title" style="margin-top:30px;">
+                <h2 class="card-title text-center" style="color:#113366;">주소</h2>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <colgroup>
+                        <col style="width:20%"><col>
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <th>우편번호</th>
+                        <td>
+                            <input type="hidden" class="form-control" id="confmKey" name="confmKey" value=""  >
+                            <input type="text" class="form-control" id="zipNo" name="zipNo" readonly style="display:inline;width:100px">
+                            <input type="button"  class="btn btn-outline-dark" value="주소검색"style="display: inline" onclick="goPopup();">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>도로명주소</th>
+                        <td><input type="text" class="form-control" id="roadAddrPart1" style="width:85%"></td>
+                    </tr>
+                    <tr>
+                        <th>상세주소</th>
+                        <td>
+                            <input type="text" class="form-control" id="addrDetail" style="width:40%" value="">
+                            <input type="text" class="form-control" id="roadAddrPart2"  style="width:40%" value="">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button  class="btn btn-secondary"  type="button"onclick=" prev_slide()" >이전</button>
+            <button  class="btn btn-primary" type="button" onclick="next_slide()">다음</button>
+        </div><!--3번 슬라이드 끝-->
+    </div>
+
+    <div class="swiper-pagination"></div>
+</div>
+<script>
+    const swiper = new Swiper('.swiper-container', {
+        loop: false,
+        pagination: {
+            el: '.swiper-pagination',
+        },
+        touchRatio:0
+    });
+    function next_slide(){
+        swiper.slideNext();
+    }
+    function prev_slide(){
+        swiper.slidePrev();
+    }
+</script>
+
+
+</body>
+</html>
+
