@@ -28,7 +28,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="form-signin-heading">업체명을 입력하세요</h5>
-                        <input type="text" id="business-name" class="form-control" placeholder="업체명" required autofocus><BR>
+                        <input type="text" id="first-input" class="form-control" placeholder="업체명" required autofocus><BR>
                     </div>
                 </form>
             </div>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="card-body">
                         <h5 class="form-signin-heading">카테고리를 입력하세요</h5>
-                        <input list="category" value="" class="col-sm-6 custom-select custom-select-sm">
+                        <input list="category" id="second-input" value="" class="col-sm-6 custom-select custom-select-sm">
                         <datalist id="category">
                             <option value="한식">한식</option>
                             <option value="중식">중식</option>
@@ -54,7 +54,7 @@
                 </form>
             </div>
             <button  class="btn btn-secondary " type="button" onclick=" prev_slide()">이전</button>
-            <button  class="btn btn-primary " type="button" onclick="next_slide()">다음</button>
+            <button  class="btn btn-primary " type="button" onclick="check_second()">다음</button>
         </div><!--2번 슬라이드 끝-->
         <div class="swiper-slide">
             <form class="form-horizontal" method="post">
@@ -114,8 +114,13 @@
         swiper.slidePrev();
     }
     function check_first(){
-        if(document.getElementById('business-name').value.trim!=null){
+        if($('#first-input').value.trim()!=""){
              next_slide();
+        }
+    }
+    function check_second(){
+        if($('#second-input').value.trim()!=""){
+            next_slide();
         }
     }
 
@@ -142,6 +147,7 @@
         $('#addrDetail').val(addrDetail);
         $('#zipNo').val(zipNo);
     }
+
 </script>
 </body>
 </html>
