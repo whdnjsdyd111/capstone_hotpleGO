@@ -15,4 +15,11 @@ public class HomeController {
     public String alliance() {
         return "alliance";
     }
+
+    @GetMapping("/enrollment")
+    public String enrollment() {
+        return "enrollment";
+    }
+
+
 }
