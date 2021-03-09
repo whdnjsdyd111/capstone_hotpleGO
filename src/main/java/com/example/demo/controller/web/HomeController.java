@@ -21,5 +21,8 @@ public class HomeController {
         return "enrollment";
     }
 
-
+    @GetMapping("/popup/jusoPopup")
+    public String popup() {
+        return "jusoPopup";
+    }
 }

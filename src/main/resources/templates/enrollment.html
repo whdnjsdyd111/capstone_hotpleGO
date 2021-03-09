@@ -13,7 +13,7 @@
 
         function goPopup(){
             // 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrLinkUrl.do)를 호출하게 됩니다.
-            var pop = window.open("/jusopopup","pop","width=570,height=420, scrollbars=yes, resizable=yes");
+            var pop = window.open("/popup/jusoPopup","pop","width=570,height=420, scrollbars=yes, resizable=yes");
 
             //var pop = window.open("/popup/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes");
             // 모바일 웹인 경우, 호출된 페이지(jusopopup.jsp)에서 실제 주소검색URL(https://www.juso.go.kr/addrlink/addrMobileLinkUrl.do)를 호출하게 됩니다.
@@ -45,77 +45,80 @@
 
         <div class="swiper-slide">
             <div class="card align-middle" style="width:20rem; border-radius:20px;">
-                <form class="form-signin" method="POST">
-                            <div class="card-title" style="margin-top:30px;">
-                                <h2 class="card-title text-center" style="color:#113366;">업체명</h2>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="form-signin-heading">업체명을 입력하세요</h5>
-                                <input type="text" id="uid" class="form-control" placeholder="업체명" required autofocus><BR>
-                            </div>
+                <form class="form-horizontal" method="POST">
+                    <div class="card-title" style="margin-top:30px;">
+                        <h2 class="card-title text-center" style="color:#113366;">업체명</h2>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="form-signin-heading">업체명을 입력하세요</h5>
+                        <input type="text" id="business-name" class="form-control" placeholder="업체명" required autofocus><BR>
+                    </div>
                 </form>
             </div>
             <button  class="btn btn-secondary"  type="button"onclick=" prev_slide()" >이전</button>
-            <button  class="btn btn-primary" type="button" onclick="next_slide()">다음</button>
+            <button  class="btn btn-primary" type="button" onclick="check_first()">다음</button>
         </div><!--1번 슬라이드 끝-->
         <div class="swiper-slide">
             <div class="card align-middle" style="width:20rem; border-radius:20px;">
                 <form class="form-signin" method="POST">
-
-                            <div class="card-title" style="margin-top:30px;">
-                                <h2 class="card-title text-center" style="color:#113366;">카테고리</h2>
-                            </div>
-                            <div class="card-body">
-
-                                <h5 class="form-signin-heading">카테고리를 입력하세요</h5>
-
-                                <input type="text" id="asdf" class="form-control" placeholder="카테고리" required autofocus><BR>
-                            <!--전에 버튼 있던 곳-->
-
-
-                            </div>
+                    <div class="card-title" style="margin-top:30px;">
+                        <h2 class="card-title text-center" style="color:#113366;">카테고리</h2>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="form-signin-heading">카테고리를 입력하세요</h5>
+                        <input list="category" value="" class="col-sm-6 custom-select custom-select-sm">
+                        <datalist id="category">
+                            <option value="한식">한식</option>
+                            <option value="중식">중식</option>
+                            <option value="일식">일식</option>
+                        </datalist>
+                        <!--전에 버튼 있던 곳-->
+                    </div>
                 </form>
             </div>
             <button  class="btn btn-secondary " type="button" onclick=" prev_slide()">이전</button>
             <button  class="btn btn-primary " type="button" onclick="next_slide()">다음</button>
         </div><!--2번 슬라이드 끝-->
         <div class="swiper-slide">
-            <div class="card-title" style="margin-top:30px;">
-                <h2 class="card-title text-center" style="color:#113366;">주소</h2>
-            </div>
-            <div class="card-body">
-                <table class="table">
-                    <colgroup>
-                        <col style="width:20%"><col>
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <th>우편번호</th>
-                        <td>
-                            <input type="hidden" class="form-control" id="confmKey" name="confmKey" value=""  >
-                            <input type="text" class="form-control" id="zipNo" name="zipNo" readonly style="display:inline;width:100px">
-                            <input type="button"  class="btn btn-outline-dark" value="주소검색"style="display: inline" onclick="goPopup();">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>도로명주소</th>
-                        <td><input type="text" class="form-control" id="roadAddrPart1" style="width:85%"></td>
-                    </tr>
-                    <tr>
-                        <th>상세주소</th>
-                        <td>
-                            <input type="text" class="form-control" id="addrDetail" style="width:40%" value="">
-                            <input type="text" class="form-control" id="roadAddrPart2"  style="width:40%" value="">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <button  class="btn btn-secondary"  type="button"onclick=" prev_slide()" >이전</button>
-            <button  class="btn btn-primary" type="button" onclick="next_slide()">다음</button>
+            <form class="form-horizontal" method="post">
+                <div class="card-title" style="margin-top:30px;">
+                    <h2 class="card-title text-center" style="color:#113366;">주소</h2>
+                </div>
+                <div class="card-body">
+
+                    <table class="table">
+                        <colgroup>
+                            <col style="width:20%"><col>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th>우편번호</th>
+                            <td>
+                                <input type="hidden" class="form-control" id="confmKey" name="confmKey" value=""  >
+                                <input type="text" class="form-control" id="zipNo" name="zipNo" readonly style="display:inline;width:100px">
+                                <input type="button"  class="btn btn-outline-dark" value="주소검색"style="display: inline;height:100%;" onclick="goPopup();">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>도로명주소</th>
+                            <td><input type="text" class="form-control" id="roadAddrPart1" style="width:85%;height: 100%"></td>
+                        </tr>
+                        <tr>
+                            <th>상세주소</th>
+                            <td>
+                                <input type="text" class="form-control" id="addrDetail" style="width:40%" value="">
+                                <input type="text" class="form-control" id="roadAddrPart2"  style="width:40%" value="">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <button  class="btn btn-secondary"  type="button"onclick=" prev_slide()" >이전</button>
+                <button  class="btn btn-primary" type="button" onclick="next_slide()">완료</button>
+            </form>
         </div><!--3번 슬라이드 끝-->
     </div>
-
     <div class="swiper-pagination"></div>
 </div>
 <script>
@@ -132,9 +135,13 @@
     function prev_slide(){
         swiper.slidePrev();
     }
+    function check_first(){
+        if(document.getElementById('business-name').value.trim!=null){
+             next_slide();
+        }
+    }
+
 </script>
-
-
 </body>
 </html>
 
