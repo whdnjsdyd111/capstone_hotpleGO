@@ -14,7 +14,7 @@ import org.yaml.snakeyaml.util.UriEncoder;
 import javax.xml.ws.Response;
 
 @RestController
-@RequestMapping("/admin/rest/")
+@RequestMapping("/admin/rest/*")
 @RequiredArgsConstructor
 @Log4j2
 public class AdminRestController {

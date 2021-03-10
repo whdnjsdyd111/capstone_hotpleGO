@@ -77,11 +77,11 @@ public class JusoApiController {
         model.addAttribute("entY", entY);
 
         ProjCoordinate trans = transform(Double.parseDouble(entX), Double.parseDouble(entY));
-        log.info("위도 : " + trans.x);
-        log.info("경도 : " + trans.y);
+        log.info("경도 lng : " + trans.x);
+        log.info("위도 lat : " + trans.y);
 
-        model.addAttribute("lat", trans.x);
-        model.addAttribute("long", trans.y);
+        model.addAttribute("lng", trans.x);
+        model.addAttribute("lat", trans.y);
 
         log.info("\ninput : " + inputYn + "\n"+
                 "roadFullAddr : " + roadFullAddr + "\n" +
