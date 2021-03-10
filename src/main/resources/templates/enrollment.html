@@ -72,7 +72,7 @@
                             <th>우편번호</th>
                             <td>
                                 <input type="hidden" class="form-control" id="confmKey" name="confmKey"
-                                       value="devU01TX0FVVEgyMDIxMDMwOTExMjMxMTExMDg5MjE="  >
+                                       value="devU01TX0FVVEgyMDIxMDMwOTIxNDAxNTExMDg5NDY="  >
                                 <input type="text" class="form-control" id="zipNo" name="zipNo" readonly style="display:inline;width:100px">
                                 <input type="button"  class="btn btn-outline-dark" value="주소검색" style="display: inline;height:100%;" onclick="goPopup();">
                             </td>
@@ -114,12 +114,12 @@
         swiper.slidePrev();
     }
     function check_first(){
-        if($('#first-input').value.trim()!=""){
-             next_slide();
+        if($('#first-input').val().trim()!="") {
+            next_slide();
         }
     }
     function check_second(){
-        if($('#second-input').value.trim()!=""){
+        if($('#second-input').val().trim()!=""){
             next_slide();
         }
     }
@@ -140,12 +140,14 @@
     /** API 서비스 제공항목 확대 (2017.02) **/
 
     function jusoCallBack(roadFullAddr,roadAddrPart1,addrDetail,roadAddrPart2,engAddr, jibunAddr, zipNo, admCd, rnMgtSn, bdMgtSn
-        , detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo){
+        , detBdNmList, bdNm, bdKdcd, siNm, sggNm, emdNm, liNm, rn, udrtYn, buldMnnm, buldSlno, mtYn, lnbrMnnm, lnbrSlno, emdNo, entX, entY, lat, long){
         // 팝업페이지에서 주소입력한 정보를 받아서, 현 페이지에 정보를 등록합니다.
         $('#roadAddrPart1').val(roadAddrPart1);
         $('#roadAddrPart2').val(roadAddrPart2);
         $('#addrDetail').val(addrDetail);
         $('#zipNo').val(zipNo);
+        console.log("좌표 : " + entX + " , " + entY);
+        console.log("위도 경도 : " + lat + " , " + long);
     }
 
 </script>

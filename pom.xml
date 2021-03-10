@@ -152,6 +152,13 @@
             <artifactId>jackson-dataformat-xml</artifactId>
             <version>2.11.3</version>
         </dependency>
+
+        <!-- 좌표 -> 위도 경도 -->
+        <dependency>
+            <groupId>io.jeo</groupId>
+            <artifactId>proj4j</artifactId>
+            <version>0.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>

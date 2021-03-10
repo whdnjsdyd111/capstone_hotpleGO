@@ -1,6 +1,8 @@
 package com.example.demo.controller.web;
 
 import lombok.extern.log4j.Log4j2;
+import org.osgeo.proj4j.*;
+import org.osgeo.proj4j.units.DegreeUnit;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 public class JusoApiController {
     @RequestMapping(value = "/popup/jusoPopup")
     public String jusoPopup(HttpServletRequest request, Model model) {
-        //request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
-        //request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
+        // request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
+        // request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거
         String inputYn = request.getParameter("inputYn");
         String roadFullAddr = request.getParameter("roadFullAddr");
         String roadAddrPart1 = request.getParameter("roadAddrPart1");
@@ -25,7 +27,7 @@ public class JusoApiController {
         String admCd    = request.getParameter("admCd");
         String rnMgtSn = request.getParameter("rnMgtSn");
         String bdMgtSn  = request.getParameter("bdMgtSn");
-        /** API 서비스 제공항목 확대 (2017.02) **/
+        // API 서비스 제공항목 확대 (2017.02)
         String detBdNmList  = request.getParameter("detBdNmList");
         String bdNm  = request.getParameter("bdNm");
         String bdKdcd  = request.getParameter("bdKdcd");
@@ -41,6 +43,9 @@ public class JusoApiController {
         String lnbrMnnm  = request.getParameter("lnbrMnnm");
         String lnbrSlno  = request.getParameter("lnbrSlno");
         String emdNo  = request.getParameter("emdNo");
+        String entX  = request.getParameter("entX");
+        String entY  = request.getParameter("entY");
+
 
         model.addAttribute("inputYn", inputYn);
         model.addAttribute("roadFullAddr", roadFullAddr);
@@ -68,6 +73,15 @@ public class JusoApiController {
         model.addAttribute("lnbrMnnm", lnbrMnnm);
         model.addAttribute("lnbrSlno", lnbrSlno);
         model.addAttribute("emdNo", emdNo);
+        model.addAttribute("entX", entX);
+        model.addAttribute("entY", entY);
+
+        ProjCoordinate trans = transform(Double.parseDouble(entX), Double.parseDouble(entY));
+        log.info("위도 : " + trans.x);
+        log.info("경도 : " + trans.y);
+
+        model.addAttribute("lat", trans.x);
+        model.addAttribute("long", trans.y);
 
         log.info("\ninput : " + inputYn + "\n"+
                 "roadFullAddr : " + roadFullAddr + "\n" +
@@ -94,9 +108,23 @@ public class JusoApiController {
                 "mtYn : " + mtYn + "\n" +
                 "lnbrMnnm : " + lnbrMnnm + "\n" +
                 "lnbrSlno : " + lnbrSlno + "\n" +
-                "emdNo : " + emdNo);
-
+                "emdNo : " + emdNo + "\n" +
+                "entX : " + entX + "\n" +
+                "entY : " + entY);
 
         return "jusoPopup";
+    }
+
+    private ProjCoordinate transform(Double x, Double y) {
+        CRSFactory factory = new CRSFactory();
+        CoordinateReferenceSystem srcCrs = factory.createFromName("EPSG:5179");
+        CoordinateReferenceSystem dstCrs = factory.createFromName("EPSG:4326");
+
+        BasicCoordinateTransform transform = new BasicCoordinateTransform(srcCrs, dstCrs);
+
+        ProjCoordinate srcCoord = new ProjCoordinate(x, y);
+        ProjCoordinate dstCoord = new ProjCoordinate();
+
+        return transform.transform(srcCoord, dstCoord);
     }
 }

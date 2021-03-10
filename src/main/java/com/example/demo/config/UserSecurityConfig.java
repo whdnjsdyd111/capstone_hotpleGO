@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 import javax.sql.DataSource;
 
 @Configuration
-@Order(1)
+@Order(3)
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Log4j2
