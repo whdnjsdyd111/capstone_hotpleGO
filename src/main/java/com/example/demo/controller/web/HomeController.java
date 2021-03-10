@@ -21,6 +21,11 @@ public class HomeController {
         return "enrollment";
     }
 
+    @GetMapping("/join")
+    public String join() {
+        return "manager/join";
+    }
+
     @GetMapping("/popup/jusoPopup")
     public String popup() {
         return "jusoPopup";
