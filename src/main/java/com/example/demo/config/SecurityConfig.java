@@ -61,8 +61,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/admin/**").authorizeRequests()
                     .antMatchers("/admin/login").permitAll()
-                    .antMatchers("/admin/main").access("hasAuthority('A')")
-                    .and().formLogin().loginPage("/admin/login").loginProcessingUrl("/admin/login");
+                    .antMatchers("/admin/main").access("hasAuthority('A')");
+
+            http.formLogin().loginPage("/admin/login").loginProcessingUrl("/admin/login");
 
             http.logout().logoutUrl("/logout").invalidateHttpSession(true)
                     .deleteCookies("remember-me", "JSESSION_ID")
@@ -89,8 +90,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         private final PersistentTokenRepository repository;
         private final UserDetailsService userDetailsService;
         private final PasswordEncoder passwordEncoder;
-
-
 
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
