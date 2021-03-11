@@ -1,7 +1,7 @@
 package com.example.demo.security;
 
 import com.example.demo.domain.UserVO;
-import com.example.demo.service.implement.UserImpl;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class CustomOAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
-    private final UserImpl user;
+    private final UserService user;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

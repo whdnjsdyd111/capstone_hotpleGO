@@ -1,8 +1,7 @@
 package com.example.demo.security;
 
 import com.example.demo.domain.UserVO;
-import com.example.demo.mapper.UserMapper;
-import com.example.demo.service.implement.UserImpl;
+import com.example.demo.service.UserService;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 public class CustomUserDetailsService implements UserDetailsService {
     @Setter(onMethod_ = @Autowired)
-    private UserImpl user;
+    private UserService user;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

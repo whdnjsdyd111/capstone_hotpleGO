@@ -2,7 +2,7 @@ package com.example.demo.broadcast;
 
 import com.example.demo.config.CustomSpringConfigurator;
 import com.example.demo.domain.web.ChatLogVO;
-import com.example.demo.service.web.implement.ChatLogImpl;
+import com.example.demo.service.web.ChatLogService;
 import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 @Log4j2
 @Component
@@ -26,7 +25,7 @@ public class BoardSocket {
     private static int onlineCount = 0;
 
     @Autowired
-    private ChatLogImpl chatLog;
+    private ChatLogService chatLog;
 
     @OnOpen
     public void onOpen(Session session) {

@@ -1,13 +1,10 @@
 package com.example.demo.controller.web;
 
-import com.example.demo.domain.web.AllianceVO;
-import com.example.demo.domain.web.ChatLogVO;
 import com.example.demo.security.CustomUser;
-import com.example.demo.security.CustomUserDetailsService;
-import com.example.demo.service.implement.UserImpl;
-import com.example.demo.service.web.implement.AllianceImpl;
-import com.example.demo.service.web.implement.ChatLogImpl;
-import com.example.demo.service.web.implement.FeedbackImpl;
+import com.example.demo.service.UserService;
+import com.example.demo.service.web.AllianceService;
+import com.example.demo.service.web.ChatLogService;
+import com.example.demo.service.web.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,18 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.security.Principal;
-import java.util.List;
-
 @Controller
 @RequestMapping("/admin/*")
 @RequiredArgsConstructor
 @Log4j2
 public class AdminController {
-    private final AllianceImpl alliance;
-    private final ChatLogImpl chatLog;
-    private final UserImpl user;
-    private final FeedbackImpl feedback;
+    private final AllianceService alliance;
+    private final ChatLogService chatLog;
+    private final UserService user;
+    private final FeedbackService feedback;
 
     @GetMapping("/main")
     public String index() {

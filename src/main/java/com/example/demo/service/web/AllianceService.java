@@ -1,55 +1,46 @@
 package com.example.demo.service.web;
 
 import com.example.demo.domain.web.AllianceVO;
-import org.springframework.stereotype.Component;
+import com.example.demo.mapper.web.AllianceMapper;
+
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface AllianceService {
+@Service
+@Log4j2
+public class AllianceService {
+    @Setter(onMethod_ = @Autowired)
+    private AllianceMapper mapper;
 
-    /**
-     *
-     * @param code 기본키
-     * @return AllianceVO
-     * 제휴를 선택 했을 때 해당되는 제휴 데이터 조회
-     */
-    public AllianceVO get(String code);
+    public AllianceVO get(String code) {
+        return mapper.read(code);
+    }
 
-    /**
-     *
-     * @return List AllianceVO
-     * 관리자 제휴 처리 페이지에서 조회
-     * 관리자가 아직 처리하지 않은 데이터
-     */
-    public List<AllianceVO> getListN();
+    public List<AllianceVO> getListN() {
+        return mapper.getList("N");
+    }
 
-    /**
-     *
-     * @return List AllianceVO
-     * 관리자 제휴 처리 페이지에서 조회
-     * 관리자가 처리한 데이터
-     */
-    public List<AllianceVO> getListY();
+    public List<AllianceVO> getListY() {
+        return mapper.getList("Y");
+    }
 
-    /**
-     * @param vo 이름, 이메일, 전화번호, 내용 입력
-     * 제휴 페이지에서 등록
-     */
-    public boolean register(AllianceVO vo);
+    @Transactional
+    public boolean register(AllianceVO vo) {
+        return mapper.insert(vo) == 1;
+    }
 
-    /**
-     *
-     * @param code 기본키
-     * @return 바뀐 여부
-     * 관리자가 미처리된 제휴를 확인하고 처리할 수 있는 기능
-     */
-    public boolean change(String code);
+    @Transactional
+    public boolean change(String code) {
+        return mapper.update(code) == 1;
+    }
 
-    /**
-     *
-     * @param code 기본키
-     * @return 삭제 여부
-     * 엉뚱하거나 이상한 제휴건을 삭제할 수 있는 기능
-     */
-    public boolean remove(String code);
+    @Transactional
+    public boolean remove(String code) {
+        return mapper.delete(code) == 1;
+    }
 }

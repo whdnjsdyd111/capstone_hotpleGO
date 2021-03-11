@@ -1,7 +1,7 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.domain.UserVO;
-import com.example.demo.service.implement.UserImpl;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat;
 @RequiredArgsConstructor
 @Log4j2
 public class CommonController {
-    private final UserImpl user;
+    private final UserService user;
     private final HttpSession session;
 
     @GetMapping("/accessError")

@@ -1,7 +1,7 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.domain.web.AllianceVO;
-import com.example.demo.service.web.implement.AllianceImpl;
+import com.example.demo.service.web.AllianceService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,10 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/*")
 public class HomeRestController {
     @Setter(onMethod_ = @Autowired)
-    AllianceImpl alliance;
+    AllianceService alliance;
 
     @PostMapping("/alliance")
     public ResponseEntity<String> allianceRegister(AllianceVO vo) {

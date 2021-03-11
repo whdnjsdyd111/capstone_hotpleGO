@@ -1,37 +1,31 @@
 package com.example.demo.service.web;
 
 import com.example.demo.domain.web.ChatLogVO;
+import com.example.demo.mapper.web.ChatLogMapper;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface ChatLogService {
-    /**
-     *
-     * @return 채팅 로그
-     * str 에 'C' 을 주입함으로써 채팅 로그
-     */
-    public List<ChatLogVO> getListChatLog();
+@Service
+public class ChatLogService {
+    @Setter(onMethod_ = @Autowired)
+    ChatLogMapper mapper;
 
-    /**
-     *
-     * @return 메모
-     * str 에 'M' 을 주입함으로써 채팅 로그
-     */
-    public List<ChatLogVO> getListMemo();
+    public List<ChatLogVO> getListChatLog() {
+        return mapper.getListByStr("C");
+    }
 
-    /**
-     *
-     * @param vo
-     * @return 인서트 여부
-     * 채팅 인서트
-     */
-    public boolean registerChat(ChatLogVO vo);
+    public List<ChatLogVO> getListMemo() {
+        return mapper.getListByStr("M");
+    }
 
-    /**
-     *
-     * @param vo
-     * @return 인서트 여부
-     * 메모 인서트
-     */
-    public boolean registerMemo(ChatLogVO vo);
+    public boolean registerChat(ChatLogVO vo) {
+        return mapper.insertChat(vo) == 1;
+    }
+
+    public boolean registerMemo(ChatLogVO vo) {
+        return mapper.insertMemo(vo) == 1;
+    }
 }

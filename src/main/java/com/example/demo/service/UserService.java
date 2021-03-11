@@ -2,34 +2,33 @@ package com.example.demo.service;
 
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.AdminVO;
+import com.example.demo.mapper.UserMapper;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
+@Service
+public class UserService {
+    @Setter(onMethod_ = @Autowired)
+    UserMapper userMapper;
 
-    /**
-     *
-     * @param code
-     * @return 코드로 조회한 회원
-     */
-    public UserVO get(String code);
+    public UserVO get(String code) {
+        return userMapper.read(code);
+    }
 
-    /**
-     *
-     * @param email
-     * @return 이메일로 조회한 회원
-     */
-    public UserVO getByEmail(String email);
+    public UserVO getByEmail(String email) {
+        return userMapper.readByEmail(email);
+    }
 
-    /**
-     *
-     * @param vo
-     * @return 회원 등록 여부
-     */
-    public boolean register(UserVO vo);
+    public boolean register(UserVO vo) {
+        if (!vo.getPw().isEmpty()) {
+            vo.setPw(new BCryptPasswordEncoder().encode(vo.getPw()));
+        }
+        return userMapper.insert(vo) == 1;
+    }
 
-    /**
-     *
-     * @param code
-     * @return 관리자 정보
-     */
-    public AdminVO getAdmin(String code);
+    public AdminVO getAdmin(String code) {
+        return userMapper.readAdmin(code);
+    }
 }
