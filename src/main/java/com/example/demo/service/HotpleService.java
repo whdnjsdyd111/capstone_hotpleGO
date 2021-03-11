@@ -11,11 +11,15 @@ public class HotpleService {
     @Setter(onMethod_ = @Autowired)
     HotpleMapper mapper;
 
-    public Long getIdByAddr(String addr) {
+    public HotpleVO getIdByAddr(String addr) {
         return mapper.readAddr(addr);
     }
 
     public boolean registerBusn(HotpleVO vo) {
         return mapper.insertBusn(vo) == 1;
+    }
+
+    public boolean registerBusnGo(HotpleVO vo) {
+        return mapper.insertBusnGo(vo) == 1;
     }
 }

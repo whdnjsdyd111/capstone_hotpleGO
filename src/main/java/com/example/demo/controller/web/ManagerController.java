@@ -15,7 +15,7 @@ public class ManagerController {
 
     @GetMapping("/login")
     public String login() {
-        return "";
+        return "manager/login";
     }
 
     @GetMapping("/enrollment")

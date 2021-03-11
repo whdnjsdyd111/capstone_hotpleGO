@@ -18,7 +18,5 @@ public class HotpleTests {
 
     @Test
     public void getLong() {
-        Long id = hotple.getIdByAddr("대구");
-        log.info(id);
     }
 }
