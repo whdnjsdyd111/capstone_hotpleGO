@@ -22,7 +22,11 @@ public class ManagerRestController {
     public ResponseEntity<String> companyEnrollment(@RequestBody HotpleVO vo) {
         Long htId = hotple.getIdByAddr(vo.getHtAddr());
         if (htId == null) {
-
+            if (hotple.registerBusn(vo)) {
+                return new ResponseEntity<>("등록 완료하였습니다.", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("등록 실패하였습니다.", HttpStatus.BAD_REQUEST);
+            }
         } else {
 
         }

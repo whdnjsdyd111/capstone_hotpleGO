@@ -7,4 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface HotpleMapper {
     public Long readAddr(String str);
 
+    public int insertBusn(HotpleVO vo);
 }

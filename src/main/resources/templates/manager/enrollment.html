@@ -1,9 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="layout::head ('enrollment')">
-
-</head>
 <head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta charset="utf-8">
+    <!-- jQuery -->
+    <script src="/css/vendor/jq/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- CSS -->
+    <style>
+        @import "/css/styles.css";
+    </style>
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <title>업체 등록</title>
@@ -12,8 +31,6 @@
         #enrollment_wrap .card{margin:0 auto; border: 0px;}
         .table{margin:0 auto;width:50%}
         .swiper-container{height:600px;}
-
-
 
         .green-border-focus .form-control:focus {
             border: 1px solid #8bc34a;
@@ -85,6 +102,7 @@
                         <div class="form-group purple-border">
                             <label for="intro">소개글</label>
                             <textarea class="form-control" id="intro" rows="3"></textarea>
+                            <input class="form-control" placeholder="업체 전화번호 (-) 없이" type="text" id="tel">
                         </div>
                         <label for="pic">업체 사진</label>
                         <input type="file" id="pic" class="form-control" placeholder="소개글" ><BR>
@@ -131,7 +149,9 @@
 
                 </div>
                 <button  class="btn btn-secondary"  type="button"onclick=" prev_slide()" >이전</button>
-                <button  class="btn btn-primary" type="button" onclick="next_slide()">완료</button>
+                <button  class="btn btn-primary" type="button" id="register">완료</button>
+                <input type="hidden" id="lat">
+                <input type="hidden" id="lng">
             </form>
         </div><!--4번 슬라이드 끝-->
     </div>
@@ -172,21 +192,39 @@
         const drink = ["맥주", "소주", "막걸리","칵테일/와인"];
         const watch = ["영화", "전시회", "책","공연","스포츠"];
         const walk = ["테마", "문화재", "풍경","시장","공원"];
-
+        let i = 0;
         const target = document.getElementById("kindD");
 
-        if(e.value == "food") var d = food;
-        else if(e.value == "dessert") var d = dessert;
-        else if(e.value == "play") var d = play;
-        else if(e.value == "drink") var d = drink;
-        else if(e.value == "watch") var d = watch;
-        else if(e.value == "walk") var d = walk;
+        if(e.value == "food") {
+            var d = food;
+        }
+        else if(e.value == "dessert") {
+            var d = dessert;
+            i += 10;
+        }
+        else if(e.value == "play") {
+            var d = play;
+            i += 20;
+        }
+        else if(e.value == "drink") {
+            var d = drink;
+            i += 30;
+        }
+        else if(e.value == "watch") {
+            var d = watch;
+            i += 40;
+        }
+        else if(e.value == "walk") {
+            var d = walk;
+            i += 50;
+        }
 
         target.options.length = 0;
 
+        let num = 0;
         for (x in d) {
             let opt = document.createElement("option");
-            opt.value = d[x];
+            opt.value = i + num++;
             opt.innerHTML = d[x];
             target.appendChild(opt);
         }
@@ -216,9 +254,47 @@
         $('#roadAddrPart2').val(roadAddrPart2);
         $('#addrDetail').val(addrDetail);
         $('#zipNo').val(zipNo);
-        console.log("좌표 : " + entX + " , " + entY);
-        console.log("lng, lat : " + lng + " , " + lat);
+        $('#lat').val(lat);
+        $('#lng').val(lng);
     }
+
+    $(function() {
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        $('#register').click(function() {
+            $.ajax({
+                type: "post",
+                beforeSend : function(xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+                    xhr.setRequestHeader(header, token);
+                },
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify({
+                    busnNum: $('#business-id').val(),
+                    busnName: $('#business-name').val(),
+                    htAddr: $('#roadAddrPart1').val(),
+                    htAddrDet: $('#addrDetail').val(),
+                    htZip: $('#zipNo').val(),
+                    htCont: $('#intro').val(),
+                    htTel: $('#tel').val(),
+                    htImg: $('#pic').val(),
+                    htLat: $('#lat').val(),
+                    htLng: $('#lng').val(),
+                    category: $('#kindD').val()
+                }),
+                async: true, //동기, 비동기 여부
+                cache :false, // 캐시 여부
+                url: "/manager/rest/comp-erm",
+                success: function(data, status, xhr) {
+                    alert(data);
+                    self.location.reload();
+                },
+                error: function(xhr, status, err) {
+                    alert(xhr.responseText);
+                }
+            });
+        })
+    });
 
 </script>
 </body>

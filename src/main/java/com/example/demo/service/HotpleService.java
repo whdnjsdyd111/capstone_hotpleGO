@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.HotpleVO;
 import com.example.demo.mapper.HotpleMapper;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,5 +13,9 @@ public class HotpleService {
 
     public Long getIdByAddr(String addr) {
         return mapper.readAddr(addr);
+    }
+
+    public boolean registerBusn(HotpleVO vo) {
+        return mapper.insertBusn(vo) == 1;
     }
 }

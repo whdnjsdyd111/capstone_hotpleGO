@@ -5,7 +5,12 @@
 <mapper namespace="com.example.demo.mapper.HotpleMapper">
 
     <select id="readAddr" resultType="java.lang.Long">
-        SELECT hotId FROM hotple WHERE htAddr = #{str}
+        SELECT htId FROM hotple WHERE htAddr = #{str}
     </select>
 
+    <insert id="insertBusn">
+        INSERT INTO hotple (htId, busnNum, htAddr, htAddrDet, htZip, htCont, htTel, htImg, htLat, htLng, uCode, category)
+        VALUES(seq_hot.NEXTVAL, #{busnNum}, #{htAddr}, #{htAddrDet}, #{htZip}, #{htCont}, #{htTel},
+        #{htImg}, #{htLat}, #{htLng}, #{uCode}, #{category})
+    </insert>
 </mapper>
