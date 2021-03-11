@@ -23,4 +23,14 @@ public class ManagerController {
         return "manager/enrollment";
     }
 
+    @GetMapping("/temporaryStop")
+    public String temporaryStop() {
+        return "manager/temporaryStop";
+    }
+
+    @GetMapping("/menuManagement")
+    public String menuManagement() {
+        return "manager/menuManagement";
+    }
+
 }
