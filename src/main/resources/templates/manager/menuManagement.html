@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="admin/layout::head (HOTPLEGO-MANAGER)">
+</head>
+<body >
+<div class="container-fluid px-0">
+    <div th:replace="admin/layout::header"></div>
+    <div th:replace="admin/layout::sidebar"></div>
+    <div class="dashboard-content bg-light" layout:fragment="content">
+        <input type="button" class="btn btn-primary" value="카테고리 추가" onclick="add_div()"><br/>
+        <div id="room_type" style="display: none">
+            <div class="card align-middle" style="width:20rem; border-radius:20px;">
+                    <div class="card-title" style="margin-top:30px;">
+                        <input type="button" class="btn btn-primary" value="카테고리 삭제" onclick="remove_div(this)">
+                        <h2 class="card-title text-center" style="color:#113366;">카테고리 명</h2>
+                    </div>
+                    <input type="button"  class="btn btn-primary" value="메뉴 추가" onclick="add_menu(this)">
+                    <div id="menu-card">
+                        <div  class="card-body" >
+                            <div class="form-group">
+                                <h5 class="form-signin-heading">메뉴명</h5>
+                                <label for="pic">메뉴 사진</label>
+                                <input type="file" id="pic" class="form-control"  ><BR>
+                            </div>
+                            <input type="button" id="test" class="btn btn-primary" value="메뉴 삭제" onclick="remove_menu(this)">
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div id="field"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function add_div(){
+        let div = document.createElement('div');
+        div.innerHTML = document.getElementById('room_type').innerHTML;
+        document.getElementById('field').appendChild(div);
+    }
+    function add_menu(obj){
+        let div = document.createElement('div');
+        div.innerHTML = document.getElementById('menu-card').innerHTML;
+        obj.parentNode.appendChild(div);
+    }
+    function remove_div(obj){
+        document.getElementById('field').removeChild(obj.parentNode.parentNode.parentNode);
+    }
+    function remove_menu(obj){
+        obj.parentNode.parentNode.removeChild(obj.parentNode);
+    }
+/*   function add_div(){
+       let div = document.createElement('div');
+       div.innerHTML = $('#room_type').innerHTML;
+       $('#field').appendChild(div);
+   }
+   function add_menu(obj){
+       let div = document.createElement('div');
+       div.innerHTML = $('#menu-card').innerHTML;
+       obj.parentNode.appendChild(div);
+   }
+   function remove_div(obj){
+       $('#field').removeChild(obj.parentNode.parentNode.parentNode);
+   }
+   function remove_menu(obj){
+       document.removeChild(obj.parentNode);
+   }*/
+
+</script>
+<div th:replace="admin/layout::footer"></div>
+</body>
+</html>
