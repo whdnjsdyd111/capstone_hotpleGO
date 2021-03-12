@@ -16,8 +16,13 @@ public class HomeController {
         return "alliance";
     }
 
+    @GetMapping("/enrollment")
+    public String enrollment() {
+        return "enrollment";
+    }
+
     @GetMapping("/popup/jusoPopup")
     public String popup() {
-        return "manager/jusoPopup";
+        return "jusoPopup";
     }
 }

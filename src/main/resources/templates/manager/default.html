@@ -6,8 +6,10 @@
 <div class="container-fluid px-0">
     <div th:replace="admin/layout::header"></div>
     <div th:replace="admin/layout::sidebar"></div>
-    <div class="dashboard-content bg-light" layout:fragment="content"></div>
+    <div class="dashboard-content bg-light" layout:fragment="content">
+
+    </div>
 </div>
-<div th:replace="admin/layout::footer"></div>
+<div th:replace="manager/layout::footer"></div>
 </body>
 </html>
