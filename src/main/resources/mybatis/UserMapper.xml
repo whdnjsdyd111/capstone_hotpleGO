@@ -33,8 +33,9 @@
     <insert id="insertManager">
         INSERT ALL
         INTO users (uCode, pw, nick, birth, gender, phone)
-        VALUES (#{uCode}, #{pw},#{nick},#{birth},#{gender},#{phone})
-        INTO manager (uCode, mName, mAccount)
-        VALUES (#{uCode}, #{mName}, #{mAccount})
+        VALUES (#{uCode}, #{pw}, #{nick}, #{birth}, #{gender}, #{phone})
+        INTO manager (uCode, mName, mAccount, mBank)
+        VALUES (#{uCode}, #{mName}, #{mAccount}, #{mBank})
+        SELECT * FROM DUAL
     </insert>
 </mapper>

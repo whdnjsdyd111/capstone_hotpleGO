@@ -2,7 +2,6 @@ package com.example.demo.mapper.web;
 
 import com.example.demo.domain.web.ChatLogVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package com.example.demo.mapper.web;
 
-import com.example.demo.domain.web.AllianceVO;
 import com.example.demo.domain.web.FeedbackVO;
 import org.apache.ibatis.annotations.Mapper;
 

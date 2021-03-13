@@ -32,122 +32,246 @@
     <script layout:fragment="func"></script>
 </head>
 <body>
+<header class="container-fluid px-0" th:fragment="header">
+    <div class="navbar navbar-expand-lg navbar-dark bg-dark flex-md-row bd-navbar fixed-top justify-content-start">
 
-<nav class="navbar navbar-expand-lg navbar-dark bd-navbar header" th:fragment="header">
-    <a class="navbar-brand" href="dashboard.do">
-        <img width="40" height="40" class="mr-2" src="../resource/images/index/yjfb_logo.png">
-        HotpleGO
-    </a>
-    <ul class="nav col nav d-flex flex-row-reverse">
-        <li class="nav-item">
-            <a class="nav-link btn btn-outline-light" href="logout.do">로그아웃</a>
-        </li>
-    </ul>
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target=".sidebar"
-            aria-controls="sidebar" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-</nav>
-<div class="navbar-collapse sidebar" id="navbarSupportedContent" th:fragment="sidebar">
-    <ul class="navbar-nav side-menu">
-        <li>
-            <a href="main">
-                <i class="fa fa-dashboard mr-2"></i>대쉬보드
-            </a>
-        </li>
-        <li>
-            <a href="statistics">
-                <i class="fa fa-line-chart mr-2"></i>통계
-            </a>
-        </li>
-        <li>
-            <a href="members">
-                <i class="fa fa-users mr-2"></i>회원 관리
-            </a>
-        </li>
-        <li>
-            <a href="main">
-                <i class="fa fa-building mr-2"></i>업체 관리
-            </a>
-        </li>
-        <li>
-            <a href="contents">
-                <i class="fa fa-comments mr-2"></i>컨텐츠 관리
-            </a>
-        </li>
-        <li>
-            <a href="announce">
-                <i class="fa fa-bullhorn mr-2"></i>이벤트/공지
-            </a>
-        </li>
-        <li>
-            <a href="chattingRoom">
-                <i class="fa fa-commenting mr-2"></i>채팅 룸
-            </a>
-        </li>
-        <li>
-            <a href="alliances">
-                <i class="fa fa-handshake-o mr-2"></i>제휴
-            </a>
-        </li>
-        <li>
-            <a href="reports">
-                <i class="fa fa-fire mr-2"></i> 신고보기
-            </a>
-        </li>
-        <li>
-            <a href="feedback">
-                <i class="fa fa-fax mr-2"></i> 피드백
-            </a>
-        </li>
-    </ul>
+        <a class="navbar-brand mr-0 mr-md-2" href="mainBoard.do?kind=all&sort=recent" aria-label="YJFB"> <img
+                width="40" height="40" src="resource/images/index/yjfb_logo.png">
+        </a>
+
+        <div class="navbar-expand">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false"><span><i id="notice_bell" class="fa fa-bell-o fa-2 text-white ml-3 mr-3"></i></span></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="width: 350px;">
+                        <!-- 알림 -->
+                        <div id="notice_div">
+<!--                            <jsp:include page="/member/index/notice.jsp" />-->
+                            <div class="row no-gutters bg-danger border border-white border-left-0 border-right-0">
+                                <div class="col-10 p-4 bg-highlight d-flex flex-column">
+                                    <div>
+                                        <span class="text-info mr-2">예약</span>
+                                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="${ admin_notice.notice_date }">
+									<button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button">
+										10 초 전
+									</button>
+								</span>
+                                    </div>
+                                    <div>
+                                        <span>예약 내용</span>
+                                    </div>
+                                </div>
+                                <div class="col-2 bg-highlight d-flex">
+                                    <button type="button" class="close m-auto delete_admin_notice" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <input type="hidden" value=${ admin_notice.notice_id } />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row no-gutters bg-light border border-white border-left-0 border-right-0">
+                            <div class="col-10 p-4 bg-highlight d-flex flex-column">
+                                <div>
+                                    <span class="text-info mr-2">리뷰</span><span>리뷰 내용 간략</span>
+                                </div>
+                                <div>
+									<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="${ notice.notice_date }">
+										<button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button">
+											10 초 천
+										</button>
+									</span>
+                                    <span><i class="fa fa-comments-o mr-2"></i>10</span>
+                                    <span><i class="fa fa-thumbs-o-up mx-2"></i>1</span>
+                                    <span><i class="fa fa-thumbs-o-down mx-2"></i>1</span>
+                                </div>
+                                <a href="boardContent.do?bdNum=${ notice.board_id }#start_com" class="stretched-link"></a>
+                            </div>
+                            <div class="col-2 bg-highlight d-flex">
+                                <button type="button" class="close m-auto delete_notice" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <input type="hidden" name="board" value="${ notice.board_id }" />
+                                <input type="hidden" name="kind" value="${ notice.kind_id }" />
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-column">
+                            <div class="spinner-grow text-danger mx-auto mb-1" role="status" style="width: 5px; height: 5px;">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-warning mx-auto mb-1" role="status" style="width: 5px; height: 5px;">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                            <div class="spinner-grow text-success mx-auto mb-1" role="status" style="width: 5px; height: 5px;">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <button id="delete_notices" class="btn btn-outline-dark mx-auto my-1">모두 지우기</button>
+                        </div>
+
+                    </div></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link btn btn-outline-danger" href="#"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false"><span class="text-warning">${ mem.mem_nickname }</span></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <div class="text-primary text-center">레벨 <span>${ mem.mem_level }</span></div>
+                        <div class="progress m-1">
+                            <div class="progress-bar bg-success text-dark" role="progressbar" style="width: ${ mem.mem_ex / (mem.mem_level * 150) * 100 }%"
+                                 aria-valuenow="${ mem.mem_ex / (mem.mem_level * 150) * 100 }" aria-valuemin="0" aria-valuemax="100">${ mem.mem_ex }</div>
+                        </div>
+                        <div class="text-muted text-center">남은 경험치 ${ mem.mem_level * 150 - mem.mem_ex }</div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" href="mainBoard.do?kind=all&target=writer&search=${ mem.mem_nickname }">
+                            <i class="fa fa-sticky-note mr-2"></i>내가 쓴 글
+                        </a>
+                        <a class="dropdown-item text-center" href="mainBoard.do?kind=bookmark">
+                            <i class="fa fa-bookmark mr-2"></i>북마크
+                        </a>
+                        <a class="dropdown-item text-center" href="writeBoardForm.do"><i class="fa fa-pencil mr-2"></i>글쓰기</a>
+                    </div></li>
+            </ul>
+        </div>
+
+        <button class="navbar-toggler header_support_btn mr-2" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-md-auto">
+                <li class="nav-item dropdown mr-3"><a
+                        class="nav-link dropdown-toggle" href="#"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><span><i class="fa fa-newspaper-o mr-2"></i>정보</span></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="mainBoard.do?kind=600&sort=recent">공지사항</a>
+                        <a class="dropdown-item" href="mainBoard.do?kind=700&sort=recent">소식</a>
+                    </div></li>
+                <li class="nav-item dropdown mr-3"><a
+                        class="nav-link dropdown-toggle" href="#"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><span><i class="fa fa-list mr-2"></i>커뮤니티</span></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="mainBoard.do?kind=100&sort=recent">자유</a>
+                        <a class="dropdown-item" href="mainBoard.do?kind=200&sort=recent">유머</a>
+                        <a class="dropdown-item" href="mainBoard.do?kind=300&sort=recent">공포</a>
+                        <a class="dropdown-item" href="mainBoard.do?kind=400&sort=recent">만화</a>
+                        <a class="dropdown-item" href="mainBoard.do?kind=500&sort=recent">코로나 뉴스</a>
+                    </div></li>
+                <li class="nav-item mr-3"><a class="nav-link"
+                                             href="logout.do"><span><i class="fa fa-sign-out mr-2"></i>로그아웃</span></a></li>
+                <li class="nav-item mr-3"><a class="nav-link"
+                                             href="checkPasswordForm.do"><span><i class="fa fa-address-card mr-2"></i>계정설정</span></a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="col-xl-3 col-lg-3 collapse navbar-collapse" th:fragment="sidebar">
+    <nav id="sidebar" class="nav_wrap">
+        <div class="sidebar">
+
+            <ul>
+                <li><a href="mainBoard.do?kind=all&sort=recent"><i class="fa fa-home"></i>홈으로</a></li>
+            </ul>
+            <p class="px-3 text-center text-white mb-1">${ mem.mem_nickname }</p>
+            <div class="text-center text-warning">레벨 <span>${ mem.mem_level }</span></div>
+            <div class="progress ml-2 mr-2">
+                <div class="progress-bar bg-success text-dark" role="progressbar" style="width: ${ mem.mem_ex / (mem.mem_level * 150) * 100 }%"
+                     aria-valuenow="${ mem.mem_ex / (mem.mem_level * 150) * 100 }" aria-valuemin="0" aria-valuemax="100">
+                    ${ mem.mem_ex }</div>
+            </div>
+            <div class="text-center mb-1 text-danger">남은 경험치 ${ mem.mem_level * 150 - mem.mem_ex }</div>
+            <div class="row text-center">
+                <div class="col px-0 ml-3">
+                    <a href="mainBoard.do?kind=all&target=writer&search=${ mem.mem_nickname }"
+                       class="btn btn-secondary" role="button" aria-pressed="true">
+                        <i class="fa fa-sticky-note mr-1"></i>내가 쓴 글
+                    </a>
+                </div>
+                <div class="col px-0 mr-1">
+                    <a href="mainBoard.do?kind=bookmark"
+                       class="btn btn-secondary" role="button" aria-pressed="true">
+                        <i class="fa fa-bookmark mr-1"></i>북마크
+                    </a>
+                </div>
+            </div>
+            <ul class="mt-1">
+                <li><a href="logout.do"><i class="fa fa-sign-out"></i>로그아웃</a></li>
+            </ul>
+            <p class="px-3 ml-5"><i class="fa fa-newspaper-o mr-3"></i>정보</p>
+            <ul>
+                <li><a href="mainBoard.do?kind=600&sort=recent">공지사항</a></li>
+                <li><a href="mainBoard.do?kind=700&sort=recent">소식</a></li>
+            </ul>
+            <p class="px-3 ml-5"><i class="fa fa-list mr-3"></i>커뮤니티</p>
+            <ul>
+                <li><a href="mainBoard.do?kind=100&sort=recent">자유</a></li>
+                <li><a href="mainBoard.do?kind=200&sort=recent">유머</a></li>
+                <li><a href="mainBoard.do?kind=300&sort=recent">공포</a></li>
+                <li><a href="mainBoard.do?kind=400&sort=recent">만화</a></li>
+                <li><a href="mainBoard.do?kind=500&sort=recent">코로나 뉴스</a></li>
+            </ul>
+        </div>
+    </nav>
 </div>
-<footer class="container-fluid bg-dark" th:fragment="footer">
-    <div class="card mx-5 bg-warning">
+<footer class="container-fluid mt-5 footer" th:fragment="footer">
+    <div class="card mx-5">
         <div class="row mb-4 ">
             <div class="col-lg-4 col-md-7 col-sm-11 col-xs-11">
-                <div class="pull-left">
+                <div class="footer-text pull-left">
                     <div class="d-flex">
                         <h1 class="mr-2 px-3">
-                            <img width="50" height="50" src="../resource/images/index/yjfb_logo.png">
+                            <img width="50" height="50" src="resource/images/index/yjfb_logo.png">
                         </h1>
                         <h1 style="color: #957bda">YJFB</h1>
                     </div>
-                    <div class="card-text">
-                        <p class= "c__T">Make Wda Greate Again <br></p>
-                        <p> 조원용 강을찬 김경한 김진환 박호용 이승환 이주영 <br>
-                            소속: 영진전문대학교 컴퓨터정보계열 3WDA <br>
-                            대표 전화: 053-940-5114 <br>
-                            제휴/문의: support@hotplego.co.kr <br>
-                            대구광역시 북구 복현로 35
-                        </p>
+                    <p class="card-text">
+                        조원용 강을찬 김경한 김진환 박호용 이승환 이주영 <br>
+                        소속: 영진전문대학교 컴퓨터정보계열 3WDA <br>
+                        대표 전화: 053-940-5114 <br>
+                        제휴/문의: support@hotplego.co.kr <br>
+                        대구광역시 북구 복현로 35
+                    </p>
+                    <div class="social mt-2 mb-3">
+                        <i class="fa fa-facebook-official fa-lg"></i>
+                        <i class="fa fa-instagram fa-lg"></i>
+                        <i class="fa fa-twitter fa-lg"></i>
+                        <i class="fa fa-linkedin-square fa-lg"></i>
+                        <i class="fa fa-facebook"></i>
                     </div>
                 </div>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
-                <h4 class="pt-5 text-center">
-                    <i class="fa fa-facebook-official fa-lg"></i>
+                <h4 class="footer_heading pt-5 text-center">
+                    <a class="badge badge-dark" href="introduction.do">소개</a>
                 </h4>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
-                <h4 class="pt-5 text-center">
-                    <i class="fa fa-instagram fa-lg"></i>
+                <h4 class="footer_heading pt-5 text-center">
+                    <a class="badge badge-dark" href="tos.do">이용약관</a>
                 </h4>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
-                <h4 class="pt-5 text-center">
-                    <i class="fa fa-twitter fa-lg"></i>
+                <h4 class="footer_heading pt-5 text-center">
+                    <a class="badge badge-dark" href="policy.do">정보처리방침</a>
                 </h4>
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
-                <h4 class="pt-5 text-center">
-                    <i class="fa fa-linkedin-square fa-lg"></i>
+                <h4 class="footer_heading pt-5 text-center">
+                    <button class="badge badge-dark border-0" id="feedback">문의/피드백</button>
                 </h4>
             </div>
         </div>
-        <div class="mb-4"></div>
+
+        <div class="foot_divide mb-4"></div>
         <div class="row" style="font-size: 10px;">
             <div class="col-md-6 col-sm-6 col-xs-6">
                 <div class="pull-left">
@@ -155,7 +279,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-6">
-                <div class="pull-right mr-4 d-flex">
+                <div class="pull-right mr-4 d-flex policy">
                     <div>Terms of Use</div>
                     <div>Privacy Policy</div>
                     <div>Cookie Policy</div>

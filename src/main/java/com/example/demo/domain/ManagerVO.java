@@ -18,4 +18,5 @@ public class ManagerVO {
     private Timestamp regDate;
     private String mName;
     private String mAccount;
+    private String mBank;
 }

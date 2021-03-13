@@ -1,15 +1,44 @@
-$(function() {
-    if ($(window).width() < 975) {
-        $('div.sidebar').addClass('collapse')
-    } else {
-        $('div.sidebar').removeClass('collapse')
+function preloading(imageArray) {
+    let n = imageArray.length;
+    for (let i = 0; i < n; i++) {
+        let img = new Image();
+        img.src = imageArray[i];
     }
+};
 
-    $(window).bind("load resize", function() {
-        if ($(this).width() < 975) {
-            $('div.sidebar').addClass('collapse')
+preloading(['resource/images/index/다운로드.jfif', 'resource/images/index/다운로드.png' ]);
+
+$(function() {
+    if($('#content_main').width() === $('#content_add').width())
+        $('#add').attr('src', 'resource/images/index/다운로드.png');
+    else
+        $('#add').attr('src', 'resource/images/index/다운로드.jfif');
+
+
+    $(window).resize(function() {
+        if($('#content_main').width() === $('#content_add').width())
+            $('#add').attr('src', 'resource/images/index/다운로드.png');
+        else
+            $('#add').attr('src', 'resource/images/index/다운로드.jfif');
+    });
+
+
+
+    $(window).scroll(function() {
+        if(window.scrollY > $('html').height() - $('#sidebar').height() - $('footer').height() - $('header').children().outerHeight(true) ) {
+            $('#sidebar').css({
+                position: "absolute",
+                top: "calc(" + ($('#content').height() / 2 - $('#sidebar').height()) + "px + 3.5rem)"
+            });
         } else {
-            $('div.sidebar').removeClass('collapse')
+            $('#sidebar').css({
+                position: "fixed",
+                top: $('header').children().outerHeight(true) + "px"
+            });
         }
+    });
+
+    $('.dropdown div, .dropdown button').click(function(e) {
+        e.stopPropagation();
     });
 });

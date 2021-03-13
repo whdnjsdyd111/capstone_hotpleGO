@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
-import com.example.demo.domain.ManagerVO;
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.AdminVO;
+import com.example.demo.domain.ManagerVO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

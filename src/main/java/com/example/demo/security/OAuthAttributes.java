@@ -1,12 +1,9 @@
 package com.example.demo.security;
 
-import com.example.demo.domain.UserVO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Map;
 
 @Log4j2
