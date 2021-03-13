@@ -15,14 +15,4 @@ public class HomeController {
     public String alliance() {
         return "alliance";
     }
-
-    @GetMapping("/enrollment")
-    public String enrollment() {
-        return "enrollment";
-    }
-
-    @GetMapping("/popup/jusoPopup")
-    public String popup() {
-        return "jusoPopup";
-    }
 }

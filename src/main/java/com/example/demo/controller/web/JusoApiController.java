@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import org.osgeo.proj4j.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 @Log4j2
 @Controller
 public class JusoApiController {
-    @RequestMapping(value = "/popup/jusoPopup")
+    @GetMapping("/popup/jusoPopup")
+    public String jusoPopup() {
+        return "manager/jusoPopup";
+    }
+
+    @PostMapping(value = "/popup/jusoPopup")
     public String jusoPopup(HttpServletRequest request, Model model) {
         // request.setCharacterEncoding("EUC-KR");  //해당시스템의 인코딩타입이 EUC-KR일경우에
         // request.setCharacterEncoding("UTF-8");  //한글깨지면 주석제거

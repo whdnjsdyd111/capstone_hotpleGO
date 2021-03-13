@@ -104,27 +104,27 @@ $(function () {
     const header = $("meta[name='_csrf_header']").attr("content");
 
     $('#register').click(function () {
+        let formData = new FormData();
+        formData.append("busnNum", $('#business-id').val());
+        formData.append("busnName", $('#business-name').val());
+        formData.append("htAddr", $('#roadAddrPart1').val());
+        formData.append("htAddrDet", $('#addrDetail').val());
+        formData.append("htZip", $('#zipNo').val());
+        formData.append("htCont", $('#intro').val());
+        formData.append("htTel", $('#tel').val());
+        formData.append("upload", $('#pic')[0].files[0]);
+        formData.append("htLat", $('#lat').val());
+        formData.append("htLng", $('#lng').val());
+        formData.append("category", $('#kindD').val());
         $.ajax({
             type: "post",
             beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
                 xhr.setRequestHeader(header, token);
             },
-            contentType: "application/json;charset=UTF-8",
-            data: JSON.stringify({
-                busnNum: $('#business-id').val(),
-                busnName: $('#business-name').val(),
-                htAddr: $('#roadAddrPart1').val(),
-                htAddrDet: $('#addrDetail').val(),
-                htZip: $('#zipNo').val(),
-                htCont: $('#intro').val(),
-                htTel: $('#tel').val(),
-                htImg: $('#pic').val(),
-                htLat: $('#lat').val(),
-                htLng: $('#lng').val(),
-                category: $('#kindD').val()
-            }),
-            async: true, //동기, 비동기 여부
-            cache: false, // 캐시 여부
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            data: formData,
             url: "/manager/rest/comp-erm",
             success: function (data, status, xhr) {
                 alert(data);

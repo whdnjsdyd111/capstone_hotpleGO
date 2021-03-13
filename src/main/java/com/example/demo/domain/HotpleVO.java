@@ -1,10 +1,12 @@
 package com.example.demo.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class HotpleVO {
     private Long htId;
     private Long busnNum;
@@ -12,7 +14,7 @@ public class HotpleVO {
     private String busnName;
     private String htAddr;
     private String htAddrDet;
-    private int htZip;
+    private Long htZip;
     private String htCont;
     private Double goGrd;
     private Long htTel;
@@ -20,6 +22,6 @@ public class HotpleVO {
     private Double htLat;
     private Double htLng;
     private String uCode;
-    private int category;
+    private Long category;
     private String categoryName;
 }
