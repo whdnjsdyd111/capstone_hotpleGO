@@ -8,7 +8,7 @@
     <div th:replace="admin/layout::sidebar"></div>
     <div class="dashboard-content bg-light" layout:fragment="content">
         <div class="form-group">
-            <form method="post">
+            <form method="post" id="tmp-stop">
                 <h1 class="h3 mb-3 fw-normal">영업 임시중지</h1>
                 <label for="reason" class="visually-hidden">사유</label>
                 <input type="email" id="reason" class="form-control" placeholder="사유" required autofocus>

@@ -1,5 +1,14 @@
 @charset "UTF-8";
 
+ #tmp-stop{
+    width:500px;
+    margin: 0 auto;
+}
+#tmp-stop>input{
+    margin-bottom: 10px;
+    margin-top:10px
+}
+
 .container-fluid {
     background-color: #AA00FF;
 }

@@ -33,4 +33,13 @@ public class ManagerController {
         return "manager/menuManagement";
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "manager/test";
+    }
+
+    @GetMapping("/test2")
+    public String test2() {
+        return "manager/test2";
+    }
 }
