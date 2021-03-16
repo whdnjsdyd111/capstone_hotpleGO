@@ -128,19 +128,19 @@
                             <td style="text-align: left">
                                 <input type="hidden" class="form-control" id="confmKey" name="confmKey"
                                        value="devU01TX0FVVEgyMDIxMDMwOTIxNDAxNTExMDg5NDY="  >
-                                <input type="text" class="form-control" id="zipNo" name="zipNo" readonly style="display:inline;width:100px">
+                                <input type="text" class="form-control" id="zipNo" name="zipNo" required readonly style="display:inline;width:100px">
                                 <input type="button"  class="btn btn-outline-dark" value="주소검색" style="display: inline;height:100%;" onclick="goPopup();">
                             </td>
                         </tr>
                         <tr>
                             <th>도로명주소</th>
-                            <td><input type="text" class="form-control" id="roadAddrPart1" name="roadAddrPart1" style="width:85%;height: 100%"></td>
+                            <td><input type="text" class="form-control" id="roadAddrPart1" name="roadAddrPart1" required style="width:85%;height: 100%"></td>
                         </tr>
                         <tr>
                             <th>상세주소</th>
                             <td>
-                                <input type="text" class="form-control" id="addrDetail" name="addrDetail" style="width:40%" value="">
-                                <input type="text" class="form-control" id="roadAddrPart2" name="roadAddrPart2" style="width:40%" value="">
+                                <input type="text" class="form-control" id="addrDetail" name="addrDetail" required style="width:40%" value="">
+                                <input type="text" class="form-control" id="roadAddrPart2" name="roadAddrPart2" required  style="width:40%" value="">
                             </td>
                         </tr>
                         </tbody>
@@ -180,7 +180,9 @@
         }
     }
     function check_third(){
+        if(($('#intro').val().trim()!="")&&($('#tel').val().trim()!="")){
             next_slide();
+        }
     }
     /////////////////스와이퍼 관련 끝
     function kindChange(e) {
