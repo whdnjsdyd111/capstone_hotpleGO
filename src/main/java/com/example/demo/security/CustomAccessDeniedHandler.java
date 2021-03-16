@@ -20,6 +20,8 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
         log.warning("Redirect...");
 
+        log.warning(e.getMessage());
+
         response.sendRedirect("/accessError");
     }
 }

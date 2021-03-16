@@ -1,5 +1,8 @@
 package com.example.demo.controller.web;
 
+import com.example.demo.api.HotpleAPI;
+import com.example.demo.domain.EventVO;
+import com.example.demo.service.EventService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.AllianceService;
 import com.example.demo.service.web.FeedbackService;
@@ -11,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,6 +27,7 @@ public class AdminController {
     private final ChatLogService chatLog;
     private final UserService user;
     private final FeedbackService feedback;
+    private final EventService event;
 
     @GetMapping("/main")
     public String index() {
@@ -83,9 +88,48 @@ public class AdminController {
         return "admin/feedback";
     }
 
-    @GetMapping("/announce")
+    @GetMapping("/announceWrite")
     public String announce() {
+        return "admin/announceWrite";
+    }
+
+    @GetMapping("/announce/{code}")
+    public String announceContent(@PathVariable("code") String str, Model model) {
+        String code = HotpleAPI.strToCode(str);
+        if (code == null) return "redirect:/admin/announce";
+
+        EventVO vo = event.getEvent(code);
+        if (vo == null) {
+            return "redirect:/admin/announce";
+        }
+        model.addAttribute("event", vo);
+        return "admin/announceContent";
+    }
+
+    @GetMapping("/announce")
+    public String announceList(@RequestParam(value = "sort", defaultValue = "event") String sort, Model model) {
+        if (sort.equals("event")) {
+            model.addAttribute("events", event.getEventList());
+        } else if (sort.equals("announce")) {
+            model.addAttribute("events", event.getAnnounceList());
+        } else {
+            return "redirect:/admin/announce";
+        }
+        model.addAttribute("sort", sort);
         return "admin/announce";
+    }
+
+    @GetMapping("/announceUpdate/{code}")
+    public String announceUpdate(@PathVariable("code") String str, Model model) {
+        String code = HotpleAPI.strToCode(str);
+        if (code == null) return "redirect:/admin/announce";
+
+        EventVO vo = event.getEvent(code);
+        if (vo == null) {
+            return "redirect:/admin/announce";
+        }
+        model.addAttribute("event", vo);
+        return "admin/announceWrite";
     }
 
     @GetMapping("/reports")

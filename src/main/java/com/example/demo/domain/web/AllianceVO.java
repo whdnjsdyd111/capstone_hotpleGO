@@ -19,18 +19,4 @@ public class AllianceVO {
     private String email;
     private String phone;
     private String content;
-
-    public String toDateStr(String alcCode) {
-        SimpleDateFormat fromFm = new SimpleDateFormat("yyMMddHHmmss");
-        SimpleDateFormat toFm = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
-        String dateStr = null;
-        Date date = null;
-        try {
-            date = fromFm.parse(alcCode.split("/")[0]);
-            dateStr = toFm.format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return dateStr;
-    }
 }

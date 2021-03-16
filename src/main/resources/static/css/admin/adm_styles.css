@@ -55,3 +55,8 @@ caption {
     display: inline-block;
     max-width: 250px;
 }
+
+.board_article:hover {
+    background: #dee2e6;
+    cursor: pointer;
+}

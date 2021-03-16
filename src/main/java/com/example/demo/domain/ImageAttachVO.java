@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -18,8 +19,8 @@ public class ImageAttachVO {
     private String uploadPath;
     private String fileName;
 
-    public void upload(MultipartFile uploadFile) {
-        String uploadFolder = "C:\\upload";
+    public String upload(MultipartFile uploadFile) {
+        String uploadFolder = "C:\\hotple_manager";
 
         String uploadFolderPath = getFolder();
 
@@ -62,6 +63,13 @@ public class ImageAttachVO {
         } catch (Exception e) {
             log.info(e.getMessage());
         }
+
+        String url = uploadPath + "\\" + uploadFileName;
+        log.info(url);
+        String serverUrl = url.replaceFirst("C:\\\\hotple_manager", "hotpleImage");
+        serverUrl = serverUrl.replaceAll("\\\\", "/");
+        log.info(serverUrl);
+        return "http://localhost:8000/" + serverUrl;
     }
 
     private String getFolder() {

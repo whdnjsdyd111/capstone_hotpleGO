@@ -24,8 +24,16 @@
                                            th:value="${user.nick}" id="exampleInputPassword" name="nick" placeholder="Nick Name">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="date" class="form-control form-control-user"
-                                           id="exampleRepeatPassword" name="birthday">
+                                    <input type="text" class="form-control form-control-user" autocomplete="off"
+                                           id="datepicker" name="birthday">
+                                    <script>
+                                        $('#datepicker').datetimepicker({
+                                            timepicker: false,
+                                            format: 'Y-m-d',
+                                            language: 'ko',
+                                            autoclose: true
+                                        });
+                                    </script>
                                 </div>
                             </div>
                             <div class="form-group row">
