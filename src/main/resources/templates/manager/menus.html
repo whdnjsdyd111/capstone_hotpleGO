@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{manager/default}">
+<script layout:fragment="func" src="/css/manager/mg_menus.js"></script>
+<div layout:fragment="content">
+    <main>
+        <div id="sample" style="display:none;">
+            <input type="button" class="btn btn-primary" value="카테고리 삭제" onclick="remove_category(this)">
+            <section class="area2">
+                <ul>
+                    <li><input type="button" class="btn btn-primary" value="제목 수정"  data-toggle="modal" data-target="#second-Modal"></li>
+                    <li><h2>제목</h2></li>
+                    <li><input type="image" src="../resource/images/icon_circle_arr_down.jpg" alt="방향 화살표 아이콘" id="arr_popular" class="icon_arr">
+                        <script src="https://kit.fontawesome.com/2aaf2650b1.js" crossorigin="anonymous"></script></li>
+                </ul>
+                <section id="menu-sec" class="area4">
+                    <input type="button" class="btn btn-primary" id="test-btn" value="메뉴 추가" onclick="add_menu(this)">
+                    <div id="menu-div">
+                        <table  id="menu-tab" style="width:100%">
+                            <tbody>
+                            <tr>
+                                <td class="menu-text">
+                                    <input type="button" class="btn btn-primary" value="메뉴 수정" data-toggle="modal" data-target="#myModal">
+                                    <input type="button" class="btn btn-default" value="메뉴 삭제" onclick="remove_menu(this)">
+                                    <div ><h3>메뉴명</h3></div>
+                                    <div><h6>설명</h6></div>
+                                    <div >
+                                        <h6>???원</h6>
+                                    </div>
+                                </td>
+                                <td class="photo-area" >
+                                    <div class="image-container">
+                                        <img src="https://cdn.discordapp.com/attachments/792801331563331604/821185702032834580/KakaoTalk_20201226_035908568.jpg" alt="">
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+            <div class="area3"></div>
+        </div>
+        <div class="area3" style="border:0px;">
+            <input type="button" class="btn btn-primary" value="카테고리 추가" onclick="add_category(this)">
+        </div>
+        <div class="area3"></div>
+        <div id="field">
+
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">메뉴 수정</h4>
+                </div>
+                <div class="modal-body">
+                    <h5  >메뉴명</h5>
+                    <input type="text" id="menu-editing"  class="form-control editing"  >
+                    <h5  >메뉴 사진</h5>
+                    <input type="file" id="pic" class="form-control"  >
+                    <h5  >메뉴 가격</h5>
+                    <input type="text" id="price-editing"  class="form-control editing"  >
+                    <h5  >메뉴 설명</h5>
+                    <input type="text" id=expl-editing""  class="form-control editing"  >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------->
+    <div>
+        <div class="modal fade" id="second-Modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">카테고리 제목</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5 >메뉴명</h5>
+                        <input type="text"  class="form-control editing"  >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

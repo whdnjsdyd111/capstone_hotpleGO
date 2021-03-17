@@ -47,4 +47,14 @@ public class ManagerController {
     public String enrollment() {
         return "manager/enrollment";
     }
+
+    @GetMapping("/stop")
+    public String temporaryStop() {
+        return "manager/stop";
+    }
+
+    @GetMapping("/menus")
+    public String menuManagement() {
+        return "manager/menus";
+    }
 }
