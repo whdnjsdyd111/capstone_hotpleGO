@@ -31,6 +31,7 @@ public class CommonController {
         return "accessError";
     }
 
+
     @GetMapping("/login")
     public String login(@RequestParam(value = "err", required = false) String err, Model model) {
         String msg = "Log In!";
