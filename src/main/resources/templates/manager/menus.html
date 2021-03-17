@@ -3,6 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{manager/default}">
 <script layout:fragment="func" src="/css/manager/mg_menus.js"></script>
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/css/mg_menus.css" >
+</th:block>
 <div layout:fragment="content">
     <main>
         <div id="sample" style="display:none;">
