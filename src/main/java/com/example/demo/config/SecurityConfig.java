@@ -61,15 +61,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/admin/**").authorizeRequests()
                     .antMatchers("/admin/login").permitAll()
-                    .antMatchers("/admin/**").access("hasAuthority('A')");
+                    .antMatchers("/admin/main").access("hasAuthority('A')");
 
             http.formLogin().loginPage("/admin/login").loginProcessingUrl("/admin/login");
 
-            http.csrf().ignoringAntMatchers("/admin/rest/ck_upload");
-
-            http.logout().logoutUrl("/admin/logout").invalidateHttpSession(true)
+            http.logout().logoutUrl("/logout").invalidateHttpSession(true)
                     .deleteCookies("remember-me", "JSESSION_ID")
-                    .logoutSuccessUrl("/admin/login");
+                    .logoutSuccessUrl("/");
 
             http.rememberMe().key("hotpleGO")
                     .tokenRepository(repository)
@@ -86,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @RequiredArgsConstructor
     @Configuration
-    @Order(2)
+    @Order(3)
     public static class ManagerSecurityConfig extends WebSecurityConfigurerAdapter {
         private final CustomAccessDeniedHandler customAccessDeniedHandler;
         private final PersistentTokenRepository repository;
@@ -97,32 +95,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         }
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/manager/**").authorizeRequests()
-                    .antMatchers("/manager/register").permitAll()
-                    .antMatchers("/manager/login").permitAll()
-                    .antMatchers("/manager/main").permitAll()
-                    .antMatchers("/manager/**").access("hasAuthority('M')");
-
-            http.formLogin().loginPage("/manager/login").loginProcessingUrl("/manager/login");
-
-            http.logout().logoutUrl("/manager/logout").invalidateHttpSession(true)
-                    .deleteCookies("remember-me", "JSESSION_ID")
-                    .logoutSuccessUrl("/manager/main");
-
-            http.rememberMe().key("hotpleGO")
-                    .tokenRepository(repository)
-                    .tokenValiditySeconds(604800);
-
-            http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
-        }
     }
 
     @RequiredArgsConstructor
     @Configuration
-    @Order(3)
+    @Order(2)
     public static class UserSecurityConfig extends WebSecurityConfigurerAdapter {
         private final CustomAccessDeniedHandler customAccessDeniedHandler;
         private final CustomOAuth2UserService customOAuth2UserService;
@@ -136,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             http.authorizeRequests()
                     .antMatchers("/alliance").access("hasAuthority('B')");
 
-            http.csrf().ignoringAntMatchers("/popup/jusoPopup").ignoringAntMatchers("/test");
+            http.csrf().ignoringAntMatchers("/popup/jusoPopup");
 
             http.formLogin().loginPage("/login")
                     .loginProcessingUrl("/login");
