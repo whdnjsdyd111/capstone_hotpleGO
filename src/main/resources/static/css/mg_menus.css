@@ -49,3 +49,8 @@ main         { position:absolute;top:117px; width:540px; color:#6e6e6e; backgrou
 
 /* 펼침내용 */
 .area4			{ width:90%; margin:auto; line-height:2rem; transform:translateY(-20px); display:none; }
+
+#tmp-stop>input{
+    margin-bottom: 15px;
+}
+
