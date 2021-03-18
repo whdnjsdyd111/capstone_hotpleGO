@@ -69,3 +69,12 @@ caption {
     background: #dee2e6;
     cursor: pointer;
 }
+#tmp-stop>input{
+    margin-bottom: 10px;
+
+}
+#tmp-stop{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
