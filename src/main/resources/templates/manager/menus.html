@@ -7,15 +7,14 @@
     <link rel="stylesheet" href="/css/mg_menus.css" >
 </th:block>
 <div layout:fragment="content">
-    <main>
+    <main class="mt-5">
         <div id="sample" style="display:none;">
             <input type="button" class="btn btn-primary" value="카테고리 삭제" onclick="remove_category(this)">
             <section class="area2">
                 <ul>
                     <li><input type="button" class="btn btn-primary" value="제목 수정"  data-toggle="modal" data-target="#second-Modal"></li>
                     <li><h2>제목</h2></li>
-                    <li><input type="image" src="../resource/images/icon_circle_arr_down.jpg" alt="방향 화살표 아이콘" id="arr_popular" class="icon_arr">
-                        <script src="https://kit.fontawesome.com/2aaf2650b1.js" crossorigin="anonymous"></script></li>
+                    <li><i class="fa fa-arrow-circle-down icon_arr fa-5x" aria-hidden="true"></i></li>
                 </ul>
                 <section id="menu-sec" class="area4">
                     <input type="button" class="btn btn-primary" id="test-btn" value="메뉴 추가" onclick="add_menu(this)">

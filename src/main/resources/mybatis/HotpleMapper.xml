@@ -8,6 +8,12 @@
         SELECT * FROM hotple WHERE htAddr = #{str}
     </select>
 
+    <select id="selectByManager" resultType="HotpleVO">
+        SELECT htId, busnNum, goId, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, uploadPath, fileName, category
+        FROM hotple h JOIN image_attach i ON h.htImg = i.uuid
+        WHERE h.uCode = #{uCode}
+    </select>
+
     <insert id="insertBusn">
         INSERT INTO hotple (htId, busnNum, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, htLat, htLng, uCode, category)
         VALUES(seq_hot.NEXTVAL, #{busnNum}, #{busnName}, #{htAddr}, #{htAddrDet}, #{htZip}, #{htCont}, #{htTel},

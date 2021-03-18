@@ -31,7 +31,7 @@ function check_third() {
 }
 
 /////////////////스와이퍼 관련 끝
-function kindChange(e) {
+function kindChange(obj) {
     const food = ["한식", "일식", "중식", "양식", "분식", "패스트푸드", "뷔페"];
     const dessert = ["커피", "차/음료", "베이커리", "빙수"];
     const play = ["게임", "방탈출", "VR", "노래방", "스포츠", "쇼핑", "만들기", "놀이공원"];
@@ -39,29 +39,30 @@ function kindChange(e) {
     const watch = ["영화", "전시회", "책", "공연", "스포츠"];
     const walk = ["테마", "문화재", "풍경", "시장", "공원"];
     let i = 0;
+    let d;
+
     const target = document.getElementById("kindD");
 
-    if (e.value == "food") {
-        var d = food;
-    } else if (e.value == "dessert") {
-        var d = dessert;
+    if (obj.value === "food") {
+        d = food;
+    } else if (obj.value === "dessert") {
+        d = dessert;
         i += 10;
-    } else if (e.value == "play") {
-        var d = play;
+    } else if (obj.value === "play") {
+        d = play;
         i += 20;
-    } else if (e.value == "drink") {
-        var d = drink;
+    } else if (obj.value === "drink") {
+        d = drink;
         i += 30;
-    } else if (e.value == "watch") {
-        var d = watch;
+    } else if (obj.value === "watch") {
+        d = watch;
         i += 40;
-    } else if (e.value == "walk") {
-        var d = walk;
+    } else if (obj.value === "walk") {
+        d = walk;
         i += 50;
     }
 
     target.options.length = 0;
-
     let num = 0;
     for (x in d) {
         let opt = document.createElement("option");

@@ -46,4 +46,8 @@ public class HotpleAPI {
         }
         return builder.toString();
     }
+
+    public static String replaceSlash(String url) {
+        return url.replaceAll("\\\\", "/");
+    }
 }

@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class HotpleService {
     @Setter(onMethod_ = @Autowired)
@@ -13,6 +15,10 @@ public class HotpleService {
 
     public HotpleVO getIdByAddr(String addr) {
         return mapper.readAddr(addr);
+    }
+
+    public List<HotpleVO> getByUCode(String uCode) {
+        return mapper.selectByManager(uCode);
     }
 
     public boolean registerBusn(HotpleVO vo) {

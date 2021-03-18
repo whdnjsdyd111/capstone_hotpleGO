@@ -1,9 +1,12 @@
 package com.example.demo.controller.web;
 
+import com.example.demo.security.CustomUser;
+import com.example.demo.service.HotpleService;
 import com.example.demo.service.UserService;
 import com.example.demo.domain.ManagerVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import java.text.SimpleDateFormat;
 @Log4j2
 public class ManagerController {
     private final UserService user;
+    private final HotpleService hotple;
 
     @GetMapping("/register")
     public String registerManager() {
@@ -56,5 +60,12 @@ public class ManagerController {
     @GetMapping("/menus")
     public String menuManagement() {
         return "manager/menus";
+    }
+
+    @GetMapping("/myShop")
+    public String myShop(Model model, @AuthenticationPrincipal CustomUser manager) {
+//        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
+        model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd1111@naver.com/M/"));
+        return "manager/myShop";
     }
 }
