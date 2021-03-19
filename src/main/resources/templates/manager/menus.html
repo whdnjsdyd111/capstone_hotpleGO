@@ -12,8 +12,8 @@
             <input type="button" class="btn btn-primary" value="카테고리 삭제" onclick="remove_category(this)">
             <section class="area2">
                 <ul>
-                    <li><input type="button" class="btn btn-primary" value="제목 수정"  data-toggle="modal" data-target="#second-Modal"></li>
-                    <li><h2>제목</h2></li>
+                    <li><input type="button" class="btn btn-primary" value="제목 수정"  onclick="menu_title_modify_open(this)" data-toggle="modal" data-target="#second-Modal"></li>
+                    <li><h2 class="category-title">제목</h2></li>
                     <li><i class="fa fa-arrow-circle-down icon_arr fa-5x" aria-hidden="true"></i></li>
                 </ul>
                 <section id="menu-sec" class="area4">
@@ -23,12 +23,13 @@
                             <tbody>
                             <tr>
                                 <td class="menu-text">
-                                    <input type="button" class="btn btn-primary" value="메뉴 수정" data-toggle="modal" data-target="#myModal">
+                                    <input type="button" class="btn btn-primary" value="메뉴 수정" onclick="menu_modify_open(this)" data-toggle="modal" data-target="#myModal">
                                     <input type="button" class="btn btn-default" value="메뉴 삭제" onclick="remove_menu(this)">
-                                    <div ><h3>메뉴명</h3></div>
-                                    <div><h6>설명</h6></div>
+                                    <div ><h3 class="menu-title">메뉴명</h3></div>
+                                    <div><h6 class="menu-hashtag">해쉬태그</h6></div>
+                                    <div><h6 class="menu-expl">설명</h6></div>
                                     <div >
-                                        <h6>???원</h6>
+                                        <h6 class="menu-price">???원</h6>
                                     </div>
                                 </td>
                                 <td class="photo-area" >
@@ -46,8 +47,9 @@
         </div>
         <div class="area3" style="border:0px;">
             <input type="button" class="btn btn-primary" value="카테고리 추가" onclick="add_category(this)">
+            <input type="button" class="btn btn-primary" value="저장" style="float: right;">
         </div>
-        <div class="area3"></div>
+        <div class="area3" style="border: 0px;"></div>
         <div id="field">
 
         </div>
@@ -63,17 +65,19 @@
                 </div>
                 <div class="modal-body">
                     <h5  >메뉴명</h5>
-                    <input type="text" id="menu-editing"  class="form-control editing"  >
+                    <input type="text" id="menu-title-editing"  class="form-control editing"  required>
+                    <h5  >메뉴 해쉬태그</h5>
+                    <input type="text" id="hashtag-editing"  placeholder="예)#국물요리#칼칼한#따뜻한" class="form-control editing"  required>
                     <h5  >메뉴 사진</h5>
                     <input type="file" id="pic" class="form-control"  >
-                    <h5  >메뉴 가격</h5>
-                    <input type="text" id="price-editing"  class="form-control editing"  >
                     <h5  >메뉴 설명</h5>
-                    <input type="text" id=expl-editing""  class="form-control editing"  >
+                    <input type="text" id="expl-editing"  class="form-control editing"  required>
+                    <h5  >메뉴 가격</h5>
+                    <input type="text" id="price-editing"  class="form-control editing"  required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submit_menu()">확인</button>
                 </div>
             </div>
         </div>
@@ -89,11 +93,11 @@
                     </div>
                     <div class="modal-body">
                         <h5 >메뉴명</h5>
-                        <input type="text"  class="form-control editing"  >
+                        <input type="text"  id="category-editing" class="form-control editing" required >
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">확인</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="submit_menu_title()">확인</button>
                     </div>
                 </div>
             </div>

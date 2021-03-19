@@ -40,23 +40,26 @@ function remove_category(obj){
 }
 function menu_title_modify_open(obj){
     menu=$(obj).parent().parent();
-    $('#category-editing').val("")
+    $('#category-editing').val(menu.find('.category-title').text());
 }
 function submit_menu_title(){
-    menu.find('.category-title').text($('#category-editing').val())
+    menu.find('.category-title').text($('#category-editing').val());
     $('#second-Modal').modal('hide');
 }
 
 function menu_modify_open(obj){
     menu=$(obj).parent();
-    $('#menu-title-editing').val("")
-    $('#expl-editing').val("")
-    $('#price-editing').val("")
+    $('#menu-title-editing').val(menu.find('.menu-title').text());
+    $('#expl-editing').val(menu.find('.menu-expl').text());
+    $('#price-editing').val(menu.find('.menu-price').text());
+    $('#hashtag-editing').val(menu.find('.menu-hashtag').text());
 }
 
+
 function submit_menu(){
-    menu.find('.menu-title').text($('#menu-title-editing').val())
-    menu.find('.menu-expl').text($('#expl-editing').val())
-    menu.find('.menu-price').text($('#price-editing').val())
+    menu.find('.menu-title').text($('#menu-title-editing').val());
+    menu.find('.menu-hashtag').text($('#hashtag-editing').val());
+    menu.find('.menu-expl').text($('#expl-editing').val());
+    menu.find('.menu-price').text($('#price-editing').val());
     $('#myModal').modal('hide');
 }
