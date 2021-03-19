@@ -41,6 +41,8 @@ $(function() {
         formData.append("htCont", $('#introduction' + htId).text());
         formData.append("htTel", $('#phone' + htId).val());
         formData.append("htImg", $('#htImg' + htId).val());
+        formData.append("uploadPath", $('#uploadPath' + htId).val());
+        formData.append("fileName", $('#fileName' + htId).val());
         formData.append("upload", $('#upload' + htId)[0].files[0]);
         formData.append("category", $('#kindD' + htId).val());
         $.ajax({

@@ -2,6 +2,7 @@ package com.example.demo.controller.web;
 
 import com.example.demo.domain.HotpleVO;
 import com.example.demo.domain.ImageAttachVO;
+import com.example.demo.domain.MenuVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.HotpleService;
 import com.example.demo.service.ImageAttachService;
@@ -71,6 +72,7 @@ public class ManagerRestController {
         if (upload != null) {
             imageAttachVO.upload(upload);
             hotple.updateWithImage(vo, imageAttachVO);
+            imageAttachVO.deleteFiles(vo.getHtImg(), vo.getUploadPath(), vo.getFileName());
         } else {
             if (!hotple.update(vo)) {
                 return new ResponseEntity<>("다시 시도해 주십시오.", HttpStatus.BAD_REQUEST);
@@ -86,5 +88,11 @@ public class ManagerRestController {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("삭제 완료하였습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/menu-add")
+    @ResponseBody
+    public ResponseEntity<MenuVO> menuAdd(MenuVO vo, MultipartFile upload) {
+        return new ResponseEntity<>(vo, HttpStatus.OK);
     }
 }

@@ -8,6 +8,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -80,5 +83,21 @@ public class ImageAttachVO {
         String str = sdf.format(date);
 
         return str.replace("-", File.separator);
+    }
+
+    public void deleteFiles(String uuid, String uploadPath, String fileName) {
+        try {
+            Path file = Paths.get("C:\\hotple_manager\\" + uploadPath + "\\" + uuid + "_" + fileName);
+
+            Files.deleteIfExists(file);
+
+            if(Files.probeContentType(file).startsWith("image")) {
+                Path thumbNail = Paths.get("C:\\hotple_manager\\" + uploadPath + "\\s_" + uuid + "_" + fileName);
+                Files.delete(thumbNail);
+            }
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+        log.info("삭제됨");
     }
 }

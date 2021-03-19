@@ -33,13 +33,13 @@ public class ManagerController {
             vo.setBirth(new SimpleDateFormat("yyyy-MM-dd").parse(birth));
         } catch (ParseException e) {
             model.addAttribute("manager", vo);
-            return "register";
+            return "manager/register";
         }
 
         log.info(vo);
         vo.setUCode(vo.getUCode() + "/M/");
 
-        return user.registerManager(vo) ? "redirect:login" : "error_page";
+        return user.registerManager(vo) ? "redirect:/manager/login" : "error_page";
     }
 
     @GetMapping("/login")
@@ -57,8 +57,13 @@ public class ManagerController {
         return "manager/stop";
     }
 
-    @GetMapping("/menus")
+    @GetMapping("/menu")
     public String menuManagement() {
+        return "manager/menu";
+    }
+
+    @GetMapping("/menus")
+    public String menusManagement() {
         return "manager/menus";
     }
 
