@@ -124,12 +124,11 @@ $(function () {
             },
             processData: false,
             contentType: false,
-            dataType: 'json',
             data: formData,
             url: "/manager/rest/comp-erm",
             success: function (data, status, xhr) {
                 alert(data);
-                self.location.reload();
+                location.href = "/manager/myShop";
             },
             error: function (xhr, status, err) {
                 alert(xhr.responseText);

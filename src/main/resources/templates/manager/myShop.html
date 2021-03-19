@@ -10,49 +10,60 @@
     <section th:each="hotple : ${hotples}">
         <div class="d-flex justify-content-center">
             <div class="form-group bg-primary pt-5 pr-5 pl-5 pb-3 mt-5 col-xl-6 col-lg-9 col-md-12 text-white">
-                <img th:src="'http://localhost:8000/hotpleImage/' + ${#hotpleAPI.replaceSlash(hotple.uploadPath)}
-                        + |/*{hotple.htImg}_*{hotple.fileName}|" alt="이미지가 없습니다." class="img-fluid rounded">
+                <div class="d-flex justify-content-center">
+                    <img th:src="'http://localhost:8000/hotpleImage/' + ${#hotpleAPI.replaceSlash(hotple.uploadPath)}
+                            + |/*{hotple.htImg}_*{hotple.fileName}|" alt="이미지가 없습니다." class="img-fluid rounded">
+                </div>
+                <input type="hidden" th:value="${hotple.htImg}" th:id="|htImg*{hotple.htId}|">
                 <br/>
-                <label for="busn-name">업체명</label>
-                <input type="text" id="busn-name" class="form-control" th:value="${hotple.busnName}">
+                <label th:for="|busn-name*{hotple.htId}|">업체명</label>
+                <input type="text" th:id="|busn-name*{hotple.htId}|" class="form-control" th:value="${hotple.busnName}">
                 <button type="button" class="btn btn-dark collapsed mt-3 mb-3 col" data-toggle="collapse"
                         th:data-target="'#hotple' + ${hotple.htId}" aria-expanded="false" onclick="changeText(this)">펼치기</button>
                 <div class="collapse" th:id="|hotple*{hotple.htId}|">
-                    <label for="busn-num">사업자등록번호</label>
-                    <input type="text" id="busn-num" class="form-control" th:value="${hotple.busnNum}">
-                    <label for="roadAddrPart1">도로명 주소</label>
-                    <input type="text" id="roadAddrPart1" class="form-control" th:value="${hotple.htAddr}" readonly>
-                    <button type="button" class="btn btn-dark mt-2 mb-2" onclick="goPopup()">주소 검색</button><br>
-                    <label for="addrDetail">상세 주소</label>
-                    <input type="text" id="addrDetail" class="form-control" th:value="${hotple.htAddrDet}">
-                    <label for="zipNo">우편번호</label>
-                    <input type="text" id="zipNo" class="form-control" th:value="${hotple.htZip}" readonly>
-                    <label for="introduction">소개 글</label>
-                    <textarea id="introduction" class="form-control" style="resize: none" th:text="${hotple.htCont}"></textarea>
-                    <label for="phone">업체 연락처</label>
-                    <input type="text" id="phone" class="form-control" th:value="${hotple.htTel}">
-                    <label for="category">카테고리</label>
-                    <input type="text" id="category" class="form-control" th:value="${hotple.ttKind}">
-                    <div>
-                        <select class="form-control"  id="kindU" name="kindU" onchange="kindChange(this)" style="width: auto;">
-                            <option>선택해주세요</option>
-                            <option value="food">먹거리</option>
-                            <option value="dessert">디저트</option>
-                            <option value="play">놀이/취미</option>
-                            <option value="drink">음주</option>
-                            <option value="watch">보기</option>
-                            <option value="walk">걷기</option>
-                        </select>
-                        <select class="form-control"  id="kindD" name="kindD" style="width: auto;">
-                            <option>선택해주세요.</option>
-                        </select>
-                        <script>
-                            initKind(11);
-                        </script>
+                    <label th:for="|busn-num*{hotple.htId}|">사업자등록번호</label>
+                    <input type="text" th:id=|busn-num*{hotple.htId}| class="form-control" th:value="${hotple.busnNum}" maxlength="10">
+                    <label th:for="|roadAddrPart1*{hotple.htId}|" class="mt-2">도로명 주소</label>
+                    <input type="text" th:id="|roadAddrPart1*{hotple.htId}|" class="form-control" th:value="${hotple.htAddr}" readonly>
+                    <button type="button" class="btn btn-dark mt-2" th:onclick="'goPopup(' + ${hotple.htId} + ')'">주소 검색</button><br>
+                    <label th:for="|addrDetail*{hotple.htId}|" class="mt-2">상세 주소</label>
+                    <input type="text" th:id="|addrDetail*{hotple.htId}|" class="form-control" th:value="${hotple.htAddrDet}">
+                    <label th:for="|zipNo*{hotple.htId}|" class="mt-2">우편번호</label>
+                    <input type="text" th:id="|zipNo*{hotple.htId}|" class="form-control" th:value="${hotple.htZip}" readonly>
+                    <label th:for="|introduction*{hotple.htId}|" class="mt-2">소개 글</label>
+                    <textarea th:id="|introduction*{hotple.htId}|" class="form-control" style="resize: none" th:text="${hotple.htCont}"></textarea>
+                    <label th:for="|phone*{hotple.htId}|" class="mt-2">업체 연락처</label>
+                    <input type="text" th:id="|phone*{hotple.htId}|" class="form-control" th:value="${hotple.htTel}">
+                    <label class="mt-2">카테고리</label>
+                    <div class="form-inline">
+                        <div class="form-group col-6 pr-1 p-0">
+                            <select class="form-control col"  th:id="|kindU*{hotple.htId}|" name="kindU" onchange="kindChange(this)" style="width: auto;">
+                                <option>선택해주세요</option>
+                                <option value="food">먹거리</option>
+                                <option value="dessert">디저트</option>
+                                <option value="play">놀이/취미</option>
+                                <option value="drink">음주</option>
+                                <option value="watch">보기</option>
+                                <option value="walk">걷기</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6 pl-1 p-0">
+                            <select class="form-control col"  th:id="|kindD*{hotple.htId}|" name="kindD" style="width: auto;">
+                                <option>선택해주세요.</option>
+                            </select>
+                            <script>
+                                initKind([[${hotple.category}]], [[${hotple.htId}]]);
+                            </script>
+                        </div>
+                    </div>
+                    <div class="custom-file mt-2">
+                        <input type="file" class="custom-file-input" th:id="|upload*{hotple.htId}|" accept="image/png, image/jpeg, image/jfif">
+                        <label class="custom-file-label" th:for="|upload*{hotple.htId}|">새로 수정할 이미지를 선택하십시오.</label>
                     </div>
                     <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-danger">업체 삭제</button>
-                        <button class="btn btn-warning">업체 수정</button>
+                        <button class="btn btn-danger delete_shop">업체 삭제</button>
+                        <input type="hidden" th:value="${hotple.htId}">
+                        <button class="btn btn-warning update_shop">업체 수정</button>
                     </div>
                 </div>
             </div>

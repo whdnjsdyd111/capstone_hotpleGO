@@ -1,7 +1,9 @@
 package com.example.demo.mapper;
 
 import com.example.demo.domain.HotpleVO;
+import com.example.demo.domain.ImageAttachVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,4 +16,10 @@ public interface HotpleMapper {
     public int insertBusn(HotpleVO vo);
 
     public int insertBusnGo(HotpleVO vo);
+
+    public void updateWithImage(@Param("hotple") HotpleVO hotple, @Param("image") ImageAttachVO image);
+
+    public int update(HotpleVO vo);
+
+    public int delete(HotpleVO vo);
 }

@@ -63,4 +63,28 @@ public class ManagerRestController {
             }
         }
     }
+
+    @PostMapping("/comp-update")
+    @ResponseBody
+    public ResponseEntity<String> companyUpdate(HotpleVO vo, MultipartFile upload) {
+        ImageAttachVO imageAttachVO = new ImageAttachVO();
+        if (upload != null) {
+            imageAttachVO.upload(upload);
+            hotple.updateWithImage(vo, imageAttachVO);
+        } else {
+            if (!hotple.update(vo)) {
+                return new ResponseEntity<>("다시 시도해 주십시오.", HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<>("수정 완료되었습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/comp-delete")
+    @ResponseBody
+    public ResponseEntity<String> companyDelete(@RequestBody HotpleVO vo) {
+        if (!hotple.remove(vo)) {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("삭제 완료하였습니다.", HttpStatus.OK);
+    }
 }
