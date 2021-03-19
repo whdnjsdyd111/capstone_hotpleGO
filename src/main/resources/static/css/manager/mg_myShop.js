@@ -65,7 +65,7 @@ $(function() {
     $("input[type='file']").change(function() {
         $(this).next().html($(this)[0].files[0].name);
     });
-})
+});
 
 let cur_btn = null;
 

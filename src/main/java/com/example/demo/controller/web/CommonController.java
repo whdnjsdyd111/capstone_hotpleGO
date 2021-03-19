@@ -40,49 +40,49 @@ public class CommonController {
         }
         model.addAttribute("msg", msg);
 
-        return "login";
+        return "user/login";
     }
 
     @GetMapping("/logout")
     public String logoutGET() {
         log.info("custom logout");
 
-        return "index";
+        return "user/index";
     }
 
     @PostMapping("/logout")
     public String logoutPost() {
         log.info("post custom logout");
 
-        return "index";
+        return "user/index";
     }
 
     @GetMapping("/register")
     public String register() {
-        return "register";
+        return "user/register";
     }
 
     @GetMapping("/oauth2_subscription")
     public String subscription(Model model) {
         if (session.getAttribute("OAuthUser") == null) {
-            return "login";
+            return "user/login";
         }
         model.addAttribute("user", (UserVO) session.getAttribute("OAuthUser"));
         session.removeAttribute("OAuthUser");
-        return "subscription";
+        return "user/subscription";
     }
 
     @PostMapping("/subscription")
     public String subscription(UserVO vo, @RequestParam("repeatPw") String repeatPw, Model model) {
         if (!vo.getPw().equals(repeatPw)) {
             model.addAttribute("msg", "Passwords do not match.");
-            return "register";
+            return "user/register";
         } else if (user.getByEmail(vo.getUCode()) != null) {
             model.addAttribute("msg", "This email has already been signed up.");
-            return "register";
+            return "user/register";
         }
         model.addAttribute("user", vo);
-        return "subscription";
+        return "user/subscription";
     }
 
     @PostMapping("/registerComplete")
@@ -91,7 +91,7 @@ public class CommonController {
             vo.setBirth(new SimpleDateFormat("yyyy-MM-dd").parse(birth));
         } catch (ParseException e) {
             model.addAttribute("user", vo);
-            return "subscription";
+            return "user/subscription";
         }
 
         String socialType = null;

@@ -150,7 +150,10 @@ button:hover {
 }
 .Goanb {
     padding: 70px 0px;
-    width: 90%;
+}
+
+.top-div {
+    height: 79.36px;
 }
 
 .Idbxz {
@@ -232,14 +235,12 @@ input {
     align-items: center;
     background-color: gainsboro;
     bottom: 0;
-    color: #666666;
-    display: flex;
+    color: #D8D8D8;
     font-size: 1em;
-    height: 200px;
     justify-content: center;
-    position:fixed;
     text-transform: uppercase;
     width: 100%;
+    height: 100%;
     z-index: 1;
 }
 
@@ -471,3 +472,6 @@ form.user .btn-user {
     content: 'K';
 }
 
+.btn-facebook:visited, .btn-google:visited, .btn-naver:visited, .btn-kakako:visited {
+    color: white;
+}

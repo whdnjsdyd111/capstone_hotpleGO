@@ -2,7 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{manager/default}">
-<script layout:fragment="func" src="/css/manager/index.js"></script>
+<th:block layout:fragment="styles">
+    <script src="/css/manager/index.js"></script>
+</th:block>
+
 <div layout:fragment="content">
     <form autocomplete="off" class="mx-auto my-5" action="/manager/login" method="post">
         <h1 class="text-center text-dark font-weight-bold my-3">로그인</h1>

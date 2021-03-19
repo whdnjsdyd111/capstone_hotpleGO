@@ -8,11 +8,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String index() {
-        return "index";
+        return "user/index";
     }
 
     @GetMapping("/alliance")
     public String alliance() {
-        return "alliance";
+        return "user/alliance";
     }
 }

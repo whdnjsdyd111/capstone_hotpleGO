@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{admin/default}">
-<script layout:fragment="func" src="/css/admin/adm_feed.js"></script>
+<th:block layout:fragment="styles">
+    <script src="/css/admin/adm_feed.js"></script>
+</th:block>
 <div layout:fragment="content">
     <h2 class="mb-3">피드백 처리</h2>
     <div class="container pl-0">

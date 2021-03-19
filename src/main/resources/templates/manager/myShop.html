@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{manager/default}">
-<script layout:fragment="func" src="/css/manager/mg_myShop.js"></script>
 <th:block layout:fragment="styles">
     <link rel="stylesheet" href="/css/mg_myShop.css" >
+    <script src="/css/manager/mg_myShop.js"></script>
 </th:block>
 <div layout:fragment="content">
     <section th:each="hotple : ${hotples}">
@@ -69,5 +69,14 @@
             </div>
         </div>
     </section>
+    <th:block th:if="${hotples.size() == 0}">
+        <div class="jumbotron">
+            <div class="display-4">업체를 등록해주세요!</div>
+            <hr class="my-4">
+            <a href="/manager/enrollment" class="btn btn-dark">
+                <span>업체 등록하러 가기<span><i class="fa fa-caret-square-o-right ml-2" aria-hidden="true"></i>
+            </a>
+        </div>
+    </th:block>
 </div>
 </html>

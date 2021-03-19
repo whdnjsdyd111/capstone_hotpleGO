@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{admin/default}">
-<script layout:fragment="func" src="/css/admin/adm_announce.js"></script>
+<th:block layout:fragment="styles">
+    <script src="/css/admin/adm_announce.js"></script>
+</th:block>
 <div layout:fragment="content">
     <h2 class="mb-3">이벤트/공지</h2>
     <div class="flex-column">
@@ -20,7 +22,7 @@
             <ul class="navbar-nav nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/announceWrite">
-                <span><i class="fa fa-pencil mr-2"></i>글쓰기</span></a></li>
+                        <span><i class="fa fa-pencil mr-2"></i>글쓰기</span></a></li>
             </ul>
         </div>
 
@@ -87,7 +89,7 @@
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="${ board.board_date }">
                     <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
                             th:text="${#hotpleAPI.toDateStr(event.eveCode)}">
-					</button>
+                    </button>
                 </span>
             </div>
 
