@@ -73,4 +73,8 @@ public class ManagerController {
         model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd1111@naver.com/M/"));
         return "manager/myShop";
     }
+    @GetMapping("/test2")
+    public String test2() {
+        return "manager/test2";
+    }
 }
