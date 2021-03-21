@@ -1,7 +1,9 @@
 package com.example.demo.controller.web;
 
+import com.example.demo.domain.MenuVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.HotpleService;
+import com.example.demo.service.MenuService;
 import com.example.demo.service.UserService;
 import com.example.demo.domain.ManagerVO;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/manager/*")
@@ -21,6 +27,7 @@ import java.text.SimpleDateFormat;
 public class ManagerController {
     private final UserService user;
     private final HotpleService hotple;
+    private final MenuService menu;
 
     @GetMapping("/register")
     public String registerManager() {
@@ -57,13 +64,14 @@ public class ManagerController {
         return "manager/stop";
     }
 
-    @GetMapping("/menu")
-    public String menuManagement() {
-        return "manager/menu";
-    }
-
     @GetMapping("/menus")
-    public String menusManagement() {
+    public String menuManagement(Model model) {
+        List<MenuVO> list = menu.getList("5");
+        Map<String, List<MenuVO>> map = new HashMap<>();
+        list.forEach(l -> {
+            map.computeIfAbsent(l.getMeCate(), k -> new ArrayList<MenuVO>()).add(l);
+        });
+        model.addAttribute("menu_map", map);
         return "manager/menus";
     }
 
