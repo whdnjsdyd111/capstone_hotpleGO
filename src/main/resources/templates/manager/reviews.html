@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="manager/layout::head (HOTPLEGO-MANAGER)">
+</head>
+<head>
+    <style>
+        .review-edit{
+            float: right;
+            cursor: pointer;
+            color:#6d6d6d;
+            margin-left: 5px ;
+        }
+        .review-id, .owner-review-id {
+            color: #333 !important;
+            font-size: 16px !important;
+            font-weight: bold;
+        }
+        .reply-edit-off, .reply-edit-on{
+            color: #007bff;
+            cursor: pointer;
+            display: inline;
+        }
+        .reply-edit-off:hover, .reply-edit-on:hover{
+            text-decoration: underline
+        }
+
+
+        .reply-edit, .reply-text{
+            position: relative;
+            background: #f0f0f0;
+            padding: 16px 16px 10px 16px;
+            overflow: hidden;
+            margin: 15px;
+        }
+        .reply-text >* , .reply-edit>*{
+            margin-bottom: 10px;
+        }
+
+        .reply .btn-report {
+            top: 15px;
+        }
+
+        .modal-body > *{
+            margin-bottom: 30px;
+
+        }
+
+        .review-list .list-group-item {
+            padding: 20px 16px 16px 16px;
+        }
+
+        .order-items {
+            color: #d1bca4;
+            font-size: 12px;
+            padding-right: 15px;
+            margin-top: 10px;
+        }
+
+        .review-count strong {
+            color: #333;
+        }
+
+        .review-count {
+            position: relative;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            background: #fff;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .review-count > div {
+            padding: 16px;
+            border-top: 8px solid #fafafa;
+        }
+
+        .star-point-list {
+            float: left;
+            margin: -4px 0 0 20px;
+            padding: 0;
+            min-width: 120px;
+        }
+
+        .star-point-wrap > .inner {
+            width: 300px;
+            margin: 0 auto;
+        }
+
+        .restaurant-star-point {
+            float: left;
+            border-right: 1px solid #e0e0e0;
+            min-width: 100px;
+            padding-right: 15px;
+            height: 54px;
+            text-align: center;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .restaurant-star-point strong {
+            color: #333;
+            font-size: 48px;
+            margin-top: -5px;
+            font-family: arial;
+            font-weight: normal;
+            line-height: 1;
+            display: block;
+        }
+
+        .restaurant-star-point .star-point {
+            margin-top: -7px;
+            display: block;
+        }
+
+        .star-point-wrap {
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            background: #fff;
+            height: 102px;
+            padding: 24px 15px 0 15px;
+            box-sizing: border-box;
+            min-width: 300px;
+            margin: 0 auto;
+        }
+
+        .star-point > span {
+            font-size: 12px !important;
+        }
+
+        .star-point .full {
+            color: #ffa400 !important;
+            padding-right: 1px !important;
+            letter-spacing: 0 !important;
+            font-size: 14px !important;
+        }
+
+        .star-point .empty {
+            color: #e0e0e0 !important;
+            padding-right: 1px !important;
+            letter-spacing: 0 !important;
+            font-size: 14px !important;
+        }
+
+        .star-point > span {
+            font-size: 12px;
+        }
+
+        .star-point .full {
+            color: #ffa400;
+            padding-right: 1px;
+            letter-spacing: 0;
+            font-size: 14px;
+        }
+
+        .star-point .points {
+            color: #343434;
+            padding-right: 1px;
+            letter-spacing: 0;
+            font-size: 12px !important;
+        }
+
+        .review-list .star-point .points {
+            color: #ffa400;
+            font-weight: bold;
+        }
+
+        .review-list .category-tit {
+            font-size: 12px !important;
+            padding-right: 0 !important;
+        }
+
+        .btn-report {
+            color: #999;
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            top: 18px;
+            right: 16px;
+        }
+
+        .review-time {
+            color: #999 !important;
+            font-size: 12px !important;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container-fluid px-0">
+    <div th:replace="manager/layout::header"></div>
+    <div class="container-fluid" style="margin-top: 3.65rem !important">
+        <div class="row navbar navbar-expand-lg px-0">
+            <div th:replace="manager/layout::sidebar"></div>
+            <div id="content" class="col-xl-9 col-lg-9 row px-0 mt-0 mx-0">
+                <div id="content_main" class="col-xl-10 col-lg-12 px-0">
+                    <section>
+                        <th:block layout:fragment="content">
+                            <div  >
+                                <div class="star-point-wrap">
+                                    <div class="inner">
+                                        <div class="restaurant-star-point">
+                                            <!-- 전체 평균 -->
+                                            <strong >
+                                                4.5
+                                            </strong>
+                                            <span class="star-point">
+                                                <span class="full " >★</span>
+                                                <span class="empty " >★</span>
+                                            </span>
+                                        </div>
+                                        <ul class="star-point-list">
+                                            <!--5번 반복해서 각 점수별 몇명인지 표시 -->
+                                            <li >
+                                                <span class="category-tit">?점</span>
+                                                <span class="star-point">
+                                                    <span class="full" >★</span>
+                                                    <span class="points">사람수</span>
+                                                </span>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="review-count">
+                                    <div>
+                                        리뷰 <strong >숫자</strong>개·사장님댓글 <strong>숫자</strong>개
+                                        <label style="float:right;">
+                                            댓글 없는것만 보기
+                                            <input type="checkbox" checked data-toggle="toggle" data-size="xs">
+                                        </label>
+                                    </div>
+
+                                </div>
+                                <ul id="review" class="list-group review-list">
+
+                                    <!-- 리뷰 전체 시작 (리뷰 수만큼 반복) -->
+                                    <li class="list-group-item star-point" >
+                                        <div>
+                                            <span nclass="review-id">사용자명</span>
+                                            <span    class="review-time ">시간</span>
+
+                                            <a href="" class="btn-report"  data-toggle="modal" data-target="#report-modal" >신고</a>
+                                        </div>
+                                        <div>
+                                            <div class="star-point">
+                                                <!-- 별점 갯수 반복 -->
+                                                <span class="total">
+
+                                      </span>
+                                                <span class="category" >
+                                        <span class="full" >★</span>
+                                        <span class="points " >5</span>
+                                      </span>
+                                            </div>
+                                        </div>
+                                        <!-- 이미지 들어갈 곳 -->
+                                        <div class="order-items default " >
+                                            메뉴명
+                                        </div>
+                                        <p >리뷰 내용</p>
+                                        <div>
+                                            <p  class="reply-edit-off" onclick="reply_mode(this)">답글 달기</p>
+                                        </div>
+                                        <!-- 답글 달기 -->
+                                        <div class="reply-edit" style="display: none">
+                                            <div>
+                                                <span class="owner-review-id">사장님</span>
+                                                <span class="review-time">시간</span>
+
+                                            </div>
+                                            <textarea type="text"  class="form-control" placeholder="댓글 입력"></textarea>
+                                            <input type="button" class="btn btn-primary pull-right" value="등록" onclick="reply_submit(this)" >
+                                        </div> <!-- 답글 달기 끝 -->
+                                        <!-- 답글  -->
+                                        <div class="reply-text" style="display: none">
+                                            <div>
+                                                <span class="owner-review-id">사장님</span>
+                                                <span class="review-time">시간</span>
+                                                <span class="review-edit" onclick="reply_modify(this)">수정</span>
+                                                <span class="review-edit" onclick="reply_delete(this)">삭제</span>
+                                            </div>
+                                            <span class="reply-content"></span>
+                                        </div> <!-- 답글 끝 -->
+                                    </li>
+                                    <!-- 리뷰 전체 끝 -->
+
+
+                                    <li class="list-group-item btn-more">
+                                        <a><span>더 보기<i class="arr-down"></i></span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--신고 모달 -->
+                            <div>
+                                <div class="modal fade" id="report-modal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">신고 내용</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h5>신고 사유</h5>
+                                                <select name="report-options" class="form-control" >
+                                                    <option value="ads">광고</option>
+                                                    <option value="obscene">음란</option>
+                                                    <option value="abuse">욕설</option>
+                                                    <option value="else">기타</option>
+                                                </select>
+                                                <input type="text"  id="report-content" class="form-control editing" placeholder="신고 내용" >
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal" >제출</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </th:block>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div th:replace="manager/layout::footer"></div>
+<script>
+
+    function reply_mode(obj){
+        if ($(obj).hasClass('reply-edit-off'))
+        {
+            $(obj).removeClass('reply-edit-off');
+            $(obj).addClass('reply-edit-on');
+            $(obj).parent().parent().find('.reply-edit').show();
+
+        } else {
+            $(obj).addClass('reply-edit-off');
+            $(obj).removeClass('reply-edit-on');
+            $(obj).parent().parent().find('.reply-edit').hide();
+        }
+    };
+    function reply_submit(obj){
+        const text=$(obj).parent().find('.form-control').val();
+        $(obj).parent().find('.form-control').val("");
+        $(obj).parent().parent().find('.reply-edit').hide();
+        $(obj).parent().parent().find('.reply-content').text(text);
+        $(obj).parent().parent().find('.reply-text').show();
+        $(obj).parent().parent().find('.reply-edit-on').hide();
+        $(obj).parent().parent().find('.reply-edit-on').addClass('reply-edit-off');
+        $(obj).parent().parent().find('.reply-edit-on').remove('reply-edit-on');
+    }
+    function reply_modify(obj){
+        const text= $(obj).parent().parent().find('.reply-content').text();
+        $(obj).parent().parent().parent().find('.reply-edit').show();
+        $(obj).parent().parent().parent().find('.form-control').val(text);
+        $(obj).parent().parent().parent().find('.reply-text').hide();
+    }
+    function reply_delete(obj){
+        $(obj).parent().parent().parent().find('.reply-content').text("");
+        $(obj).parent().parent().parent().find('.reply-text').hide();
+        $(obj).parent().parent().parent().find('.reply-edit-off').show();
+    }
+
+</script>
+</body>
+</html>
