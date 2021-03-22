@@ -3,13 +3,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{manager/default}">
 <th:block layout:fragment="styles">
-    <link rel="stylesheet" href="/css/mg_myShop.css" >
     <script src="/css/manager/mg_myShop.js"></script>
 </th:block>
 <div layout:fragment="content">
     <section th:each="hotple : ${hotples}">
         <div class="d-flex justify-content-center">
-            <div class="form-group bg-primary pt-5 pr-5 pl-5 pb-3 mt-5 col-xl-6 col-lg-9 col-md-12 text-white">
+            <div class="form-group bg-info pt-5 pr-5 pl-5 pb-3 mt-5 col-xl-6 col-lg-9 col-md-12 text-white" style="border-radius: 25px">
                 <div class="d-flex justify-content-center">
                     <img th:src="'http://localhost:8000/hotpleImage/' + ${#hotpleAPI.replaceSlash(hotple.uploadPath)}
                             + |/*{hotple.htImg}_*{hotple.fileName}|" alt="이미지가 없습니다." class="img-fluid rounded">

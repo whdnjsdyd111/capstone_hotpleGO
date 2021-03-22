@@ -10,13 +10,16 @@ import com.example.demo.security.CustomUser;
 import com.example.demo.service.web.ChatLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -35,8 +38,19 @@ public class AdminController {
     }
 
     @GetMapping("/login")
-    public String loginAdmin() {
+    public String loginAdmin(@AuthenticationPrincipal CustomUser admin) {
+        if (admin != null) return "redirect:/admin/main";
         return "admin/login";
+    }
+
+    @RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);
+
+        log.info("custom logout");
+        return "redirect:/admin/login";
     }
 
     @GetMapping("/statistics")
