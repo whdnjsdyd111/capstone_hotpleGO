@@ -237,7 +237,7 @@ function menu_append(obj, data) {
         '</td></tr></tbody></table>';
     $(obj).append(div);
 }
-
+//
 function add_category(category) {
     let div = '<div name="' + category +'" class="menu-div p-2 border-dark border rounded mb-5">' +
         '<input type="button" class="btn btn-danger delete-category" value="카테고리 삭제">' +
