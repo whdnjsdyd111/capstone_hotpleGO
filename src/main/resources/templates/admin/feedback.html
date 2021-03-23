@@ -10,10 +10,10 @@
     <div class="container pl-0">
         <div class="input-group">
             <div class="input-group-prepend">
-                <button class="btn btn-info"><a class="text-white" href="alliances">미처리 피드백</a></button>
+                <button class="btn btn-info"><a class="text-white" href="/admin/feedback">미처리 피드백</a></button>
             </div>
             <div class="input-group-append">
-                <button class="btn btn-primary"><a class="text-white" href="alliances?sort=processed">처리된 피드백</a></button>
+                <button class="btn btn-primary"><a class="text-white" href="/admin/feedback?sort=nonProcessed">처리된 피드백</a></button>
             </div>
         </div>
     </div>
@@ -22,7 +22,7 @@
             <div class="row d-flex justify-content-around my-3" th:each="feed : ${NFeedback}">
                 <div class="col-lg-6 col-sx-4 d-flex justify-content-around mb-2 mt-1">
                     <span th:text="${feed.UCode}">피드백 준 사용자</span>
-                    <span th:text="${feed.toDateStr(feed.feedCode)}">날짜</span>
+                    <span th:text="${#hotpleAPI.toDateStr(feed.feedCode)}">날짜</span>
                 </div>
                 <button class="btn btn-outline-dark watch_content">내용 보기</button>
                 <div class="d-none" th:text="${feed.feedCont}">내용</div>

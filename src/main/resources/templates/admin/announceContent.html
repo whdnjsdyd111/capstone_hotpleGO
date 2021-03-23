@@ -7,7 +7,6 @@
 </th:block>
 <div layout:fragment="content">
     <h2 class="mb-3">이벤트/공지</h2>
-    <script type="text/javascript" src="member/board/boardContent.js"></script>
     <div>
         <input type="hidden" th:value="${event.eveCode}" id="eveCode">
         <div class="col-12 p-3 border border-bottom-0 border-muted">
@@ -20,7 +19,7 @@
             </div>
 
             <div class="col-lg-5 col-sm-6 px-0">
-                <span class="d-inline-block ml-3 my-1" tabindex="0" data-toggle="tooltip" title="${ board.board_date }">
+                <span class="d-inline-block ml-3 my-1">
                     <button class="btn" style="pointer-events: none;" type="button"
                             th:text="${#hotpleAPI.toDateStr(event.eveCode)}">
                     </button>

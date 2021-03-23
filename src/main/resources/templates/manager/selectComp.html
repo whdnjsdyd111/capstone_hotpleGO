@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{manager/default}">
+<th:block layout:fragment="styles">
+
+</th:block>
+<div layout:fragment="content">
+    <div class="d-flex py-3">
+        <h2 class="mx-auto">
+            업체 선택
+        </h2>
+    </div>
+    <section th:each="hotple : ${hotples}">
+        <div class="d-flex justify-content-center">
+            <div class="card bg-warning pt-5 pr-5 pl-5 pb-3 mt-5 col-xl-6 col-lg-9 col-md-12 text-white" style="border-radius: 25px">
+                <div class="d-flex justify-content-center">
+                    <img th:src="'http://localhost:8000/hotpleImage/' + ${#hotpleAPI.replaceSlash(hotple.uploadPath)}
+                            + |/*{hotple.htImg}_*{hotple.fileName}|" alt="이미지가 없습니다." class="img-fluid rounded">
+                </div>
+                <div class="d-flex mt-3">
+                    <label class="mx-auto" th:text="${hotple.busnName}">업체명</label>
+                </div>
+                <a th:href="|/manager/*{url}/*{hotple.htId}|" class="stretched-link"></a>
+            </div>
+        </div>
+    </section>
+    <th:block th:if="${hotples.size() == 0}">
+        <div class="jumbotron">
+            <div class="display-4">업체를 등록해주세요!</div>
+            <hr class="my-4">
+            <a href="/manager/enrollment" class="btn btn-dark">
+                <span>업체 등록하러 가기<span><i class="fa fa-caret-square-o-right ml-2" aria-hidden="true"></i>
+            </a>
+        </div>
+    </th:block>
+</div>
+</html>

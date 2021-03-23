@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{admin/default}">
+      layout:decorator="~{manager/default}">
 <th:block layout:fragment="styles">
-    <script src="/css/admin/adm_announce.js"></script>
+    <script src="/css/manager/mg_announce.js"></script>
 </th:block>
-<div layout:fragment="content">
-    <h2 class="mb-3">이벤트/공지</h2>
-    <div class="flex-column">
+<div class="mr-5" layout:fragment="content">
+    <div class="flex-column mt-5">
         <div id="board_nav_title" class="navbar navbar-expand flex-md-row navbar-light bg-light border border-bottom-0 border-dark">	<!-- 인기글 등의 메뉴, 검색, 글쓰기 기능 -->
             <h2 class="navbar-brand my-0">
                 <th:block th:switch="${sort}">
@@ -19,19 +18,14 @@
                     </th:block>
                 </th:block>
             </h2>
-            <ul class="navbar-nav nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/announceWrite">
-                        <span><i class="fa fa-pencil mr-2"></i>글쓰기</span></a></li>
-            </ul>
         </div>
 
         <div id="board_navbar" class="navbar navbar-expand navbar-light bg-secondary flex-md-row border border-primary">
 
             <ul class="navbar-nav nav mr-auto">
-                <li class="nav-item"><a class="nav-link px-3" href="/admin/announce?sort=event">
+                <li class="nav-item"><a class="nav-link px-3" href="/manager/announce?sort=event">
                     <i class="fa fa-gift mr-2"></i><span>이벤트</span></a><li>
-                <li class="nav-item"><a class="nav-link px-3" href="/admin/announce?sort=announce">
+                <li class="nav-item"><a class="nav-link px-3" href="/manager/announce?sort=announce">
                     <i class="fa fa-bullhorn mr-2"></i><span>공지사항</span></a><li>
             </ul>
 
@@ -77,8 +71,8 @@
 
             <div class="container col-3 d-flex flex-column px-0 text-center">
                 <div class="container">
-                    <div class="mx-auto">
-                        <i class="fa fa-user-circle mr-2"></i><span th:text="${event.AName}">닉네임</span>
+                    <div class="mx-auto" data-toggle="tooltip" data-placement="top" th:title="${event.AName}">
+                        <i class="fa fa-user-circle mr-2"></i><span>관리자</span>
                     </div>
                 </div>
 
@@ -91,23 +85,5 @@
 
         </article>
     </section>
-
-    <div class="container my-2">
-<!--        <c:if test="${ page == 1 && boardList.size() == 20 }">-->
-            <button type="button" class="btn btn-danger page ml-auto" value="${ page + 1 }">다음<i class="fa fa-chevron-right ml-2"></i></button>
-<!--        </c:if>-->
-
-<!--        <c:if test="${ page != 1 }">-->
-<!--            <c:if test="${ boardList.size() < 20 || boardList == null }">-->
-<!--                <button type="button" class="btn btn-danger page" value="${ page - 1 }"><i class="fa fa-chevron-left mr-2"></i>이전</button>-->
-<!--            </c:if>-->
-<!--            <c:if test="${ boardList.size() == 20 }">-->
-<!--                <button type="button" class="btn btn-danger page" value="${ page - 1 }"><i class="fa fa-chevron-left mr-2"></i>이전</button>-->
-<!--                <button type="button" class="btn btn-danger page ml-auto" value="${ page + 1 }">다음<i class="fa fa-chevron-right ml-2"></i></button>-->
-<!--            </c:if>-->
-<!--        </c:if>-->
-
-<!--        <input type="hidden" id="currentPage" value="${ page }">-->
-    </div>
 </div>
 </html>
