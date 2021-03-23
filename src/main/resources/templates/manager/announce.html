@@ -5,32 +5,30 @@
 <th:block layout:fragment="styles">
     <script src="/css/manager/mg_announce.js"></script>
 </th:block>
-<div layout:fragment="content">
-    <div>
-        <input type="hidden" th:value="${event.eveCode}" id="eveCode">
-        <div class="col-12 p-3 border border-bottom-0 border-muted">
-            <h2 th:text="${event.eveTitle}">제목</h2>
+<div class="mr-5" layout:fragment="content">
+    <input type="hidden" th:value="${event.eveCode}" id="eveCode">
+    <div class="col-12 p-3 border border-bottom-0 border-muted">
+        <h2 th:text="${event.eveTitle}">제목</h2>
+    </div>
+
+    <div class="row d-flex mx-0 border border-bottom-0 border-muted">
+        <div class="col-lg-7 col-sm-6 px-3 pt-2">
+        <i class="fa fa-user-circle mr-2"></i><span data-toggle="tooltip" data-placement="top" th:title="${event.AName}">관리자</span>
         </div>
 
-        <div class="row d-flex mx-0 border border-bottom-0 border-muted">
-            <div class="col-lg-7 col-sm-6 px-3 pt-2">
-            <i class="fa fa-user-circle mr-2"></i><span data-toggle="tooltip" data-placement="top" th:title="${event.AName}">관리자</span>
-            </div>
-
-            <div class="col-lg-5 col-sm-6 px-0">
-                <span class="d-inline-block ml-3 my-1">
-                    <button class="btn" style="pointer-events: none;" type="button"
-                            th:text="${#hotpleAPI.toDateStr(event.eveCode)}">
-                    </button>
-                </span>
-                <i class="fa fa-eye mx-2"></i><span th:text="${event.eveRdCount}">조회수</span>
-            </div>
+        <div class="col-lg-5 col-sm-6 px-0">
+            <span class="d-inline-block ml-3 my-1">
+                <button class="btn" style="pointer-events: none;" type="button"
+                        th:text="${#hotpleAPI.toDateStr(event.eveCode)}">
+                </button>
+            </span>
+            <i class="fa fa-eye mx-2"></i><span th:text="${event.eveRdCount}">조회수</span>
         </div>
+    </div>
 
-        <div class="jumbotron border border-muted rounded-0 border-bottom-0 mb-0">
-            <div th:utext="${event.eveCont}">
-                내용
-            </div>
+    <div class="jumbotron border border-muted rounded-0 border-bottom-0 mb-0">
+        <div th:utext="${event.eveCont}">
+            내용
         </div>
     </div>
 </div>

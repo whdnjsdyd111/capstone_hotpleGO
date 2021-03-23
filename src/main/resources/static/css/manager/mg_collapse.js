@@ -6,20 +6,20 @@ function preloading(imageArray) {
     }
 };
 
-preloading(['resource/images/index/다운로드.jfif', 'resource/images/index/다운로드.png' ]);
+preloading(['/images/hotple_add.png', 'resource/images/index/다운로드.png' ]);
 
 $(function() {
     if($('#content_main').width() === $('#content_add').width())
         $('#add').attr('src', 'resource/images/index/다운로드.png');
     else
-        $('#add').attr('src', 'resource/images/index/다운로드.jfif');
+        $('#add').attr('src', '/images/hotple_add.png');
 
 
     $(window).resize(function() {
         if($('#content_main').width() === $('#content_add').width())
             $('#add').attr('src', 'resource/images/index/다운로드.png');
         else
-            $('#add').attr('src', 'resource/images/index/다운로드.jfif');
+            $('#add').attr('src', '/images/hotple_add.png');
     });
 
 
