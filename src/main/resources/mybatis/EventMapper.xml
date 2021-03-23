@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.EventMapper">
+    <select id="read" resultType="EventVO">
+        SELECT eveCode, eveTitle, eveCont, eveStart, eveExpi, eveRdCount, a.uCode, aName
+        FROM event e JOIN admin a ON e.uCode = a.uCode WHERE eveCode = #{code}
+    </select>
+
+    <select id="getList" resultType="EventVO">
+        SELECT eveCode, eveTitle, eveCont, eveStart, eveExpi, eveRdCount, a.uCode, aName
+        FROM event e JOIN admin a ON e.uCode = a.uCode WHERE SUBSTR(eveCode, -1) = #{str}
+    </select>
+
+    <select id="getEventCurrentList" resultType="EventVO">
+        <![CDATA[
+        SELECT * FROM event WHERE eveStart < SYSTIMESTAMP AND SYSTIMESTAMP < eveExpi
+        ]]>
+    </select>
+
+    <insert id="insertAnnounce">
+        INSERT INTO event (eveCode, eveTitle, eveCont, uCode)
+        VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_eve.NEXTVAL, 2, '0') || '/A',
+        #{eveTitle}, #{eveCont}, #{uCode})
+    </insert>
+
+    <insert id="insertEvent">
+        INSERT INTO event (eveCode, eveTitle, eveCont, eveStart, eveExpi, uCode)
+        VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_eve.NEXTVAL, 2, '0') || '/E',
+        #{eveTitle}, #{eveCont}, #{eveStart}, #{eveExpi}, #{uCode})
+    </insert>
+
+    <update id="updateOther">
+        UPDATE event SET
+        <if test="str == 'A'.toString()">
+            eveCode = REPLACE(#{vo.eveCode}, 'E', 'A'), eveStart = null, eveExpi = null,
+        </if>
+        <if test="str == 'E'.toString()">
+            eveCode = REPLACE(#{vo.eveCode}, 'A', 'E'), eveStart = #{vo.eveStart}, eveExpi = #{vo.eveExpi},
+        </if>
+        eveTitle = #{vo.eveTitle}, eveCont = #{vo.eveCont}
+        WHERE eveCode = #{vo.eveCode}
+    </update>
+
+    <update id="update">
+        UPDATE event SET
+        eveTitle = #{eveTitle}, eveCont = #{eveCont}, eveStart = #{eveStart}, eveExpi = #{eveExpi}
+        WHERE eveCode = #{eveCode}
+    </update>
+
+    <delete id="delete">
+        DELETE event WHERE eveCode = #{code}
+    </delete>
+</mapper>

@@ -1,27 +1,44 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.UserVO;
+import com.example.demo.domain.web.AdminVO;
+import com.example.demo.domain.ManagerVO;
+import com.example.demo.mapper.UserMapper;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
+@Service
+@Log4j2
+public class UserService {
+    @Setter(onMethod_ = @Autowired)
+    UserMapper userMapper;
 
-    /**
-     *
-     * @param code
-     * @return 코드로 조회한 회원
-     */
-    public UserVO get(String code);
+    public UserVO get(String code) {
+        return userMapper.read(code);
+    }
 
-    /**
-     *
-     * @param email
-     * @return 이메일로 조회한 회원
-     */
-    public UserVO getByEmail(String email);
+    public UserVO getByEmail(String email) {
+        return userMapper.readByEmail(email);
+    }
 
-    /**
-     *
-     * @param vo
-     * @return 회원 등록 여부
-     */
-    public boolean register(UserVO vo);
+    public boolean register(UserVO vo) {
+        if (!vo.getPw().isEmpty()) {
+            vo.setPw(new BCryptPasswordEncoder().encode(vo.getPw()));
+        }
+        return userMapper.insert(vo) == 1;
+    }
+
+    public AdminVO getAdmin(String code) {
+        return userMapper.readAdmin(code);
+    }
+
+    public boolean registerManager(ManagerVO vo) {
+        if (!vo.getPw().isEmpty()) {
+            vo.setPw(new BCryptPasswordEncoder().encode(vo.getPw()));
+        }
+        return userMapper.insertManager(vo) == 2;
+    }
 }

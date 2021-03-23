@@ -1,15 +1,13 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.domain.UserVO;
-import com.example.demo.service.implement.UserImpl;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -19,7 +17,7 @@ import java.text.SimpleDateFormat;
 @RequiredArgsConstructor
 @Log4j2
 public class CommonController {
-    private final UserImpl user;
+    private final UserService user;
     private final HttpSession session;
 
     @GetMapping("/accessError")
@@ -31,51 +29,51 @@ public class CommonController {
         return "accessError";
     }
 
+
     @GetMapping("/login")
-    public String login() {
-        return "login";
+    public String login(@RequestParam(value = "err", required = false) String err, Model model) {
+        String msg = "Log In!";
+        if (err != null) {
+            msg = err.equals("exist") ? "This email has already been signed up in a different way." : "Error";
+        }
+        model.addAttribute("msg", msg);
+
+        return "user/login";
     }
 
-    @GetMapping("/logout")
-    public String logoutGET() {
+    @RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
+    public String logout() {
         log.info("custom logout");
 
-        return "index";
-    }
-
-    @PostMapping("/logout")
-    public String logoutPost() {
-        log.info("post custom logout");
-
-        return "index";
+        return "redirect:/";
     }
 
     @GetMapping("/register")
     public String register() {
-        return "register";
+        return "user/register";
     }
 
     @GetMapping("/oauth2_subscription")
     public String subscription(Model model) {
         if (session.getAttribute("OAuthUser") == null) {
-            return "login";
+            return "user/login";
         }
         model.addAttribute("user", (UserVO) session.getAttribute("OAuthUser"));
         session.removeAttribute("OAuthUser");
-        return "subscription";
+        return "user/subscription";
     }
 
     @PostMapping("/subscription")
     public String subscription(UserVO vo, @RequestParam("repeatPw") String repeatPw, Model model) {
         if (!vo.getPw().equals(repeatPw)) {
             model.addAttribute("msg", "Passwords do not match.");
-            return "register";
-        } else if (user.getByEmail(vo.getUcode()) != null) {
+            return "user/register";
+        } else if (user.getByEmail(vo.getUCode()) != null) {
             model.addAttribute("msg", "This email has already been signed up.");
-            return "register";
+            return "user/register";
         }
         model.addAttribute("user", vo);
-        return "subscription";
+        return "user/subscription";
     }
 
     @PostMapping("/registerComplete")
@@ -84,16 +82,21 @@ public class CommonController {
             vo.setBirth(new SimpleDateFormat("yyyy-MM-dd").parse(birth));
         } catch (ParseException e) {
             model.addAttribute("user", vo);
-            return "subscription";
+            return "user/subscription";
         }
 
-        String socialType = session.getAttribute("registrationId").toString();
+        String socialType = null;
+        Object obj = session.getAttribute("registrationId");
+        if (obj != null) {
+            socialType = obj.toString();
+        }
 
         if (socialType == null) {
-            vo.setUcode(vo.getUcode() + "/U/");
+            vo.setUCode(vo.getUCode() + "/U/");
         } else {
-            vo.setUcode(vo.getUcode() + "/U/" + socialType);
+            vo.setUCode(vo.getUCode() + "/U/" + socialType);
         }
+        if(vo.getProfileImg().isEmpty()) vo.setProfileImg(null);
 
         log.info(vo);
         return user.register(vo) ? "redirect:login" : "error_page";

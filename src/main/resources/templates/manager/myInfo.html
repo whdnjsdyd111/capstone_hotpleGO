@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="myInfo" class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <div class="text-primary text-center">레벨 <span>${ mem.mem_level }</span></div>
+    <div class="progress m-1">
+        <div class="progress-bar bg-success text-dark" role="progressbar" style="width: ${ mem.mem_ex / (mem.mem_level * 150) * 100 }%"
+             aria-valuenow="${ mem.mem_ex / (mem.mem_level * 150) * 100 }" aria-valuemin="0" aria-valuemax="100">${ mem.mem_ex }</div>
+    </div>
+    <div class="text-muted text-center">남은 경험치 ${ mem.mem_level * 150 - mem.mem_ex }</div>
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item text-center" href="mainBoard.do?kind=all&target=writer&search=${ mem.mem_nickname }">
+        <i class="fa fa-sticky-note mr-2"></i>내가 쓴 글
+    </a>
+    <a class="dropdown-item text-center" href="mainBoard.do?kind=bookmark">
+        <i class="fa fa-bookmark mr-2"></i>북마크
+    </a>
+    <a class="dropdown-item text-center" href="writeBoardForm.do"><i class="fa fa-pencil mr-2"></i>글쓰기</a>
+</div>
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.HotpleMapper">
+
+    <select id="readAddr" resultType="HotpleVO">
+        SELECT * FROM hotple WHERE htAddr = #{str}
+    </select>
+
+    <select id="selectByManager" resultType="HotpleVO">
+        SELECT htId, busnNum, goId, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, uploadPath, fileName, category
+        FROM hotple h JOIN image_attach i ON h.htImg = i.uuid
+        WHERE h.uCode = #{uCode}
+    </select>
+
+    <insert id="insertBusn">
+        INSERT INTO hotple (htId, busnNum, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, htLat, htLng, uCode, category)
+        VALUES(seq_hot.NEXTVAL, #{busnNum}, #{busnName}, #{htAddr}, #{htAddrDet}, #{htZip}, #{htCont}, #{htTel},
+        #{htImg}, #{htLat}, #{htLng}, #{uCode}, #{category})
+    </insert>
+
+    <insert id="insertBusnGo">
+        UPDATE hotple SET busnNum = #{busnNum}, htAddrDet = #{htAddrDet}, htCont = #{htCont}, htImg = #{htCont},
+        uCode = #{uCode}, category = #{category} WHERE htId = #{htId}
+    </insert>
+
+    <update id="updateWithImage">
+        {
+            CALL
+                DECLARE
+                BEGIN
+                    UPDATE image_attach SET uuid = #{image.uuid}, uploadPath = #{image.uploadPath}, fileName = #{image.fileName}
+                    WHERE uuid = #{hotple.htImg};
+
+                    UPDATE hotple SET busnNum = #{hotple.busnNum}, busnName = #{hotple.busnName}, htAddr = #{hotple.htAddr},
+                    htAddrDet = #{hotple.htAddrDet}, htZip = #{hotple.htZip}, htCont = #{hotple.htCont}, htTel = #{hotple.htTel},
+                    htImg = #{image.uuid}, category = #{hotple.category}
+                    WHERE htId = #{hotple.htId};
+                END
+        }
+    </update>
+
+    <update id="update">
+        UPDATE hotple SET busnNum = #{busnNum}, busnName = #{busnName}, htAddr = #{htAddr},
+        htAddrDet = #{htAddrDet}, htZip = #{htZip}, htCont = #{htCont}, htTel = #{htTel}, category = #{category}
+        WHERE htId = #{htId}
+    </update>
+
+    <delete id="delete">
+        <if test="htImg != null">
+            DELETE FROM image_attach WHERE uuid = #{htImg}
+        </if>
+        <if test="htImg == null">
+            DELETE FROM hotple WHERE htId = #{htId}
+        </if>
+    </delete>
+</mapper>

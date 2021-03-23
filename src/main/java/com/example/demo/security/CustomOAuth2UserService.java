@@ -1,12 +1,9 @@
 package com.example.demo.security;
 
 import com.example.demo.domain.UserVO;
-import com.example.demo.mapper.UserMapper;
-import com.example.demo.service.implement.UserImpl;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -23,7 +20,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final UserImpl user;
+    private final UserService user;
     private final HttpSession session;
 
     @Override
@@ -44,16 +41,27 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         String socialType = registrationId.substring(0, 2).toUpperCase();
-        log.info(socialType);
+        boolean exist = false;
+        boolean match = false;
         oAuth2User.getAttributes().forEach((k, v) -> log.info(k + " : " + v));
-        UserVO vo = user.get(attributes.getEmail() + "/U/" + socialType);
+
+        UserVO vo = user.getByEmail(attributes.getEmail());
+
         if(vo == null) {
             session.setAttribute("registrationId", socialType);
+        } else  {
+            exist = true;
+
+            if (vo.getUCode().equals(attributes.getEmail() + "/U/" + socialType)) {
+                match = true;
+            }
         }
 
         return new DefaultOAuth2User(
                 Collections.singleton(
-                        new SimpleGrantedAuthority(vo == null ? "N" : "U")),
+                        new SimpleGrantedAuthority(exist ? (
+                                match ? "U" : "E"
+                        ) : "N")),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey()
         );

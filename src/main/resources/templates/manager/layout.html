@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:fragment="head (title)">
+    <title th:text="${title}">제목</title>
+    <meta charset="utf-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <!-- jQuery -->
+    <script src="/css/vendor/jq/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/vendor/css/bootstrap-datetimepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="/css/vendor/jq/bootstrap-datetimepicker.full.min.js"></script>
+    <!-- chart.js -->
+    <script src="/css/vendor/chart/Chart.min.js"></script>
+
+    <!-- CSS -->
+    <style>
+        @import "/css/manager/mg_styles.css";
+    </style>
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <!-- javascript -->
+    <script type="text/javascript" src="/css/manager/mg_collapse.js"></script>
+    <th:block layout:fragment="styles" />
+</head>
+<body>
+<header class="container-fluid px-0" th:fragment="header">
+    <div class="navbar navbar-expand-lg navbar-dark bg-dark flex-md-row bd-navbar fixed-top justify-content-start">
+
+        <a class="navbar-brand mr-0 mr-md-2" href="mainBoard.do?kind=all&sort=recent" aria-label="YJFB"> <img
+                width="40" height="40" src="resource/images/index/yjfb_logo.png">
+        </a>
+
+        <div class="navbar-expand">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <span>
+                            <i id="notice_bell" class="fa fa-bell-o fa-2 text-white ml-3 mr-3"></i>
+                        </span>
+                    </a>
+                    <th:block th:replace="/manager/notices :: notice" />
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link btn btn-outline-danger" href="#"
+                       role="button" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false"><span class="text-warning">${ mem.mem_nickname }</span></a>
+                    <th:block th:replace="/manager/myInfo :: myInfo" />
+                </li>
+            </ul>
+        </div>
+
+        <button class="navbar-toggler header_support_btn mr-2" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-md-auto">
+                <li class="nav-item dropdown mr-3"><a
+                        class="nav-link dropdown-toggle" href="#"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><span><i class="fa fa-newspaper-o mr-2"></i>정보</span></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/manager/announce"><i class="fa fa-bullhorn mr-3"></i>공지사항</a>
+                        <a class="dropdown-item" href="#">소식</a>
+                    </div></li>
+                <li class="nav-item dropdown mr-3"><a
+                        class="nav-link dropdown-toggle" href="#"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false"><span><i class="fa fa-list mr-2"></i>업체</span></a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/manager/myShop"><i class="fa fa-building mr-3"></i>업체정보</a>
+                        <a class="dropdown-item" href="/manager/menus"><i class="fa fa-cutlery mr-3"></i>메뉴</a>
+                        <a class="dropdown-item" href="/manager/reviews"><i class="fa fa-commenting-o mr-3"></i>리뷰</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-calendar mr-3"></i>예약정보</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-line-chart mr-3"></i>매출현황</a>
+                    </div></li>
+                <li class="nav-item mr-3"><a class="nav-link"
+                                             href="/manager/logout"><span><i class="fa fa-sign-out mr-2"></i>로그아웃</span></a></li>
+                <li class="nav-item mr-3"><a class="nav-link"
+                                             href="checkPasswordForm.do"><span><i class="fa fa-address-card mr-2"></i>계정설정</span></a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<div class="col-xl-3 col-lg-3 collapse navbar-collapse" th:fragment="sidebar">
+    <nav id="sidebar" class="nav_wrap">
+        <div class="sidebar">
+
+            <ul>
+                <li><a href="mainBoard.do?kind=all&sort=recent"><i class="fa fa-home"></i>홈으로</a></li>
+            </ul>
+            <p class="px-3 text-center text-white mb-1">${ mem.mem_nickname }</p>
+            <div class="text-center text-warning">레벨 <span>${ mem.mem_level }</span></div>
+            <div class="progress ml-2 mr-2">
+                <div class="progress-bar bg-success text-dark" role="progressbar" style="width: ${ mem.mem_ex / (mem.mem_level * 150) * 100 }%"
+                     aria-valuenow="${ mem.mem_ex / (mem.mem_level * 150) * 100 }" aria-valuemin="0" aria-valuemax="100">
+                    ${ mem.mem_ex }</div>
+            </div>
+            <div class="text-center mb-1 text-danger">남은 경험치 ${ mem.mem_level * 150 - mem.mem_ex }</div>
+            <ul class="mt-1">
+                <li><a href="/manager/logout"><i class="fa fa-sign-out"></i>로그아웃</a></li>
+            </ul>
+            <p class="px-3 ml-5"><i class="fa fa-newspaper-o mr-3"></i>정보</p>
+            <ul>
+                <li><a href="/manager/announce"><i class="fa fa-bullhorn mr-3"></i>공지사항</a></li>
+                <li><a href="#">소식</a></li>
+            </ul>
+            <p class="px-3 ml-5"><i class="fa fa-list mr-3"></i>업체</p>
+            <ul>
+                <li><a href="/manager/myShop"><i class="fa fa-building mr-3"></i>업체정보</a></li>
+                <li><a href="/manager/menus"><i class="fa fa-cutlery mr-3"></i>메뉴</a></li>
+                <li><a href="/manager/reviews"><i class="fa fa-commenting-o mr-3"></i>리뷰</a></li>
+                <li><a href="#"><i class="fa fa-calendar mr-3"></i>예약정보</a></li>
+                <li><a href="#"><i class="fa fa-line-chart mr-3"></i>매출현황</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<footer class="container-fluid mt-5 footer" th:fragment="footer">
+    <div class="card mx-5">
+        <div class="row mb-4 ">
+            <div class="col-lg-4 col-md-7 col-sm-11 col-xs-11">
+                <div class="footer-text pull-left">
+                    <div class="d-flex">
+                        <h1 class="mr-2 px-3">
+                            <img width="50" height="50" src="resource/images/index/yjfb_logo.png">
+                        </h1>
+                        <h1 style="color: #957bda">YJFB</h1>
+                    </div>
+                    <p class="card-text">
+                        조원용 강을찬 김경한 김진환 박호용 이승환 이주영 <br>
+                        소속: 영진전문대학교 컴퓨터정보계열 3WDA <br>
+                        대표 전화: 053-940-5114 <br>
+                        제휴/문의: support@hotplego.co.kr <br>
+                        대구광역시 북구 복현로 35
+                    </p>
+                    <div class="social mt-2 mb-3">
+                        <i class="fa fa-facebook-official fa-lg"></i>
+                        <i class="fa fa-instagram fa-lg"></i>
+                        <i class="fa fa-twitter fa-lg"></i>
+                        <i class="fa fa-linkedin-square fa-lg"></i>
+                        <i class="fa fa-facebook"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
+                <h4 class="footer_heading pt-5 text-center">
+                    <a class="badge badge-dark" href="introduction.do">소개</a>
+                </h4>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
+                <h4 class="footer_heading pt-5 text-center">
+                    <a class="badge badge-dark" href="tos.do">이용약관</a>
+                </h4>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
+                <h4 class="footer_heading pt-5 text-center">
+                    <a class="badge badge-dark" href="policy.do">정보처리방침</a>
+                </h4>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
+                <h4 class="footer_heading pt-5 text-center">
+                    <button class="badge badge-dark border-0" id="feedback">문의/피드백</button>
+                </h4>
+            </div>
+        </div>
+
+        <div class="foot_divide mb-4"></div>
+        <div class="row" style="font-size: 10px;">
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="pull-left">
+                    <p>&copy; Copyright WD-A Jo Won Yong All rights reserved</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6">
+                <div class="pull-right mr-4 d-flex policy">
+                    <div>Terms of Use</div>
+                    <div>Privacy Policy</div>
+                    <div>Cookie Policy</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

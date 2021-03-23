@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{admin/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/admin/adm_announceWrite.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <h2 class="mb-3">이벤트/공지</h2>
+    <input type="hidden" th:value="${event != null ? event.eveCode : null}" th:id="eveCode">
+    <div class="input-group" id="titleDiv">
+        <input class="input-group-prepend form-control col-9" id="title" type="text" placeholder="타이틀" maxlength="30"
+               th:value="${event != null ? event.eveTitle : ''}">
+        <select class="input-group-append custom-select col-3" id="kind">
+            <option value="100">공지</option>
+            <option value="200" th:selected="${event != null ? (event.eveStart != null) : false}">이벤트</option>
+        </select>
+    </div>
+    <th:block th:if="${event != null ? (event.eveStart != null) : false}">
+        <div class='input-group' id='datetimepickerDiv'>
+            <input type='text' id='start_time' class='form-control datetimepickers' autocomplete='off'
+                    th:value="${event.eveStart}">
+            <div class='input-group-append'>
+                <label class='input-group-text'><i class='fa fa-clock-o mr-2'></i>시작시간</label>
+            </div>
+            <input type='text' id='expi_time' class='form-control datetimepickers' autocomplete='off'
+                    th:value="${event.eveExpi}">
+            <div class='input-group-append'>
+                <label class='input-group-text'><i class='fa fa-clock-o mr-2'></i>종료시간</label>
+            </div>
+        </div>
+    </th:block>
+    <textarea id="content" name="editor" th:utext="${event != null ? event.eveCont : null}"></textarea>
+    <th:block th:if="${event != null}">
+        <script>
+            const ckeditor_config = {
+                removePlugins : 'resize',
+                language: 'ko',
+                height: 400,
+                filebrowserImageUploadUrl: "/admin/rest/ck_upload"
+            };
+            CKEDITOR.replace("editor", ckeditor_config);
+            CKEDITOR.instances.content.setData($('#content').val());
+        </script>
+    </th:block>
+    <th:block th:if="${event == null}">
+        <script>
+            const ckeditor_config = {
+                removePlugins : 'resize',
+                language: 'ko',
+                height: 400,
+                filebrowserImageUploadUrl: "/admin/rest/ck_upload"
+            };
+            CKEDITOR.replace("editor", ckeditor_config);
+        </script>
+    </th:block>
+    <div class="d-flex justify-content-between my-3">
+        <button class="btn btn-outline-dark btn-lg" id="back">취소</button>
+        <button class="btn btn-success btn-lg" th:id="${event != null ? 'update' : 'complete'}"
+                th:text="${event != null ? '수정하기' : '작성하기'}">작성하기</button>
+    </div>
+</div>
+</html>

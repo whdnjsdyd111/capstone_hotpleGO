@@ -1,0 +1,28 @@
+table{
+    margin-bottom: 10px;
+}
+
+body { background:#ebebeb; }
+
+/***** 메인 *****/
+main         { color:#6e6e6e; background:white; }
+
+/* 초록선+회색바탕 */
+
+.area2>ul		{ display:flex; height:100px; display:flex; align-items:center; }
+.area2>ul>:first-child	{ flex-basis:60px; padding-top:3px; text-align:center; }
+.area2>ul>:nth-child(2)	{ flex-grow:1; padding:3px 0 2px 10px; }
+.area2>ul>:nth-child(2)>h2	{ font-size:1.2rem; color:#6d6d6d; }
+.area2>ul>:last-child	{ flex-basis:60px; padding-top:3px; text-align:center; color:#6d6d6d; }
+.area2>ul>:last-child>[type="image"]	{ transform:rotate(0deg); }
+
+/* 회색선+회색바탕 */
+.area3			{ background:#ebebeb; border-top:1px solid #9f9f9f; }
+
+/* 펼침내용 */
+.area4			{ line-height:2rem; }
+
+#tmp-stop>input{
+    margin-bottom: 15px;
+}
+

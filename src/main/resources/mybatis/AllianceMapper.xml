@@ -9,17 +9,17 @@
     </select>
 
     <select id="getList" resultType="AllianceVO">
-        SELECT * FROM alliance WHERE SUBSTR(alcCode, -1) = #{c}
-        <if test="c == 'Y'.toString()">
+        SELECT * FROM alliance WHERE SUBSTR(alcCode, -1) = #{s}
+        <if test="s == 'Y'.toString()">
             ORDER BY alcCode DESC
         </if>
-        <if test="c == 'N'.toString()">
+        <if test="s == 'N'.toString()">
             ORDER BY alcCode ASC
         </if>
     </select>
 
     <insert id="insert">
-        INSERT INTO alliance VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHHmmss/') || LPAD(seq_alc.NEXTVAL, 2, '0') || '/N',
+        INSERT INTO alliance VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_alc.NEXTVAL, 2, '0') || '/N',
         #{name}, #{email}, #{phone}, #{content})
     </insert>
 

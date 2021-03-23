@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.web.BoardMapper">
+    <sql id="boardColumns">
+        bdCode
+        , bdTitle
+        , bdArea
+        , bdCont
+        , bdRdCount
+        , bdRecy
+        , bdRecn
+        , uCode
+    </sql>
+
+    <insert id="insertBoard">
+        INSERT INTO tb_board (
+        <include refid="boardColumns" />
+        ) VALUES(
+            #{bdCode}
+            , #{bdTitle}
+            , #{bdArea}
+            , #{bdCont}
+            , #{bdRdCount}
+            , #{bdRecy}
+            , #{bdRecn}
+            , #{uCode}
+        )
+    </insert>
+</mapper>

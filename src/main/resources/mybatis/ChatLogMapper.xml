@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.web.ChatLogMapper">
+
+    <select id="getListByStr" resultType="ChatLogVO">
+        SELECT chtCode, cht_log.uCode, chtCont, aName FROM cht_log JOIN admin ON (cht_log.uCode = admin.uCode)
+        WHERE SUBSTR(cht_log.chtCode, -1) = #{str} ORDER BY chtCode
+    </select>
+
+    <insert id="insertChat">
+        <selectKey keyProperty="chtCode" resultType="String" order="BEFORE">
+            SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cht.NEXTVAL, 2, '0') || '/C' FROM DUAL
+        </selectKey>
+        INSERT INTO cht_log (chtCode, chtCont, uCode)
+        VALUES(#{chtCode}, #{chtCont}, #{uCode})
+    </insert>
+
+    <insert id="insertMemo">
+        <selectKey keyProperty="chtCode" resultType="String" order="BEFORE">
+            SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cht.NEXTVAL, 2, '0') || '/M' FROM DUAL
+        </selectKey>
+        INSERT INTO cht_log (chtCode, chtCont, uCode)
+        VALUES(#{chtCode}, #{chtCont}, #{uCode})
+    </insert>
+</mapper>

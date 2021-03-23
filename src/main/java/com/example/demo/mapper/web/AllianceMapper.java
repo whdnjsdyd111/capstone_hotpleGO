@@ -9,7 +9,7 @@ import java.util.List;
 public interface AllianceMapper {
     public AllianceVO read(String code);
 
-    public List<AllianceVO> getList(Character c);
+    public List<AllianceVO> getList(String s);
 
     public int insert(AllianceVO vo);
 

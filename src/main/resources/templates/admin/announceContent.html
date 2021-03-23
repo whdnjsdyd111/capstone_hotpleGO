@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{admin/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/admin/adm_announce.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <h2 class="mb-3">이벤트/공지</h2>
+    <div>
+        <input type="hidden" th:value="${event.eveCode}" id="eveCode">
+        <div class="col-12 p-3 border border-bottom-0 border-muted">
+            <h2 th:text="${event.eveTitle}">제목</h2>
+        </div>
+
+        <div class="row d-flex mx-0 border border-bottom-0 border-muted">
+            <div class="col-lg-7 col-sm-6 px-3 pt-2">
+                <i class="fa fa-user-circle mr-1"></i><span th:text="${event.AName}">관리자 이름</span>
+            </div>
+
+            <div class="col-lg-5 col-sm-6 px-0">
+                <span class="d-inline-block ml-3 my-1">
+                    <button class="btn" style="pointer-events: none;" type="button"
+                            th:text="${#hotpleAPI.toDateStr(event.eveCode)}">
+                    </button>
+                </span>
+                <i class="fa fa-eye mx-2"></i><span th:text="${event.eveRdCount}">조회수</span>
+            </div>
+        </div>
+
+        <div class="col-12 px-0 py-2 border border-muted border-bottom-0">
+            <a class="btn text-warning btn-outline-warning ml-5" th:href="|/admin/announceUpdate/${#hotpleAPI.codeToStr(event.eveCode)}|" >수정</a>
+            <button id="delete" class="btn btn-outline-warning ml-3"><i class="fa fa-trash-o mr-2"></i>삭제</button>
+        </div>
+
+        <div class="jumbotron border border-muted rounded-0 border-bottom-0 mb-0">
+            <div th:utext="${event.eveCont}">
+                내용
+            </div>
+        </div>
+    </div>
+</div>
+</html>

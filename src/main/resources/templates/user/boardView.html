@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <title>게시판 상세보기</title>
+    <link rel="stylesheet" type="text/css" href="css/ui.css">
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<!-- 게시물 상세정보 -->
+<div class="board_wrap">
+    <div class="board_title">
+        <h1>핫플GO</h1>
+    </div>
+</div>
+<div class="board_view_wrap">
+    <div class="board_view">
+        <div class="title">
+            ${board_title}
+        </div>
+        <div class="info">
+            <dl>
+                <dt>번호</dt>
+                <dd>${board_num}</dd>
+            </dl>
+            <dl>
+                <dt>글쓴이</dt>
+                <dd>${board_create_id}</dd>
+            </dl>
+            <dl>
+                <dt>작성일</dt>
+                <dd>${board_date}</dd>
+            </dl>
+            <dl>
+                <dt>조회</dt>
+                <dd>${board_view}</dd>
+            </dl>
+            <dl>
+                <dt>추천</dt>
+                <dd>${board_good}</dd>
+            </dl>
+            <dl>
+                <dt>비추천</dt>
+                <dd>${board_not_good}</dd>
+            </dl>
+        </div>
+        <div class="contents ">
+            본문내용(${board_contents})
+        </div>
+    </div>
+    <div class="btn_c" align="center">
+        <a href="#">《《</a>
+        <a href="#">수정하기</a>
+        <a href="#">목록으로</a>
+        <a href="#">삭제하기</a>
+        <a href="#">》》</a>
+    </div>
+
+    <!-- 추천 -->
+    <div class="add_bot">
+        <div class="btn_group">
+            <div>
+					<span styyle="display: inline;" class="bn_recommend">
+						<button type="button" class="btn_recom">
+							<span>추천</span>
+						</button>
+					</span>
+                <span style="display: none;" class="bn_good">
+						<button type="button" class="btn_good">
+							<span>좋아요</span>
+						</button>
+					</span>
+                <span style="display: none;" class="bn_not_good">
+						<button type="button" class="btn_not_good">
+							<span>싫어요</span>
+						</button>
+					</span>
+            </div>
+            <div class="btn_group_in">
+					<span class="btn_recommend bn_share">
+						<button type="button" class="btn_share">
+							<span>공유</span>
+						</button>
+					</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 댓글 -->
+    <div id="comments">
+        <div id="comments-head" class="comments-row">
+            <span>${comments_count}</span> Comment(s)
+        </div>
+        <div class="comments-row">
+            <textarea id="new_comment" name="new_comment" placeholder="댓글 내용을 입력해주세요."></textarea>
+            <a href="#" class="btn_c submit">전송</a>
+            <div id="new_comment_cnt">
+                (0 / 1000)
+            </div>
+        </div>
+    </div>
+    <div class="add_bot"></div>
+    <div class="comments-row">
+        <ul class="list">
+            <li>
+                <div class="Icon">
+                    <a href="#" class="Image_size">
+                        <img src="css/">
+                    </a>
+                </div>
+                <div class="comment-date">
+                    2021-03-09 12:30:08
+                </div>
+                <div class="comment-contents">
+                    first Comment Sample
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="comments-row">
+        <ul class="list">
+            <li>
+                <div class="Icon">
+                    <a href="#" class="Image_size">
+                        <img src="C:\Users\MY\Desktop\src.png">
+                    </a>
+                </div>
+                <div class="comment-date">
+                    2021-03-09 12:30:08
+                </div>
+                <div class="comment-contents">
+                    Second Sample Comment
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script>
+    // 댓글작성 글자 수 제한
+    $(document).ready(function () {
+        $('#new_comment').on('keyup', function () {
+            $('#new_comment_cnt').html("(" + $(this).val().length + " / 1000)");
+
+            if ($(this).val().length > 1000) {
+                $(this).val($(this).val().substring(0, 1000));
+                $('#new_comment_cnt').html("(1000 / 1000)");
+            }
+        });
+    });
+</script>
+</body>
+</html>

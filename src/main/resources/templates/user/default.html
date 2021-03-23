@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="user/layout::head (HOTPLEGO)">
+</head>
+<body>
+<div class="container-fluid p-0">
+    <div th:replace="user/layout::nav"></div>
+    <div layout:fragment="content"></div>
+</div>
+<div th:replace="user/layout::footer"></div>
+</body>
+</html>

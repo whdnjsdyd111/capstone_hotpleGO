@@ -1,12 +1,9 @@
 package com.example.demo.security;
 
-import com.example.demo.domain.UserVO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Map;
 
 @Log4j2
@@ -29,6 +26,10 @@ public class OAuthAttributes {
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
         if("naver".equals(registrationId)) {
             return ofNaver("id", attributes);
+        } else if("facebook".equals(registrationId)){
+            return ofFacebook(userNameAttributeName, attributes);
+        } else if("kakao".equals(registrationId)) {
+            return ofKakao(userNameAttributeName, attributes);
         }
 
         return ofGoogle(userNameAttributeName, attributes);
@@ -48,11 +49,32 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        attributes.forEach((k, v) -> log.info(k + " : " + v));
 
         return OAuthAttributes.builder()
                 .name((String) response.get("name"))
                 .email((String) response.get("email"))
                 .attributes(response)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofFacebook(String userNameAttributeName, Map<String, Object> attributes) {
+        attributes.forEach((k, v) -> log.info(k + " : " + v));
+        return OAuthAttributes.builder()
+                .name((String) attributes.get("name"))
+                .email((String) attributes.get("email"))
+                .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+        attributes.forEach((k, v) -> log.info(k + " : " + v));
+        return OAuthAttributes.builder()
+                .name((String) attributes.get("name"))
+                .email((String) ((Map<String, Object>) attributes.get("kakao_account")).get("email"))
+                .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }

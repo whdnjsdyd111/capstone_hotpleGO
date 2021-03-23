@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta charset="utf-8">
+    <!-- jQuery -->
+    <script src="/css/vendor/jq/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <!-- CSS -->
+    <style>
+        @import "/css/styles.css";
+    </style>
+
+    <link
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <title>업체 등록</title>
+    <style>
+
+        #enrollment_wrap .card{margin:0 auto; border: 0px;}
+        .table{margin:0 auto;width:50%}
+        .swiper-container{height:600px;}
+
+        .green-border-focus .form-control:focus {
+            border: 1px solid #8bc34a;
+            box-shadow: 0 0 0 0.2rem rgba(139, 195, 74, .25);
+        }
+
+    </style>
+</head>
+<body id="myDidPage" data-spy="scroll" data-target=".navbar" data-offset="100">
+<div class="swiper-container">
+    <div class="swiper-wrapper" id="enrollment_wrap">
+        <div class="swiper-slide">
+            <div class="card align-middle" style="width:20rem; border-radius:20px;">
+                <form class="form-horizontal" method="POST">
+                    <div class="card-title" style="margin-top:30px;">
+                        <h2 class="card-title text-center" style="color:#113366;">업체명</h2>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="form-signin-heading">업체명을 입력하세요</h5>
+                        <input type="text" id="business-name" class="form-control" placeholder="업체명" required autofocus><BR>
+                        <input type="text" id="business-id" class="form-control" placeholder="사업자등록번호" ><BR>
+                    </div>
+                </form>
+            </div>
+            <button  class="btn btn-secondary"  type="button"onclick=" prev_slide()" >이전</button>
+            <button  class="btn btn-primary" type="button" onclick="check_first()">다음</button>
+        </div><!--1번 슬라이드 끝-->
+        <div class="swiper-slide">
+            <div class="card align-middle" style="width:20rem; border-radius:20px;">
+                <form class="form-signin" method="POST">
+                    <div class="card-title" style="margin-top:30px;">
+                        <h2 class="card-title text-center" style="color:#113366;">카테고리</h2>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="form-signin-heading">카테고리를 입력하세요</h5>
+                        <div class="form-group col-sm-5">
+                            <label for="kindU">대분류</label>
+                            <select class="form-control"  id="kindU" name="kindU" onchange="kindChange(this)" style="width: auto;">
+                                <option>선택해주세요</option>
+                                <option value="food">먹거리</option>
+                                <option value="dessert">디저트</option>
+                                <option value="play">놀이/취미</option>
+                                <option value="drink">음주</option>
+                                <option value="watch">보기</option>
+                                <option value="walk">걷기</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label for="kindD">소분류</label>
+                            <select class="form-control"  id="kindD" name="kindD" style="width: auto;">
+                                <option>선택해주세요.</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button  class="btn btn-secondary " type="button" onclick=" prev_slide()">이전</button>
+            <button  class="btn btn-primary " type="button" onclick="check_second()">다음</button>
+        </div><!--2번 슬라이드 끝-->
+        <div class="swiper-slide">
+            <div class="card align-middle" style="width:20rem; border-radius:20px;">
+                <form class="form-horizontal" method="POST">
+                    <div class="card-title" style="margin-top:30px;">
+                        <h2 class="card-title text-center" style="color:#113366;">업체명</h2>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="form-signin-heading">업체 소개를 입력하세요.</h5>
+                        <div class="form-group purple-border">
+                            <label for="intro">소개글</label>
+                            <textarea class="form-control" id="intro" rows="3"></textarea>
+                            <input class="form-control" placeholder="업체 전화번호 (-) 없이" type="text" id="tel">
+                        </div>
+                        <label for="pic">업체 사진</label>
+                        <input type="file" id="pic" class="form-control" placeholder="소개글" accept="image/png, image/jpeg, image/jfif"><BR>
+                    </div>
+                </form>
+            </div>
+            <button  class="btn btn-secondary"  type="button" onclick=" prev_slide()" >이전</button>
+            <button  class="btn btn-primary" type="button" onclick="check_third()">다음</button>
+        </div><!--3번 슬라이드 끝-->
+        <div class="swiper-slide">
+            <form class="form-horizontal" method="post">
+                <div class="card-title" style="margin-top:30px;">
+                    <h2 class="card-title text-center" style="color:#113366;">주소</h2>
+                </div>
+                <div class="card-body">
+
+                    <table class="table">
+                        <colgroup>
+                            <col style="width:20%"><col>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th>우편번호</th>
+                            <td>
+                                <input type="hidden" class="form-control" id="confmKey" name="confmKey"
+                                       value="devU01TX0FVVEgyMDIxMDMwOTIxNDAxNTExMDg5NDY="  >
+                                <input type="text" class="form-control" id="zipNo" name="zipNo" readonly style="display:inline;width:100px">
+                                <input type="button"  class="btn btn-outline-dark" value="주소검색" style="display: inline;height:100%;" onclick="goPopup();">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>도로명주소</th>
+                            <td><input type="text" class="form-control" id="roadAddrPart1" name="roadAddrPart1" style="width:85%;height: 100%"></td>
+                        </tr>
+                        <tr>
+                            <th>상세주소</th>
+                            <td>
+                                <input type="text" class="form-control" id="addrDetail" name="addrDetail" style="width:40%" value="">
+                                <input type="text" class="form-control" id="roadAddrPart2" name="roadAddrPart2" style="width:40%" value="">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <button  class="btn btn-secondary"  type="button" onclick=" prev_slide()" >이전</button>
+                <button  class="btn btn-primary" type="button" id="register">완료</button>
+                <input type="hidden" id="lat">
+                <input type="hidden" id="lng">
+            </form>
+        </div><!--4번 슬라이드 끝-->
+    </div>
+    <div class="swiper-pagination"></div>
+</div>
+<script src="/css/manager/mg_enrollment.js"></script>
+</body>
+</html>
+

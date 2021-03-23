@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MenuMapper">
+    <insert id="insert">
+        <selectKey keyProperty="meCode" resultType="String" order="BEFORE">
+            SELECT #{meCode} || '/' || LPAD(seq_alc.NEXTVAL, 2, '0') || '/Y' FROM DUAL
+        </selectKey>
+        INSERT INTO menu (meCode, meCate, meName, mePrice, meIntr, meHashTag
+        <if test="uuid != null">
+            , uuid
+        </if>
+        )
+        VALUES (#{meCode}, #{meCate}, #{meName}, #{mePrice}, #{meIntr}, #{meHashTag}
+        <if test="uuid != null">
+            , #{uuid}
+        </if>
+        )
+    </insert>
+    
+    <select id="selectList" resultType="MenuVO">
+        select meCode, meName, mePrice, meIntr, meHashTag, meCate, i.uuid AS uuid, uploadPath, fileName
+        FROM menu m FULL OUTER JOIN image_attach i ON m.uuid = i.uuid
+        WHERE SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1) = #{htId}
+    </select>
+
+    <delete id="delete">
+        DELETE FROM
+        <if test="uuid">
+            image_attach WHERE uuid = (SELECT uuid FROM menu WHERE meCode = #{code})
+        </if>
+        <if test="!uuid">
+            menu WHERE meCode = #{code}
+        </if>
+    </delete>
+
+    <update id="update">
+        UPDATE menu SET meCate = #{meCate}, meName = #{meName}, mePrice = #{mePrice},
+        meIntr = #{meIntr}, meHashTag = #{meHashTag}
+        WHERE meCode = #{meCode}
+    </update>
+
+    <update id="updateOnlyImage">
+        UPDATE menu SET meCate = #{meCate}, meName = #{meName}, mePrice = #{mePrice},
+        meIntr = #{meIntr}, meHashTag = #{meHashTag}, uuid = #{uuid}
+        WHERE meCode = #{meCode}
+    </update>
+
+    <update id="updateWithImage">
+        {
+            CALL
+                DECLARE
+                BEGIN
+
+                UPDATE image_attach SET uuid = #{image.uuid}, uploadPath = #{image.uploadPath}, fileName = #{image.fileName}
+                WHERE uuid = #{menu.uuid};
+
+                UPDATE menu SET meCate = #{menu.meCate}, meName = #{menu.meName}, mePrice = #{menu.mePrice},
+                meIntr = #{menu.meIntr}, meHashTag = #{menu.meHashTag}, uuid = #{image.uuid}
+                WHERE meCode = #{menu.meCode};
+
+            END
+        }
+    </update>
+
+    <update id="updateCate">
+        UPDATE menu SET meCate = #{category}
+        WHERE substr(meCode, 1, instr(meCode, '/', 1, 1) - 1) = #{htId} AND meCate = #{before}
+    </update>
+
+    <update id="deleteCate">
+        DELETE FROM menu WHERE substr(meCode, 1, instr(meCode, '/', 1, 1) - 1) = #{htId} AND meCate = #{category}
+    </update>
+</mapper>

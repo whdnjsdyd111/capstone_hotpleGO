@@ -5,9 +5,9 @@ import com.example.demo.security.CustomOAuth2LoginSuccessHandler;
 import com.example.demo.security.CustomOAuth2UserService;
 import com.example.demo.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,12 +23,15 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@Log4j2
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final CustomAccessDeniedHandler customAccessDeniedHandler;
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
     private final DataSource dataSource;
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+        repo.setDataSource(dataSource);
+        return repo;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -45,35 +48,95 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository() {
-        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
-        repo.setDataSource(dataSource);
-        return repo;
+    @RequiredArgsConstructor
+    @Configuration
+    @Order(1)
+    public static class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final CustomAccessDeniedHandler customAccessDeniedHandler;
+        private final PersistentTokenRepository repository;
+        private final UserDetailsService userDetailsService;
+        private final PasswordEncoder passwordEncoder;
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.antMatcher("/admin/**").authorizeRequests()
+                    .antMatchers("/admin/login").permitAll()
+                    .antMatchers("/admin/main").access("hasAuthority('A')");
+
+            http.formLogin().loginPage("/admin/login").loginProcessingUrl("/admin/login");
+
+            http.logout().logoutUrl("/logout").invalidateHttpSession(true)
+                    .deleteCookies("remember-me", "JSESSION_ID")
+                    .logoutSuccessUrl("/");
+
+            http.rememberMe().key("hotpleGO")
+                    .tokenRepository(repository)
+                    .tokenValiditySeconds(604800);
+
+            http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+        }
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        }
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/company").access("hasRole('A')");
+    @RequiredArgsConstructor
+    @Configuration
+    @Order(3)
+    public static class ManagerSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final CustomAccessDeniedHandler customAccessDeniedHandler;
+        private final PersistentTokenRepository repository;
+        private final UserDetailsService userDetailsService;
+        private final PasswordEncoder passwordEncoder;
 
-        http.formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login");
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        }
+    }
 
-        http.logout().logoutUrl("/logout").invalidateHttpSession(true)
-                .deleteCookies("remember-me", "JSESSION_ID")
-                .logoutSuccessUrl("/");
+    @RequiredArgsConstructor
+    @Configuration
+    @Order(2)
+    public static class UserSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final CustomAccessDeniedHandler customAccessDeniedHandler;
+        private final CustomOAuth2UserService customOAuth2UserService;
+        private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
+        private final UserDetailsService userDetailsService;
+        private final PasswordEncoder passwordEncoder;
+        private final PersistentTokenRepository repository;
 
-        http.rememberMe().key("hotpleGO")
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(604800);
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.authorizeRequests()
+                    .antMatchers("/alliance").access("hasAuthority('B')");
 
-        http.oauth2Login().loginPage("/login")
-                .successHandler(customOAuth2LoginSuccessHandler)
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService);
+            http.csrf().ignoringAntMatchers("/popup/jusoPopup");
 
-        http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+            http.formLogin().loginPage("/login")
+                    .loginProcessingUrl("/login");
+
+            http.logout().logoutUrl("/logout").invalidateHttpSession(true)
+                    .deleteCookies("remember-me", "JSESSION_ID")
+                    .logoutSuccessUrl("/");
+
+            http.rememberMe().key("hotpleGO")
+                    .tokenRepository(repository)
+                    .tokenValiditySeconds(604800);
+
+            http.oauth2Login().loginPage("/login")
+                    .successHandler(customOAuth2LoginSuccessHandler)
+                    .userInfoEndpoint()
+                    .userService(customOAuth2UserService);
+
+            http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+        }
+
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        }
     }
 }

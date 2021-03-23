@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{admin/default}">
+<th:block layout:fragment="styles">
+    <!--<script layout:fragment="func" src="/css/admin/adm_chattingRoom.js"></script>-->
+</th:block>
+<div layout:fragment="content">
+    <fieldset>
+        <article class="d-flex flex-column overflow-auto bg-info" id="chat_room" style="max-height: 500px">
+            <th:block th:each="cht : ${chatLog}">
+                <th:block th:switch="${cht.UCode.split('/')[0]}">
+                    <th:block th:case="${admin.UCode.split('/')[0]}">
+                        <div class="d-flex justify-content-end p-1">
+                            <div class="d-flex flex-column">
+                                <span class="font-weight-bold text-right pr-3"><i class="fa fa-address-card mr-2"></i>
+                                    <span th:text="${cht.AName}">나</span></span>
+                                <div class="p-3">
+                                    <span class="mr-2" th:text="${#hotpleAPI.toDateStr(cht.chtCode)}">날짜시간</span>
+                                    <span class="bg-warning text-dark p-2 rounded chat_message" th:text="${cht.chtCont}">채팅 내용</span>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:case="*">
+                        <div class="d-flex justify-content-start flex-column p-1">
+                            <span class="font-weight-bold pl-3"><i class="fa fa-id-card mr-2"></i>
+                                <span th:text="${cht.AName}">관리자 이름</span></span>
+                            <div class="p-3">
+                                <span class="bg-dark text-white p-2 rounded chat_message" th:text="${cht.chtCont}">채팅 내용</span>
+                                <span th:text="${#hotpleAPI.toDateStr(cht.chtCode)}">날짜시간</span>
+                            </div>
+                        </div>
+                    </th:block>
+                </th:block>
+            </th:block>
+        </article>
+        <div class="input-group">
+            <input id="inputMessage" type="text" class="form-control" placeholder="메시지 입력" aria-describedy="send">
+            <div class="input-group-append" id="send">
+                <button class="btn btn-outline-warning" type="button">보내기<i class="fa fa-caret-square-o-right ml-2"></i></button>
+            </div>
+        </div>
+    </fieldset>
+    <script>
+        let webSocket = new WebSocket('ws://localhost:8000/admin/websocket');
+
+        webSocket.onerror = function(event) { onError(event) };
+        webSocket.onopen = function(event) { onOpen(event) };
+        webSocket.onmessage = function(event) { onMessage(event) };
+
+        $(function() {
+            $(window).on('beforeunload', function () {
+                webSocket.send(JSON.stringify({
+                    message: "[[${admin.AName}]] 님이 퇴장하였습니다.\n"
+                }));
+                webSocket.close();
+                console.log("웹 소켓 종료");
+            });
+
+            $('#chat_room').scrollTop($('#chat_room').prop('scrollHeight'));
+
+            $('#send').click(function() {
+                send();
+            });
+
+            $('#inputMessage').keydown(function(key) {
+                if (key.keyCode == 13) {
+                    send();
+                }
+            });
+        });
+
+        function onMessage(event) {
+            try {
+                let arr = JSON.parse(event.data);
+                let tag =
+                    '<div class="d-flex justify-content-start flex-column p-1">' +
+                    '<span class="font-weight-bold pl-3"><i class="fa fa-id-card mr-2"></i>' +
+                    arr["aName"] + '</span>' +
+                    '<div class="p-3">' +
+                    '<span class="bg-dark text-white p-2 rounded chat_message">' +
+                    arr["chtCont"] +
+                    '</span>' +
+                    '<span>' +
+                    arr["chtCode"].split("/")[0] +
+                    '</span>' +
+                    '</div>' +
+                    '</div>';
+
+                $('#chat_room').append(tag);
+                $('#chat_room').scrollTop($('#chat_room').prop('scrollHeight'));
+            } catch (error) {
+                $('#chat_room').append("<p class='bg-success rounded p-2'>" + JSON.parse(event.data)["message"] + "</p>");
+                $('#chat_room').scrollTop($('#chat_room').prop('scrollHeight'));
+            }
+
+        }
+
+        function onOpen(event) {
+            webSocket.send(JSON.stringify({
+                message: "[[${admin.AName}]] 님이 입장하였습니다.\n"
+            }));
+        }
+
+        function onError(event) {
+            alert(event.data);
+        }
+
+        function send() {
+            let date = new Date();
+
+            let tag =
+                '<div class="d-flex justify-content-end p-1">' +
+                '<div class="d-flex flex-column">' +
+                '<span class="font-weight-bold text-right pr-3"><i class="fa fa-address-card mr-2"></i>나</span>' +
+                '<div class="p-3">' +
+                '<span class="mr-2">' +
+                addZero(date.getMonth()) + '.' + addZero(date.getDate()) + ' ' + addZero(date.getHours()) + ':' + addZero(date.getMinutes()) +
+                '</span>' +
+                '<span class="bg-warning text-dark p-2 rounded chat_message">' +
+                $('#inputMessage').val() +
+                '</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            $('#chat_room').append(tag);
+
+            webSocket.send(JSON.stringify({
+                chtCont: $('#inputMessage').val(),
+                uCode: '[[${admin.UCode}]]',
+                aName: '[[${admin.AName}]]'
+            }));
+
+            $('#inputMessage').val("");
+
+            $('#chat_room').scrollTop($('#chat_room').prop('scrollHeight'));
+        }
+
+        function addZero(data) {
+            if(data < 10)
+                return '0' + data;
+            else
+                return data;
+        }
+
+        function codeToDateStr(data) {
+            let yy = data.substr(0, 2);
+            let mm = data.substr(2, 4);
+            let dd = data.substr(4, 6);
+            let hh = data.substr(6, 8);
+            let mi = data.substr(8, 10);
+            let ss = data.substr(10, 12);
+            let date_str = yy + "." + mm + "." + dd + " " + hh + ":" + mi + ":" + ss;
+            console.log(date_str);
+        }
+    </script>
+</div>
+</html>
