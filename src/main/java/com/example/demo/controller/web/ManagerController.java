@@ -126,4 +126,8 @@ public class ManagerController {
         model.addAttribute("event", vo);
         return "manager/announce";
     }
+    @GetMapping("/test")
+    public String test() {
+        return "manager/test";
+    }
 }
