@@ -3,6 +3,9 @@
     justify-content:center;
     align-items:center;
 }
+.fw-normal{
+    text-align: center;
+}
 .form-control{
     margin-bottom: 30px;
     width:70%;
