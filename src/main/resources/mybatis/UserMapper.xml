@@ -29,6 +29,15 @@
     <select id="readAdmin" resultType="AdminVO">
         SELECT * FROM admin WHERE uCode = #{code}
     </select>
+
+    <select id="readManager" resultType="ManagerVO">
+        SELECT u.uCode, pw, nick, birth, gender, phone, profileImg, point, mbti, regDate, mName, mAccount, mBank
+        FROM users u JOIN manager m ON u.uCode = m.uCode WHERE m.uCode = #{code}
+    </select>
+
+    <select id="readPassword" resultType="String">
+        SELECT pw FROM users WHERE uCode = #{code}
+    </select>
     
     <insert id="insertManager">
         INSERT ALL
@@ -38,4 +47,16 @@
         VALUES (#{uCode}, #{mName}, #{mAccount}, #{mBank})
         SELECT * FROM DUAL
     </insert>
+
+    <update id="updateNick">
+        UPDATE users SET nick = #{nick} WHERE uCode = #{uCode}
+    </update>
+
+    <update id="updateAccount">
+        UPDATE manager SET mAccount = #{mAccount}, mBank = #{mBank} WHERE uCode = #{code}
+    </update>
+
+    <update id="updatePw">
+        UPDATE users SET pw = #{pw} WHERE uCode = #{code}
+    </update>
 </mapper>

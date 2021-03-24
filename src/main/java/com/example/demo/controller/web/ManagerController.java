@@ -11,7 +11,6 @@ import com.example.demo.service.UserService;
 import com.example.demo.domain.ManagerVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,6 +82,7 @@ public class ManagerController {
 
     @GetMapping("/myShop")
     public String myShop(Model model, @AuthenticationPrincipal CustomUser manager) {
+        // TODO
 //        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
         model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd1111@naver.com/M/"));
         return "manager/myShop";
@@ -95,6 +95,7 @@ public class ManagerController {
 
     @GetMapping(value = { "/reviews", "/menus" })
     public String select(Model model, HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        // TODO
 //        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
         model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd1111@naver.com/M/"));
         model.addAttribute("url", request.getRequestURI().split("/")[2]);
@@ -125,5 +126,22 @@ public class ManagerController {
         }
         model.addAttribute("event", vo);
         return "manager/announce";
+    }
+
+    @GetMapping("/setting")
+    public String userSetting(Model model) {
+        // TODO
+        model.addAttribute("user", user.getManager("whdnjsdyd1111@naver.com/M/"));
+        return "manager/userSetting";
+    }
+
+    @GetMapping("/sales")
+    public String sales(Model model) {
+        return "manager/sales";
+    }
+
+    @GetMapping("/orders")
+    public String orders(Model model) {
+        return "manager/orders";
     }
 }

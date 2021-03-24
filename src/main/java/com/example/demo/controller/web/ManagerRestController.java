@@ -1,17 +1,20 @@
 package com.example.demo.controller.web;
 
-import com.example.demo.domain.HotpleVO;
-import com.example.demo.domain.ImageAttachVO;
-import com.example.demo.domain.MenuVO;
+import com.example.demo.domain.*;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.HotpleService;
 import com.example.demo.service.ImageAttachService;
 import com.example.demo.service.MenuService;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +28,8 @@ public class ManagerRestController {
     private final HotpleService hotple;
     private final ImageAttachService imageAttach;
     private final MenuService menu;
+    private final UserService user;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping(value = "/comp-erm")
     @ResponseBody
@@ -182,6 +187,43 @@ public class ManagerRestController {
             return new ResponseEntity<>("메뉴 삭제하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/setting-nick")
+    public ResponseEntity<String> settingNick(@RequestBody ManagerVO vo) {
+        // TODO
+        if (user.updateNick(vo.getNick(), "whdnjsdyd1111@naver.com/M/")) {
+            return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/setting-account")
+    public ResponseEntity<String> settingAccount(@RequestBody ManagerVO vo) {
+        // TODO
+        vo.setUCode("whdnjsdyd1111@naver.com/M/");
+        if (user.updateAccount(vo)) {
+            return new ResponseEntity<>("계좌 변경 완료하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/setting-password")
+    public ResponseEntity<String> settingPassword(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String pw = request.getParameter("password");
+        String new_pw = request.getParameter("new_password");
+        String code = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
+        if (new BCryptPasswordEncoder().matches(pw, user.getPw(code))) {
+            if (user.updatePw(passwordEncoder.encode(new_pw), code)) {
+                return new ResponseEntity<>("비밀번호 변경 완료하였습니다.", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("변경 실패하였습니다.", HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.OK);
         }
     }
 }

@@ -35,10 +35,30 @@ public class UserService {
         return userMapper.readAdmin(code);
     }
 
+    public ManagerVO getManager(String code) {
+        return userMapper.readManager(code);
+    }
+
+    public String getPw(String code) {
+        return userMapper.readPassword(code);
+    }
+
     public boolean registerManager(ManagerVO vo) {
         if (!vo.getPw().isEmpty()) {
             vo.setPw(new BCryptPasswordEncoder().encode(vo.getPw()));
         }
         return userMapper.insertManager(vo) == 2;
+    }
+
+    public boolean updateNick(String nick, String code) {
+        return userMapper.updateNick(nick, code) == 1;
+    }
+
+    public boolean updateAccount(ManagerVO vo) {
+        return userMapper.updateAccount(vo) == 1;
+    }
+
+    public boolean updatePw(String pw, String code) {
+        return userMapper.updatePw(pw, code) == 1;
     }
 }

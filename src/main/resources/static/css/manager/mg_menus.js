@@ -237,17 +237,17 @@ function menu_append(obj, data) {
         '</td></tr></tbody></table>';
     $(obj).append(div);
 }
-//
+
 function add_category(category) {
     let div = '<div name="' + category +'" class="menu-div p-2 border-dark border rounded mb-5">' +
         '<input type="button" class="btn btn-danger delete-category" value="카테고리 삭제">' +
         '<section class="area2">' +
         '<ul>' +
-        '<li><input type="button" class="btn btn-warning update-category" value="카테고리 수정" data-toggle="modal" data-target="#collpase' + category + '"></li>' +
+        '<li><input type="button" class="btn btn-warning update-category" value="카테고리 수정" data-toggle="modal" data-target="category-update-modal"></li>' +
         '<li><h2 class="category-title">' + category + '</h2></li>' +
-        '<li><i class="fa fa-arrow-circle-down icon_arr fa-5x mr-2" aria-hidden="true" data-toggle="collapse" role="button" data-target="#zzz"></i></li>' +
+        '<li><i class="fa fa-arrow-circle-down icon_arr fa-5x mr-2" aria-hidden="true" data-toggle="collapse" role="button" data-target="#collapse' + category + '"></i></li>' +
         '</ul>' +
-        '<section class="area4 collapse" id="#collapse ' + category +'">' +
+        '<section class="area4 collapse" id="collapse' + category +'">' +
         '</section>' +
         '</section>' +
         '</div>';
