@@ -37,6 +37,14 @@ $(function (){
         $(this).next().show();
         $(this).parent().find('.form-control').attr('readonly',false);
     });
+    $('.datetimepicker').datetimepicker({
+
+        datepicker: false,
+        step:5,
+        lang:'ko',
+        format:'Y-m-d H:i',
+        theme:'dark',
+    });
 
 });
 
