@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{manager/default}">
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/css/mg_main_login.css">
+    <link href="/css/vendor/calendar/core/main.css" rel="stylesheet" />
+    <link href="/css/vendor/calendar/daygrid/main.css" rel="stylesheet" />
+    <script src="/css/vendor/calendar/core/main.js"></script>
+    <script src="/css/vendor/calendar/daygrid/main.js"></script>
+    <script src="/css/vendor/calendar/core/locales/ko.js"></script>
+    <script src="/css/vendor/calendar/interaction/main.js"></script>
+    <script src="/css/vendor/calendar/google-calendar/main.js"></script>
+</th:block>
+<div layout:fragment="content" style="background-color: cadetblue;" class="pt-3 mr-3">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ["dayGrid", "interaction", "googleCalendar"],
+                editable: true,
+                selectable: true,
+                eventLimit: true,
+                eventSources: [
+
+                    // your event source
+                    {
+                        events: [ // put the array in the `events` property
+                            {
+                                title: '탕수육小 , 짜장면2',
+                                start: '2021-03-01T11:00:00'
+                            },
+                            {
+                                title: 'event2',
+                                start: '2021-03-05',
+                                end: '2021-03-07'
+                            },
+                            {
+                                title: 'event3',
+                                start: '2021-03-09T12:30:00',
+                            }
+                        ],
+                        color: '#E0F8E0', // an option!
+                        textColor: 'black' // an option!
+                    }
+
+                    // any other event sources...
+
+                ],
+                googleCalendarApiKey: "AIzaSyC0W3RJxfRDyOv4LndanSMizv_lB8F8ug4",
+                events: {
+                    googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com"
+                },
+                eventClick: function(info) {
+                    console.log(info);
+                    alert('일정 :' + info.event.title);
+                    return false;
+                }
+            });
+            calendar.render();
+        });
+    </script>
+    <script>
+        function printTime() {
+
+            var clock = document.getElementById("ri_time"); // 출력할 장소 선택
+
+            var now = new Date(); // 현재시간
+
+            var nowTime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + "-" + now.getHours() + "시" + now.getMinutes() + "분" + now.getSeconds() + "초";
+
+            clock.innerHTML = nowTime; // 현재시간을 출력
+
+            setTimeout("printTime()", 1000); // setTimeout(“실행할함수”,시간) 시간은1초의 경우 1000
+
+        }
+
+        window.onload = function() { // 페이지가 로딩되면 실행
+
+            printTime();
+
+        }
+    </script>
+    <script>
+        let dates = [];
+
+        /*        <c:forEach var="date" items="${ dates }">
+                    dates.push('<c:out value="${ date }" />');
+                </c:forEach>*/
+
+        for (let i = 0; i < 6; i++) {
+            dates.push(i);
+        }
+
+        let visits = [];
+
+        /*        <c:forEach begin="0" end="6" step="1" var="i">
+                    visits.push('<c:out value="${ chart_visit_rs.rowsByIndex[i][0] }" />');
+                </c:forEach>*/
+
+        for (let i = 0; i < 6; i++) {
+            visits.push(6 - i);
+        }
+
+        let page_views = [];
+
+        /*        <c:forEach begin="0" end="6" step="1" var="i">
+                    page_views.push('<c:out value="${ chart_page_view_rs.rowsByIndex[i][0] }" />');
+                </c:forEach>*/
+
+        for (let i = 0; i < 6; i++) {
+            page_views.push(i);
+        }
+
+        let boards = [];
+
+        /*        <c:forEach begin="0" end="6" step="1" var="i">
+                    boards.push('<c:out value="${ chart_boards_rs.rowsByIndex[i][0] }" />');
+                </c:forEach>*/
+
+        for (let i = 0; i < 6; i++) {
+            boards.push(i + 5);
+        }
+
+        let comments = [];
+
+        /*        <c:forEach begin="0" end="6" step="1" var="i">
+                    comments.push('<c:out value="${ chart_comments_rs.rowsByIndex[i][0] }" />');
+                </c:forEach>*/
+
+        for (let i = 0; i < 6; i++) {
+            comments.push(i);
+        }
+    </script>
+    <div class="mx-4" style="border-radius: 5px; margin-bottom: 20px; background-color: #fff;">
+        <div class="row p-2">
+
+            <div class="col-md-6 col-sm-12">
+                <div id='calendar' class="col-md-12" style="padding-top:20px;">
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <canvas id="memCanvas"></canvas>
+                <script>
+                    var lineChartData = {
+                        labels: dates,
+                        datasets: [{
+                            label: '방문자 수',
+                            fill: false,
+                            backgroundColor: 'rgba(255, 99, 132)',
+                            borderColor: 'rgba(255, 99, 132)',
+                            data: visits
+                        }, {
+                            label: '페이지 뷰',
+                            backgroundColor: 'rgba(54, 162, 235)',
+                            borderColor: 'rgba(54, 162, 235)',
+                            fill: false,
+                            data: page_views
+                        }]
+                    };
+
+                    var lineChartOpt = {
+                        responsive: true,
+                        hoverMode: 'index',
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: '최근 방문자 현황'
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    };
+
+                    var mem_ctx = document.getElementById('memCanvas').getContext('2d');
+                    window.myLine = Chart.Line(mem_ctx, {
+                        type: 'line',
+                        data: lineChartData,
+                        options: lineChartOpt
+                    });
+                </script>
+
+
+                <canvas id="contentsCanvas"></canvas>
+                <script>
+                    let contents_ctx = document.getElementById('contentsCanvas').getContext('2d');
+
+                    let purple_trans = [];
+                    let purple = [];
+
+                    let orange_trans = [];
+                    let orange = [];
+
+                    let barChartData = {
+                        labels: dates,
+                        datasets: [{
+                            label: '게시판',
+                            data: boards,
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            borderWidth: 1
+                        }, {
+                            label: '댓글',
+                            data: comments,
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }],
+                    }
+
+                    let barChartOpt = {
+                        type: 'bar',
+                        data: barChartData,
+                        title: {
+                            display: true,
+                            text: '최근 콘텐츠 현황'
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    }
+
+                    window.myBar = new Chart(contents_ctx, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: barChartOpt
+                    });
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row col-12">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        공지사항
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+
+                            <a href="#" class="list-group-item">
+                                <span>날짜</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span>날짜</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span>날짜</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span>날짜</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span>날짜</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span>날짜</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+
+                        </div>
+                        <div class="text-right">
+                            <a href="#">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row col-12">
+            <div class="col-md-12 col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        리뷰
+                    </div>
+                    <div class="panel-body">
+                        <div class="list-group">
+
+                            <a href="#" class="list-group-item">
+                                <span class="badge">시간</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="badge">시간</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="badge">시간</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="badge">시간</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="badge">시간</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="badge">시간</span>
+                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
+                            </a>
+
+                        </div>
+                        <div class="text-right">
+                            <a href="#">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 col-lg-8">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        예약 손님 현황
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>S No.</th>
+                                    <th>전화번호</th>
+                                    <th>회원이름</th>
+                                    <th>닉네임</th>
+                                    <th>이메일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>010-XXXX-XXXX</td>
+                                    <td>Doe</td>
+                                    <td>John15482</td>
+                                    <td>name@site.com</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>010-XXXX-XXXX</td>
+                                    <td>Marriye</td>
+                                    <td>Kim1425</td>
+                                    <td>name@site.com</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>010-XXXX-XXXX</td>
+                                    <td>Nermal</td>
+                                    <td>Rossy1245</td>
+                                    <td>name@site.com</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>010-XXXX-XXXX</td>
+                                    <td>Orieal</td>
+                                    <td>Rich5685</td>
+                                    <td>name@site.com</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>010-XXXX-XXXX</td>
+                                    <td>Hielsar</td>
+                                    <td>Jac4587</td>
+                                    <td>name@site.com</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>010-XXXX-XXXX</td>
+                                    <td>Dere</td>
+                                    <td>Wrap4585</td>
+                                    <td>name@site.com</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-right">
+                                <a href="#">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 예약현황 시작  -->
+    <div class="container">
+        <div class="row col-12">
+            <div class="col-12">
+                <div class="card">
+                    <h5 class="card-header bg-transparent">예약현황</h5>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="bg-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>메뉴이미지</th>
+                                    <th>메뉴이름</th>
+                                    <th>메뉴코드</th>
+                                    <th>메뉴수량</th>
+                                    <th>메뉴가격</th>
+                                    <th>예약시간</th>
+                                    <th>회원코드</th>
+                                    <th>예약상태</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <div class="m-r-10"><img src="food.jpg" alt="food" class="rounded" width="45"></div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td id="ri_time"></td>
+                                    <td></td>
+                                    <td><span class="badge-dot badge-brand mr-1"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        <div class="m-r-10"><img src="food.jpg" alt="food" class="rounded" width="45"></div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><span class="badge-dot badge-success mr-1"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>
+                                        <div class="m-r-10"><img src="food.jpg" alt="food" class="rounded" width="45"></div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><span class="badge-dot badge-success mr-1"></span></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>
+                                        <div class="m-r-10"><img src="food.jpg" alt="food" class="rounded" width="45"></div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><span class="badge-dot badge-success mr-1"></span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="9"><a href="#" class="btn btn-outline-success float-right">View Details</a></td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

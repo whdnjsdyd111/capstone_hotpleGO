@@ -81,6 +81,7 @@ public class ManagerController {
         return "manager/menus";
     }
 
+
     @GetMapping("/myShop")
     public String myShop(Model model, @AuthenticationPrincipal CustomUser manager) {
 //        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
@@ -125,5 +126,15 @@ public class ManagerController {
         }
         model.addAttribute("event", vo);
         return "manager/announce";
+    }
+
+    @GetMapping("/main")
+    public String main() {
+        return "manager/main";
+    }
+
+    @GetMapping("/mainLogout")
+    public String mainLogout() {
+        return "manager/mainLogout";
     }
 }

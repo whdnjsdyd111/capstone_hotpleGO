@@ -1,0 +1,47 @@
+.test-list li {
+  list-style: none;
+  padding: 10px;
+  border: 1px solid #eee; }
+.test-list .active {
+  background-color: skyblue; }
+
+.test-box-green {
+  border-radius: 5px;
+  padding-top: 15px;
+  padding-left: 15px;
+  width: 100%;
+  max-width: 80%;
+  margin: auto;
+  background-color: greenyellow; }
+
+.test-box-skyblue {
+  border-radius: 5px;
+  padding-top: 15px;
+  padding-left: 15px;
+  width: 100%;
+  max-width: 80%;
+  margin: auto;
+  background-color: skyblue; }
+
+.test-box-melone {
+  border-radius: 5px;
+  padding-top: 15px;
+  padding-left: 15px;
+  width: 100%;
+  max-width: 80%;
+  margin: auto;
+  background-color: aquamarine; }
+
+.row {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  text-align: center; }
+  .row .col-6 {
+    float: left;
+    width: 50%;
+    background-color: #eee; }
+  .row .col-4 {
+    float: left;
+    width: 33.3%;
+    background-color: #eee; }
