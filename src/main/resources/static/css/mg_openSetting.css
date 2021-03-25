@@ -1,0 +1,30 @@
+#content_main{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.fw-normal{
+    text-align: center;
+}
+.form-control{
+    margin-bottom: 30px;
+    width:70%;
+}
+.selector{
+    width:20%;
+    margin:0 0 0 auto;
+    margin-bottom: 30px;
+}
+
+#title{
+    text-align: center;
+}
+.btn{
+    float: right;
+}
+.form-container>div{
+    display: flex;
+}
+label{
+    margin-right:10px;
+}
