@@ -1,215 +1,211 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="utf-8">
-    <title>게시판 상세보기</title>
-    <link rel="stylesheet" href="/css/user/board_view.css">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
 
-    <!-- Font Awsome -->
-    <script src="https://kit.fontawesome.com/48ce553cf3.js" crossorigin="anonymous"></script>
+</th:block>
+<div layout:fragment="layout">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
-
-</head>
-<body>
-<!-- 게시물 상세정보 -->
-<div class="board_wrap">
-    <div class="board_title">
-        <h1>핫플GO</h1>
-    </div>
-</div>
-<div class="board_view_wrap">
-    <div class="board_view">
-        <div class="title">
-            ${board_title}
-        </div>
-        <div class="info">
-            <dl>
-                <dt>번호</dt>
-                <dd>${board_num}</dd>
-            </dl>
-            <dl>
-                <dt>글쓴이</dt>
-                <dd>${board_create_id}</dd>
-            </dl>
-            <dl>
-                <dt>작성일</dt>
-                <dd>${board_date}</dd>
-            </dl>
-            <dl>
-                <dt>조회</dt>
-                <dd>${board_view}</dd>
-            </dl>
-            <dl>
-                <dt>추천</dt>
-                <dd>${board_good}</dd>
-            </dl>
-            <dl>
-                <dt>비추천</dt>
-                <dd>${board_not_good}</dd>
-            </dl>
-        </div>
-        <div class="contents ">
-            본문내용(${board_contents})
+    <!-- 게시물 상세정보 -->
+    <div class="board_wrap">
+        <div class="board_title">
+            <h1>핫플GO</h1>
         </div>
     </div>
-    <div class="btn_c" align="center">
-        <a href="#" >《《</a>
-        <a href="#" >수정하기</a>
-        <a href="#" >목록으로</a>
-        <a href="#" >삭제하기</a>
-        <a href="#" >》》</a>
-    </div>
+    <div class="board_view_wrap">
+        <div class="board_view">
+            <div class="title">
+                ${board_title}
+            </div>
+            <div class="info">
+                <dl>
+                    <dt>번호</dt>
+                    <dd><th:text="${bdCode}"></th:text></th></dd>
+                </dl>
+                <dl>
+                    <dt>글쓴이</dt>
+                    <dd>${board_create_id}</dd>
+                </dl>
+                <dl>
+                    <dt>작성일</dt>
+                    <dd>${board_date}</dd>
+                </dl>
+                <dl>
+                    <dt>조회</dt>
+                    <dd>${board_view}</dd>
+                </dl>
+                <dl>
+                    <dt>추천</dt>
+                    <dd>${board_good}</dd>
+                </dl>
+                <dl>
+                    <dt>비추천</dt>
+                    <dd>${board_not_good}</dd>
+                </dl>
+            </div>
+            <div class="contents ">
+                본문내용(${board_contents})
+            </div>
+        </div>
+        <div class="btn_c" align="center">
+            <a href="#">《《</a>
+            <a href="#">수정하기</a>
+            <a href="#">목록으로</a>
+            <a href="#">삭제하기</a>
+            <a href="#">》》</a>
+        </div>
 
-    <!-- 추천 -->
-    <div class="add_bot">
-        <div class="btn_group">
-            <div class="container">
-                <div class="like rating-button selected">
-                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                    <span style="color: blue;">0</span>
-                </div>
-                <div class="dislike rating-button">
-                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                    <span style="color: #ff0000;">0</span>
-                </div>
-                <div class="btn_group_in">
+        <!-- 추천 -->
+        <div class="add_bot">
+            <div class="btn_group">
+                <div class="container">
+                    <div class="like rating-button selected">
+                        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                        <span style="color: blue;">0</span>
+                    </div>
+                    <div class="dislike rating-button">
+                        <i class="fa fa-thumbs-o-down" aria-hidden="true"></i>
+                        <span style="color: #ff0000;">0</span>
+                    </div>
+                    <div class="btn_group_in">
 						<span class="btn_recommend bn_share">
 							<button type="button" class="btn_share" onclick="CopyUrlToClipboard()">
 								<i class="fa fa-share-alt" aria-hidden="true"></i>
 							</button>
 						</span>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 댓글 -->
-        <div id="comments">
-            <div id="comments-head" class="comments-row">
-                <span>${comments_count}</span> Comment(s)
-                <div id="new_comment_cnt">
-                    (0 / 1000)
+            <!-- 댓글 -->
+            <div id="comments">
+                <div id="comments-head" class="comments-row">
+                    <span>${comments_count}</span> Comment(s)
+                    <div id="new_comment_cnt">
+                        (0 / 1000)
+                    </div>
                 </div>
-            </div>
-            <div class="comments-row" style="margin-bottom: 20px;">
+                <div class="comments-row" style="margin-bottom: 20px;">
 				<span>
 					<label for="comment_write" style="display: none;" class="new_comment">댓글을 입력하세요.</label>
 					<div class="txt_copy" style="width: 478px; min-height: 19px">&#65279;</div>
 					<p style="display: none;"></p>
 					<textarea id="comment_write" title="댓글 입력" class="comment_text"></textarea>
 				</span>
-                <span class="btn_c">
+                    <span class="btn_c">
 					<a href="#" type="button" class="submit" style="float: right;">
 						<span>전송</span>
 					</a>
 				</span>
+                </div>
+            </div>
+            <div class="add_bottom"></div>
+            <div class="comments-row">
+                <ul class="list">
+                    <li>
+                        <div class="Icon">
+                            <a href="#" class="Image_size">
+                                <img src="C:\Users\MY\Desktop\css\Profile_Icon.png">
+                            </a>
+                        </div>
+                        <div class="comment-info">
+                            <div style="display: inline-block; float: left;">{$create_id}</div>
+                            2021-03-09 12:30:08
+                        </div>
+                        <div class="comment-contents">
+                            first Comment Sample
+                            <div style="float: right; display: inline-block;">
+                                <div style="position: relative;">
+                                    <button type="button" value="re_com">리댓 작성</button>
+                                    <button type="button" value="Insert">수정</button>
+                                    <button type="button" value="Delete">삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="comments-row">
+                <ul class="list">
+                    <li>
+                        <div class="Icon">
+                            <a href="#" class="Image_size">
+                                <img src="C:\Users\MY\Desktop\css\Profile_Icon.png">
+                            </a>
+                        </div>
+                        <div class="comment-info">
+                            <div style="display: inline-block; float: left;">{$create_id}</div>
+                            2021-03-09 12:30:08
+                        </div>
+                        <div class="comment-contents">
+                            Second<br>Sample<br>Comment
+                            <div style="float: right; display: inline-block;">
+                                <div style="position: relative;">
+                                    <button type="button" value="re_com">리댓 작성</button>
+                                    <button type="button" value="Insert">수정</button>
+                                    <button type="button" value="Delete">삭제</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="add_bottom"></div>
-        <div class="comments-row">
-            <ul class="list">
-                <li>
-                    <div class="Icon">
-                        <a href="#" class="Image_size">
-                            <img src="C:\Users\MY\Desktop\css\Profile_Icon.png">
-                        </a>
-                    </div>
-                    <div class="comment-info">
-                        <div style="display: inline-block; float: left;">{$create_id}</div>
-                        2021-03-09 12:30:08
-                    </div>
-                    <div class="comment-contents">
-                        first Comment Sample
-                        <div style="float: right; display: inline-block;">
-                            <div style="position: relative;">
-                                <button type="button" value="re_com">리댓 작성</button>
-                                <button type="button" value="Insert">수정</button>
-                                <button type="button" value="Delete">삭제</button>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="comments-row">
-            <ul class="list">
-                <li>
-                    <div class="Icon">
-                        <a href="#" class="Image_size">
-                            <img src="C:\Users\MY\Desktop\css\Profile_Icon.png">
-                        </a>
-                    </div>
-                    <div class="comment-info">
-                        <div style="display: inline-block; float: left;">{$create_id}</div>
-                        2021-03-09 12:30:08
-                    </div>
-                    <div class="comment-contents">
-                        Second<br>Sample<br>Comment
-                        <div style="float: right; display: inline-block;">
-                            <div style="position: relative;">
-                                <button type="button" value="re_com">리댓 작성</button>
-                                <button type="button" value="Insert">수정</button>
-                                <button type="button" value="Delete">삭제</button>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <script>
-        // 댓글작성 글자 수 제한
-        $(document).ready(function() {
-            $('.comment_text').on('keyup', function() {
-                $('#new_comment_cnt').html("("+$(this).val().length+" / 1000)");
+        <script>
+            // 댓글작성 글자 수 제한
+            $(document).ready(function () {
+                $('.comment_text').on('keyup', function () {
+                    $('#new_comment_cnt').html("(" + $(this).val().length + " / 1000)");
 
-                if($(this).val().length > 1000) {
-                    $(this).val($(this).val().substring(0, 1000));
-                    $('#new_comment_cnt').html("(1000 / 1000)");
-                }
+                    if ($(this).val().length > 1000) {
+                        $(this).val($(this).val().substring(0, 1000));
+                        $('#new_comment_cnt').html("(1000 / 1000)");
+                    }
+                });
             });
-        });
 
-        // URL 클립보드에 복사하기
-        function CopyUrlToClipboard(){
-            var dummy = document.createElement("input");
-            var text = location.href;
+            // URL 클립보드에 복사하기
+            function CopyUrlToClipboard() {
+                var dummy = document.createElement("input");
+                var text = location.href;
 
-            document.body.appendChild(dummy);
-            dummy.value = text;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-        }
-
-        // 좋아요 싫어요 버튼
-        var likeEl = $('.like');
-        let likeSpanEl = likeEl.find('span');
-        var dislikeEl = $('.dislike');
-        let dislikeSpanEl = dislikeEl.find('span');
-        $('.rating-button').click(function() {
-            // remove all selected class
-            $('.rating-button').removeClass('selected');
-            if ($(this).hasClass('dislike')) {
-                changeLikes();
-                changeDisLikes(true);
-            } else {
-                changeLikes(true);
-                changeDisLikes();
+                document.body.appendChild(dummy);
+                dummy.value = text;
+                dummy.select();
+                document.execCommand("copy");
+                document.body.removeChild(dummy);
             }
-            // add selected to current el
-            $(this).addClass('selected');
-        });
-        function changeLikes(add) {
-            let likes = parseInt(likeSpanEl.text());
-            $(likeSpanEl).text(add ? likes + 1 : likes);
-        }
-        function changeDisLikes(add) {
-            let dislikes = parseInt(dislikeSpanEl.text());
-            $(dislikeSpanEl).text(add ? dislikes + 1 : dislikes);
-        }
-    </script>
+
+            // 좋아요 싫어요 버튼
+            var likeEl = $('.like');
+            let likeSpanEl = likeEl.find('span');
+            var dislikeEl = $('.dislike');
+            let dislikeSpanEl = dislikeEl.find('span');
+            $('.rating-button').click(function () {
+                // remove all selected class
+                $('.rating-button').removeClass('selected');
+                if ($(this).hasClass('dislike')) {
+                    changeLikes();
+                    changeDisLikes(true);
+                } else {
+                    changeLikes(true);
+                    changeDisLikes();
+                }
+                // add selected to current el
+                $(this).addClass('selected');
+            });
+
+            function changeLikes(add) {
+                let likes = parseInt(likeSpanEl.text());
+                $(likeSpanEl).text(add ? likes + 1 : likes);
+            }
+
+            function changeDisLikes(add) {
+                let dislikes = parseInt(dislikeSpanEl.text());
+                $(dislikeSpanEl).text(add ? dislikes + 1 : dislikes);
+            }
+        </script>
+    </div>
 </div>
-</body>
 </html>

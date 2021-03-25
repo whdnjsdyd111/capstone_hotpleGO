@@ -1,3 +1,11 @@
+const token = $("meta[name='_csrf']").attr("content");
+const header = $("meta[name='_csrf_header']").attr("content");
+$(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
+
+$(function() {
+    main.init();
+})
+
 var main = {
     init: function () {
         var _this = this;
@@ -14,22 +22,21 @@ var main = {
         });
     },
     save: function () {
-        var data = {
-            title: $('#bdTitle').val(),
-            area: $('#bdArea').val(),
-            content: $('#bdCont').val()
+        let data = {
+            bdTitle: $('#bdTitle').val(),
+            bdArea: $('#bdArea').val(),
+            bdCont: $('#bdCont').val()
         };
         $.ajax({
             type: 'POST',
-            url: '/board/write',
-            dataType: 'json',
+            url: '/board/rest/write',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
-        }).done(function () {
-            alert('글이 등록되었습니다.');
+        }).done(function (data, status, xhr) {
+            alert(data);
             window.location.href = '/board/list';
         }).fail(function (error) {
-            alert(JSON.stringify(error));
+            console.log(error.responseText);
         });
     }, update : function () {
         var data = {
@@ -42,7 +49,6 @@ var main = {
         $.ajax({
             type: 'PUT',
             url: '/board/write'+id,
-            dataType: 'json',
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function() {
@@ -57,7 +63,6 @@ var main = {
         $.ajax({
             type: 'DELETE',
             url: '/api/v1/posts/'+id,
-            dataType: 'json',
             contentType:'application/json; charset=utf-8'
         }).done(function() {
             alert('글이 삭제되었습니다.');
@@ -67,5 +72,3 @@ var main = {
         });
     }
 };
-
-main.init();
