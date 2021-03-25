@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.web.BoardMapper">
+    <sql id="boardColumns">
+        bdCode
+        , bdTitle
+        , bdArea
+        , bdCont
+        , bdRdCount
+        , bdRecy
+        , bdRecn
+        , uCode
+    </sql>
+
+    <select id="getBoardList" resultType="BoardVO">
+        SELECT bdCode, bdTitle, bdRdCount, bdRecy, bdRecn, uCode FROM board ORDER BY bdCode DESC
+    </select>
+
+    <insert id="insertBoard">
+        INSERT INTO board (
+        <include refid="boardColumns" />
+        ) VALUES(
+            #{bdCode}
+            , #{bdTitle}
+            , #{bdArea}
+            , #{bdCont}
+            , #{bdRdCount}
+            , #{bdRecy}
+            , #{bdRecn}
+            , #{uCode}
+        )
+    </insert>
+
+    <update id="updateBoard">
+        UPDATE board
+        SET bdTitle = #{bdTitle},
+            bdArea = #{bdArea},
+            bdCont = #{bdCont}
+        WHERE bdCode = #{bdCode} and uCode in (
+            select uCode from board
+            where uCode = #{uCode}
+        )
+    </update>
+
+    <delete id="deleteBoard">
+        DELETE FROM board WHERE bdCode = #{bdCode}
+    </delete>
+</mapper>
