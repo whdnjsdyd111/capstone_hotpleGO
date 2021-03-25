@@ -475,3 +475,12 @@ form.user .btn-user {
 .btn-facebook:visited, .btn-google:visited, .btn-naver:visited, .btn-kakako:visited {
     color: white;
 }
+
+
+.navbar {
+    display: block;
+}
+
+.navbar-brand {
+    display: block;
+}

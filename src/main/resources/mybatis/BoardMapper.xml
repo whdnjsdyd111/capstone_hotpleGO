@@ -14,8 +14,12 @@
         , uCode
     </sql>
 
+    <select id="getBoardList" resultType="BoardVO">
+        SELECT bdCode, bdTitle, bdRdCount, bdRecy, bdRecn, uCode FROM board ORDER BY bdCode DESC
+    </select>
+
     <insert id="insertBoard">
-        INSERT INTO tb_board (
+        INSERT INTO board (
         <include refid="boardColumns" />
         ) VALUES(
             #{bdCode}
@@ -28,4 +32,19 @@
             , #{uCode}
         )
     </insert>
+
+    <update id="updateBoard">
+        UPDATE board
+        SET bdTitle = #{bdTitle},
+            bdArea = #{bdArea},
+            bdCont = #{bdCont}
+        WHERE bdCode = #{bdCode} and uCode in (
+            select uCode from board
+            where uCode = #{uCode}
+        )
+    </update>
+
+    <delete id="deleteBoard">
+        DELETE FROM board WHERE bdCode = #{bdCode}
+    </delete>
 </mapper>

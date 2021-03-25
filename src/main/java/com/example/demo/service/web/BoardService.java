@@ -7,11 +7,7 @@ import java.util.List;
 
 public interface BoardService {
 
-    public boolean registerBoard(BoardVO params);
-
-    public BoardVO getBoardDetail(String bdCode);
-
-    public boolean updateBoard(String bdCode);
+    public boolean writeBoard(BoardVO boardVO);
 
     public boolean deleteBoard(String bdCode);
 

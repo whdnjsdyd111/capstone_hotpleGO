@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/board")
 @RequiredArgsConstructor
@@ -16,25 +18,16 @@ import org.springframework.web.bind.annotation.*;
 public class BoardController {
     private final BoardService boardService;
 
-    @GetMapping("/list")
+    @GetMapping("/write")
     public String openBoardWrite(@RequestParam(value = "bdCode", required = false) String bdCode, Model model) {
-        if (bdCode == null) {
-            model.addAttribute("board", new BoardVO());
-        } else {
-            BoardVO board = boardService.getBoardDetail(bdCode);
-            if (board == null) {
-                return "redirect:/board";
-            }
-            model.addAttribute("board", board);
-        }
-
-        return "/board";
+        model.addAttribute("board", new BoardVO());
+        return "user/boardWrite";
     }
 
     @PostMapping(value = "/write")
-    public String registerBoard(BoardVO params) {
+    public String writeBoard(BoardVO boardVO) {
         try {
-            boolean isRegistered = boardService.registerBoard(params);
+            boolean isRegistered = boardService.writeBoard(boardVO);
             if (isRegistered == false) {
                 log.warn("게시글 등록 실패");
             }
@@ -43,6 +36,35 @@ public class BoardController {
         } catch (Exception e) {
             log.warn("시스템 에러 발생");
         }
-        return "/boardWrite";
+        return "/user/boardWrite";
+    }
+
+    @GetMapping(value = "/board")
+    public String openBoardList(Model model) {
+        List<BoardVO> boardList = boardService.getBoardList();
+        model.addAttribute("boardList", boardList);
+
+        return "user/board";
+    }
+
+    @PostMapping(value = "/board/delete.do")
+    public String deleteBoard(@RequestParam(value = "bdCode", required = false) String bdCode) {
+        if (bdCode == null) {
+            return "redirect:/board/list.do";
+        }
+
+        try {
+            boolean isDeleted = boardService.deleteBoard(bdCode);
+            if (isDeleted == false) {
+                log.warn("게시글 삭제 실패");
+            }
+        } catch (DataAccessException e) {
+                log.warn("데이터 처리 실패");
+
+        } catch (Exception e) {
+                log.warn("시스템 에러 발생");
+        }
+
+        return "redirect:/user/board";
     }
 }

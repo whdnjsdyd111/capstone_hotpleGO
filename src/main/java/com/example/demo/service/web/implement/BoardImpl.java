@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -14,32 +15,31 @@ public class BoardImpl implements BoardService {
     @Setter(onMethod_ = @Autowired)
     private BoardMapper boardMapper;
 
-    public boolean registerBoard(BoardVO params){
+    public boolean writeBoard(BoardVO boardVO) {
         int queryResult = 0;
 
-        if (params.getBdCode() == null) {
-            queryResult = boardMapper.insertBoard(params);
+        if (boardVO.getBdCode() == null) {
+            queryResult = boardMapper.insertBoard(boardVO);
         } else {
-            queryResult = boardMapper.updateBoard(params);
+            queryResult = boardMapper.updateBoard(boardVO);
         }
 
         return (queryResult == 1) ? true : false;
     }
 
-    public BoardVO getBoardDetail(String bdCode){
-        return boardMapper.selectBoardDetail(bdCode);
+
+    public boolean deleteBoard(String bdCode) {
+        int queryResult = 0;
+
+        BoardVO board = boardMapper.selectBoardDetail(bdCode);
+
+        return (queryResult == 1) ? true : false;
     }
 
     @Override
-    public boolean updateBoard(String bdCode) {
-        return false;
-    }
+    public List<BoardVO> getBoardList() {
+        List<BoardVO> boardList = Collections.emptyList();
 
-    public boolean deleteBoard(String bdCode){
-        return boardMapper.deleteBoard(bdCode) == 1;
-    }
-
-    public List<BoardVO> getBoardList(){
-        return boardMapper.selectBoardList();
+        return boardList;
     }
 }

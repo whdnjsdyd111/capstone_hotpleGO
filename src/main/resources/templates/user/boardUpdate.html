@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:replace="main_fragment::head ('Board')">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -69,11 +69,12 @@
             </div>
             <div class="col-sm-3 text-center" style="margin-left: 80%; margin-top: 10px;">
                 <button type="button" class="btn btn-primary" id="btn-update">수정</button>
+                <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
                 <a href="/board/list" role="button" class="btn btn-secondary">취소</a>
             </div>
         </div>
     </div>
-    <script src="/js/write.js"></script>
+    <script src="/user/board_write.js"></script>
 
 </div>
 <div th:insert="main_fragment::footer"></div>
