@@ -4,10 +4,7 @@ import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.EventVO;
 import com.example.demo.domain.MenuVO;
 import com.example.demo.security.CustomUser;
-import com.example.demo.service.EventService;
-import com.example.demo.service.HotpleService;
-import com.example.demo.service.MenuService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.*;
 import com.example.demo.domain.ManagerVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -142,6 +139,7 @@ public class ManagerController {
 
     @GetMapping("/orders")
     public String orders(Model model) {
+//        log.info(reservation.getList(5L));
         return "manager/orders";
     }
 }

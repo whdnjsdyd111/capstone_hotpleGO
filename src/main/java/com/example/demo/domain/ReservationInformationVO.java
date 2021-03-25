@@ -3,7 +3,7 @@ package com.example.demo.domain;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Map;
+import java.util.List;
 
 @Data
 public class ReservationInformationVO {
@@ -16,5 +16,5 @@ public class ReservationInformationVO {
     private String riCont;
     private String uCode;
 
-    private Map<MenuVO, Integer> rs;
+    private List<ReservationStatusVO> rs;
 }

@@ -4,21 +4,25 @@
       layout:decorator="~{manager/default}">
 <th:block layout:fragment="styles">
     <style>
-        input[type="radio"] {
+        input[name="tab_menu"] {
             display:none;
         }
 
-        input[type="radio"]+label {
+        input[name="tab_menu"]+label {
             display: inline-block;
             padding: 20px;
             background:#ccc;
             color: #999;
             font-size: 14px;
             cursor:pointer;
+            border-radius: 15px;
         }
 
-        input[type="radio"]:checked+label {
-            background-color: #aaa; color: #000; font-weight:900;
+        input[name="tab_menu"]:checked+label {
+            background-color: #aaa;
+            color: #000;
+            font-weight:900;
+            border-radius: 15px;
         }
 
         input[type="textarea"] {
@@ -29,21 +33,12 @@
             display:none;
         }
 
-        input[id="tab01"]:checked~.current-orderBox {
+        input[id="orderTab"]:checked~.current-orderBox {
             display: block;
         }
 
-        input[id="tab02"]:checked~.history-orderBox {
+        input[id="historyTab"]:checked~.history-orderBox {
             display: block;
-        }
-
-        table {
-            padding-bottom: 5px;
-            text-align: center;
-            margin: auto;
-            margin-top: 10px;
-            width: 500px;
-            background-color: white;
         }
 
         table tr>td, th {
@@ -57,272 +52,223 @@
         }
     </style>
 </th:block>
-<div layout:fragment="content">
-    <div class="tab_content">
-        <input type="radio" name="teb_menu" id="tab01" checked>
-        <label for="tab01">신규 처리 중<span class="badge bg-light text-dark" >2</span></label>
-        <input type="radio" name="teb_menu" id="tab02">
-        <label for="tab02">완료<span class="badge bg-light text-dark">1</span></label>
-        <div style="margin-bottom: 3px;"></div>
-        <div style="border-bottom: 1px solid #7a7a7a;"></div>
+<div class="mt-5" layout:fragment="content">
+    <input type="radio" name="tab_menu" id="orderTab" checked>
+    <label for="orderTab" class="ml-2">신규 예약<span class="badge bg-light text-dark" >2</span></label>
+    <input type="radio" name="tab_menu" id="historyTab">
+    <label for="historyTab">이전 예약<span class="badge bg-light text-dark">1</span></label>
 
-        <div class="orderBoxes current-orderBox">
-            <div class="card3">
-                <table>
-                    <tr>
-                        <td>가게명</td>
-                        <td>○○○○</td>
-                    </tr>
-                    <tr>
-                        <td>주문 메뉴</td>
-                        <td>순살치킨 비빔밥 2개 외 1개</td>
-                    </tr>
-                    <tr>
-                        <td>주문 시간</td>
-                        <td>2021-03-24 18:30</td>
-                    </tr>
-                    <tr>
-                        <td>예상도착시간</td>
-                        <td>2021-03-24 19:00</td>
-                    </tr>
-                    <tr>
-                        <td>결제여부</td>
-                        <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#collapseExample01" aria-expanded="false" aria-controls="collapseExample01">결제완료</button></td>
-                    </tr>
-                </table>
-            </div>
-            <div id="collapseExample01" class="collapse" >
-                <div class="card2 card-body">
-                    <table>
-                        <tr>
-                            <th style="background-color: white">주문상세내역</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table>
-                                    <thead>
-                                    <th>주문번호</th>
-                                    <th>주문제품</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td rowspan="2"></td>
-                                        <td>순살치킨 비빔밥</td>
-                                        <td>7,600</td>
-                                        <td>2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>아메리카노</td>
-                                        <td>1,700</td>
-                                        <td>1</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table>
-                                    <thead>
-                                    <th>예약 인원</th>
-                                    <th>지불한 금액 / 합계금액</th>
-                                    <th>예약 시간</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>16,900 / 16,900</td>
-                                        <td>2021-03-24<br> 19:00</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>요청사항</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="textarea" size="60"  readonly />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div style="border-bottom: 1px solid #e0e0e0; width: 100%; margin: auto; padding-top: 10px;"></div>
-            <div class="card3">
-                <table>
-                    <tr>
-                        <td>가게명</td>
-                        <td>○○○○</td>
-                    </tr>
-                    <tr>
-                        <td>주문 메뉴</td>
-                        <td>육회비빔밥 3개 외 2개</td>
-                    </tr>
-                    <tr>
-                        <td>주문 시간</td>
-                        <td>2021-03-24 18:42</td>
-                    </tr>
-                    <tr>
-                        <td>예상도착시간</td>
-                        <td>2021-03-24 19:36</td>
-                    </tr>
-                    <tr>
-                        <td>결제여부</td>
-                        <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#collapseExample02" aria-expanded="false" aria-controls="collapseExample02">미결제</button></td>
-                    </tr>
-                </table>
-            </div>
-            <div id="collapseExample02" class="collapse" >
-                <div class="card2 card-body">
-                    <table>
-                        <tr>
-                            <th style="background-color: white">주문상세내역</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table>
-                                    <thead>
-                                    <th>주문번호</th>
-                                    <th>주문제품</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td rowspan="3"></td>
-                                        <td>육회비빔밥</td>
-                                        <td>8,000</td>
-                                        <td>3</td>
-                                    </tr>
-                                    <tr>
-                                        <td>순살치킨 비빔밥</td>
-                                        <td>7,600</td>
-                                        <td>2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>블랙커피</td>
-                                        <td>1,500</td>
-                                        <td>1</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table>
-                                    <thead>
-                                    <th>예약 인원</th>
-                                    <th>지불한 금액 / 합계금액</th>
-                                    <th>예약 시간</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>0 / 40,700</td>
-                                        <td>2021-03-24<br>19:30</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>요청사항</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="textarea" size="60"  readonly />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div style="border-bottom: 1px solid #e0e0e0; width: 100%; margin: auto; padding-top: 10px;"></div>
+    <div class="orderBoxes current-orderBox mx-2">
+        <div class="card3">
+            <table class="table">
+                <tr>
+                    <td>가게명</td>
+                    <td>○○○○</td>
+                </tr>
+                <tr>
+                    <td>주문 메뉴</td>
+                    <td>순살치킨 비빔밥 2개 외 1개</td>
+                </tr>
+                <tr>
+                    <td>주문 시간</td>
+                    <td>2021-03-24 18:30</td>
+                </tr>
+                <tr>
+                    <td>예약 시간</td>
+                    <td>2021-03-24 19:00</td>
+                </tr>
+                <tr>
+                    <td>노쇼 여부</td>
+                    <td>
+                        <div class="row">
+                            <div class="custom-control custom-radio mx-2">
+                                <input type="radio" name="serv1" id="Show" class="custom-control-input">
+                                <label class="custom-control-label" for="Show">Show</label>
+                            </div>
+                            <div class="custom-control custom-radio mx-2">
+                                <input type="radio" name="serv1" id="NoShow" class="custom-control-input">
+                                <label class="custom-control-label" for="NoShow">NoShow</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-middle">상세 보기</td>
+                    <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#collapseExample01" aria-expanded="false" aria-controls="collapseExample01">펼치기</button></td>
+                </tr>
+            </table>
         </div>
-        <div class="orderBoxes history-orderBox">
-            <div class="card3">
-                <table border="1">
+        <div id="collapseExample01" class="collapse" >
+            <div class="p-3">
+                <table class="table">
                     <tr>
-                        <td>가게명</td>
-                        <td>○○○○</td>
+                        <th style="background-color: white">주문상세내역</th>
                     </tr>
                     <tr>
-                        <td>도착 시간</td>
-                        <td>2021-03-20 18:48</td>
+                        <td>
+                            <table class="table ">
+                                <thead class="thead-dark">
+                                <th>주문 번호</th>
+                                <th>주문 제품</th>
+                                <th>가격</th>
+                                <th>수량</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td rowspan="2" class="align-middle text-center">
+                                        예약코드
+                                    </td>
+                                    <td>순살치킨 비빔밥</td>
+                                    <td>7,600</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>아메리카노</td>
+                                    <td>1,700</td>
+                                    <td>1</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
-                        <td>주문제품</td>
-                        <td>육회비빔밥 2개 외 1개</td>
+                        <td>
+                            <table class="table text-center">
+                                <thead class="thead-dark">
+                                <th>예약 인원</th>
+                                <th>합계 금액</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>16,900</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
-                        <td>결제여부</td>
-                        <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#collapseExample03" aria-expanded="false" aria-controls="collapseExample03">결제완료</button></td>
+                        <td>요청사항</td>
                     </tr>
                     <tr>
-                        <td>평균평점</td>
-                        <td>★★★★★<br>
-                            <a href="#" class="btn btn-outline-info btn-sm">리뷰 확인하기</a>
+                        <td>
+                            <input type="textarea" class="form-control bg-light" readonly />
                         </td>
                     </tr>
                 </table>
             </div>
-            <div id="collapseExample03" class="collapse" >
-                <div class="card2 card-body">
-                    <table>
-                        <tr>
-                            <th style="background-color: white">주문상세내역</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table>
-                                    <thead>
-                                    <tr>
-                                        <th>주문번호</th>
-                                        <th>주문제품</th>
-                                        <th>가격</th>
-                                        <th>수량</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td rowspan="3"></td>
-                                        <td>육회비빔밥</td>
-                                        <td>8,000</td>
-                                        <td>2</td>
-                                    </tr>
-                                    <tr>
-                                        <td>블랙커피</td>
-                                        <td>1,500</td>
-                                        <td>1</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table>
-                                    <tr>
-                                        <th>예약 인원</th>
-                                        <th>지불한 금액 / 합계금액</th>
-                                        <th>예약 시간</th>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>17,500 / 17,500</td>
-                                        <td>2021-03-20<br>18:45</td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+        </div>
+        <hr>
+    </div>
+
+
+    <div class="orderBoxes history-orderBox mx-2">
+        <div class="card3">
+            <table class="table">
+                <tr>
+                    <td>가게명</td>
+                    <td>○○○○</td>
+                </tr>
+                <tr>
+                    <td>주문 메뉴</td>
+                    <td>순살치킨 비빔밥 2개 외 1개</td>
+                </tr>
+                <tr>
+                    <td>주문 시간</td>
+                    <td>2021-03-24 18:30</td>
+                </tr>
+                <tr>
+                    <td>예약 시간</td>
+                    <td>2021-03-24 19:00</td>
+                </tr>
+                <tr>
+                    <td>노쇼 여부</td>
+                    <td>
+                        <div class="row">
+                            <div class="custom-control custom-radio mx-2">
+                                <input type="radio" name="serv2" id="Show1" class="custom-control-input">
+                                <label class="custom-control-label" for="Show1">Show</label>
+                            </div>
+                            <div class="custom-control custom-radio mx-2">
+                                <input type="radio" name="serv2" id="NoShow1" class="custom-control-input" checked>
+                                <label class="custom-control-label" for="NoShow1">NoShow</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="align-middle">상세 보기</td>
+                    <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" data-target="#collapseExample02" aria-expanded="false" aria-controls="collapseExample02">펼치기</button></td>
+                </tr>
+                <tr>
+                    <td class="align-middle">평균 평점</td>
+                    <td>★★★★★<br>
+                        <a href="#" class="btn btn-outline-info btn-sm">리뷰 확인하기</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="collapseExample02" class="collapse" >
+            <div class="p-3">
+                <table class="table">
+                    <tr>
+                        <th style="background-color: white">주문상세내역</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="table ">
+                                <thead class="thead-dark">
+                                <th>주문 번호</th>
+                                <th>주문 제품</th>
+                                <th>가격</th>
+                                <th>수량</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td rowspan="2" class="align-middle text-center">
+                                        예약코드
+                                    </td>
+                                    <td>순살치킨 비빔밥</td>
+                                    <td>7,600</td>
+                                    <td>2</td>
+                                </tr>
+                                <tr>
+                                    <td>아메리카노</td>
+                                    <td>1,700</td>
+                                    <td>1</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table class="table text-center">
+                                <thead class="thead-dark">
+                                <th>예약 인원</th>
+                                <th>합계 금액</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>16,900</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>요청사항</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="textarea" class="form-control bg-light" readonly />
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
+        <hr>
     </div>
 </div>
 </html>
