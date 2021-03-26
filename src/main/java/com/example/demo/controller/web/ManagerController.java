@@ -3,6 +3,7 @@ package com.example.demo.controller.web;
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.EventVO;
 import com.example.demo.domain.MenuVO;
+import com.example.demo.domain.ReservationAllVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
 import com.example.demo.domain.ManagerVO;
@@ -30,6 +31,7 @@ public class ManagerController {
     private final HotpleService hotple;
     private final MenuService menu;
     private final EventService event;
+    private final ReservationService reservation;
 
     @GetMapping("/register")
     public String registerManager() {
@@ -61,9 +63,14 @@ public class ManagerController {
         return "manager/enrollment";
     }
 
-    @GetMapping("/stop")
-    public String temporaryStop() {
-        return "manager/stop";
+    @GetMapping("/close")
+    public String closeSetting() {
+        return "manager/close";
+    }
+
+    @GetMapping("/open")
+    public String openSetting() {
+        return "manager/open";
     }
 
     @GetMapping("/menus/{htId}")
@@ -139,7 +146,13 @@ public class ManagerController {
 
     @GetMapping("/orders")
     public String orders(Model model) {
-//        log.info(reservation.getList(5L));
+        Map<String, List<ReservationAllVO>> map = reservation.getList(5L);
+        model.addAttribute("reservations", map);
         return "manager/orders";
+    }
+
+    @GetMapping(value = { "/", "/main" })
+    public String main(Model model) {
+        return "manager/main";
     }
 }

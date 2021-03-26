@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{manager/default}">
 <th:block layout:fragment="styles">
-    <link rel="stylesheet" href="/css/mg_main_login.css">
+    <link rel="stylesheet" href="/css/manager/mg_main_login.css">
     <link href="/css/vendor/calendar/core/main.css" rel="stylesheet" />
     <link href="/css/vendor/calendar/daygrid/main.css" rel="stylesheet" />
     <script src="/css/vendor/calendar/core/main.js"></script>
@@ -219,7 +219,7 @@
                         data: barChartData,
                         title: {
                             display: true,
-                            text: '최근 콘텐츠 현황'
+                            text: '최근 매출 현황'
                         },
                         options: {
                             scales: {
@@ -484,9 +484,7 @@
                                     <td colspan="9"><a href="#" class="btn btn-outline-success float-right">View Details</a></td>
                                 </tr>
                                 </tbody>
-
                             </table>
-
                         </div>
                     </div>
                 </div>

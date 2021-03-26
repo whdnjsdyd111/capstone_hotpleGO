@@ -1,11 +1,14 @@
 package com.example.demo.api;
 
+import com.example.demo.domain.ReservationAllVO;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class HotpleAPI {
     public static String toDateStr(String code) {
@@ -49,5 +52,59 @@ public class HotpleAPI {
 
     public static String replaceSlash(String url) {
         return url.replaceAll("\\\\", "/");
+    }
+
+    public static int sumMenusPrice(List<ReservationAllVO> list) {
+        int sum = 0;
+        for (ReservationAllVO reservationAllVO : list) {
+            sum += reservationAllVO.getMePrice() * reservationAllVO.getRsMeNum();
+        }
+        return sum;
+    }
+
+    public static int reservHistoryNum(Map<String, ReservationAllVO> map) {
+        int num = 0;
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+
+        for (String key : map.keySet()) {
+            try {
+                Date date = new SimpleDateFormat("yyMMddHHmmss").parse(key);
+                Timestamp t = new Timestamp(date.getTime());
+                if (t.after(time)) num++;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return num;
+    }
+
+    public static int reservCurNum(Map<String, ReservationAllVO> map) {
+        int num = 0;
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+
+        for (String key : map.keySet()) {
+            try {
+                Date date = new SimpleDateFormat("yyMMddHHmmss").parse(key);
+                Timestamp t = new Timestamp(date.getTime());
+                if (t.before(time)) num++;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return num;
+    }
+
+    public static boolean reservBol(String code) {
+        Date date = new Date();
+        Date reserv = null;
+        try {
+            reserv = new SimpleDateFormat("yyMMddHHmmss").parse(code.split("/")[0]);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return reserv.before(date);
     }
 }

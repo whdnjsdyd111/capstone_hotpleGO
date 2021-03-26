@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.domain.ReservationAllVO;
 import com.example.demo.domain.ReservationInformationVO;
 import com.example.demo.domain.ReservationStatusVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,5 +14,5 @@ public interface ReservationMapper {
 
     public List<ReservationInformationVO> getHistoryList(String htId);
 
-    public Map<ReservationInformationVO, List<ReservationStatusVO>> getReservation(Long htId);
+    public List<ReservationAllVO> getReservation(Long htId);
 }

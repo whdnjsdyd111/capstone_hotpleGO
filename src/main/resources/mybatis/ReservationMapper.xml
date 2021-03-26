@@ -15,4 +15,8 @@
         SELECT * FROM res_info WHERE htId = #{htId} AND riTime < SYSTIMESTAMP
         ]]>
     </select>
+
+    <select id="getReservation" resultType="ReservationAllVO">
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE res_info.htId = #{htId}
+    </select>
 </mapper>
