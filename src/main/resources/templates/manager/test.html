@@ -1,128 +1,92 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="~{manager/default}">>
+      layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
-    <link rel="stylesheet" href="/css/mg_open_time.css" >
-    <script src="/css/manager/mg_open_time.js"></script>
+    <link rel="stylesheet" href="/css/user/store.css">
 </th:block>
-<body>
-<div class="container-fluid px-0">
-    <div th:replace="manager/layout::header"></div>
-    <div class="container-fluid" style="margin-top: 3.65rem !important">
-        <div class="row navbar navbar-expand-lg px-0" >
-            <div th:replace="manager/layout::sidebar"></div>
-            <div id="content" class="col-xl-9 col-lg-9 row px-0 mt-0 mx-0">
-                <div id="content_main" class="col-xl-10 col-lg-12 px-0">
-                    <section>
-                        <th:block layout:fragment="content">
-                            <!-- 평일 -->
-                            <div id="weekday-box" class="form-group">
-                                <form method="post" action="">
-                                    <h1  class="h3 mb-3 fw-normal">평일</h1>
-                                    <div>
-                                        <select class="form-control selector">
-                                        <option value="평일" selected="selected">평일</option>
-                                        <option value="주말">주말</option>
-                                        <option value="정기 휴무">정기 휴무</option>
-                                    </select>
-                                    </div>
-                                    <div class="form-container">
-                                        <label for="weekday-start-time" class="visually-hidden">영업 시간</label>
-                                        <div>
-                                            <input type="text" id="weekday-start-time" class="form-control datetimepicker"  required>
-                                            ~
-                                            <input type="text" id="weekday-end-time" class="form-control datetimepicker"  required>
-                                        </div>
-                                        <label for="weekday-break-start-time" >휴식 시간</label>
-                                        <div>
-                                            <input type="text" id="weekday-break-start-time" class="form-control datetimepicker"  required>
-                                            ~
-                                            <input type="text" id="weekday-break-end-time" class="form-control datetimepicker"  required>
-                                        </div>
-                                    </div>
-                                </form>
+<div layout:fragment="content">
+    <div class="rd-header l-container">
+        <div class="l-contents l-contents--fixed">
+            <div class="rd-header__headline rd-header__headline--award-badge">
+                <h2 class="rd-header__rst-name">
+                    <a class="rd-header__rst-name-main"
+                       href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/">가게명</a>
+                    <small class="rd-header__rst-name-ja">(지역명)</small>
+                </h2>
+                <div class="rd-header-badge-award">
+                    <a class="rd-header-badge-award__target" target="_blank"
+                       href="https://award.tabelog.com/en/restaurants/gold">
+                    </a></div>
+            </div>
+            <div class="rd-header__contents u-clearfix">
+                <div class="rd-header__info-wrapper">
+                    <div class="rd-header__info-table">
+                        <dl>
+                            <dt><span>주소</span></dt>
+                            <dd>
+                                ~시 ~구 ~로 123142 층
 
-                                <button class="btn  btn-info" id="modify-weekday">변경</button>
-                                <button class="btn  btn-primary" id="submit-weekday" >적용</button>
-                            </div>
-                            <!-- 주말 -->
-                            <div id="weekend-box" class="form-group" style="display: none;">
-                                <form method="post" action="">
-                                    <h1 class="h3 mb-3 fw-normal">주말</h1>
-                                    <div>
-                                        <select  class="form-control selector" >
-                                            <option value="평일" >평일</option>
-                                            <option value="주말" selected="selected">주말</option>
-                                            <option value="정기 휴무">정기 휴무</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-container">
-                                        <label for="weekday-start-time">영업 시간</label>
-                                        <div>
-                                            <input type="text" id="weekend-start-time" class="form-control datetimepicker"  required>
-                                            ~
-                                            <input type="text" id="weekend-end-time" class="form-control datetimepicker"  required>
-                                        </div>
-                                        <label for="weekday-break-start-time" >휴식 시간</label>
-                                        <div>
-                                            <input type="text" id="weekend-break-start-time" class="form-control datetimepicker"  required>
-                                            ~
-                                            <input type="text" id="weekend-break-end-time" class="form-control datetimepicker"  required>
-                                        </div>
-                                    </div>
-                                </form>
+                            </dd>
+                        </dl>
 
-                                <button class="btn  btn-info" id="modify-weekend">변경</button>
-                                <button class="btn  btn-primary" id="submit-weekend" >적용</button>
-                            </div>
-                            <!-- 정기 휴무 -->
-                            <div id="holiday-box" style="display: none;" class="form-group">
-                                <form method="post" action="">
-                                    <h1  class="h3 mb-3 fw-normal">정기 휴무일</h1>
-                                    <div>
-                                        <select  class="form-control selector"  style="width:80%;">
-                                            <option value="평일" >평일</option>
-                                            <option value="주말">주말</option>
-                                            <option value="정기 휴무" selected="selected">정기 휴무</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-container">
-                                        <label for="weekday-start-time" >주</label>
-                                        <div>
-                                            <select  class="form-control " style="width: 100%">
-                                                <option value="첫째주" >첫째주</option>
-                                                <option value="둘째주">둘째주</option>
-                                                <option value="셋째주" >셋째주</option>
-                                                <option value="넷째주" >넷째주</option>
-                                                <option value="매주" >매주</option>
-                                            </select>
-                                        </div>
-                                        <label for="weekday-break-start-time" >요일</label>
-                                        <div>
-                                            <select  class="form-control "style="width: 100%">
-                                                <option value="월" >월</option>
-                                                <option value="화">화</option>
-                                                <option value="수" >수</option>
-                                                <option value="목" >목</option>
-                                                <option value="금" >금</option>
-                                                <option value="토" >토</option>
-                                                <option value="일" >일</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </form>
+                        <dl>
+                            <dt><span>영업시간</span></dt>
+                            <dd>
+                                00:00~00:00
 
-                                <button class="btn  btn-info" id="modify-holiday">변경</button>
-                                <button class="btn  btn-primary" id="submit-holiday" >적용</button>
-                            </div>
-                        </th:block>
-                    </section>
+                            </dd>
+                        </dl>
+
+                        <dl>
+                            <dt><span>TEL</span></dt>
+                            <dd>
+                                010-1234-5678
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><span>예산</span></dt>
+                            <dd>
+                                20,000～29,999
+                        </dl>
+                        <dl>
+                            <dt><span>설명</span></dt>
+                            <dd>
+                                맛있습니다
+                            </dd>
+                        </dl>
+
+                    </div>
                 </div>
+                <p class="rd-header__rst-map">
+                    <a href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/dtlmap/" class="c-img-target">
+                        <img class="c-img c-img--frame"
+                             src="https://maps.googleapis.com/maps/api/staticmap?channel=restaurant_inbound_detail_header&amp;key=AIzaSyCFZGUaDWgiusOQeFpnVLT2uPM2R6Mq7J8&amp;hl=ja&amp;center=35.68187074084084,139.78496245984476&amp;style=feature:landscape%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:labels.icon%7Ccolor:0xd2d2d2&amp;style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x949499&amp;style=feature:road%7Clightness:25&amp;style=feature:road%7Celement:labels%7Csaturation:-100%7Clightness:40&amp;style=feature:transit.station.airport%7Celement:geometry%7Clightness:25&amp;style=feature:water%7Celement:geometry%7Clightness:25&amp;markers=color:red%7C35.68187074084084,139.78496245984476&amp;zoom=15&amp;size=220x180&amp;language=kr&amp;signature=huPGNLWfP20aePKaA-Fqw_gJHKs=">
+                    </a>
+                </p>
             </div>
         </div>
+    </div><!-- l-container -->
+    <div class="l-container">
+        <nav class="rd-nav-wrapper l-contents l-contents--fixed">
+
+            <ul class="rd-nav u-clearfix">
+
+                <li class="rd-nav__main-item rd-nav__main-item--photo is-selected">
+                    <a class="rd-nav__main-target" href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/dtlphotolst/1/">
+                        <span class="rd-nav__main-target-name gly-b-camera rd-nav__has-sub">메뉴</span>
+                    </a>
+                </li>
+
+                <li class="rd-nav__main-item rd-nav__main-item--review">
+                    <a class="rd-nav__main-target" href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/dtlrvwlst/">
+                        <span class="rd-nav__main-target-name gly-b-review">리뷰 / 평가</span>
+                        <span class="rd-nav__main-target-number">(341 reviews)</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
     </div>
 </div>
-<div th:replace="manager/layout::footer"></div>
-</body>
 </html>
