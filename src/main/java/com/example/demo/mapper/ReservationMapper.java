@@ -15,4 +15,6 @@ public interface ReservationMapper {
     public List<ReservationInformationVO> getHistoryList(String htId);
 
     public List<ReservationAllVO> getReservation(Long htId);
+
+    public int updateNoShow(String code, String str);
 }

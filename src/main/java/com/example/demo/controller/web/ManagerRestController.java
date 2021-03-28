@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +32,7 @@ public class ManagerRestController {
     private final UserService user;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     @PostMapping(value = "/comp-erm")
     @ResponseBody
     public ResponseEntity<String> companyEnrollment(HotpleVO vo, @AuthenticationPrincipal CustomUser manager,
@@ -64,6 +66,7 @@ public class ManagerRestController {
         }
     }
 
+    @Transactional
     @PostMapping("/comp-update")
     @ResponseBody
     public ResponseEntity<String> companyUpdate(HotpleVO vo, MultipartFile upload) {
@@ -89,6 +92,7 @@ public class ManagerRestController {
         return new ResponseEntity<>("삭제 완료하였습니다.", HttpStatus.OK);
     }
 
+    @Transactional
     @PostMapping("/menu-add")
     @ResponseBody
     public ResponseEntity<MenuVO> menuAdd(MenuVO vo, MultipartFile upload) {
@@ -116,6 +120,7 @@ public class ManagerRestController {
         }
     }
 
+    @Transactional
     @PostMapping("/menu-update")
     @ResponseBody
     public ResponseEntity<MenuVO> menuUpdate(MenuVO vo, MultipartFile upload) {
@@ -225,5 +230,15 @@ public class ManagerRestController {
         } else {
             return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.OK);
         }
+    }
+
+    @PostMapping("/change-show")
+    public ResponseEntity<String> changeShow() {
+        return null;
+    }
+
+    @PostMapping("/change-noShow")
+    public ResponseEntity<String> changeNoShow() {
+        return null;
     }
 }

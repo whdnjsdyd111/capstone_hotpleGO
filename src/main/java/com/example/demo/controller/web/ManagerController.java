@@ -32,6 +32,7 @@ public class ManagerController {
     private final MenuService menu;
     private final EventService event;
     private final ReservationService reservation;
+    private final ReviewService review;
 
     @GetMapping("/register")
     public String registerManager() {
@@ -93,7 +94,8 @@ public class ManagerController {
     }
 
     @GetMapping("/reviews/{htId}")
-    public String review(Model model, @PathVariable("htId") String htId) {
+    public String review(Model model, @PathVariable("htId") long htId) {
+        model.addAttribute("reviews", review.getList(htId));
         return "manager/reviews";
     }
 
@@ -141,11 +143,13 @@ public class ManagerController {
 
     @GetMapping("/sales")
     public String sales(Model model) {
+        // TODO
         return "manager/sales";
     }
 
     @GetMapping("/orders")
     public String orders(Model model) {
+        // TODO
         Map<String, List<ReservationAllVO>> map = reservation.getList(5L);
         model.addAttribute("reservations", map);
         return "manager/orders";
