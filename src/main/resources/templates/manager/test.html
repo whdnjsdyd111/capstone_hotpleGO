@@ -3,7 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
-    <link rel="stylesheet" href="/css/user/store.css">
+    <link rel="stylesheet" href="/css/user/shopDetail.css">
+    <link rel="stylesheet" href="/css/manager/mg_menus.css" >
 </th:block>
 <div layout:fragment="content">
     <div class="rd-header l-container">
@@ -17,7 +18,8 @@
                 <div class="rd-header-badge-award">
                     <a class="rd-header-badge-award__target" target="_blank"
                        href="https://award.tabelog.com/en/restaurants/gold">
-                    </a></div>
+                    </a>
+                </div>
             </div>
             <div class="rd-header__contents u-clearfix">
                 <div class="rd-header__info-wrapper">
@@ -26,18 +28,20 @@
                             <dt><span>주소</span></dt>
                             <dd>
                                 ~시 ~구 ~로 123142 층
-
                             </dd>
                         </dl>
-
                         <dl>
                             <dt><span>영업시간</span></dt>
                             <dd>
                                 00:00~00:00
-
                             </dd>
                         </dl>
-
+                        <dl>
+                            <dt><span>정기 휴무</span></dt>
+                            <dd>
+                                매주 월요일
+                            </dd>
+                        </dl>
                         <dl>
                             <dt><span>TEL</span></dt>
                             <dd>
@@ -55,7 +59,6 @@
                                 맛있습니다
                             </dd>
                         </dl>
-
                     </div>
                 </div>
                 <p class="rd-header__rst-map">
@@ -67,26 +70,136 @@
             </div>
         </div>
     </div><!-- l-container -->
-    <div class="l-container">
-        <nav class="rd-nav-wrapper l-contents l-contents--fixed">
+    <!-- 버튼들 -->
+    <ul class="nav nav-tabs restaurant-tab">
+        <li  class="active"><a  data-toggle="tab">메뉴 </a></li>
+        <li  class=""><a data-toggle="tab">리뷰 <span class="ng-binding">리뷰 수</span></a></li>
+    </ul>
+    <!-- 버튼들 끝 -->
+    <!-- 메뉴 시작-->
+    <main class="mt-5 mt-5 col-xl-9" id="menu-tab">
+        <div class="area3" style="border: 0px;"></div>
+        <div id="field" class="p-3">
+            <div   class="menu-div p-2 border-dark border rounded mb-5">
+                <section class="area2">
+                    <ul>
+                        <li><h2 class="category-title" >카테고리</h2></li>
+                        <li><i class="fa fa-arrow-circle-down icon_arr fa-5x mr-2" aria-hidden="true" data-toggle="collapse" role="button" data-target="#testing"></i></li>
+                    </ul>
+                    <section class="area4 collapse" id="testing">
+                        <table  style="width:100%">
+                            <tbody>
+                            <tr class="row">
+                                <td class="photo-area col-12 col-sm-6">
+                                        <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
+                                </td>
+                                <td class="menu-text col-12 col-sm-6">
+                                    <div><h3 class="menu-title" >메뉴 이름</h3></div>
+                                    <div><h6 class="menu-hashtag" >해시태그</h6></div>
+                                    <div><h6 class="menu-expl" >설명</h6></div>
+                                    <div class="d-flex"><h6 class="menu-price" >가격</h6><h6>원</h6></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </main>
+    <!-- 메뉴 끝 -->
+    <!-- 리뷰 시작-->
+    <!--<div id="review-tab">
+        <div class="star-point-wrap">
+            <div class="inner">
+                <div class="restaurant-star-point">
+                    &lt;!&ndash; 전체 평균 &ndash;&gt;
+                    <strong >
+                        4.5
+                    </strong>
+                    <span class="star-point">
+                        <span class="full " >★</span>
+                        <span class="empty " >★</span>
+                    </span>
+                </div>
+                <ul class="star-point-list">
+                    &lt;!&ndash;5번 반복해서 각 점수별 몇명인지 표시 &ndash;&gt;
+                    <li >
+                        <span class="category-tit">?점</span>
+                        <span class="star-point">
+                            <span class="full" >★</span>
+                            <span class="points">사람수</span>
+                        </span>
+                    </li>
 
-            <ul class="rd-nav u-clearfix">
+                </ul>
+            </div>
+        </div>
+        <div class="review-count">
+            <div>
+                리뷰 <strong >숫자</strong>개·사장님댓글 <strong>숫자</strong>개
+                <label style="float:right;">
+                    댓글 없는것만 보기
+                    <input type="checkbox" checked data-toggle="toggle" data-size="xs">
+                </label>
+            </div>
 
-                <li class="rd-nav__main-item rd-nav__main-item--photo is-selected">
-                    <a class="rd-nav__main-target" href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/dtlphotolst/1/">
-                        <span class="rd-nav__main-target-name gly-b-camera rd-nav__has-sub">메뉴</span>
-                    </a>
-                </li>
+        </div>
+        <ul id="review" class="list-group review-list">
 
-                <li class="rd-nav__main-item rd-nav__main-item--review">
-                    <a class="rd-nav__main-target" href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/dtlrvwlst/">
-                        <span class="rd-nav__main-target-name gly-b-review">리뷰 / 평가</span>
-                        <span class="rd-nav__main-target-number">(341 reviews)</span>
-                    </a>
-                </li>
+            &lt;!&ndash; 리뷰 전체 시작 (리뷰 수만큼 반복) &ndash;&gt;
+            <li class="list-group-item star-point" >
+                <div>
+                    <span nclass="review-id" th:text="${review.UCode}">사용자명</span>
+                    <span class="review-time" th:text="${#hotpleAPI.toDateStr(review.riCode)}">시간</span>
+                    <a href="" class="btn-report"  data-toggle="modal" data-target="#report-modal" >신고</a>
+                </div>
+                <div>
+                    <div class="star-point">
+                        &lt;!&ndash; 별점 갯수 반복 &ndash;&gt;
+                        <span class="category" >
+                            <span class="star-rating">
+                                <span th:style="'width:' + ${review.rvRating * 20} + '%'"></span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                &lt;!&ndash; 이미지 들어갈 곳 &ndash;&gt;
+                <div class="order-items default " th:text="|메뉴코드 : *{review.riCode}|">
+                    메뉴코드
+                </div>
+                <p th:text="${review.rvCont}">리뷰 내용</p>
+                <div>
+                    <p class="reply-edit-off" onclick="reply_mode(this)">답글 달기</p>
+                </div>
+                &lt;!&ndash; 답글 달기 &ndash;&gt;
+                <div class="reply-edit" style="display: none">
+                    <div>
+                        <span class="owner-review-id">사장님</span>
+                        <span class="review-time">시간</span>
+                    </div>
+                    <textarea type="text"  class="form-control" placeholder="댓글 입력"></textarea>
+                    <input type="button" class="btn btn-primary pull-right" value="등록" onclick="reply_submit(this)" >
+                </div> &lt;!&ndash; 답글 달기 끝 &ndash;&gt;
+                &lt;!&ndash; 답글  &ndash;&gt;
+                <div class="reply-text" style="display: none">
+                    <div>
+                        <span class="owner-review-id">사장님</span>
+                        <span class="review-time">시간</span>
+                        <span class="review-edit" onclick="reply_modify(this)">수정</span>
+                        <span class="review-edit" onclick="reply_delete(this)">삭제</span>
+                    </div>
+                    <span class="reply-content"></span>
+                </div> &lt;!&ndash; 답글 끝 &ndash;&gt;
+            </li>
+            &lt;!&ndash; 리뷰 전체 끝 &ndash;&gt;
 
-            </ul>
-        </nav>
-    </div>
+
+            <li class="list-group-item btn-more">
+                <a><span>더 보기<i class="arr-down"></i></span></a>
+            </li>
+        </ul>
+    </div>-->
+    <!-- 리뷰 끝 -->
 </div>
 </html>
