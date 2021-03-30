@@ -3,6 +3,7 @@ package com.example.demo.broadcast;
 import com.example.demo.config.CustomSpringConfigurator;
 import com.example.demo.domain.web.ChatLogVO;
 import com.example.demo.service.web.ChatLogService;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -24,7 +25,7 @@ public class BoardSocket {
     private static final Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
     private static int onlineCount = 0;
 
-    @Autowired
+    @Setter(onMethod_ = @Autowired)
     private ChatLogService chatLog;
 
     @OnOpen

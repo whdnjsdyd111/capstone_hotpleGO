@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{manager/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/manager/mg_userSetting.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="container">
+        <h1 class="text-center text-dark font-weight-bold my-3">개인 정보 관리</h1>
+
+        <table class="table my-3">
+            <tr>
+                <th>이메일</th>
+                <td th:text="${user.UCode.split('/')[0]}">email</td>
+            </tr>
+            <tr>
+                <th>생성일자</th>
+                <td th:text="${#hotpleAPI.timestampToStr(user.regDate)}">가입일</td>
+            </tr>
+            <tr>
+                <th>실명</th>
+                <td th:text="${user.MName}">이름</td>
+            </tr>
+            <tr>
+                <th>계좌번호</th>
+                <td>
+                    <div class="d-flex">
+                        <div class="d-flex flex-column mr-2 w-50">
+                            <input id="mAccount" class="form-control" th:value="${user.MAccount}">
+                            <small id="check_acc" class="form-text text-danger my-1"></small>
+                            <select id="bank" class="custom-select">
+                                <option selected disabled>은행</option>
+                                <option value="농협">농협</option>
+                                <option value="국민">국민</option>
+                                <option value="신한">신한</option>
+                                <option value="카카오">카카오</option>
+                                <option value="대구">대구</option>
+                                <option value="기업">기업</option>
+                                <option value="씨티">씨티</option>
+                                <option value="케이뱅크">케이뱅크</option>
+                            </select>
+                        </div>
+                        <script>
+                            let origin_bank = "[[${user.MBank}]]";
+                        </script>
+                        <button id="updateAccount" class="btn btn-info" disabled="disabled">수정하기</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>닉네임</th>
+                <td>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-md-row">
+                            <input id="nickname" class="form-control w-50 mr-2" th:value="${user.nick}"/>
+                            <button id="updateNick" class="btn btn-info" disabled="disabled">수정하기</button>
+                        </div>
+                        <small id="check_nick" class="form-text text-danger "></small>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호 변경</th>
+                <td>
+                    <div class="d-flex flex-column">
+                        <div class="form-group">
+                            <label for="password"><i class="fa fa-lock mr-2"></i>현재 비밀번호 입력</label>
+                            <input type="password" class="form-control w-50" id="password" name="password">
+                        </div>
+                        <small id="check_pw" class="form-text text-danger  mb-3"></small>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <div class="form-group">
+                            <label for="password"><i class="fa fa-key mr-2"></i>신규 비밀번호 입력</label>
+                            <input type="password" class="form-control w-50" id="new_password" name="password">
+                        </div>
+                        <small id="new_check_pw" class="form-text text-danger  my-3"></small>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <div class="form-group">
+                            <label for="new_password"><i class="fa fa-key mr-2 text-muted"></i>신규 비밀번호 재입력</label>
+                            <input type="password" class="form-control w-50" id="new_re_passwd" name="password">
+                        </div>
+                        <small id="new_re_check_pw" class="form-text text-danger  mb-3"></small>
+                        <button type="submit" id="submit_new_pw" class="btn btn-success w-50 btn-lg" disabled="disabled">비밀번호 재설정</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</html>

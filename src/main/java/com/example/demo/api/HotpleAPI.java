@@ -1,11 +1,14 @@
 package com.example.demo.api;
 
+import com.example.demo.domain.ReservationAllVO;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class HotpleAPI {
     public static String toDateStr(String code) {
@@ -49,5 +52,42 @@ public class HotpleAPI {
 
     public static String replaceSlash(String url) {
         return url.replaceAll("\\\\", "/");
+    }
+
+    public static int sumMenusPrice(List<ReservationAllVO> list) {
+        int sum = 0;
+        for (ReservationAllVO reservationAllVO : list) {
+            sum += reservationAllVO.getMePrice() * reservationAllVO.getRsMeNum();
+        }
+        return sum;
+    }
+
+    public static int reservHistoryNum(Map<String, List<ReservationAllVO>> map) {
+        int num = 0;
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+
+        for (String key : map.keySet()) {
+            List<ReservationAllVO> list = map.get(key);
+            if (time.after(list.get(0).getRiTime())) num++;
+        }
+
+        return num;
+    }
+
+    public static int reservCurNum(Map<String, List<ReservationAllVO>> map) {
+        int num = 0;
+        Timestamp time = new Timestamp(System.currentTimeMillis());
+
+        for (String key : map.keySet()) {
+            List<ReservationAllVO> list = map.get(key);
+            if (time.before(list.get(0).getRiTime())) num++;
+        }
+
+        return num;
+    }
+
+    public static boolean reservBol(Timestamp time) {
+        Timestamp curTime = new Timestamp(System.currentTimeMillis());
+        return curTime.before(time);
     }
 }

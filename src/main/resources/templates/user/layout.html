@@ -18,7 +18,7 @@
 
     <!-- CSS -->
     <style>
-        @import "/css/styles.css";
+        @import "/css/user/styles.css";
     </style>
 
     <link
@@ -29,7 +29,7 @@
 </head>
 <body>
 <div class="top-div" th:fragment="nav">
-    <nav class="navbar navbar-expand-sm navbar-light navbar-light fixed-top nav-tabs" style="background-color: #e3f2fd;">
+    <nav class="navbar navbar-expand-sm navbar-light navbar-light fixed-top nav-tabs d-flex" style="background-color: #e3f2fd;">
         <a class="navbar-brand" href="/">
             <img src="images/logo.jpg" class="logo-design" alt="LOGO"/>
         </a>
@@ -39,7 +39,6 @@
         <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link" id="manage_btn" href="/alliance">제휴안내</a></li>
-                <li class="nav-item"><a class="nav-link" id="company_link" href="/company">회사소개</a></li>
                 <li class="nav-item"><a class="nav-link" id="login_link" href="/login">로그인</a></li>
             </ul>
         </div>

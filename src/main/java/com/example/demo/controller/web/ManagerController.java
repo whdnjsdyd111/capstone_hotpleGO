@@ -3,15 +3,12 @@ package com.example.demo.controller.web;
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.EventVO;
 import com.example.demo.domain.MenuVO;
+import com.example.demo.domain.ReservationAllVO;
 import com.example.demo.security.CustomUser;
-import com.example.demo.service.EventService;
-import com.example.demo.service.HotpleService;
-import com.example.demo.service.MenuService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.*;
 import com.example.demo.domain.ManagerVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +31,8 @@ public class ManagerController {
     private final HotpleService hotple;
     private final MenuService menu;
     private final EventService event;
+    private final ReservationService reservation;
+    private final ReviewService review;
 
     @GetMapping("/register")
     public String registerManager() {
@@ -65,9 +64,14 @@ public class ManagerController {
         return "manager/enrollment";
     }
 
-    @GetMapping("/stop")
-    public String temporaryStop() {
-        return "manager/stop";
+    @GetMapping("/close")
+    public String closeSetting() {
+        return "manager/close";
+    }
+
+    @GetMapping("/open")
+    public String openSetting() {
+        return "manager/open";
     }
 
     @GetMapping("/menus/{htId}")
@@ -81,21 +85,23 @@ public class ManagerController {
         return "manager/menus";
     }
 
-
     @GetMapping("/myShop")
     public String myShop(Model model, @AuthenticationPrincipal CustomUser manager) {
+        // TODO
 //        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
         model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd1111@naver.com/M/"));
         return "manager/myShop";
     }
 
     @GetMapping("/reviews/{htId}")
-    public String review(Model model, @PathVariable("htId") String htId) {
+    public String review(Model model, @PathVariable("htId") long htId) {
+        model.addAttribute("reviews", review.getList(htId));
         return "manager/reviews";
     }
 
     @GetMapping(value = { "/reviews", "/menus" })
     public String select(Model model, HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        // TODO
 //        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
         model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd1111@naver.com/M/"));
         model.addAttribute("url", request.getRequestURI().split("/")[2]);
@@ -128,13 +134,29 @@ public class ManagerController {
         return "manager/announce";
     }
 
-    @GetMapping("/main")
-    public String main() {
-        return "manager/main";
+    @GetMapping("/setting")
+    public String userSetting(Model model) {
+        // TODO
+        model.addAttribute("user", user.getManager("whdnjsdyd1111@naver.com/M/"));
+        return "manager/userSetting";
     }
 
-    @GetMapping("/mainLogout")
-    public String mainLogout() {
-        return "manager/mainLogout";
+    @GetMapping("/sales")
+    public String sales(Model model) {
+        // TODO
+        return "manager/sales";
+    }
+
+    @GetMapping("/orders")
+    public String orders(Model model) {
+        // TODO
+        Map<String, List<ReservationAllVO>> map = reservation.getList(5L);
+        model.addAttribute("reservations", map);
+        return "manager/orders";
+    }
+
+    @GetMapping(value = { "/", "/main" })
+    public String main(Model model) {
+        return "manager/main";
     }
 }

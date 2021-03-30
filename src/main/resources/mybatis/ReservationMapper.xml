@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.ReservationInformationMapper">
+<mapper namespace="com.example.demo.mapper.ReservationMapper">
 
     <select id="getCurList">
         <![CDATA[
@@ -16,5 +16,7 @@
         ]]>
     </select>
 
-
+    <select id="getReservation" resultType="ReservationAllVO">
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE res_info.htId = #{htId}
+    </select>
 </mapper>

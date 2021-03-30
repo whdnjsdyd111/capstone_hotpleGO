@@ -1,11 +1,12 @@
 package com.example.demo.domain;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.Map;
 
 @Data
+@Builder
 public class ReservationInformationVO {
     private String riCode;
     private Long htId;
@@ -15,6 +16,4 @@ public class ReservationInformationVO {
     private String riOdNum;
     private String riCont;
     private String uCode;
-
-    private Map<MenuVO, Integer> rs;
 }

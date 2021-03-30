@@ -1,0 +1,46 @@
+input[name="tab_menu"] {
+    display:none;
+}
+
+input[name="tab_menu"]+label {
+    display: inline-block;
+    padding: 20px;
+    background:#ccc;
+    color: #999;
+    font-size: 14px;
+    cursor:pointer;
+    border-radius: 15px;
+}
+
+input[name="tab_menu"]:checked+label {
+    background-color: #aaa;
+    color: #000;
+    font-weight:900;
+    border-radius: 15px;
+}
+
+input[type="textarea"] {
+    box-shadow: 1px 1px 0.2em gray;
+}
+
+.orderBoxes {
+    display:none;
+}
+
+input[id="orderTab"]:checked~.current-orderBox {
+    display: block;
+}
+
+input[id="historyTab"]:checked~.history-orderBox {
+    display: block;
+}
+
+table tr>td, th {
+    border: 1px solid #c0c0c0;
+    padding: 1px;
+}
+
+.card3 table tr>td:first-child {
+    background-color: #d8d8d8;
+    font-weight: 600;
+}

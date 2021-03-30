@@ -11,7 +11,7 @@
         <h1 class="text-center text-dark font-weight-bold my-3">로그인</h1>
 
         <div class="container d-flex flex-column my-3">
-            <label>아직 계정이 없으십니까?<a href="#"	class="btn btn-outline-primary mx-3 btn-sm">회원가입</a></label>
+            <label>아직 계정이 없으십니까?<a href="/manager/register" class="btn btn-outline-primary mx-3 btn-sm">회원가입</a></label>
             <div class="form-group my-3">
                 <label for="username"><i class="fa fa-envelope-o mr-2"></i>이메일</label>
                 <input type="text" class="form-control" id="username" name="username">
@@ -31,7 +31,7 @@
                 <input type="checkbox" class="custom-control-input" id="remember-me" name="remember-me">
                 <label class="custom-control-label" for="remember-me">로그인 유지</label>
             </div>
-            <button type="submit" class="btn btn-success my-3 col btn-lg">로그인</button>
+            <button type="submit" class="btn btn-success my-3 btn-lg">로그인</button>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         </div>
     </form>

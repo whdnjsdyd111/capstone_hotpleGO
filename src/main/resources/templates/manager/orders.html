@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{manager/default}">
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/css/manager/mg_orders.css" >
+    <script src="/css/manager/mg_orders.js"></script>
+</th:block>
+<div class="mt-5" layout:fragment="content">
+    <input type="radio" name="tab_menu" id="orderTab" checked>
+    <label for="orderTab" class="ml-2">신규 예약<span class="badge bg-light text-dark" th:text="${#hotpleAPI.reservCurNum(reservations)}">2</span></label>
+    <input type="radio" name="tab_menu" id="historyTab">
+    <label for="historyTab">이전 예약<span class="badge bg-light text-dark" th:text="${#hotpleAPI.reservHistoryNum(reservations)}">1</span></label>
+
+    <th:block th:each="reservation : ${reservations}">
+        <div class="orderBoxes current-orderBox mx-2">
+            <th:block th:if="${#hotpleAPI.reservBol(reservation.value.get(0).riTime)}">
+                <div class="card3">
+                    <table class="table">
+                        <tr>
+                            <td>주문 메뉴</td>
+                            <th:block th:if="${reservation.value.size() == 1}">
+                                <td th:text="|${reservation.value.get(0).meName} *{reservation.value.get(0).rsMeNum} 개|">순살치킨 비빔밥 2개 외 1개</td>
+                            </th:block>
+                            <th:block th:if="${reservation.value.size() > 1}">
+                                <td th:text="|*{reservation.value.get(0).meName} *{reservation.value.get(0).rsMeNum} 개 외 *{reservation.value.size() - 1} 개|"></td>
+                            </th:block>
+                        </tr>
+                        <tr>
+                            <td>주문 시간</td>
+                            <td th:text="${#hotpleAPI.toDateStr(reservation.value.get(0).riCode)}">2021-03-24 18:30</td>
+                        </tr>
+                        <tr>
+                            <td>예약 시간</td>
+                            <td th:text="${#hotpleAPI.timestampToStr(reservation.value.get(0).riTime)}">2021-03-24 19:00</td>
+                        </tr>
+                        <tr>
+                            <td>노쇼 여부</td>
+                            <td>
+                                <div class="row">
+                                    <div class="custom-control custom-radio mx-2">
+                                        <input type="radio" class="custom-control-input show" th:id="|rd*{reservation.value.get(0).riCode}show|" th:name="|rd*{reservation.value.get(0).riCode}|" th:checked="${reservation.value.get(0).riNoShow == 'Y'}">
+                                        <input type="hidden" th:value="${reservation.value.get(0).riCode}" />
+                                        <label class="custom-control-label" th:for="|rd*{reservation.value.get(0).riCode}show|">Show</label>
+                                    </div>
+                                    <div class="custom-control custom-radio mx-2">
+                                        <input type="radio" class="custom-control-input noShow" th:id="|rd*{reservation.value.get(0).riCode}noShow|" th:name="|rd*{reservation.value.get(0).riCode}|" th:checked="${reservation.value.get(0).riNoShow == 'N'}">
+                                        <input type="hidden" th:value="${reservation.value.get(0).riCode}" />
+                                        <label class="custom-control-label" th:for="|rd*{reservation.value.get(0).riCode}noShow|">NoShow</label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">상세 보기</td>
+                            <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" aria-expanded="false">펼치기</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div th:id="'res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" class="collapse" >
+                <div class="p-3">
+                    <table class="table">
+                        <tr>
+                            <th style="background-color: white">주문상세내역</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="table ">
+                                    <thead class="thead-dark">
+                                    <th>주문 메뉴</th>
+                                    <th>가격</th>
+                                    <th>수량</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="menu : ${reservation.value}">
+                                        <td th:text="${menu.meName}">순살치킨 비빔밥</td>
+                                        <td th:text="${#numbers.formatInteger(menu.mePrice * menu.rsMeNum, 0, 'COMMA')}">7,600</td>
+                                        <td th:text="${menu.rsMeNum}">2</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table class="table text-center">
+                                    <thead class="thead-dark">
+                                    <th>예약 인원</th>
+                                    <th>합계 금액</th>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td th:text="${reservation.value.get(0).riPerson}">2</td>
+                                        <td th:text="${#numbers.formatInteger(#hotpleAPI.sumMenusPrice(reservation.value), 0, 'COMMA')}">16,900</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>요청사항</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control bg-light" readonly th:value="${reservation.value.get(0).riCont}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+                <hr/>
+            </th:block>
+        </div>
+        <div class="orderBoxes history-orderBox mx-2">
+            <th:block th:if="${!#hotpleAPI.reservBol(reservation.value.get(0).riTime)}" >
+                <div class="card3">
+                    <table class="table">
+                        <tr>
+                            <td>주문 메뉴</td>
+                            <th:block th:if="${reservation.value.size() == 1}">
+                                <td th:text="|${reservation.value.get(0).meName} *{reservation.value.get(0).rsMeNum} 개|">순살치킨 비빔밥 2개 외 1개</td>
+                            </th:block>
+                            <th:block th:if="${reservation.value.size() > 1}">
+                                <td th:text="|*{reservation.value.get(0).meName} *{reservation.value.get(0).rsMeNum} 개 외 *{reservation.value.size() - 1} 개|"></td>
+                            </th:block>
+                        </tr>
+                        <tr>
+                            <td>주문 시간</td>
+                            <td th:text="${#hotpleAPI.toDateStr(reservation.value.get(0).riCode)}">2021-03-24 18:30</td>
+                        </tr>
+                        <tr>
+                            <td>예약 시간</td>
+                            <td th:text="${#hotpleAPI.timestampToStr(reservation.value.get(0).riTime)}">2021-03-24 19:00</td>
+                        </tr>
+                        <tr>
+                            <td>노쇼 여부</td>
+                            <td>
+                                <div class="row">
+                                    <div class="custom-control custom-radio mx-2">
+                                        <input type="radio" class="custom-control-input show" th:id="|rd*{reservation.value.get(0).riCode}show|" th:name="|rd*{reservation.value.get(0).riCode}|" th:checked="${reservation.value.get(0).riNoShow == 'Y'}">
+                                        <input type="hidden" th:value="${reservation.value.get(0).riCode}" />
+                                        <label class="custom-control-label" th:for="|rd*{reservation.value.get(0).riCode}show|">Show</label>
+                                    </div>
+                                    <div class="custom-control custom-radio mx-2">
+                                        <input type="radio" class="custom-control-input noShow" th:id="|rd*{reservation.value.get(0).riCode}noShow|" th:name="|rd*{reservation.value.get(0).riCode}|" th:checked="${reservation.value.get(0).riNoShow == 'N'}">
+                                        <input type="hidden" th:value="${reservation.value.get(0).riCode}" />
+                                        <label class="custom-control-label" th:for="|rd*{reservation.value.get(0).riCode}noShow|">NoShow</label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">상세 보기</td>
+                            <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" aria-expanded="false">펼치기</button></td>
+                        </tr>
+                        <tr>
+                            <td class="align-middle">평균 평점</td>
+                            <td>★★★★★<br>
+                                <a href="#" class="btn btn-outline-info btn-sm">리뷰 확인하기</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div th:id="'res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" class="collapse" >
+                    <div class="p-3">
+                        <table class="table">
+                            <tr>
+                                <th style="background-color: white">주문상세내역</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table class="table ">
+                                        <thead class="thead-dark">
+                                        <th>주문 메뉴</th>
+                                        <th>가격</th>
+                                        <th>수량</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="menu : ${reservation.value}">
+                                            <td th:text="${menu.meName}">순살치킨 비빔밥</td>
+                                            <td th:text="${#numbers.formatInteger(menu.mePrice * menu.rsMeNum, 0, 'COMMA')}">7,600</td>
+                                            <td th:text="${menu.rsMeNum}">2</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table class="table text-center">
+                                        <thead class="thead-dark">
+                                        <th>예약 인원</th>
+                                        <th>합계 금액</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td th:text="${reservation.value.get(0).riPerson}">2</td>
+                                            <td th:text="${#numbers.formatInteger(#hotpleAPI.sumMenusPrice(reservation.value), 0, 'COMMA')}">16,900</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>요청사항</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control bg-light" readonly th:value="${reservation.value.get(0).riCont}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <hr/>
+            </th:block>
+        </div>
+    </th:block>
+</div>
+</html>
