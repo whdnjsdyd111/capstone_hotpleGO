@@ -234,5 +234,32 @@
         </div>
         <!-- 버튼들 끝 -->
     </div>
+    <!--신고 모달 -->
+    <div>
+        <div class="modal fade" id="report-modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">신고 내용</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5>신고 사유</h5>
+                        <select name="report-options" class="form-control" >
+                            <option value="ads">광고</option>
+                            <option value="obscene">음란</option>
+                            <option value="abuse">욕설</option>
+                            <option value="else">기타</option>
+                        </select>
+                        <input type="text"  id="report-content" class="form-control editing" placeholder="신고 내용" >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" >제출</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </html>
