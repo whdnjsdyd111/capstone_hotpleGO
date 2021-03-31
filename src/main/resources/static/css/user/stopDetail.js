@@ -29,9 +29,30 @@ $(function (){
     $(document).on('click','.btn-delete',function (){
        $(this).parent().parent().parent().parent().remove();
        changeTotalPrice();
-       if(!+$('#total-price').text()){
+       if(!+$('#cart-total-price').text()){
            $('#empty-cart').show();
        }
+    });
+    $(document).on('click','#reservation-btn',function (){
+        console.log('whwvkf');
+        if(+$('#cart-total-price').text().replace('원','')){
+            console.log('tlqkf');
+            $('#reservation-confirm').children().remove();
+            $('#reservation-total-price').text('');
+            let carts=$('.cart-item').get();
+            carts.forEach(function (i){
+                let div=
+                    '<div class="d-flex">'+
+                    '<h6>'+$(i).find('.menu-name')+'</h6>'+
+                    '<h6>'+$(i).find('.order-num')+'</h6>'+
+                    '<h6>'+$(i).find('.order-price')+'</h6>'+
+                    '</div>'
+                $('#reservation-confirm').append(div);
+            });
+            $('#reservation-total-price').append('총합 : '+$('#cart-total-price').text());
+        }else {
+                $('#reservation-modal').modal('hide')
+        };
     });
 });
 function list_append(menuTitle,menuPrice){
@@ -45,9 +66,7 @@ function list_append(menuTitle,menuPrice){
         '<span class="order-price">'+menuPrice+'</span>'+
         ' </div>'+
         '<div class="col-xs-6 pull-right flex-center">'+
-        '<i class="btn btn-minus far fa-minus-square flex-center"></i>'+
         '<span class="order-num " name="num">1</span>'+
-        '<i class="btn btn-plus far fa-plus-square flex-center"></i>'+
         '</div>'+
         '</div>'+
         '</div>'+
@@ -61,5 +80,5 @@ function changeTotalPrice(){
         console.log($(i).text().replace('원',''));
         sum+=+$(i).text().replace('원','');
     });
-    $('#total-price').text(sum);
+    $('#cart-total-price').text(sum);
 }
