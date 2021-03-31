@@ -78,7 +78,7 @@ public class ManagerController {
     public String menuManagement(Model model, @PathVariable("htId") String htId) {
         List<MenuVO> list = menu.getList(htId);
         // TODO
-        if (list == null || list.size() == 0) return "redirect:/manager/menus";
+        if (list == null || list.size() == 0) return "manager/menus";
         Map<String, List<MenuVO>> map = new HashMap<>();
         list.forEach(l -> map.computeIfAbsent(l.getMeCate(), k -> new ArrayList<>()).add(l));
         model.addAttribute("menu_map", map);
@@ -89,7 +89,7 @@ public class ManagerController {
     public String myShop(Model model, @AuthenticationPrincipal CustomUser manager) {
         // TODO
 //        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
-        model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd1111@naver.com/M/"));
+        model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd2@naver.com/M/"));
         return "manager/myShop";
     }
 
@@ -103,7 +103,7 @@ public class ManagerController {
     public String select(Model model, HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
         // TODO
 //        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
-        model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd1111@naver.com/M/"));
+        model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd2@naver.com/M/"));
         model.addAttribute("url", request.getRequestURI().split("/")[2]);
         return "manager/selectComp";
     }

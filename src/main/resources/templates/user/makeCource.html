@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/user/user_makeCource.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div th:replace="user/courceNav :: cource"></div>
+    <div class="container">
+        <button class="btn-info" type="button" data-toggle="collapse" data-target="#collapseMap" aria-expanded="true">
+            위치 설정
+        </button>
+        <span></span>
+        <div id="collapseMap">
+            <div id="map_div"></div>
+            <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxcd9bdd0942b542fd8c7be931fc11a3b4"></script>
+            <script>
+                let map;
+                let marker;
+                let setLat;
+                let setLng;
+                $(function() {
+                    map = new Tmapv2.Map("map_div", {
+                        center: new Tmapv2.LatLng(37.52084364186228,127.058908811749),
+                        width: "100%",
+                        height: "400px"
+                    });
+
+                    map.addListener("drag", onDrag); // 지도 드래그시, 이벤트 리스너 등록.
+                    myGeo();
+
+                    $('#collapseMap').addClass('collapse');
+                });
+
+                function onDrag() {
+                    marker.setMap(null);
+                    marker = new Tmapv2.Marker({
+                        position : new Tmapv2.LatLng(map.getCenter().lat(), map.getCenter().lng()),
+                        map : map
+                    });
+                }
+
+                function myGeo() {
+                    setLat = map.getCenter().lat();
+                    setLng = map.getCenter().lng();
+                    if (marker !== undefined) marker.setMap(null);
+                    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            function(position) {
+                                let lat = position.coords.latitude;
+                                let lon = position.coords.longitude;
+
+                                marker = new Tmapv2.Marker({
+                                    position : new Tmapv2.LatLng(lat,lon),
+                                    map : map
+                                });
+
+                                map.setCenter(new Tmapv2.LatLng(lat,lon));
+                                map.setZoom(15);
+                            });
+                    }
+                }
+
+                function setGeo() {
+                    $('#collapseMap').collapse('hide');
+                    setLat = map.getCenter().lat();
+                    setLng = map.getCenter().lng();
+                }
+            </script>
+            <div class="d-flex justify-content-around">
+                <button class="btn-primary" type="button" onclick="myGeo()">내 위치 보기</button>
+                <button class="btn-primary" type="button" onclick="setGeo()">현위치로 설정</button>
+            </div>
+        </div>
+        <div class="d-flex flex-column my-5">
+            <a href="#" class="btn btn-primary mx-auto disabled btn-lg rounded-pill">가격 설정</a>
+            <div class="form-group">
+                <label class="my-3">단위 : 만원</label>
+                <input type="range" class="custom-range" min="1" max="10" step="1" id="priceSet">
+                <div class="d-flex justify-content-between">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                    <span>5</span>
+                    <span>6</span>
+                    <span>7</span>
+                    <span>8</span>
+                    <span>9</span>
+                    <span>∞</span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-column my-5">
+            <a href="#" class="btn btn-primary mx-auto disabled btn-lg rounded-pill">반경 설정</a>
+            <div class="form-group">
+                <label class="my-3">단위 : km</label>
+                <input type="range" class="custom-range" min="1" max="11" step="2" id="area">
+                <div class="d-flex justify-content-between">
+                    <span>1</span>
+                    <span>3</span>
+                    <span>5</span>
+                    <span>7</span>
+                    <span>9</span>
+                    <span>12</span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-around">
+            <div class="form-group">
+                <select class="form-control">
+                    <option selected>검색 순위 지정</option>
+                    <option value="별점순">별점순</option>
+                    <option value="거리순">거리순</option>
+                </select></div>
+            <div class="form-group">
+                <select class="form-control">
+                    <option selected>함께하는 사람</option>
+                    <option value="커플">커플</option>
+                    <option value="친구">친구</option>
+                    <option value="가족">가족</option>
+                    <option value="혼자">혼자</option>
+                </select></div>
+        </div>
+        <div>코스 순서 지정(최대 9개 까지 가능)</div>
+        <div class="row my-5">
+            <div class="d-flex flex-column cource-index">
+                <i class="fa fa-cutlery fa-5x"></i>
+                <div class="form-group my-3">
+                    <select class="form-control cource-kind">
+                        <option value="먹거리" selected>먹거리</option>
+                        <option value="디저트">디저트</option>
+                        <option value="놀이">놀이/취미</option>
+                        <option value="음주">음주</option>
+                        <option value="보기">보기</option>
+                        <option value="걷기">걷기</option>
+                    </select>
+                </div>
+            </div>
+            <i class="fa fa-arrow-circle-right fa-5x my-auto mx-5" aria-hidden="true"></i>
+            <i class="fa fa-plus-square fa-5x my-auto mx-5 plus-cource" aria-hidden="true"></i>
+        </div>
+        <div>
+            <button class="btn-success">추천 받기</button>
+        </div>
+    </div>
+</div>
+</html>

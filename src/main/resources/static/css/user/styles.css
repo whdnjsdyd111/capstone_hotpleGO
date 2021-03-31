@@ -484,3 +484,7 @@ form.user .btn-user {
 .navbar-brand {
     display: block;
 }
+
+.plus-cource:hover {
+    cursor: pointer;
+}

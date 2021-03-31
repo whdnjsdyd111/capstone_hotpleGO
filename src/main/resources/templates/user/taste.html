@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/css/user/user_taste.css">
+    <script src="/css/user/user_taste.js"></script>
+</th:block>
+<div layout:fragment="content" class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#food" aria-expanded="false">먹거리</h3>
+            <div class="form-group collapse" id="food">
+                <input type="checkbox" id="korean">
+                <label for="korean" class="mx-2">
+                    <img src="/images/icons/food/korean.jpg" />
+                    <p>한식</p>
+                </label>
+                <input type="checkbox" id="japanese">
+                <label for="japanese" class="mx-2">
+                    <img src="/images/icons/food/japanese.jpg" />
+                    <p>일식</p>
+                </label>
+                <input type="checkbox" id="west">
+                <label for="west" class="mx-2">
+                    <img src="/images/icons/food/west.jpg" />
+                    <p>양식</p>
+                </label>
+                <input type="checkbox" id="chinese">
+                <label for="chinese" class="mx-2">
+                    <img src="/images/icons/food/chinese.jpg" />
+                    <p>중식</p>
+                </label>
+                <input type="checkbox" id="fastfood">
+                <label for="fastfood" class="mx-2">
+                    <img src="/images/icons/food/fastfood.jpg" />
+                    <p>패스트푸트</p>
+                </label>
+                <input type="checkbox" id="buffet">
+                <label for="buffet" class="mx-2">
+                    <img src="/images/icons/food/buffet.jpg" />
+                    <p>뷔페</p>
+                </label>
+                <input type="checkbox" id="midnight_snack">
+                <label for="midnight_snack" class="mx-2">
+                    <img src="/images/icons/food/midnight_snack.jpg" />
+                    <p>야식</p>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#dessert" aria-expanded="false">디저트</h3>
+            <div class="form-group collapse" id="dessert">
+                <input type="checkbox" id="coffee">
+                <label for="coffee" class="mx-2">
+                    <img src="/images/icons/dessert/coffee.jpg" />
+                    <p>커피</p>
+                </label>
+                <input type="checkbox" id="drink">
+                <label for="drink" class="mx-2">
+                    <img src="/images/icons/dessert/drink.jpg" />
+                    <p>차/음료</p>
+                </label>
+                <input type="checkbox" id="bread">
+                <label for="bread" class="mx-2">
+                    <img src="/images/icons/dessert/bread.jpg" />
+                    <p>베이커리</p>
+                </label>
+                <input type="checkbox" id="ice">
+                <label for="ice" class="mx-2">
+                    <img src="/images/icons/dessert/ice.jpg" />
+                    <p>빙수</p>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#play" aria-expanded="false">놀이/취미</h3>
+            <div class="form-group collapse" id="play">
+                <input type="checkbox" id="game">
+                <label for="game" class="mx-2">
+                    <img src="/images/icons/game/game.jpg" />
+                    <p>게임</p>
+                </label>
+                <input type="checkbox" id="escape">
+                <label for="escape" class="mx-2">
+                    <img src="/images/icons/game/escape.jpg" />
+                    <p>방탈출</p>
+                </label>
+                <input type="checkbox" id="vr">
+                <label for="vr" class="mx-2">
+                    <img src="/images/icons/game/vr.jpg" />
+                    <p>VR</p>
+                </label>
+                <input type="checkbox" id="karaoke">
+                <label for="karaoke" class="mx-2">
+                    <img src="/images/icons/game/karaoke.jpg" />
+                    <p>노래방</p>
+                </label>
+                <input type="checkbox" id="sports">
+                <label for="sports" class="mx-2">
+                    <img src="/images/icons/game/sports.jpg" />
+                    <p>스포츠</p>
+                </label>
+                <input type="checkbox" id="shopping">
+                <label for="shopping" class="mx-2">
+                    <img src="/images/icons/game/shopping.jpg" />
+                    <p>쇼핑</p>
+                </label>
+                <input type="checkbox" id="workshop">
+                <label for="workshop" class="mx-2">
+                    <img src="/images/icons/game/workshop.jpg" />
+                    <p>공방</p>
+                </label>
+                <input type="checkbox" id="amusementpark">
+                <label for="amusementpark" class="mx-2">
+                    <img src="/images/icons/game/amusementpark.jpg" />
+                    <p>놀이공원</p>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#drinking" aria-expanded="false">음주</h3>
+            <div class="form-group collapse" id="drinking">
+                <input type="checkbox" id="beer">
+                <label for="beer" class="mx-2">
+                    <img src="/images/icons/drinking/beer.jpg" />
+                    <p>맥주</p>
+                </label>
+                <input type="checkbox" id="sogue">
+                <label for="sogue" class="mx-2">
+                    <img src="/images/icons/drinking/sogue.jpg" />
+                    <p>소주</p>
+                </label>
+                <input type="checkbox" id="mackuli">
+                <label for="mackuli" class="mx-2">
+                    <img src="/images/icons/drinking/mackuli.jpg" />
+                    <p>막걸리</p>
+                </label>
+                <input type="checkbox" id="wine">
+                <label for="wine" class="mx-2">
+                    <img src="/images/icons/drinking/wine.jpg" />
+                    <p>와인</p>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#watch" aria-expanded="false">보기</h3>
+            <div class="form-group collapse" id="watch">
+                <input type="checkbox" id="movie">
+                <label for="movie" class="mx-2">
+                    <img src="/images/icons/watch/movie.jpg" />
+                    <p>영화</p>
+                </label>
+                <input type="checkbox" id="exhibition">
+                <label for="exhibition" class="mx-2">
+                    <img src="/images/icons/watch/exhibition.jpg" />
+                    <p>전시회</p>
+                </label>
+                <input type="checkbox" id="library">
+                <label for="library" class="mx-2">
+                    <img src="/images/icons/watch/library.jpg" />
+                    <p>도서관</p>
+                </label>
+                <input type="checkbox" id="stage">
+                <label for="stage" class="mx-2">
+                    <img src="/images/icons/watch/stage.jpg" />
+                    <p>공연</p>
+                </label>
+                <input type="checkbox" id="watch_sports">
+                <label for="watch_sports" class="mx-2">
+                    <img src="/images/icons/watch/watch_sports.jpg" />
+                    <p>스포츠 관람</p>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#walk" aria-expanded="false">걷기</h3>
+            <div class="form-group collapse" id="walk">
+                <input type="checkbox" id="themapark">
+                <label for="themapark" class="mx-2">
+                    <img src="/images/icons/walk/themapark.jpg" />
+                    <p>테마파크</p>
+                </label>
+                <input type="checkbox" id="culturalHeritage">
+                <label for="culturalHeritage" class="mx-2">
+                    <img src="/images/icons/walk/culturalHeritage.jpg" />
+                    <p>문화재</p>
+                </label>
+                <input type="checkbox" id="market">
+                <label for="market" class="mx-2">
+                    <img src="/images/icons/walk/market.jpg" />
+                    <p>시장</p>
+                </label>
+                <input type="checkbox" id="park">
+                <label for="park" class="mx-2">
+                    <img src="/images/icons/walk/park.jpg" />
+                    <p>공원</p>
+                </label>
+            </div>
+        </div>
+    </div>
+
+</div>
+</html>

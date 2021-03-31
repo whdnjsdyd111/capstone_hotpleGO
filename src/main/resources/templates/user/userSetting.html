@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/user/user_userSetting.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="container">
+        <h1 class="text-center text-dark font-weight-bold my-3">개인 정보 관리</h1>
+
+        <table class="table my-3">
+            <tr>
+                <th>이메일</th>
+                <td th:text="${user.UCode.split('/')[0]}">email</td>
+            </tr>
+            <tr>
+                <th>생성일자</th>
+                <td th:text="${#hotpleAPI.timestampToStr(user.regDate)}">가입일</td>
+            </tr>
+            <tr>
+                <th>닉네임</th>
+                <td>
+                    <div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
+                            <input id="nickname" class="form-control w-50 mx-auto" th:value="${user.nick}"/>
+                            <button id="updateNick" class="btn btn-info mx-auto" disabled="disabled">수정하기</button>
+                        </div>
+                        <small id="check_nick" class="form-text text-danger "></small>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th style="word-break: keep-all;">비밀번호 변경</th>
+                <td>
+                    <div class="d-flex flex-column">
+                        <div class="form-group">
+                            <label for="password"><i class="fa fa-lock mr-2"></i>현재 비밀번호 입력</label>
+                            <input type="password" class="form-control w-50 mx-auto" id="password" name="password">
+                        </div>
+                        <small id="check_pw" class="form-text text-danger  mb-3"></small>
+                    </div>
+
+                    <div class="d-flex flex-column">
+                        <div class="form-group">
+                            <label for="password"><i class="fa fa-key mr-2"></i>신규 비밀번호 입력</label>
+                            <input type="password" class="form-control w-50 mx-auto" id="new_password" name="password">
+                        </div>
+                        <small id="new_check_pw" class="form-text text-danger  my-3"></small>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <div class="form-group">
+                            <label for="new_password"><i class="fa fa-key mr-2 text-muted"></i>신규 비밀번호 재입력</label>
+                            <input type="password" class="form-control w-50 mx-auto" id="new_re_passwd" name="password">
+                        </div>
+                        <small id="new_re_check_pw" class="form-text text-danger mb-3"></small>
+                        <button type="submit" id="submit_new_pw" class="btn btn-success w-50 btn-lg mx-auto" disabled="disabled">비밀번호 재설정</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+</html>
