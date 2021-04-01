@@ -7,213 +7,222 @@
     <script src="/css/user/user_taste.js"></script>
 </th:block>
 <div layout:fragment="content" class="container">
-    <div class="card">
+    <h1 th:text="${msg}" class="m-3">메시지</h1>
+    <div class="card bg-light">
         <div class="card-body">
-            <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#food" aria-expanded="false">먹거리</h3>
+            <h3 class="card-title collapsed" data-toggle="collapse" data-target="#food" aria-expanded="false">먹거리</h3>
             <div class="form-group collapse" id="food">
-                <input type="checkbox" id="korean">
+                <input type="checkbox" id="korean" value="0">
                 <label for="korean" class="mx-2">
-                    <img src="/images/icons/food/korean.jpg" />
+                    <img src="/images/icons/food/korean.jpg" alt="" />
                     <p>한식</p>
                 </label>
-                <input type="checkbox" id="japanese">
+                <input type="checkbox" id="bunsick" value="1">
+                <label for="bunsick" class="mx-2">
+                    <img src="/images/icons/food/bunsick.jpg" alt="" />
+                    <p>분식</p>
+                </label>
+                <input type="checkbox" id="japanese" value="2">
                 <label for="japanese" class="mx-2">
-                    <img src="/images/icons/food/japanese.jpg" />
+                    <img src="/images/icons/food/japanese.jpg" alt="" />
                     <p>일식</p>
                 </label>
-                <input type="checkbox" id="west">
+                <input type="checkbox" id="west" value="3">
                 <label for="west" class="mx-2">
-                    <img src="/images/icons/food/west.jpg" />
+                    <img src="/images/icons/food/west.jpg" alt="" />
                     <p>양식</p>
                 </label>
-                <input type="checkbox" id="chinese">
+                <input type="checkbox" id="chinese" value="4">
                 <label for="chinese" class="mx-2">
-                    <img src="/images/icons/food/chinese.jpg" />
+                    <img src="/images/icons/food/chinese.jpg" alt="" />
                     <p>중식</p>
                 </label>
-                <input type="checkbox" id="fastfood">
+                <input type="checkbox" id="fastfood" value="5">
                 <label for="fastfood" class="mx-2">
-                    <img src="/images/icons/food/fastfood.jpg" />
+                    <img src="/images/icons/food/fastfood.jpg" alt="" />
                     <p>패스트푸트</p>
                 </label>
-                <input type="checkbox" id="buffet">
+                <input type="checkbox" id="buffet" value="6">
                 <label for="buffet" class="mx-2">
-                    <img src="/images/icons/food/buffet.jpg" />
+                    <img src="/images/icons/food/buffet.jpg" alt="" />
                     <p>뷔페</p>
                 </label>
-                <input type="checkbox" id="midnight_snack">
+                <input type="checkbox" id="midnight_snack" value="7">
                 <label for="midnight_snack" class="mx-2">
-                    <img src="/images/icons/food/midnight_snack.jpg" />
+                    <img src="/images/icons/food/midnight_snack.jpg" alt="" />
                     <p>야식</p>
                 </label>
             </div>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card bg-light">
         <div class="card-body">
             <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#dessert" aria-expanded="false">디저트</h3>
             <div class="form-group collapse" id="dessert">
-                <input type="checkbox" id="coffee">
+                <input type="checkbox" id="coffee" value="10">
                 <label for="coffee" class="mx-2">
-                    <img src="/images/icons/dessert/coffee.jpg" />
+                    <img src="/images/icons/dessert/coffee.jpg" alt="" />
                     <p>커피</p>
                 </label>
-                <input type="checkbox" id="drink">
+                <input type="checkbox" id="drink" value="11">
                 <label for="drink" class="mx-2">
-                    <img src="/images/icons/dessert/drink.jpg" />
+                    <img src="/images/icons/dessert/drink.jpg" alt="" />
                     <p>차/음료</p>
                 </label>
-                <input type="checkbox" id="bread">
+                <input type="checkbox" id="bread" value="12">
                 <label for="bread" class="mx-2">
-                    <img src="/images/icons/dessert/bread.jpg" />
+                    <img src="/images/icons/dessert/bread.jpg" alt="" />
                     <p>베이커리</p>
                 </label>
-                <input type="checkbox" id="ice">
+                <input type="checkbox" id="ice" value="13">
                 <label for="ice" class="mx-2">
-                    <img src="/images/icons/dessert/ice.jpg" />
+                    <img src="/images/icons/dessert/ice.jpg" alt="" />
                     <p>빙수</p>
                 </label>
             </div>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card bg-light">
         <div class="card-body">
             <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#play" aria-expanded="false">놀이/취미</h3>
             <div class="form-group collapse" id="play">
-                <input type="checkbox" id="game">
+                <input type="checkbox" id="game" value="20">
                 <label for="game" class="mx-2">
-                    <img src="/images/icons/game/game.jpg" />
+                    <img src="/images/icons/game/game.jpg" alt="" />
                     <p>게임</p>
                 </label>
-                <input type="checkbox" id="escape">
+                <input type="checkbox" id="escape" value="21">
                 <label for="escape" class="mx-2">
-                    <img src="/images/icons/game/escape.jpg" />
+                    <img src="/images/icons/game/escape.jpg" alt="" />
                     <p>방탈출</p>
                 </label>
-                <input type="checkbox" id="vr">
+                <input type="checkbox" id="vr" value="22">
                 <label for="vr" class="mx-2">
-                    <img src="/images/icons/game/vr.jpg" />
+                    <img src="/images/icons/game/vr.jpg" alt="" />
                     <p>VR</p>
                 </label>
-                <input type="checkbox" id="karaoke">
+                <input type="checkbox" id="karaoke" value="23">
                 <label for="karaoke" class="mx-2">
-                    <img src="/images/icons/game/karaoke.jpg" />
+                    <img src="/images/icons/game/karaoke.jpg" alt="" />
                     <p>노래방</p>
                 </label>
-                <input type="checkbox" id="sports">
+                <input type="checkbox" id="sports" value="24">
                 <label for="sports" class="mx-2">
-                    <img src="/images/icons/game/sports.jpg" />
+                    <img src="/images/icons/game/sports.jpg" alt="" />
                     <p>스포츠</p>
                 </label>
-                <input type="checkbox" id="shopping">
+                <input type="checkbox" id="shopping" value="25">
                 <label for="shopping" class="mx-2">
-                    <img src="/images/icons/game/shopping.jpg" />
+                    <img src="/images/icons/game/shopping.jpg" alt="" />
                     <p>쇼핑</p>
                 </label>
-                <input type="checkbox" id="workshop">
+                <input type="checkbox" id="workshop" value="26">
                 <label for="workshop" class="mx-2">
-                    <img src="/images/icons/game/workshop.jpg" />
+                    <img src="/images/icons/game/workshop.jpg" alt="" />
                     <p>공방</p>
                 </label>
-                <input type="checkbox" id="amusementpark">
+                <input type="checkbox" id="amusementpark" value="27">
                 <label for="amusementpark" class="mx-2">
-                    <img src="/images/icons/game/amusementpark.jpg" />
+                    <img src="/images/icons/game/amusementpark.jpg" alt="" />
                     <p>놀이공원</p>
                 </label>
             </div>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card bg-light">
         <div class="card-body">
             <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#drinking" aria-expanded="false">음주</h3>
             <div class="form-group collapse" id="drinking">
-                <input type="checkbox" id="beer">
+                <input type="checkbox" id="beer" value="30">
                 <label for="beer" class="mx-2">
-                    <img src="/images/icons/drinking/beer.jpg" />
+                    <img src="/images/icons/drinking/beer.jpg" alt="" />
                     <p>맥주</p>
                 </label>
-                <input type="checkbox" id="sogue">
+                <input type="checkbox" id="sogue" value="31">
                 <label for="sogue" class="mx-2">
-                    <img src="/images/icons/drinking/sogue.jpg" />
+                    <img src="/images/icons/drinking/sogue.jpg" alt="" />
                     <p>소주</p>
                 </label>
-                <input type="checkbox" id="mackuli">
+                <input type="checkbox" id="mackuli" value="32">
                 <label for="mackuli" class="mx-2">
-                    <img src="/images/icons/drinking/mackuli.jpg" />
+                    <img src="/images/icons/drinking/mackuli.jpg" alt="" />
                     <p>막걸리</p>
                 </label>
-                <input type="checkbox" id="wine">
+                <input type="checkbox" id="wine" value="33">
                 <label for="wine" class="mx-2">
-                    <img src="/images/icons/drinking/wine.jpg" />
+                    <img src="/images/icons/drinking/wine.jpg" alt="" />
                     <p>와인</p>
                 </label>
             </div>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card bg-light">
         <div class="card-body">
             <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#watch" aria-expanded="false">보기</h3>
             <div class="form-group collapse" id="watch">
-                <input type="checkbox" id="movie">
+                <input type="checkbox" id="movie" value="40">
                 <label for="movie" class="mx-2">
-                    <img src="/images/icons/watch/movie.jpg" />
+                    <img src="/images/icons/watch/movie.jpg" alt="" />
                     <p>영화</p>
                 </label>
-                <input type="checkbox" id="exhibition">
+                <input type="checkbox" id="exhibition" value="41">
                 <label for="exhibition" class="mx-2">
-                    <img src="/images/icons/watch/exhibition.jpg" />
+                    <img src="/images/icons/watch/exhibition.jpg" alt="" />
                     <p>전시회</p>
                 </label>
-                <input type="checkbox" id="library">
+                <input type="checkbox" id="library" value="42">
                 <label for="library" class="mx-2">
-                    <img src="/images/icons/watch/library.jpg" />
+                    <img src="/images/icons/watch/library.jpg" alt="" />
                     <p>도서관</p>
                 </label>
-                <input type="checkbox" id="stage">
+                <input type="checkbox" id="stage" value="43">
                 <label for="stage" class="mx-2">
-                    <img src="/images/icons/watch/stage.jpg" />
+                    <img src="/images/icons/watch/stage.jpg" alt="" />
                     <p>공연</p>
                 </label>
-                <input type="checkbox" id="watch_sports">
+                <input type="checkbox" id="watch_sports" value="44">
                 <label for="watch_sports" class="mx-2">
-                    <img src="/images/icons/watch/watch_sports.jpg" />
+                    <img src="/images/icons/watch/watch_sports.jpg" alt="" />
                     <p>스포츠 관람</p>
                 </label>
             </div>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card bg-light">
         <div class="card-body">
             <h3 class="card-title collapsed" data-toggle="collapse" role="button" data-target="#walk" aria-expanded="false">걷기</h3>
             <div class="form-group collapse" id="walk">
-                <input type="checkbox" id="themapark">
+                <input type="checkbox" id="themapark" value="50">
                 <label for="themapark" class="mx-2">
-                    <img src="/images/icons/walk/themapark.jpg" />
+                    <img src="/images/icons/walk/themapark.jpg" alt="" />
                     <p>테마파크</p>
                 </label>
-                <input type="checkbox" id="culturalHeritage">
+                <input type="checkbox" id="culturalHeritage" value="51">
                 <label for="culturalHeritage" class="mx-2">
-                    <img src="/images/icons/walk/culturalHeritage.jpg" />
+                    <img src="/images/icons/walk/culturalHeritage.jpg" alt="" />
                     <p>문화재</p>
                 </label>
-                <input type="checkbox" id="market">
+                <input type="checkbox" id="market" value="52">
                 <label for="market" class="mx-2">
-                    <img src="/images/icons/walk/market.jpg" />
+                    <img src="/images/icons/walk/market.jpg" alt="" />
                     <p>시장</p>
                 </label>
-                <input type="checkbox" id="park">
+                <input type="checkbox" id="park" value="53">
                 <label for="park" class="mx-2">
-                    <img src="/images/icons/walk/park.jpg" />
+                    <img src="/images/icons/walk/park.jpg" alt="" />
                     <p>공원</p>
                 </label>
             </div>
         </div>
     </div>
-
+    <button type="button" class="btn-info" id="save_taste">저장하기</button>
+    <script>
+        let tastes = [[${tastes}]];
+    </script>
 </div>
 </html>

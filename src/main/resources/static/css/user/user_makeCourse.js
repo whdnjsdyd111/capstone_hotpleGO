@@ -8,16 +8,16 @@ const fa = {
 };
 
 $(function() {
-    $(document).on('click', '.plus-cource', function() {
-        let num = $('.cource-index').length;
+    $(document).on('click', '.plus-course', function() {
+        let num = $('.course-index').length;
         if (num >= 9) {
             alert("코스의 장소는 9개 까지만 가능합니다.")
             return;
         }
-        let cource = '<div class="d-flex flex-column cource-index">' +
+        let course = '<div class="d-flex flex-column course-index">' +
             '<i class="fa fa-cutlery fa-5x"></i>' +
             '<div class="form-group my-3">' +
-            '<select class="form-control cource-kind">' +
+            '<select class="form-control course-kind">' +
             '<option value="먹거리" selected>먹거리</option>' +
             '<option value="디저트">디저트</option>' +
             '<option value="놀이">놀이/취미</option>' +
@@ -28,16 +28,16 @@ $(function() {
             '</div>' +
             '</div>'
         let next = '<i class="fa fa-arrow-circle-right fa-5x my-auto mx-5" aria-hidden="true"></i>' +
-            '<i class="fa fa-plus-square fa-5x my-auto mx-5 plus-cource" aria-hidden="true"></i>';
+            '<i class="fa fa-plus-square fa-5x my-auto mx-5 plus-course" aria-hidden="true"></i>';
         if (num < 8){
-            $(this).after(cource + next);
+            $(this).after(course + next);
         } else {
-            $(this).after(cource);
+            $(this).after(course);
         }
         $(this).remove();
     });
 
-    $(document).on("change", ".cource-kind", function() {
+    $(document).on("change", ".course-kind", function() {
         $(this).parent().prev().removeClass().addClass(fa[$(this).val()]);
     })
 });

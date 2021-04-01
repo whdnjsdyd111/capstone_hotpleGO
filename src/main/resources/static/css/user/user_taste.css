@@ -5,13 +5,17 @@
 }
 
 .form-group img:hover {
-    filter: contrast(0.75);
+    filter: contrast(0.5);
 }
 
 input[type=checkbox]:checked + label > img {
-    filter: contrast(0.75);
+    filter: contrast(0.5);
 }
 
 input[type=checkbox] {
     display: none;
+}
+
+h3 {
+    cursor: pointer;
 }

@@ -4,6 +4,7 @@ import com.example.demo.domain.ManagerVO;
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.AllianceVO;
 import com.example.demo.security.CustomUser;
+import com.example.demo.service.TasteService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.AllianceService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/*")
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HomeRestController {
     private final AllianceService alliance;
     private final UserService user;
+    private final TasteService taste;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/alliance")
@@ -69,5 +72,18 @@ public class HomeRestController {
         // TODO
         log.info(request.getParameter("mbti"));
         return new ResponseEntity<>("저장되었습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/save-taste")
+    @ResponseBody
+    public ResponseEntity<String> saveTaste(@RequestParam(value = "tastes[]") List<Integer> tastes,
+                                            @AuthenticationPrincipal CustomUser user) {
+        String code = user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/";
+        taste.reset(code);
+        if (taste.registerAll(code, tastes)) {
+            return new ResponseEntity<>("저장되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
     }
 }
