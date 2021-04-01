@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.web.CommentMapper">
+    <select id="commentList" resultType="CommentVO">
+        SELECT * FROM comm;
+    </select>
+
+    <insert id="commentInsert">
+        INSERT INTO comm(
+            comCode,
+            comCont,
+            comRecy,
+            comRecn,
+            bdCode,
+            uCode,
+            comCode2
+        ) VALUES(
+            TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_bd.NEXTVAL, 2, '0') || '/H' || '/N' ,
+            #{comCont},
+            #{comRecy},
+            #{comRecn},
+            #{bdCode},
+            #{uCode},
+            #{comCode2}
+        )
+    </insert>
+
+    <update id="commentUpdate">
+        UPDATE comm SET comCont = #{comCont} WHERE comCode = #{comCode}
+    </update>
+
+    <delete id="commentDelete">
+        DELETE FROM comm WHERE comCode = #{comCode}
+    </delete>
+</mapper>
