@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/css/user/shopDetail.css">
+    <link rel="stylesheet" href="/css/manager/review.css">
+    <script src="/css/user/stopDetail.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="rd-header l-container">
+        <div class="l-contents l-contents--fixed">
+            <div class="rd-header__headline rd-header__headline--award-badge">
+                <h2 class="rd-header__rst-name">
+                    <a class="rd-header__rst-name-main">가게명</a>
+                    <small class="rd-header__rst-name-ja">(지역명)</small>
+                </h2>
+            </div>
+            <div class="rd-header__contents u-clearfix">
+                <div class="rd-header__info-wrapper">
+                    <div class="rd-header__info-table">
+                        <dl>
+                            <dt><span>주소</span></dt>
+                            <dd>
+                                ~시 ~구 ~로 123142 층
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><span>영업시간</span></dt>
+                            <dd>
+                                00:00~00:00
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><span>정기 휴무</span></dt>
+                            <dd>
+                                매주 월요일
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><span>TEL</span></dt>
+                            <dd>
+                                010-1234-5678
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt><span>예산</span></dt>
+                            <dd>
+                                20,000～29,999
+                        </dl>
+                        <dl>
+                            <dt><span>설명</span></dt>
+                            <dd>
+                                맛있습니다
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                <p class="rd-header__rst-map">
+                    <a href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/dtlmap/" class="c-img-target">
+                        <img class="c-img c-img--frame"
+                             src="https://maps.googleapis.com/maps/api/staticmap?channel=restaurant_inbound_detail_header&amp;key=AIzaSyCFZGUaDWgiusOQeFpnVLT2uPM2R6Mq7J8&amp;hl=ja&amp;center=35.68187074084084,139.78496245984476&amp;style=feature:landscape%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:labels.icon%7Ccolor:0xd2d2d2&amp;style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x949499&amp;style=feature:road%7Clightness:25&amp;style=feature:road%7Celement:labels%7Csaturation:-100%7Clightness:40&amp;style=feature:transit.station.airport%7Celement:geometry%7Clightness:25&amp;style=feature:water%7Celement:geometry%7Clightness:25&amp;markers=color:red%7C35.68187074084084,139.78496245984476&amp;zoom=15&amp;size=220x180&amp;language=kr&amp;signature=huPGNLWfP20aePKaA-Fqw_gJHKs=">
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div><!-- l-container -->
+    <!-- 버튼들 -->
+    <div class="bottom-container">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#메뉴">메뉴</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#리뷰">리뷰</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <!-- 메뉴 시작 -->
+            <div class="tab-pane fade show active" id="메뉴">
+                <main id="menu-tab">
+                    <div id="field" class="p-3 col-sm-8">
+                        <!-- 카테고리 상자 시작 (반복 상자) -->
+                        <div th:name="${menus.key}" th:each="menus : ${menu_map}"
+                             class="menu-div p-2 border-dark border rounded mb-5">
+                            <section class="area2">
+                                <ul aria-hidden="true" data-toggle="collapse" class="d-flex" role="button"
+                                    th:data-target="'#' +|collapse*{menus.key}|" style="padding: 0;margin: auto;">
+                                    <li><h2 class="category-title" th:text="${menus.key}">카테고리</h2></li>
+                                    <li class="flex-center"><i class="arrow fas fa-angle-down"></i></li>
+                                </ul>
+                                <section class="area4 collapse" th:id="|collapse*{menus.key}|">
+                                    <table class="menu-select-btn" style="width:100%">
+                                        <tbody>
+                                        <tr class="row">
+                                            <td class="photo-area col-12 col-sm-6">
+                                                <th:block th:if="${menu.uuid != null}">
+                                                    <img th:src="'http://localhost:8000/hotpleImage/' + ${#hotpleAPI.replaceSlash(menu.uploadPath)}
+                                                + |/*{menu.uuid}_*{menu.fileName}|" alt="메뉴 이미지를 추가해주세요."
+                                                         class="img-fluid">
+                                                </th:block>
+                                            </td>
+                                            <td class="menu-text col-12 col-sm-6">
+                                                <div><h3 class="menu-title" th:text="${menu.meName}"></h3></div>
+                                                <div><h6 class="menu-expl" th:text="${menu.meIntr}"></h6></div>
+                                                <div><h6 class="menu-price" th:text="${menu.mePrice}"></h6><h6>원</h6>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </section>
+                            </section>
+                        </div>
+                        <!-- 카테고리 상자 끝 (반복 상자)-->
+                    </div>
+                    <div id="cart" class="col-sm-4">
+                        <!-- 카트 시작 -->
+                        <div class="sub-title">
+                            <span>카트</span>
+                        </div>
+                        <div class="cart-list">
+                            <ul style="padding:0px;">
+                                <div class="list-container">
+                                    <li id="empty-cart" class="list-group-item"
+                                        style="border-top-left-radius: 0;border-top-right-radius: 0;">
+                                        <div class="cart-item">
+                                            <div class="menu-name "></div>
+                                            <div class="d-flex item-detail">
+                                                <div class="col-xs-6 pull-left flex-center">
+                                                    <!--<i class="btn btn-delete far fa-trash-alt flex-center"></i>-->
+                                                    <span>카트가 비었습니다</span>
+                                                </div>
+                                                <div class="col-xs-6 pull-right flex-center">
+                                                    <!-- <i class="btn btn-minus far fa-minus-square flex-center"></i>-->
+                                                    <!-- <span class="order-num " name="num" >0</span>-->
+                                                    <!--<i class="btn btn-plus far fa-plus-square flex-center"></i>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+
+                                <li class="list-group-item d-flex">
+                                    <div>총합</div>
+                                    <div>
+                                        <div id="cart-total-price">0원</div>
+                                    </div>
+                                </li>
+                                <button id="reservation-btn" data-toggle="modal"  data-target="#reservation-modal" type="button" class="w-100 btn btn-primary" style="margin: 0;">예약</button>
+                            </ul>
+                        </div>
+                        <!-- 카트 끝 -->
+                    </div>
+                </main>
+            </div>
+            <!-- 메뉴 끝 -->
+            <!-- 리뷰 시작 -->
+            <div class="tab-pane fade" id="리뷰">
+                <div id="review-tab">
+                    <div class="star-point-wrap">
+                        <div class="inner">
+                            <div class="restaurant-star-point">
+                                <!-- 전체 평균 -->
+                                <strong>
+                                    4.5
+                                </strong>
+                                <span class="star-point">
+                        <span class="full ">★</span>
+                        <span class="empty ">★</span>
+                    </span>
+                            </div>
+                            <ul class="star-point-list">
+                                <!--5번 반복해서 각 점수별 몇명인지 표시 -->
+                                <li>
+                                    <span class="category-tit">?점</span>
+                                    <span class="star-point">
+                            <span class="full">★</span>
+                            <span class="points">사람수</span>
+                        </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="review-count">
+                        <div>
+                            리뷰 <strong>숫자</strong>개·사장님댓글 <strong>숫자</strong>개
+                        </div>
+                    </div>
+
+                    <ul id="review" class="list-group review-list">
+                        <!-- 리뷰 전체 시작 (리뷰 수만큼 반복) -->
+                        <li class="list-group-item star-point" th:each="review : ${reviews}">
+                            <div>
+                                <span nclass="review-id" th:text="${review.UCode}">사용자명</span>
+                                <span class="review-time" th:text="${#hotpleAPI.toDateStr(review.riCode)}">시간</span>
+                                <a href="" class="btn-report" data-toggle="modal" data-target="#report-modal">신고</a>
+                            </div>
+                            <div>
+                                <div class="star-point">
+                                    <!-- 별점 갯수 반복 -->
+                                    <span class="category">
+                            <span class="star-rating">
+                                <span th:style="'width:' + ${review.rvRating * 20} + '%'"></span>
+                            </span>
+                        </span>
+                                </div>
+                            </div>
+                            <!-- 이미지 들어갈 곳 -->
+                            <div class="order-items default " th:text="|메뉴코드 : *{review.riCode}|">
+                                메뉴코드
+                            </div>
+                            <p th:text="${review.rvCont}">리뷰 내용</p>
+                            <div>
+                                <p class="reply-edit-off" onclick="reply_mode(this)">답글 달기</p>
+                            </div>
+                            <!-- 답글  -->
+                            <div class="reply-text" style="display: none">
+                                <div>
+                                    <span class="owner-review-id">사장님</span>
+                                    <span class="review-time">시간</span>
+                                </div>
+                                <span class="reply-content"></span>
+                            </div> <!-- 답글 끝 -->
+                        </li>
+                        <!-- 리뷰 전체 끝 -->
+                        <li class="list-group-item btn-more">
+                            <a><span>더 보기<i class="arr-down"></i></span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 리뷰 끝 -->
+        </div>
+        <!-- 버튼들 끝 -->
+    </div>
+    <!--신고 모달 -->
+    <div>
+        <div class="modal fade" id="report-modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">신고 내용</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h5>신고 사유</h5>
+                        <select name="report-options" class="form-control" >
+                            <option value="ads">광고</option>
+                            <option value="obscene">음란</option>
+                            <option value="abuse">욕설</option>
+                            <option value="else">기타</option>
+                        </select>
+                        <input type="text"  id="report-content" class="form-control editing" placeholder="신고 내용" >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" >제출</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--예약 모달 -->
+    <div>
+        <div class="modal" id="reservation-modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">예약</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="flex-center">
+                            <h6>예약 인원</h6>
+                            <div class="col-xs-6 pull-right flex-center">
+                                <i class="btn btn-minus far fa-minus-square flex-center"></i>
+                                <span class="order-num " name="num">1</span>
+                                <i class="btn btn-plus far fa-plus-square flex-center"></i>
+                            </div>
+                        </div>
+                        <h6>예약 확인</h6>
+                        <div id="reservation-confirm">
+                        </div>
+                        <div id="reservation-total-price"></div>
+                        <input type="text"  id="reservation-request" class="form-control editing" placeholder="예약 요구사항" >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" >제출</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

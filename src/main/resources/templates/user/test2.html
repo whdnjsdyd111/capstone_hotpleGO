@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <style>
+        .logo__image{
+            background-image: url("https://image.freepik.com/free-vector/retro-cartoon-kids-playing-icon-set_1284-18862.jpg");
+
+        }
+        .swiper-contents{
+            display: flex;
+            justify-content: space-around;
+        }
+    </style>
+</th:block>
+<div layout:fragment="content">
+    <div class="logo__image" >
+        <img src="https://image.freepik.com/free-vector/retro-cartoon-kids-playing-icon-set_1284-18862.jpg" alt="LOGO" style="visibility: hidden" >
+        <button>Android</button><button>iOS</button>
+    </div>
+    <!--<div class="download bg-primary">
+        <p class="down_load">모바일 앱 다운로드</p>
+
+    </div>-->
+    <div class="info__project">
+        <p class="a">01 <br> 나의 취향과 성격에 딱 맞는 코스 </p>
+        <p class="b">취향 선택과 성격 분석을 통하여 하나뿐인 코스를 추천</p>
+        <!-- Slider main container -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="swiper-contents">
+                        <figure class="figure">
+                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                        </figure>
+                        <figure class="figure">
+                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                        </figure>
+                        <figure class="figure">
+                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+                ...
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <p class="a">02 <br> 인기 있었던 코스만을 골라서 </p>
+        <p class="b">지정한 위치 주변의 월간, 주간 핫코스를 조회 </p>
+        <!-- Slider main container -->
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="swiper-contents">
+                        <figure class="figure">
+                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                        </figure>
+                        <figure class="figure">
+                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                        </figure>
+                        <figure class="figure">
+                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <div class="swiper-slide">Slide 2</div>
+                <div class="swiper-slide">Slide 3</div>
+                ...
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <p class="a">03 <br> 가고 싶은 장소 미리 예약 </p>
+        <p class="b">웨이팅이 걱정될 때는 방문 전 예약하고 결제한 후 방문</p>
+        <img src="images/p03.JPG" alt="p03" >
+
+        <p class="a">04 <br> 걸을 때마다 쌓이는 포인트 </p>
+        <p class="b">포인트를 적립하여 코스 예약 시 할인 이용 가능</p>
+        <img src="images/p04.JPG" alt="p04" >
+
+    </div>
+    <script>
+        var mySwiper = new Swiper
+        ('.swiper-container', {
+            direction: 'horizontal',
+            loop: true,
+            pagination: {el: '.swiper-pagination',},
+            navigation: {nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',},
+        });
+    </script>
+</div>
+
+</html>

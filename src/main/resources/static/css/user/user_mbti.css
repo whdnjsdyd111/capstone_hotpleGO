@@ -1,0 +1,177 @@
+.ISTJ {
+    border: 3px #F50057 solid;
+}
+.ISTJ > p {
+    color: #F50057;
+}
+.ISTJ > p + p {
+    color: #FF4081;
+}
+
+.ISFJ {
+    border: 3px #7B1FA2 solid;
+}
+.ISFJ > p {
+    color: #7B1FA2;
+}
+.ISFJ > p + p {
+    color: #8E24AA;
+}
+
+.INFJ {
+    border: 3px #7E57C2 solid;
+}
+.INFJ > p {
+    color: #7E57C2;
+}
+.INFJ > p + p {
+    color: #9575CD;
+}
+
+.INTJ {
+    border: 3px #303F9F solid;
+}
+.INTJ > p {
+    color: #303F9F;
+}
+.INTJ > p + p {
+    color: #3949AB;
+}
+
+.ISTP {
+    border: 3px #7986CB solid;
+}
+.ISTP > p {
+    color: #7986CB;
+}
+.ISTP > p + p {
+    color: #9FA8DA;
+}
+
+.ISFP {
+    border: 3px #039BE5 solid;
+}
+.ISFP > p {
+    color: #039BE5;
+}
+.ISFP > p + p {
+    color: #03A9F4;
+}
+
+.INFP {
+    border: 3px #00BCD4 solid;
+}
+.INFP > p {
+    color: #00BCD4;
+}
+.INFP > p + p {
+    color: #26C6DA;
+}
+
+.INTP {
+    border: 3px #26A69A solid;
+}
+.INTP > p {
+    color: #26A69A;
+}
+.INTP > p + p {
+    color: #4DB6AC;
+}
+
+.ESTP {
+    border: 3px #66BB6A solid;
+}
+.ESTP > p {
+    color: #66BB6A;
+}
+.ESTP > p + p {
+    color: #81C784;
+}
+
+.ESFP {
+    border: 3px #9CCC65 solid;
+}
+.ESFP > p {
+    color: #9CCC65;
+}
+.ESFP > p + p {
+    color: #AED581;
+}
+
+.ENFP {
+    border: 3px #AFB42B solid;
+}
+.ENFP > p {
+    color: #AFB42B;
+}
+.ENFP > p + p {
+    color: #C0CA33;
+}
+
+.ENTP {
+    border: 3px #FBC02D solid;
+}
+.ENTP > p {
+    color: #FBC02D;
+}
+.ENTP > p + p {
+    color: #FDD835;
+}
+
+.ESTJ {
+    border: 3px #FFA000 solid;
+}
+.ESTJ > p {
+    color: #FFA000;
+}
+.ESTJ > p + p {
+    color: #FFB300;
+}
+
+.ESFJ {
+    border: 3px #F57C00 solid;
+}
+.ESFJ > p {
+    color: #F57C00;
+}
+.ESFJ > p + p {
+    color: #FB8C00;
+}
+
+.ENFJ {
+    border: 3px #FF7043 solid;
+}
+.ENFJ > p {
+    color: #FF7043;
+}
+.ENFJ > p + p {
+    color: #FF8A65;
+}
+
+.ENTJ {
+    border: 3px #A1887F solid;
+}
+.ENTJ > p {
+    color: #A1887F;
+}
+.ENTJ > p + p {
+    color: #BCAAA4;
+}
+
+.mbti {
+    border-radius: 15px;
+}
+
+.mbti > p {
+    font-weight: 900;
+    font-size: xx-large;
+}
+
+.mbti > p + p {
+    font-weight: 600;
+    font-size: larger;
+}
+
+.mbti:hover {
+    cursor: pointer;
+}
