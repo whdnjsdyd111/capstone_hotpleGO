@@ -8,58 +8,65 @@
 <div layout:fragment="content">
 
     <div class="board_wrap">
-        <div class="board_title">
-            <strong>게시판 글쓰기</strong>
-        </div>
-        <div class="board_write_wrap">
-            <div class="board_write">
-                <div class="title">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text" id="bdTitle"></span>
-                        <input type="text" class="form-control" aria-label="Sizing example input"
-                               aria-describedby="inputGroup-sizing-lg" placeholder="제목을 입력해주세요">
+        <form th:action="@{/board/update}">
+            <div class="board_title">
+                <strong>수정</strong>
+            </div>
+            <div class="form-group">
+                <label>GNo.</label>
+                <input type="text" class="form-control" name="gno" th:value="${vo.uCode}" readonly>
+            </div>
+            <div class="board_write_wrap">
+                <div class="board_write">
+                    <div class="title">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text" id="bdTitle"></span>
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-lg" th:value="{vo.bdTitle}">
+                        </div>
                     </div>
-                </div>
-                <div class="input-group" style="left: 15px; width: 35%;">
-                    <input type="file" class="form-control" id="inputGroupFile04"
-                           aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                    <button class="btn btn-outline-secondary" type="button" id="bdArea">선택</button>
+                    <div class="input-group" style="left: 15px; width: 35%;">
+                        <input type="file" class="form-control" id="inputGroupFile04"
+                               aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        <button class="btn btn-outline-secondary" type="button" id="bdArea">선택</button>
 
-                    <select class="form-select-sm" aria-label=".form-select-sm example"
-                            style="margin-left: 10px; padding-right: 5px;">
-                        <option selected>지역 선택</option>
-                        <option value="1">서울</option>
-                        <option value="2">인천</option>
-                        <option value="3">대전</option>
-                        <option value="4">대구</option>
-                        <option value="5">울산</option>
-                        <option value="6">광주</option>
-                        <option value="7">부산</option>
-                        <option value="8">경기도</option>
-                        <option value="9">강원도</option>
-                        <option value="10">충북</option>
-                        <option value="11">충남</option>
-                        <option value="12">경북</option>
-                        <option value="13">경남</option>
-                        <option value="14">전북</option>
-                        <option value="15">전남</option>
-                        <option value="16">제주</option>
-                    </select>
-                </div>
-                <br>
-                <div class="form-floating">
+                        <select class="form-select-sm" aria-label=".form-select-sm example"
+                                style="margin-left: 10px; padding-right: 5px;">
+                            <option selected>지역 선택</option>
+                            <option value="1">서울</option>
+                            <option value="2">인천</option>
+                            <option value="3">대전</option>
+                            <option value="4">대구</option>
+                            <option value="5">울산</option>
+                            <option value="6">광주</option>
+                            <option value="7">부산</option>
+                            <option value="8">경기도</option>
+                            <option value="9">강원도</option>
+                            <option value="10">충북</option>
+                            <option value="11">충남</option>
+                            <option value="12">경북</option>
+                            <option value="13">경남</option>
+                            <option value="14">전북</option>
+                            <option value="15">전남</option>
+                            <option value="16">제주</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-floating">
                 <textarea class="form-control" placeholder="내용을 입력해주세요" id="floatingTextarea2"
                           style="height: 300px"></textarea>
-                    <label for="floatingTextarea2" id="bdCont">내용</label>
-                </div>
-                <div class="col-sm-3 text-center" style="margin-left: 80%; margin-top: 10px;">
-                    <button type="button" class="btn btn-primary" id="btn-update">수정</button>
-                    <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
-                    <a href="/board/list" role="button" class="btn btn-secondary">취소</a>
+                        <label for="floatingTextarea2" id="bdCont">내용</label>
+                    </div>
+                    <div class="col-sm-3 text-center" style="margin-left: 80%; margin-top: 10px;">
+                        <button type="button" class="btn btn-primary" id="btn-update">수정</button>
+                        <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
+                        <a href="/board/list" role="button" class="btn btn-secondary">취소</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <script src="/user/board_write.js"></script>
+            <script src="/user/board_write.js"></script>
+        </form>
     </div>
 </div>
 </html>
+

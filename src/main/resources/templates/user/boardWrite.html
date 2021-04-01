@@ -8,55 +8,71 @@
 </th:block>
 <div layout:fragment="content">
     <div class="board_wrap">
-        <div class="board_title">
-            <strong>게시판 글쓰기</strong>
-        </div>
-        <div class="board_write_wrap">
-            <div class="board_write">
-                <div class="title">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text">제목</span>
-                        <input type="text" id="bdTitle" class="form-control" aria-label="Sizing example input"
-                               aria-describedby="inputGroup-sizing-lg" placeholder="제목을 입력해주세요">
+        <form th:action="@{/board/write}" th:object="${board}" method="post">
+            <div class="board_title">
+                <strong>게시판 글쓰기</strong>
+            </div>
+            <div class="board_write_wrap">
+                <div class="board_write">
+                    <div class="title">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text">제목</span>
+                            <input type="text" id="bdTitle" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-lg" placeholder="제목을 입력해주세요" th:field="*{bdTitle}">
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text">작성자</span>
+                            <input type="text" id="uCode" class="form-control" aria-label="Sizing example input"
+                                    aria-describedby="inputGroup-sizing-lg" th:field="*{uCode}">
+                        </div>
                     </div>
-                </div>
-                <div class="input-group" style="left: 15px; width: 35%;">
-                    <input type="file" class="form-control" id="inputGroupFile04"
-                           aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                    <button class="btn btn-outline-secondary" type="button" >선택</button>
 
-                    <select class="form-select-sm" aria-label=".form-select-sm example" id="bdArea"
-                            style="margin-left: 10px; padding-right: 5px;">
-                        <option selected>지역 선택</option>
-                        <option value="1">서울</option>
-                        <option value="2">인천</option>
-                        <option value="3">대전</option>
-                        <option value="4">대구</option>
-                        <option value="5">울산</option>
-                        <option value="6">광주</option>
-                        <option value="7">부산</option>
-                        <option value="8">경기도</option>
-                        <option value="9">강원도</option>
-                        <option value="10">충북</option>
-                        <option value="11">충남</option>
-                        <option value="12">경북</option>
-                        <option value="13">경남</option>
-                        <option value="14">전북</option>
-                        <option value="15">전남</option>
-                        <option value="16">제주</option>
-                    </select>
-                </div>
-                <br>
-                <div class="form-floating">
-                <textarea class="form-control" placeholder="내용을 입력해주세요" id="bdCont" style="height: 300px"></textarea>
-                    <label for="bdCont">내용</label>
-                </div>
-                <div class="col-sm-3 text-center" style="margin-left: 80%; margin-top: 10px;">
-                    <button type="button" class="btn btn-primary" id="btn-save">등록</button>
-                    <a href="/board/list" role="button" class="btn btn-secondary">취소</a>
+                    <div class="input-group" style="left: 15px; width: 35%;">
+                        <div class="custom-file">
+                            <input type="file" id="me-picture" class="custom-file-input">
+                            <label class="custom-file-label" for="me-picture" data-browse="이미지">업로드 할 이미지
+                                선택하십시오.</label>
+                        </div>
+
+                        <select class="form-select-sm" aria-label=".form-select-sm example" id="bdArea"
+                                style="margin-left: 10px; padding-right: 5px;">
+                            <option selected>지역 선택</option>
+                            <option value="1">서울</option>
+                            <option value="2">인천</option>
+                            <option value="3">대전</option>
+                            <option value="4">대구</option>
+                            <option value="5">울산</option>
+                            <option value="6">광주</option>
+                            <option value="7">부산</option>
+                            <option value="8">경기도</option>
+                            <option value="9">강원도</option>
+                            <option value="10">충북</option>
+                            <option value="11">충남</option>
+                            <option value="12">경북</option>
+                            <option value="13">경남</option>
+                            <option value="14">전북</option>
+                            <option value="15">전남</option>
+                            <option value="16">제주</option>
+                            <option th:value="${board.bdArea}"></option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-floating">
+                        <label for="bdCont">내용</label>
+                        <textarea class="form-control" placeholder="내용을 입력해주세요" id="bdCont"
+                                  style="height: 300px" th:field="*{bdCont}"></textarea>
+                    </div>
+
+                    <div class="col-sm-3 text-center" style="margin-left: 80%; margin-top: 10px; display: flex">
+                        <button type="button" class="btn btn-primary btn-sm" id="btn-save">등록</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="location.href='/board/list'">
+                            취소
+                        </button>
+                    </div>
+
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 </html>

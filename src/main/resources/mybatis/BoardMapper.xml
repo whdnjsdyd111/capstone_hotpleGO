@@ -3,44 +3,42 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.web.BoardMapper">
+
     <sql id="boardColumns">
-        bdCode
-        , bdTitle
-        , bdArea
-        , bdCont
-        , bdRdCount
-        , bdRecy
-        , bdRecn
-        , uCode
+        bdCode, bdTitle, bdArea, bdCont, bdRdCount, bdRecy, bdRecn, uCode
     </sql>
 
     <select id="getBoardList" resultType="BoardVO">
-        SELECT bdCode, bdTitle, bdRdCount, bdRecy, bdRecn, uCode FROM board ORDER BY bdCode DESC
+        SELECT bdCode, bdTitle, bdArea, bdRdCount, bdRecy, bdRecn FROM board ORDER BY bdCode DESC
+    </select>
+
+    <select id="selectBoardDetail" resultType="BoardVO">
+        SELECT board.*, users.nick FROM board, users
+        WHERE bdCode = #{bdCode} and users.uCode = board.uCode
     </select>
 
     <insert id="insertBoard">
         INSERT INTO board (
-        <include refid="boardColumns" />
+        bdCode, bdTitle, bdArea, bdCont, uCode
         ) VALUES(
-            #{bdCode}
-            , #{bdTitle}
-            , #{bdArea}
-            , #{bdCont}
-            , #{bdRdCount}
-            , #{bdRecy}
-            , #{bdRecn}
-            , #{uCode}
+<!--        (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_bd.NEXTVAL, 2, '0') || '/H' || '/N',-->
+        LPAD(seq_eve.NEXTVAL, 2, '0'),
+        #{bdTitle},
+        #{bdArea},
+        #{bdCont},
+<!--        #{bdRdCount},-->
+<!--        #{bdRecy},-->
+<!--        #{bdRecn},-->
+        #{uCode}
         )
     </insert>
 
     <update id="updateBoard">
         UPDATE board
-        SET bdTitle = #{bdTitle},
-            bdArea = #{bdArea},
-            bdCont = #{bdCont}
+        SET bdTitle = #{bdTitle}, bdArea = #{bdArea}, bdCont = #{bdCont}
         WHERE bdCode = #{bdCode} and uCode in (
-            select uCode from board
-            where uCode = #{uCode}
+        select uCode from board
+        where uCode = #{uCode}
         )
     </update>
 

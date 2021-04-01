@@ -3,9 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
-
+    <link rel="stylesheet" href="/css/user/board_view.css">
 </th:block>
-<div layout:fragment="layout">
+<div layout:fragment="content">
 
     <!-- 게시물 상세정보 -->
     <div class="board_wrap">
@@ -15,26 +15,26 @@
     </div>
     <div class="board_view_wrap">
         <div class="board_view">
+            <div class="bdCode">
+                <label>No.</label>
+                <input type="text" class="form-control" name="bdCode" th:value="${board.bdCode}" readonly>
+            </div>
+
             <div class="title">
-                ${board_title}
+                <label>Title</label>
+                <input type="text" class="form-control" name="bdTitle" th:value="${board.bdTitle}" readonly>
+            </div>
+
+            <div class="writer">
+                <label>Writer</label>
+                <input type="text" class="form-control" name="uCode" th:value="${board.uCode}" readonly>
+            </div>
+
+            <div class="area">
+                <label>Area</label>
+                <input type="text" class="form-control" name="bdArea" th:value="${board.bdArea}" readonly>
             </div>
             <div class="info">
-                <dl>
-                    <dt>번호</dt>
-                    <dd><th:text="${bdCode}"></th:text></th></dd>
-                </dl>
-                <dl>
-                    <dt>글쓴이</dt>
-                    <dd>${board_create_id}</dd>
-                </dl>
-                <dl>
-                    <dt>작성일</dt>
-                    <dd>${board_date}</dd>
-                </dl>
-                <dl>
-                    <dt>조회</dt>
-                    <dd>${board_view}</dd>
-                </dl>
                 <dl>
                     <dt>추천</dt>
                     <dd>${board_good}</dd>
@@ -44,17 +44,14 @@
                     <dd>${board_not_good}</dd>
                 </dl>
             </div>
-            <div class="contents ">
-                본문내용(${board_contents})
-            </div>
+            <div class="contents " th:value="${board.bdCont}"></div>
         </div>
         <div class="btn_c" align="center">
-            <a href="#">《《</a>
             <a href="#">수정하기</a>
             <a href="#">목록으로</a>
             <a href="#">삭제하기</a>
-            <a href="#">》》</a>
         </div>
+
 
         <!-- 추천 -->
         <div class="add_bot">
@@ -81,7 +78,7 @@
             <!-- 댓글 -->
             <div id="comments">
                 <div id="comments-head" class="comments-row">
-                    <span>${comments_count}</span> Comment(s)
+                    <span th:value="${board.bdRdCount}"></span> Comment(s)
                     <div id="new_comment_cnt">
                         (0 / 1000)
                     </div>
@@ -103,7 +100,7 @@
             <div class="add_bottom"></div>
             <div class="comments-row">
                 <ul class="list">
-                    <li>
+                    <li class="col-12">
                         <div class="Icon">
                             <a href="#" class="Image_size">
                                 <img src="C:\Users\MY\Desktop\css\Profile_Icon.png">
@@ -118,7 +115,7 @@
                             <div style="float: right; display: inline-block;">
                                 <div style="position: relative;">
                                     <button type="button" value="re_com">리댓 작성</button>
-                                    <button type="button" value="Insert">수정</button>
+                                    <button tyxpe="button" value="Insert">수정</button>
                                     <button type="button" value="Delete">삭제</button>
                                 </div>
                             </div>
@@ -128,7 +125,7 @@
             </div>
             <div class="comments-row">
                 <ul class="list">
-                    <li>
+                    <li class="col-12">
                         <div class="Icon">
                             <a href="#" class="Image_size">
                                 <img src="C:\Users\MY\Desktop\css\Profile_Icon.png">
@@ -139,7 +136,7 @@
                             2021-03-09 12:30:08
                         </div>
                         <div class="comment-contents">
-                            Second<br>Sample<br>Comment
+                            Second<br>Sample<br>
                             <div style="float: right; display: inline-block;">
                                 <div style="position: relative;">
                                     <button type="button" value="re_com">리댓 작성</button>

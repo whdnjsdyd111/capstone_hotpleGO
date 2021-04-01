@@ -7,17 +7,15 @@ import java.util.List;
 
 @Mapper
 public interface BoardMapper {
-    public int insertBoard(BoardVO params);
+
+    public List<BoardVO> getBoardList(BoardVO boardVO);
 
     public BoardVO selectBoardDetail(String bdCode);
 
-    public int updateBoard(BoardVO params);
+    public int insertBoard(BoardVO boardVO);
+
+    public int updateBoard(BoardVO bdCode);
 
     public int deleteBoard(String bdCode);
-
-    public List<BoardVO> selectBoardList();
-
-    public int selectBoardTotalCount();
-
 
 }
