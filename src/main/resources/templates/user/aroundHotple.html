@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="swiper-contents">
+                    <figure class="figure">
+                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                        <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                    </figure>
+                    <figure class="figure">
+                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                        <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                    </figure>
+                    <figure class="figure">
+                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                        <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="swiper-slide">Slide 2</div>
+            <div class="swiper-slide">Slide 3</div>
+            ...
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <script>
+        let mySwiper = new Swiper
+        ('.swiper-container', {
+            direction: 'horizontal',
+            loop: true,
+            pagination: {el: '.swiper-pagination',},
+            navigation: {nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',},
+        });
+    </script>
+</div>
+</html>

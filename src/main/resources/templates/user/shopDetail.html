@@ -12,8 +12,9 @@
         <div class="l-contents l-contents--fixed">
             <div class="rd-header__headline rd-header__headline--award-badge">
                 <h2 class="rd-header__rst-name">
-                    <a class="rd-header__rst-name-main">가게명</a>
-                    <small class="rd-header__rst-name-ja">(지역명)</small>
+                    <a class="rd-header__rst-name-main" th:text="${hotple.busnName}">가게명</a>
+                    <small class="rd-header__rst-name-ja"
+                           th:text="${#strings.arraySplit(hotple.htAddr, ' ')[0]}">(지역명)</small>
                 </h2>
             </div>
             <div class="rd-header__contents u-clearfix">
@@ -21,7 +22,7 @@
                     <div class="rd-header__info-table">
                         <dl>
                             <dt><span>주소</span></dt>
-                            <dd>
+                            <dd th:text="${hotple.htAddr}">
                                 ~시 ~구 ~로 123142 층
                             </dd>
                         </dl>
@@ -39,7 +40,7 @@
                         </dl>
                         <dl>
                             <dt><span>TEL</span></dt>
-                            <dd>
+                            <dd th:text="${#hotpleAPI.toTel(hotple.htTel)}">
                                 010-1234-5678
                             </dd>
                         </dl>
@@ -50,7 +51,7 @@
                         </dl>
                         <dl>
                             <dt><span>설명</span></dt>
-                            <dd>
+                            <dd th:text="${hotple.htCont}">
                                 맛있습니다
                             </dd>
                         </dl>
@@ -90,7 +91,7 @@
                                     <li class="flex-center"><i class="arrow fas fa-angle-down"></i></li>
                                 </ul>
                                 <section class="area4 collapse" th:id="|collapse*{menus.key}|">
-                                    <table class="menu-select-btn" style="width:100%">
+                                    <table th:each="menu : ${menus.value}" class="menu-select-btn" style="width:100%">
                                         <tbody>
                                         <tr class="row">
                                             <td class="photo-area col-12 col-sm-6">
@@ -201,7 +202,7 @@
                                     <!-- 별점 갯수 반복 -->
                                     <span class="category">
                             <span class="star-rating">
-                                <span th:style="'width:' + ${review.rvRating * 20} + '%'"></span>
+                                <span th:style="'width:' + ${review.rvRating * 20} + '%; margin-right: 100%;'"></span>
                             </span>
                         </span>
                                 </div>

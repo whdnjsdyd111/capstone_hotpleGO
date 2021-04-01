@@ -9,6 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface HotpleMapper {
+    public HotpleVO readId(String htId);
+
     public HotpleVO readAddr(String str);
 
     public List<HotpleVO> selectByManager(String uCode);

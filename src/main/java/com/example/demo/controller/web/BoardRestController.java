@@ -19,6 +19,7 @@ public class BoardRestController {
 
     @PostMapping("/write")
     public ResponseEntity<String> insertBoard(@RequestBody BoardVO boardVO) {
+        boardVO.setUCode("whdnjsdyd111@naver.com/A/");
         boolean isInserted = boardService.insertBoard(boardVO);
         try {
             if (isInserted == true) {
@@ -32,31 +33,11 @@ public class BoardRestController {
         return new ResponseEntity<>("글 등록이 완료되었습니다.", HttpStatus.OK);
     }
 
-    @PostMapping(value = "/board/update/{code}")
-    public ResponseEntity<String> updateBoard(@PathVariable(value = "code") BoardVO boardVO, Model model) {
+    @PostMapping(value = "/update")
+    public ResponseEntity<String> updateBoard(@RequestBody BoardVO boardVO, Model model) {
+        log.info(boardVO);
         boolean data = boardService.updateBoard(boardVO);
         model.addAttribute("data", data);
         return new ResponseEntity<>("글 수정이 완료되었습니다.", HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/board/delete/{code}")
-    public String deleteBoard(@PathVariable(value = "code") String bdCode) {
-        if (bdCode == null) {
-            return "redirect:/board/list";
-        }
-
-        try {
-            boolean isDeleted = boardService.deleteBoard(bdCode);
-            if (isDeleted == false) {
-                log.warn("게시글 삭제 실패");
-            }
-        } catch (DataAccessException e) {
-            log.warn("데이터 처리 실패");
-
-        } catch (Exception e) {
-            log.warn("시스템 에러 발생");
-        }
-
-        return "redirect:/user/board";
     }
 }

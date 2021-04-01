@@ -8,7 +8,8 @@
 </th:block>
 <div layout:fragment="content">
     <div class="board_wrap">
-        <form th:action="@{/board/write}" th:object="${board}" method="post">
+        <form action="/board/write" method="post">
+            <input type="hidden" th:value="${board == null ? '' : board.bdCode}" id="bdCode" />
             <div class="board_title">
                 <strong>게시판 글쓰기</strong>
             </div>
@@ -18,12 +19,12 @@
                         <div class="input-group input-group-lg">
                             <span class="input-group-text">제목</span>
                             <input type="text" id="bdTitle" class="form-control" aria-label="Sizing example input"
-                                   aria-describedby="inputGroup-sizing-lg" placeholder="제목을 입력해주세요" th:field="*{bdTitle}">
+                                   aria-describedby="inputGroup-sizing-lg" placeholder="제목을 입력해주세요" th:value="${board == null ? '' : board.bdTitle}">
                         </div>
                         <div class="input-group input-group-lg">
                             <span class="input-group-text">작성자</span>
                             <input type="text" id="uCode" class="form-control" aria-label="Sizing example input"
-                                    aria-describedby="inputGroup-sizing-lg" th:field="*{uCode}">
+                                   aria-describedby="inputGroup-sizing-lg" th:value="${board == null ? '' : board.UCode}">
                         </div>
                     </div>
 
@@ -53,18 +54,17 @@
                             <option value="14">전북</option>
                             <option value="15">전남</option>
                             <option value="16">제주</option>
-                            <option th:value="${board.bdArea}"></option>
                         </select>
                     </div>
                     <br>
                     <div class="form-floating">
                         <label for="bdCont">내용</label>
                         <textarea class="form-control" placeholder="내용을 입력해주세요" id="bdCont"
-                                  style="height: 300px" th:field="*{bdCont}"></textarea>
+                                  style="height: 300px" th:text="${board == null ? '' : board.bdCont}"></textarea>
                     </div>
 
                     <div class="col-sm-3 text-center" style="margin-left: 80%; margin-top: 10px; display: flex">
-                        <button type="button" class="btn btn-primary btn-sm" id="btn-save">등록</button>
+                        <button type="button" class="btn btn-primary btn-sm" th:id="${board != null ? 'btn-update' : 'btn-save'}" th:text="${board != null ? '수정' : '등록'}">등록</button>
                         <button type="button" class="btn btn-secondary btn-sm" onclick="location.href='/board/list'">
                             취소
                         </button>

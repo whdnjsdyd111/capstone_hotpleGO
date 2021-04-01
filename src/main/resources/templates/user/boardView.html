@@ -20,6 +20,10 @@
                 <input type="text" class="form-control" name="bdCode" th:value="${board.bdCode}" readonly>
             </div>
 
+            <div th:text="${#hotpleAPI.toDateStr(board.bdCode)}">
+
+            </div>
+
             <div class="title">
                 <label>Title</label>
                 <input type="text" class="form-control" name="bdTitle" th:value="${board.bdTitle}" readonly>
@@ -27,7 +31,7 @@
 
             <div class="writer">
                 <label>Writer</label>
-                <input type="text" class="form-control" name="uCode" th:value="${board.uCode}" readonly>
+                <input type="text" class="form-control" name="uCode" th:value="${board.UCode}" readonly>
             </div>
 
             <div class="area">
@@ -47,9 +51,9 @@
             <div class="contents " th:value="${board.bdCont}"></div>
         </div>
         <div class="btn_c" align="center">
-            <a href="#">수정하기</a>
-            <a href="#">목록으로</a>
-            <a href="#">삭제하기</a>
+            <a th:href="|/board/update/${board.bdCode}|">수정하기</a>
+            <a href="/board/">목록으로</a>
+            <a th:href="|/board/delete/${board.bdCode}|">삭제하기</a>
         </div>
 
 

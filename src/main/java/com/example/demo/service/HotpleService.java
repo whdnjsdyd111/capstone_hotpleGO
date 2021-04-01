@@ -16,6 +16,10 @@ public class HotpleService {
     @Setter(onMethod_ = @Autowired)
     HotpleMapper mapper;
 
+    public HotpleVO getId(String id) {
+        return mapper.readId(id);
+    }
+
     public HotpleVO getIdByAddr(String addr) {
         return mapper.readAddr(addr);
     }

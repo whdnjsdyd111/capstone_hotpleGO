@@ -48,7 +48,7 @@
                         <div class="col" style="display:inline;">
                             <span><button class="bg-primary border border-dark rounded text-dark px-1"
                                           style="height:23px; width:58px;" href="">게시판</button></span>
-                            <a class="text-dark col-12" href=""
+                            <a class="text-dark col-12" th:href="|/board/boardDetail/${#strings.replace(vo.bdCode, '/', '')}|"
                                style="display: block; margin-left:-60px; margin-top:15px; text-decoration: none;" th:text="${vo.bdTitle}"></a>
                         </div>
                     </div>

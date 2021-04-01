@@ -26,17 +26,15 @@ $(function (){
             changeTotalPrice();
         };
     });
-    $(document).on('click','.btn-delete',function (){
-       $(this).parent().parent().parent().parent().remove();
-       changeTotalPrice();
-       if(!+$('#cart-total-price').text()){
-           $('#empty-cart').show();
-       }
+    $(document).on('click','.btn-delete',function () {
+        $(this).parent().parent().parent().parent().remove();
+        changeTotalPrice();
+        if(!+$('#cart-total-price').text()){
+            $('#empty-cart').show();
+        }
     });
     $(document).on('click','#reservation-btn',function (){
-        console.log('whwvkf');
         if(+$('#cart-total-price').text().replace('원','')){
-            console.log('tlqkf');
             $('#reservation-confirm').children().remove();
             $('#reservation-total-price').text('');
             let carts=$('.cart-item').get();
@@ -51,7 +49,7 @@ $(function (){
             });
             $('#reservation-total-price').append('총합 : '+$('#cart-total-price').text());
         }else {
-                $('#reservation-modal').modal('hide')
+            $('#reservation-modal').modal('hide')
         };
     });
 });
@@ -77,7 +75,6 @@ function changeTotalPrice(){
     let arr=$('.order-price').get();
     let sum=0;
     arr.forEach(function (i){
-        console.log($(i).text().replace('원',''));
         sum+=+$(i).text().replace('원','');
     });
     $('#cart-total-price').text(sum);

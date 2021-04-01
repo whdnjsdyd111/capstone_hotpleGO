@@ -5,11 +5,11 @@
 <mapper namespace="com.example.demo.mapper.web.BoardMapper">
 
     <sql id="boardColumns">
-        bdCode, bdTitle, bdArea, bdCont, bdRdCount, bdRecy, bdRecn, uCode
+        bdCode, bdTitle, bdCont, bdRdCount, bdRecy, bdRecn, uCode
     </sql>
 
     <select id="getBoardList" resultType="BoardVO">
-        SELECT bdCode, bdTitle, bdArea, bdRdCount, bdRecy, bdRecn FROM board ORDER BY bdCode DESC
+        SELECT bdCode, bdTitle, bdRdCount, bdRecy, bdRecn FROM board ORDER BY bdCode DESC
     </select>
 
     <select id="selectBoardDetail" resultType="BoardVO">
@@ -19,12 +19,9 @@
 
     <insert id="insertBoard">
         INSERT INTO board (
-        bdCode, bdTitle, bdArea, bdCont, uCode
-        ) VALUES(
-<!--        (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_bd.NEXTVAL, 2, '0') || '/H' || '/N',-->
-        LPAD(seq_eve.NEXTVAL, 2, '0'),
+        bdCode, bdTitle, bdCont, uCode
+        ) VALUES(TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_bd.NEXTVAL, 2, '0') || '/N',
         #{bdTitle},
-        #{bdArea},
         #{bdCont},
 <!--        #{bdRdCount},-->
 <!--        #{bdRecy},-->
@@ -34,12 +31,7 @@
     </insert>
 
     <update id="updateBoard">
-        UPDATE board
-        SET bdTitle = #{bdTitle}, bdArea = #{bdArea}, bdCont = #{bdCont}
-        WHERE bdCode = #{bdCode} and uCode in (
-        select uCode from board
-        where uCode = #{uCode}
-        )
+        UPDATE board SET bdTitle = #{bdTitle}, bdCont = #{bdCont} WHERE bdCode = #{bdCode}
     </update>
 
     <delete id="deleteBoard">

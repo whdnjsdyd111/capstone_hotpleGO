@@ -90,4 +90,11 @@ public class HotpleAPI {
         Timestamp curTime = new Timestamp(System.currentTimeMillis());
         return curTime.before(time);
     }
+
+    public static String toTel(String str) {
+        StringBuffer sb = new StringBuffer(str);
+        sb.insert(7, '-');
+        sb.insert(3, '-');
+        return sb.toString();
+    }
 }

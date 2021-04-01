@@ -1,17 +1,22 @@
 package com.example.demo.controller.web;
 
+import com.example.demo.domain.HotpleVO;
+import com.example.demo.domain.MenuVO;
 import com.example.demo.security.CustomUser;
-import com.example.demo.service.TasteService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,6 +24,9 @@ import java.util.List;
 public class HomeController {
     private final UserService user;
     private final TasteService taste;
+    private final HotpleService hotple;
+    private final MenuService menu;
+    private final ReviewService review;
 
     @GetMapping("/")
     public String index() {
@@ -67,8 +75,20 @@ public class HomeController {
         }
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
+    @GetMapping("/around")
+    public String test2() {
+        return "user/aroundHotple";
+    }
+
+    @GetMapping("/hotple/{htId}")
+    public String hotple(@PathVariable("htId") String htId, Model model) {
+        HotpleVO hotple = this.hotple.getId(htId);
+        model.addAttribute("hotple", hotple);
+        List<MenuVO> list = menu.getList(htId);
+        Map<String, List<MenuVO>> map = new HashMap<>();
+        list.forEach(l -> map.computeIfAbsent(l.getMeCate(), k -> new ArrayList<>()).add(l));
+        model.addAttribute("menu_map", map);
+        model.addAttribute("reviews", review.getList(hotple.getHtId()));
+        return "user/shopDetail";
     }
 }

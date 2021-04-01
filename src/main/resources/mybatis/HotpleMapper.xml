@@ -4,6 +4,10 @@
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.HotpleMapper">
 
+    <select id="readId" resultType="HotpleVO">
+        SELECT * FROM hotple WHERE htId = #{htId}
+    </select>
+
     <select id="readAddr" resultType="HotpleVO">
         SELECT * FROM hotple WHERE htAddr = #{str}
     </select>
