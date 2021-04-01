@@ -159,4 +159,9 @@ public class ManagerController {
     public String main(Model model) {
         return "manager/main";
     }
+
+    @GetMapping("/test")
+    public String test() {
+        return "manager/test";
+    }
 }

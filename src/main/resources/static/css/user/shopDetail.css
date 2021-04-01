@@ -1,0 +1,357 @@
+@charset "utf-8";
+/* ==================================================
+ * Restaurant detail
+================================================== */
+/* rd-header
+================================================== */
+.rd-header {
+    position: relative;
+    padding: 30px;
+    border-bottom: 1px solid #eeece4;
+    background-color: #faf8f5;
+}
+.rd-header:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    border-top: 2px solid #b4bdd6;
+    height: 1px;
+    content: '';
+    background-color: #ffffff;
+}
+/* rd-header__headline
+============================== */
+.rd-header__headline {
+    display: block;
+    position: relative;
+    z-index: 1;
+    padding: 8px 112px 0 0;
+    border-bottom: 1px solid #cccfe0;
+    min-height: 60px;
+    box-shadow: 0 1px 0 #ffffff;
+}
+
+.rd-header__headline.rd-header__headline--award-badge {
+    padding-left: 3.5em;
+}
+/* rd-header__rst-name */
+.rd-header__rst-name {
+    margin: 8px 6px;
+    color: #13131e;
+    text-decoration: none;
+}
+.rd-header__rst-name > a {
+    color: #13131e;
+    text-decoration: none;
+}
+.rd-header__rst-name-main {
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 2.15em;
+}
+.rd-header__rst-name-ja {
+    margin-left: 0.2em;
+    color: #595960;
+    font-family: "メイリオ", "Meiryo", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1em;
+    vertical-align: text-bottom;
+}
+/* rd-header__rst-status-badge */
+.rd-header__rst-status-badge + .rd-header__rst-name {
+    margin-top: 2px;
+}
+/* rd-header__rst-status-msg */
+/* rd-header__official */
+/* rd-header__snsbtns */
+.rd-header__snsbtns li {
+    float: left;
+    margin-left: 8px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* rd-header__contents
+============================== */
+.rd-header__contents {
+    display: block;
+    position: relative;
+    z-index: 0;
+    padding: 8px 0 2px 238px;
+    min-height: 196px;
+}
+/* rd-header__rst-map */
+.rd-header__rst-map {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 0;
+}
+/* rd-header__rst-vacancy */
+/* rd-header__info-wrapper */
+.rd-header__info-wrapper {
+    float: left;
+    width: 78%;
+}
+/* rd-header__info-table */
+.rd-header__info-table {
+    display: table;
+    margin: 0 0 8px;
+}
+.rd-header__info-table > dl {
+    display: table-row;
+}
+.rd-header__info-table > dl > dt {
+    display: table-cell;
+    padding: 4px 2px;
+    font-size: 0.93em;
+    vertical-align: top;
+}
+.rd-header__info-table > dl > dt > span {
+    display: block;
+    position: relative;
+    padding-right: 1em;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    white-space: nowrap;
+}
+.rd-header__info-table > dl > dt > span:after {
+    position: absolute;
+    top: -1px;
+    right: 0;
+    color: #8a92bc;
+    font-weight: bold;
+    content: ':';
+}
+.rd-header__info-table > dl > dd {
+    display: table-cell;
+    padding: 4px 8px;
+    color: #13131e;
+    vertical-align: top;
+}
+/* rd-header__linktree */
+.rd-header__linktree-parent-target > span {
+    border-bottom: dotted 1px;
+}
+
+.rd-header__linktree-parent--pref .rd-header__linktree-parent-target span {
+    border-bottom: none;
+    color: #0066cc;
+}
+
+
+/* rd-header__for-detail */
+
+/* rd-header__rst-rate */
+.rd-header__rst-rate li {
+    display: inline-block;
+    margin-right: 0.01em;
+    white-space: nowrap;
+    vertical-align: text-bottom;
+    line-height: 1;
+}
+/* rd-header__rating-detail-trigger */
+/* rd-header__rating-detail-btn */
+/* rd-header__rst-reviews-target */
+
+.rd-header__rst-reviews-target > b {
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 1.15em;
+}
+/* rd-header__rating-detail */
+.rd-header__rating-detail dt {
+    display: inline-block;
+    margin-left: 0.4em;
+    padding-left: 0.6em;
+    border-left: 1px dotted #8a95bc;
+    font-size: 0.86em;
+}
+.rd-header__rating-detail dt:first-child {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+}
+.rd-header__rating-detail dd {
+    display: inline-block;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 0.93em;
+}
+/* rd-header-badge-award */
+
+/* rd-nav
+================================================== */
+/* rd-nav__main-item */
+/* rd-nav__main-target */
+
+/* rd-nav__main-target-name */
+/* rd-nav__has-sub */
+
+/* rd-nav__main-target-number */
+/* rd-nav__sub-items-wrapper */
+/* rd-nav__sub-items */
+/* rd-nav__sub-item */
+/* rd-nav__sub-target */
+@media (min-width: 1px) {
+}
+
+.rd-nav__main-item.is-selected .rd-nav__sub-target:hover > span {
+    text-decoration: none;
+}
+
+/* rd-contents
+================================================== */
+/* rd-contents-heading2
+================================================== */
+/* rd-contents-title
+================================================== */
+/* rd-notice
+================================================== */
+.rd-notice > p {
+    margin: 0.4em 0;
+    font-size: 0.93em;
+    line-height: 1.4;
+}
+/* rd-translations-by
+================================================== */
+.rd-translations-by a {
+    color: #333333;
+}
+
+.rd-translation select {
+    cursor: pointer;
+}
+
+.gm-style .gm-style-iw a,
+.gm-style .gm-style-iw span,
+.gm-style .gm-style-iw label,
+.gm-style .gm-style-iw div {
+    font-size: 12px;
+    font-family: "メイリオ", "Meiryo", "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "ＭＳ Ｐゴシック", Arial, sans-serif;
+    font-weight: inherit;
+}
+
+.gm-style .gm-style-iw-c > * {
+    position: relative;
+    z-index: 3;
+}
+
+
+/* rd-detail-info
+================================================== */
+.rd-detail-info > tbody > tr > th {
+    border-bottom: 1px solid #ffffff;
+    background-color: #eeece4;
+}
+.rd-detail-info > tbody > tr > td {
+    border-bottom: 1px dotted #e0dccc;
+}
+.rd-detail-info th {
+    font-size: 0.93em;
+    word-break: normal;
+}
+
+.rd-detail-info__rst-tel strong {
+    color: #595960;
+    font-family: Arial;
+    font-size: 1.15em;
+}
+.rd-detail-info__rst-tel--ppc strong {
+    color: #e64c30;
+}
+.rd-detail-info__rst-tel small {
+    color: #949499;
+    font-size: 0.86em;
+}
+
+.rd-detail-info__rst-address a {
+    color: inherit;
+}
+
+/* rd-print
+================================================== */
+/* rd-blogparts
+================================================== */
+/* rd-grids
+================================================== */
+/* rd-grids__rst */
+/* rd-grids__photo */
+/* rd-grids__photo--2 */
+/* rd-vertical-ranking
+================================================== */
+/* rd-vertical-ranking__rst */
+.rd-vertical-ranking__rst-rate li {
+    display: inline-block;
+    margin-right: 0.01em;
+    vertical-align: middle;
+}
+
+.rd-vertical-ranking__rst-reviews > b {
+    font-family: Arial;
+    font-weight: bold;
+}
+
+.rd-award__contents-item a {
+    display: block;
+    padding: 8px 0;
+    overflow: hidden;
+    text-decoration: none;
+}
+.rd-award__contents-item a:hover {
+    cursor: pointer;
+    background-color: #fefae6;
+}
+.nav-tabs{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.comment-box{
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+}
+#menu-tab{
+    display: flex;
+}
+.sub-title {
+    background-color: #333;
+    color: #fff;
+    font-size: 110%;
+    padding: 10px 10px 10px 15px;
+}
+.pull-left{
+    float: left;
+}
+.pull-right{
+    float: right;
+}
+.d-flex{
+    justify-content: space-between;
+
+}
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu-name{
+    text-align: left;
+    margin-left:6px;
+}
+.cart-item>div{
+    padding:3px;
+}
+.item-detail *{
+    padding: 3px;
+}
+.menu-select-btn{
+    cursor:pointer;
+}
+.bottom-container{
+    margin:10px auto;
+    max-width: 1020px;
+}
+.menu-expl{
+    color:#9d9d9d;
+}
+
+
