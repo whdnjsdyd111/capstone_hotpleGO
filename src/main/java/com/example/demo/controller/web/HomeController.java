@@ -15,4 +15,9 @@ public class HomeController {
     public String alliance() {
         return "user/alliance";
     }
+
+    @GetMapping("/test2")
+    public String test2() {
+        return "user/test2";
+    }
 }
