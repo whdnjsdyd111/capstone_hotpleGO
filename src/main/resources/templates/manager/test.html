@@ -3,6 +3,8 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <style>
         .container{
             display: flex;
@@ -14,24 +16,76 @@
         .time{
             position: absolute;
             right:40px;
-            top:85px;
+
         }
     </style>
 </th:block>
 <div layout:fragment="content">
-    <div class="jumbotron mx-4">
-        <div class="container">
-            <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
-            <div style="margin-left:30px; ">
-                <p><h3>가게명</h3></p>
-                <p><h5>가게 설명</h5></p>
-            </div>
-            <div class="time">
-                <span >2021-04-02</span>
-                <span>★</span>
-            </div>
+    <div role="tabpanel">
 
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#hotple" aria-controls="hotple" role="tab" data-toggle="tab">핫플</a></li>
+            <li role="presentation"><a href="#hotple-course" aria-controls="hotple-course" role="tab" data-toggle="tab">핫코스</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="hotple">
+                <div  class="jumbotron mx-4">
+                    <div class="container">
+                        <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
+                        <div style="margin-left:30px; ">
+                            <p><h3>가게명</h3></p>
+                            <p><h5>가게 설명</h5></p>
+                        </div>
+                        <div class="time">
+                            <span >2021-04-02</span>
+                            <span>★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="hotple-course">
+                <div  class="jumbotron mx-4">
+                    <div class="container">
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="swiper-contents">
+                                        <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
+                                        <div style="margin-left:30px; ">
+                                            <p><h3>가게명</h3></p>
+                                            <p><h5>가게 설명</h5></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">Slide 2</div>
+                                <div class="swiper-slide">Slide 3</div>
+
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
+                        <div class="time">
+                            <span >2021-04-02</span>
+                            <span>★</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
+    <script>
+        var mySwiper = new Swiper
+        ('.swiper-container', {
+            direction: 'horizontal',
+            loop: true,
+            pagination: {el: '.swiper-pagination',},
+            navigation: {nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',},
+        });
+    </script>
 </div>
 </html>
