@@ -18,6 +18,13 @@
             right:40px;
 
         }
+        .swiper-container{
+            margin:0px;
+            max-width:400px;
+        }
+        .tab-content{
+            min-height: 600px;
+        }
     </style>
 </th:block>
 <div layout:fragment="content">
@@ -26,7 +33,7 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#hotple" aria-controls="hotple" role="tab" data-toggle="tab">핫플</a></li>
-            <li role="presentation"><a href="#hotple-course" aria-controls="hotple-course" role="tab" data-toggle="tab">핫코스</a></li>
+            <li role="presentation"><a href="#hotple-course" aria-controls="hotple-course" role="tab" data-toggle="tab" onclick="mySwiper.update();">핫코스</a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -54,7 +61,7 @@
                                 <div class="swiper-slide">
                                     <div class="swiper-contents">
                                         <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
-                                        <div style="margin-left:30px; ">
+                                        <div >
                                             <p><h3>가게명</h3></p>
                                             <p><h5>가게 설명</h5></p>
                                         </div>
@@ -79,9 +86,8 @@
 
     </div>
     <script>
-        var mySwiper = new Swiper
-        ('.swiper-container', {
-            direction: 'horizontal',
+        var mySwiper = new Swiper('.swiper-container', {
+            // direction: 'horizontal',
             loop: true,
             pagination: {el: '.swiper-pagination',},
             navigation: {nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',},

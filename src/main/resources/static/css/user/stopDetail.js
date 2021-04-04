@@ -54,6 +54,27 @@ $(function (){
                 $('#reservation-modal').modal('hide')
         };
     });
+    $(document).on('click','#btm-cart-reservation-btn',function (){
+        console.log('whwvkf');
+        if(+$('#cart-total-price').text().replace('원','')){
+            console.log('tlqkf');
+            $('#reservation-confirm').children().remove();
+            $('#reservation-total-price').text('');
+            let carts=$('.cart-item').get();
+            carts.forEach(function (i){
+                let div=
+                    '<div class="d-flex">'+
+                    '<h6>'+$(i).find('.menu-name')+'</h6>'+
+                    '<h6>'+$(i).find('.order-num')+'</h6>'+
+                    '<h6>'+$(i).find('.order-price')+'</h6>'+
+                    '</div>'
+                $('#reservation-confirm').append(div);
+            });
+            $('#reservation-total-price').append('총합 : '+$('#cart-total-price').text());
+        }else {
+            $('#reservation-modal').modal('hide')
+        };
+    });
 });
 function list_append(menuTitle,menuPrice){
     let div=
