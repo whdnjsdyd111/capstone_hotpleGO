@@ -28,6 +28,10 @@ public class HotpleService {
         return mapper.selectByManager(uCode);
     }
 
+    public List<HotpleVO> getByKeyword(String keyword) {
+        return mapper.searchHotple(keyword);
+    }
+
     public boolean registerBusn(HotpleVO vo) {
         return mapper.insertBusn(vo) == 1;
     }

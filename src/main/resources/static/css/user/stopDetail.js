@@ -75,7 +75,7 @@ function changeTotalPrice(){
     let arr=$('.order-price').get();
     let sum=0;
     arr.forEach(function (i){
-        sum+=+$(i).text().replace('원','');
+        sum+=+$(i).text().replace('원','').replace(',', '');
     });
     $('#cart-total-price').text(sum);
 }

@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,10 +24,11 @@ public class HomeController {
     private final HotpleService hotple;
     private final MenuService menu;
     private final ReviewService review;
+    private final OpenInfoService openInfo;
 
-    @GetMapping("/")
+    @GetMapping({ "/", "/main"})
     public String index() {
-        return "user/index";
+        return "user/aroundHotple";
     }
 
     @GetMapping("/alliance")
@@ -75,11 +73,6 @@ public class HomeController {
         }
     }
 
-    @GetMapping("/around")
-    public String test2() {
-        return "user/aroundHotple";
-    }
-
     @GetMapping("/hotple/{htId}")
     public String hotple(@PathVariable("htId") String htId, Model model) {
         HotpleVO hotple = this.hotple.getId(htId);
@@ -88,7 +81,23 @@ public class HomeController {
         Map<String, List<MenuVO>> map = new HashMap<>();
         list.forEach(l -> map.computeIfAbsent(l.getMeCate(), k -> new ArrayList<>()).add(l));
         model.addAttribute("menu_map", map);
+        model.addAttribute("max", list.stream().mapToLong(MenuVO::getMePrice).max().orElse(0));
+        model.addAttribute("min", list.stream().mapToLong(MenuVO::getMePrice).min().orElse(0));
+        model.addAttribute("avg", list.stream().mapToLong(MenuVO::getMePrice).average().orElse(0));
         model.addAttribute("reviews", review.getList(hotple.getHtId()));
+        model.addAttribute("openInfos", openInfo.getList(hotple.getHtId()));
         return "user/shopDetail";
+    }
+
+
+    @GetMapping("/company")
+    public String company() {
+        return "user/company";
+    }
+
+    @GetMapping("/search")
+    public String search(@RequestParam(value = "keyword") String keyword, Model model) {
+        model.addAttribute("hotples", hotple.getByKeyword(keyword));
+        return "user/searchHotple";
     }
 }

@@ -19,9 +19,6 @@
 #title{
     text-align: center;
 }
-.btn{
-    float: right;
-}
 .form-container>div{
     display: flex;
 }

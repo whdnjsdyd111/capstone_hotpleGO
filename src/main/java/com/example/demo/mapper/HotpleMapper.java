@@ -15,6 +15,8 @@ public interface HotpleMapper {
 
     public List<HotpleVO> selectByManager(String uCode);
 
+    public List<HotpleVO> searchHotple(String keyword);
+
     public int insertBusn(HotpleVO vo);
 
     public int insertBusnGo(HotpleVO vo);

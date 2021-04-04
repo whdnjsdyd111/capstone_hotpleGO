@@ -17,9 +17,15 @@
                            th:text="${#strings.arraySplit(hotple.htAddr, ' ')[0]}">(지역명)</small>
                 </h2>
             </div>
-            <div class="rd-header__contents u-clearfix">
-                <div class="rd-header__info-wrapper">
-                    <div class="rd-header__info-table">
+            <div class="rd-header__contents">
+                <div class="rd-header__info-wrapper d-flex justify-content-start">
+                    <p class="rd-header__rst-map">
+                        <a href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/dtlmap/" class="c-img-target">
+                            <img class="c-img c-img--frame"
+                                 src="https://maps.googleapis.com/maps/api/staticmap?channel=restaurant_inbound_detail_header&amp;key=AIzaSyCFZGUaDWgiusOQeFpnVLT2uPM2R6Mq7J8&amp;hl=ja&amp;center=35.68187074084084,139.78496245984476&amp;style=feature:landscape%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:labels.icon%7Ccolor:0xd2d2d2&amp;style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x949499&amp;style=feature:road%7Clightness:25&amp;style=feature:road%7Celement:labels%7Csaturation:-100%7Clightness:40&amp;style=feature:transit.station.airport%7Celement:geometry%7Clightness:25&amp;style=feature:water%7Celement:geometry%7Clightness:25&amp;markers=color:red%7C35.68187074084084,139.78496245984476&amp;zoom=15&amp;size=220x180&amp;language=kr&amp;signature=huPGNLWfP20aePKaA-Fqw_gJHKs=">
+                        </a>
+                    </p>
+                    <div class="rd-header__info-table p-3">
                         <dl>
                             <dt><span>주소</span></dt>
                             <dd th:text="${hotple.htAddr}">
@@ -28,9 +34,36 @@
                         </dl>
                         <dl>
                             <dt><span>영업시간</span></dt>
-                            <dd>
-                                00:00~00:00
-                            </dd>
+                            <table class="table">
+                                <th:block th:each="time : ${openInfos}">
+                                    <tr th:switch="${time.htOb.replace('/', '')}">
+                                        <th:block th:case="WO">
+                                            <th>평일 오픈</th>
+                                            <th th:text="${#hotpleAPI.tCodeToTime(time.TCode)}"></th>
+                                        </th:block>
+                                        <th:block th:case="WB">
+                                            <th>평일 휴식</th>
+                                            <th th:text="${#hotpleAPI.tCodeToTime(time.TCode)}"></th>
+                                        </th:block>
+                                        <th:block th:case="TO">
+                                            <th>토요일 오픈</th>
+                                            <th th:text="${#hotpleAPI.tCodeToTime(time.TCode)}"></th>
+                                        </th:block>
+                                        <th:block th:case="TB">
+                                            <th>토요일 휴식</th>
+                                            <th th:text="${#hotpleAPI.tCodeToTime(time.TCode)}"></th>
+                                        </th:block>
+                                        <th:block th:case="SO">
+                                            <th>일요일 시작</th>
+                                            <th th:text="${#hotpleAPI.tCodeToTime(time.TCode)}"></th>
+                                        </th:block>
+                                        <th:block th:case="SB">
+                                            <th>일요일 휴식</th>
+                                            <th th:text="${#hotpleAPI.tCodeToTime(time.TCode)}"></th>
+                                        </th:block>
+                                    </tr>
+                                </th:block>
+                            </table>
                         </dl>
                         <dl>
                             <dt><span>정기 휴무</span></dt>
@@ -46,8 +79,18 @@
                         </dl>
                         <dl>
                             <dt><span>예산</span></dt>
-                            <dd>
-                                20,000～29,999
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <th>메뉴 값</th>
+                                    <th th:text="${min} + ' ~ ' + ${max}"></th>
+                                </tr>
+                                <tr>
+                                    <th>평균 값</th>
+                                    <th th:text="${#numbers.formatInteger(avg, 3, 'COMMA')}"></th>
+                                </tr>
+                                </tbody>
+                            </table>
                         </dl>
                         <dl>
                             <dt><span>설명</span></dt>
@@ -57,18 +100,12 @@
                         </dl>
                     </div>
                 </div>
-                <p class="rd-header__rst-map">
-                    <a href="https://tabelog.com/kr/tokyo/A1302/A130204/13018162/dtlmap/" class="c-img-target">
-                        <img class="c-img c-img--frame"
-                             src="https://maps.googleapis.com/maps/api/staticmap?channel=restaurant_inbound_detail_header&amp;key=AIzaSyCFZGUaDWgiusOQeFpnVLT2uPM2R6Mq7J8&amp;hl=ja&amp;center=35.68187074084084,139.78496245984476&amp;style=feature:landscape%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:labels.icon%7Ccolor:0xd2d2d2&amp;style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x949499&amp;style=feature:road%7Clightness:25&amp;style=feature:road%7Celement:labels%7Csaturation:-100%7Clightness:40&amp;style=feature:transit.station.airport%7Celement:geometry%7Clightness:25&amp;style=feature:water%7Celement:geometry%7Clightness:25&amp;markers=color:red%7C35.68187074084084,139.78496245984476&amp;zoom=15&amp;size=220x180&amp;language=kr&amp;signature=huPGNLWfP20aePKaA-Fqw_gJHKs=">
-                    </a>
-                </p>
             </div>
         </div>
     </div><!-- l-container -->
     <!-- 버튼들 -->
     <div class="bottom-container">
-        <ul class="nav nav-tabs">
+        <ul class="nav menu-nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#메뉴">메뉴</a>
             </li>
@@ -104,8 +141,8 @@
                                             <td class="menu-text col-12 col-sm-6">
                                                 <div><h3 class="menu-title" th:text="${menu.meName}"></h3></div>
                                                 <div><h6 class="menu-expl" th:text="${menu.meIntr}"></h6></div>
-                                                <div><h6 class="menu-price" th:text="${menu.mePrice}"></h6><h6>원</h6>
-                                                </div>
+                                                <div><h6 class="menu-price" th:text="|${#numbers.formatInteger(menu.mePrice, 0, 'COMMA')}원|"></h6></div>
+
                                             </td>
                                         </tr>
                                         </tbody>
@@ -193,7 +230,7 @@
                         <!-- 리뷰 전체 시작 (리뷰 수만큼 반복) -->
                         <li class="list-group-item star-point" th:each="review : ${reviews}">
                             <div>
-                                <span nclass="review-id" th:text="${review.UCode}">사용자명</span>
+                                <span nclass="review-id" th:text="${review.UCode.split('/')[0]}">사용자명</span>
                                 <span class="review-time" th:text="${#hotpleAPI.toDateStr(review.riCode)}">시간</span>
                                 <a href="" class="btn-report" data-toggle="modal" data-target="#report-modal">신고</a>
                             </div>
@@ -212,17 +249,16 @@
                                 메뉴코드
                             </div>
                             <p th:text="${review.rvCont}">리뷰 내용</p>
-                            <div>
-                                <p class="reply-edit-off" onclick="reply_mode(this)">답글 달기</p>
-                            </div>
                             <!-- 답글  -->
-                            <div class="reply-text" style="display: none">
-                                <div>
-                                    <span class="owner-review-id">사장님</span>
-                                    <span class="review-time">시간</span>
-                                </div>
-                                <span class="reply-content"></span>
-                            </div> <!-- 답글 끝 -->
+                            <th:block th:if="${review.rvOwnCont != null}">
+                                <div class="reply-text">
+                                    <div>
+                                        <span class="owner-review-id">사장님</span>
+                                        <span class="review-time">시간</span>
+                                    </div>
+                                    <span class="reply-content" th:text="${review.rvOwnCont}">답글</span>
+                                </div> <!-- 답글 끝 -->
+                            </th:block>
                         </li>
                         <!-- 리뷰 전체 끝 -->
                         <li class="list-group-item btn-more">

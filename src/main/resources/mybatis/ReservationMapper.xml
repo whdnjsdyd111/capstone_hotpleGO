@@ -19,4 +19,11 @@
     <select id="getReservation" resultType="ReservationAllVO">
         SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE res_info.htId = #{htId}
     </select>
+
+    <select id="getSales" resultType="ReservationAllVO">
+        <![CDATA[
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE res_info.htId = #{htId}
+        AND riTime <= SYSTIMESTAMP AND riNoShow = 'N'
+        ]]>
+    </select>
 </mapper>

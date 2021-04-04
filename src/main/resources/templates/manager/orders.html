@@ -58,56 +58,56 @@
                     </table>
                 </div>
                 <div th:id="'res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" class="collapse" >
-                <div class="p-3">
-                    <table class="table">
-                        <tr>
-                            <th style="background-color: white">주문상세내역</th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table class="table ">
-                                    <thead class="thead-dark">
-                                    <th>주문 메뉴</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="menu : ${reservation.value}">
-                                        <td th:text="${menu.meName}">순살치킨 비빔밥</td>
-                                        <td th:text="${#numbers.formatInteger(menu.mePrice * menu.rsMeNum, 0, 'COMMA')}">7,600</td>
-                                        <td th:text="${menu.rsMeNum}">2</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <table class="table text-center">
-                                    <thead class="thead-dark">
-                                    <th>예약 인원</th>
-                                    <th>합계 금액</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td th:text="${reservation.value.get(0).riPerson}">2</td>
-                                        <td th:text="${#numbers.formatInteger(#hotpleAPI.sumMenusPrice(reservation.value), 0, 'COMMA')}">16,900</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>요청사항</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" class="form-control bg-light" readonly th:value="${reservation.value.get(0).riCont}"/>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="p-3">
+                        <table class="table">
+                            <tr>
+                                <th style="background-color: white">주문상세내역</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table class="table ">
+                                        <thead class="thead-dark">
+                                        <th>주문 메뉴</th>
+                                        <th>가격</th>
+                                        <th>수량</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="menu : ${reservation.value}">
+                                            <td th:text="${menu.meName}">순살치킨 비빔밥</td>
+                                            <td th:text="${#numbers.formatInteger(menu.mePrice * menu.rsMeNum, 0, 'COMMA')}">7,600</td>
+                                            <td th:text="${menu.rsMeNum}">2</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table class="table text-center">
+                                        <thead class="thead-dark">
+                                        <th>예약 인원</th>
+                                        <th>합계 금액</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td th:text="${reservation.value.get(0).riPerson}">2</td>
+                                            <td th:text="${#numbers.formatInteger(#hotpleAPI.sumMenusPrice(reservation.value), 0, 'COMMA')}">16,900</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>요청사항</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control bg-light" readonly th:value="${reservation.value.get(0).riCont}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-            </div>
                 <hr/>
             </th:block>
         </div>
@@ -154,9 +154,12 @@
                             <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" aria-expanded="false">펼치기</button></td>
                         </tr>
                         <tr>
-                            <td class="align-middle">평균 평점</td>
-                            <td>★★★★★<br>
-                                <a href="#" class="btn btn-outline-info btn-sm">리뷰 확인하기</a>
+                            <td class="align-middle">평점</td>
+                            <td>
+                                <th:block th:if="${review.get(reservation.value.get(0).riCode) != null}">
+                                    <p class="text-warning" th:text="|*{review.get(reservation.value.get(0).riCode).rvRating} 점|"></p>
+                                    <a th:href="|/manager/reviews/*{reservation.value.get(0).htId}|" class="btn btn-outline-info btn-sm">리뷰 확인하기</a>
+                                </th:block>
                             </td>
                         </tr>
                     </table>
