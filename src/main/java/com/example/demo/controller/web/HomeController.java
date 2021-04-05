@@ -20,4 +20,6 @@ public class HomeController {
     public String test2() {
         return "user/test2";
     }
+
+
 }
