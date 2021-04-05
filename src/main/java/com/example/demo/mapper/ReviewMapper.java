@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface ReviewMapper {
     public List<ReviewVO> getList(long htId);
+
+    public int insertReply(ReviewVO vo);
 }

@@ -2,10 +2,7 @@ package com.example.demo.controller.web;
 
 import com.example.demo.domain.*;
 import com.example.demo.security.CustomUser;
-import com.example.demo.service.HotpleService;
-import com.example.demo.service.ImageAttachService;
-import com.example.demo.service.MenuService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -30,6 +27,8 @@ public class ManagerRestController {
     private final ImageAttachService imageAttach;
     private final MenuService menu;
     private final UserService user;
+    private final OpenInfoService openInfo;
+    private final ReviewService review;
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -234,11 +233,66 @@ public class ManagerRestController {
 
     @PostMapping("/change-show")
     public ResponseEntity<String> changeShow() {
+        // TODO
         return null;
     }
 
     @PostMapping("/change-noShow")
     public ResponseEntity<String> changeNoShow() {
+        // TODO
         return null;
+    }
+
+    @PostMapping("/save-weekday")
+    public ResponseEntity<String> saveWeekday(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
+        String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
+        if (openInfo.mergeOpen(wo, 5, OpenInfoService.WEEKDAY) && openInfo.mergeBreak(wb, 5, OpenInfoService.WEEKDAY)) {
+            return new ResponseEntity<>("저장 완료하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/save-weekend-sat")
+    public ResponseEntity<String> saveWeekendSat(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
+        String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
+        if (openInfo.mergeOpen(wo, 5, OpenInfoService.SATURDAY) && openInfo.mergeBreak(wb, 5, OpenInfoService.SATURDAY)) {
+            return new ResponseEntity<>("저장 완료하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/save-weekend-sun")
+    public ResponseEntity<String> saveWeekendSun(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
+        String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
+        if (openInfo.mergeOpen(wo, 5, OpenInfoService.SUNDAY) && openInfo.mergeBreak(wb, 5, OpenInfoService.SUNDAY)) {
+            return new ResponseEntity<>("저장 완료하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/save-reviewReply")
+    @ResponseBody
+    public ResponseEntity<String> saveReviewReply(@RequestBody ReviewVO vo) {
+        if (review.changeRvOwnCont(vo)) {
+            return new ResponseEntity<>("답글을 달았습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/delete-reviewReply")
+    @ResponseBody
+    public ResponseEntity<String> deleteReviewReply(@RequestBody ReviewVO vo) {
+        if (review.changeRvOwnCont(vo)) {
+            return new ResponseEntity<>("답글을 삭제하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
     }
 }

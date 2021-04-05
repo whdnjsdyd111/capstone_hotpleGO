@@ -2,17 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{manager/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/manager/mg_sales.js"></script>
+</th:block>
 <div layout:fragment="content">
     <div class="mt-5 mx-2">
         <div class="row">
             <div class="d-flex justify-content-between col-sm-4 col-12 my-1">
-                <button type="button" class="btn btn-outline-info btn-sm">오늘</button>
-                <button type="button" class="btn btn-outline-info btn-sm">일주일</button>
-                <button type="button" class="btn btn-outline-info btn-sm">한달</button>
+                <button type="button" class="btn btn-outline-info btn-sm" id="today">오늘</button>
+                <button type="button" class="btn btn-outline-info btn-sm" id="week">일주일</button>
+                <button type="button" class="btn btn-outline-info btn-sm" id="month">한달</button>
+                <button type="button" class="btn btn-outline-info btn-sm" id="all">전체</button>
             </div>
             <div class="d-flex col-sm-8 col-12 my-1">
-                <input type="date" class="form-control"><i class="fa fa-minus mx-3 my-auto"></i>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" id="start">
+                <i class="fa fa-minus mx-3 my-auto"></i>
+                <input type="date" class="form-control" id="end">
             </div>
         </div>
         <div class="mx-2">
@@ -22,76 +27,31 @@
             <tbody>
             <tr>
                 <td>최고</td>
-                <td>언제</td>
-                <td>얼마</td>
+                <td id="maxDate">언제</td>
+                <td id="max">얼마</td>
             </tr>
             <tr>
                 <td>최저</td>
-                <td>언제</td>
-                <td>얼마</td>
+                <td id="minDate">언제</td>
+                <td id="min">얼마</td>
             </tr>
             <tr>
-                <td>전체</td>
+                <td>총 수익</td>
                 <td></td>
-                <td>얼마</td>
+                <td id="sum">얼마</td>
             </tr>
             <tr>
-                <td>평균</td>
+                <td>평균 수익</td>
                 <td></td>
-                <td>얼마</td>
+                <td id="avg">얼마</td>
             </tr>
             </tbody>
         </table>
     </div>
-    <script>
-        let ctx = document.getElementById("sales-chart").getContext('2d');
-        /*
-        - Chart를 생성하면서,
-        - ctx를 첫번째 argument로 넘겨주고,
-        - 두번째 argument로 그림을 그릴때 필요한 요소들을 모두 넘겨줍니다.
-        */
-        let data = [12, 19, 3, 5, 2, 3, 5, 5, 5, 6, 2 ,7, 13, 16];
-
-        let day = ["일", "월", "화", "수", "목", "금", "토"];
-        let realdate = [];
-
-        let bg = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'];
-        let backcolor = [];
-
-        let border = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
-        let bordercolor = [];
-
-        for (let i = 0; i < data.length; i++) {
-            backcolor.push(bg[i % bg.length]);
-            bordercolor.push(border[i % border.length]);
-            realdate.push(day[i % day.length]);
-        }
-
-        let myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: realdate,
-                datasets: [{
-                    label: '일별 매출',
-                    data: data,
-                    backgroundColor: backcolor,
-                    borderColor: bordercolor,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                maintainAspectRatio: true, // default value. false일 경우 포함된 div의 크기에 맞춰서 그려짐.
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
+    <script th:inline="javascript">
+        let map = [[${sales}]];
+        // let map = {"21-03-26":[{"riCode":"210326143012\/03","htId":5,"riTime":"2021-03-26T13:35:30.000+09:00","riPerson":3,"riNoShow":"N","riOdNum":"210326143012\/03","riCont":"\uC694\uCCAD\uC0AC\uD56D\uC785\uB2C8\uB2E4.","rsMeNum":1,"meCode":"5\/15\/Y","meCate":"\uD584\uBC84\uAC70","meName":"\uC778\uD06C\uB808\uB354\uBE14\uBC84\uAC70","mePrice":5100,"meIntr":"\uB9DB\uC788\uB294 \uD584\uBC84\uAC70","meHashTag":"#\uD584\uBC84\uAC70#\uC1E0\uACE0\uAE30\uD328\uD2F0#\uD584","uuid":"1680378a-407c-4a20-94e1-0244e4e073d8","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"},{"riCode":"210326143012\/03","htId":5,"riTime":"2021-03-26T13:35:30.000+09:00","riPerson":3,"riNoShow":"N","riOdNum":"210326143012\/03","riCont":"\uC694\uCCAD\uC0AC\uD56D\uC785\uB2C8\uB2E4.","rsMeNum":1,"meCode":"5\/26\/Y","meCate":"\uCE58\uD0A8","meName":"\uB9C8\uB298\uAC04\uC7A5\uCE58\uD0A8","mePrice":10000,"meIntr":"\uB9C8\uB298\uAC04\uC7A5\uCE58\uD0A8\uC785\uB2C8\uB2E4.","meHashTag":"#\uB9C8\uB298\uAC04\uC7A5#\uCE58\uD0A8","uuid":"890c27fe-e2b0-4982-9298-10335aab57e6","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"},{"riCode":"210326143012\/03","htId":5,"riTime":"2021-03-26T13:35:30.000+09:00","riPerson":3,"riNoShow":"N","riOdNum":"210326143012\/03","riCont":"\uC694\uCCAD\uC0AC\uD56D\uC785\uB2C8\uB2E4.","rsMeNum":1,"meCode":"5\/27\/Y","meCate":"\uCE58\uD0A8","meName":"\uC591\uB150\uCE58\uD0A8","mePrice":10900,"meIntr":"\uC870\uAE08 \uB9E4\uCF64\uD55C \uC591\uB150\uCE58\uD0A8","meHashTag":"#\uC591\uB150#\uCE58\uD0A8","uuid":"fc4c5c11-8d53-4803-8e0c-8864919b79e9","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"}],"21-04-01":[{"riCode":"210325143012\/02","htId":5,"riTime":"2021-04-01T14:45:30.000+09:00","riPerson":3,"riNoShow":"N","riOdNum":"210325143012\/02","riCont":"\uC694\uCCAD\uC0AC\uD56D\uC785\uB2C8\uB2E4.","rsMeNum":2,"meCode":"5\/15\/Y","meCate":"\uD584\uBC84\uAC70","meName":"\uC778\uD06C\uB808\uB354\uBE14\uBC84\uAC70","mePrice":5100,"meIntr":"\uB9DB\uC788\uB294 \uD584\uBC84\uAC70","meHashTag":"#\uD584\uBC84\uAC70#\uC1E0\uACE0\uAE30\uD328\uD2F0#\uD584","uuid":"1680378a-407c-4a20-94e1-0244e4e073d8","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"},{"riCode":"210325143012\/02","htId":5,"riTime":"2021-04-01T14:45:30.000+09:00","riPerson":3,"riNoShow":"N","riOdNum":"210325143012\/02","riCont":"\uC694\uCCAD\uC0AC\uD56D\uC785\uB2C8\uB2E4.","rsMeNum":1,"meCode":"5\/16\/Y","meCate":"\uD584\uBC84\uAC70","meName":"\uD1B5\uC0C8\uC6B0\uBC84\uAC70","mePrice":6100,"meIntr":"\uD1B5\uC0C8\uC6B0\uAC00 \uB4E4\uC5B4\uAC04 \uBC84\uAC70","meHashTag":"#\uD584\uBC84\uAC70#\uD1B5\uC0C8\uC6B0","uuid":"15dcb1e7-00e5-4844-86ac-3e5ee659958a","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"},{"riCode":"210325143012\/02","htId":5,"riTime":"2021-04-01T14:45:30.000+09:00","riPerson":3,"riNoShow":"N","riOdNum":"210325143012\/02","riCont":"\uC694\uCCAD\uC0AC\uD56D\uC785\uB2C8\uB2E4.","rsMeNum":1,"meCode":"5\/26\/Y","meCate":"\uCE58\uD0A8","meName":"\uB9C8\uB298\uAC04\uC7A5\uCE58\uD0A8","mePrice":10000,"meIntr":"\uB9C8\uB298\uAC04\uC7A5\uCE58\uD0A8\uC785\uB2C8\uB2E4.","meHashTag":"#\uB9C8\uB298\uAC04\uC7A5#\uCE58\uD0A8","uuid":"890c27fe-e2b0-4982-9298-10335aab57e6","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"}],"21-04-02":[{"riCode":"210326203011\/05","htId":5,"riTime":"2021-04-02T13:35:30.000+09:00","riPerson":2,"riNoShow":"N","riOdNum":"210326203011\/05","riCont":"\uC0C8\uC6B0 \uC54C\uB808\uB974\uAE30\uAC00 \uC788\uC5B4\uC694!","rsMeNum":1,"meCode":"5\/15\/Y","meCate":"\uD584\uBC84\uAC70","meName":"\uC778\uD06C\uB808\uB354\uBE14\uBC84\uAC70","mePrice":5100,"meIntr":"\uB9DB\uC788\uB294 \uD584\uBC84\uAC70","meHashTag":"#\uD584\uBC84\uAC70#\uC1E0\uACE0\uAE30\uD328\uD2F0#\uD584","uuid":"1680378a-407c-4a20-94e1-0244e4e073d8","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"},{"riCode":"210326203011\/05","htId":5,"riTime":"2021-04-02T13:35:30.000+09:00","riPerson":2,"riNoShow":"N","riOdNum":"210326203011\/05","riCont":"\uC0C8\uC6B0 \uC54C\uB808\uB974\uAE30\uAC00 \uC788\uC5B4\uC694!","rsMeNum":3,"meCode":"5\/16\/Y","meCate":"\uD584\uBC84\uAC70","meName":"\uD1B5\uC0C8\uC6B0\uBC84\uAC70","mePrice":6100,"meIntr":"\uD1B5\uC0C8\uC6B0\uAC00 \uB4E4\uC5B4\uAC04 \uBC84\uAC70","meHashTag":"#\uD584\uBC84\uAC70#\uD1B5\uC0C8\uC6B0","uuid":"15dcb1e7-00e5-4844-86ac-3e5ee659958a","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"},{"riCode":"210326203014\/06","htId":5,"riTime":"2021-04-02T13:35:30.000+09:00","riPerson":2,"riNoShow":"N","riOdNum":"210326203014\/06","riCont":"\uC0C8\uC6B0 \uC54C\uB808\uB974\uAE30\uAC00 \uC788\uC5B4\uC694!","rsMeNum":1,"meCode":"5\/15\/Y","meCate":"\uD584\uBC84\uAC70","meName":"\uC778\uD06C\uB808\uB354\uBE14\uBC84\uAC70","mePrice":5100,"meIntr":"\uB9DB\uC788\uB294 \uD584\uBC84\uAC70","meHashTag":"#\uD584\uBC84\uAC70#\uC1E0\uACE0\uAE30\uD328\uD2F0#\uD584","uuid":"1680378a-407c-4a20-94e1-0244e4e073d8","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"},{"riCode":"210326203014\/06","htId":5,"riTime":"2021-04-02T13:35:30.000+09:00","riPerson":2,"riNoShow":"N","riOdNum":"210326203014\/06","riCont":"\uC0C8\uC6B0 \uC54C\uB808\uB974\uAE30\uAC00 \uC788\uC5B4\uC694!","rsMeNum":2,"meCode":"5\/16\/Y","meCate":"\uD584\uBC84\uAC70","meName":"\uD1B5\uC0C8\uC6B0\uBC84\uAC70","mePrice":6100,"meIntr":"\uD1B5\uC0C8\uC6B0\uAC00 \uB4E4\uC5B4\uAC04 \uBC84\uAC70","meHashTag":"#\uD584\uBC84\uAC70#\uD1B5\uC0C8\uC6B0","uuid":"15dcb1e7-00e5-4844-86ac-3e5ee659958a","uploadPath":null,"fileName":null,"ucode":"whdnjsdyd111@naver.com\/A\/"}]};
+        console.log(map);
     </script>
 </div>
 </html>

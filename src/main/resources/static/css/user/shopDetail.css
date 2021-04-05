@@ -5,7 +5,6 @@
 /* rd-header
 ================================================== */
 .rd-header {
-    position: relative;
     padding: 30px;
     border-bottom: 1px solid #eeece4;
     background-color: #faf8f5;
@@ -75,20 +74,11 @@
     display: block;
     position: relative;
     z-index: 0;
-    padding: 8px 0 2px 238px;
     min-height: 196px;
-}
-/* rd-header__rst-map */
-.rd-header__rst-map {
-    display: block;
-    position: absolute;
-    top: 8px;
-    left: 0;
 }
 /* rd-header__rst-vacancy */
 /* rd-header__info-wrapper */
 .rd-header__info-wrapper {
-    float: left;
     width: 78%;
 }
 /* rd-header__info-table */
@@ -300,7 +290,7 @@
     cursor: pointer;
     background-color: #fefae6;
 }
-.nav-tabs{
+.menu-nav-tabs{
     margin-top: 10px;
     margin-bottom: 10px;
 }

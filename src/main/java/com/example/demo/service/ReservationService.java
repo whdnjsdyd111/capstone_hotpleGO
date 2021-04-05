@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,21 @@ public class ReservationService {
         Map<String, List<ReservationAllVO>> map = new HashMap<>();
         list.forEach(l -> {
             map.computeIfAbsent(l.getRiCode(),
+                    k -> new ArrayList<>()).add(l);
+        });
+
+        log.info(map);
+        return map;
+    }
+
+    public Map<String, List<ReservationAllVO>> getSales(Long htId) {
+        List<ReservationAllVO> list = mapper.getSales(htId);
+        log.info(list);
+
+        Map<String, List<ReservationAllVO>> map = new HashMap<>();
+        list.forEach(l -> {
+            String date = new SimpleDateFormat("yy-MM-dd").format(l.getRiTime());
+            map.computeIfAbsent(date,
                     k -> new ArrayList<>()).add(l);
         });
 

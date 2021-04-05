@@ -7,4 +7,8 @@
     <select id="getList" resultType="ReviewVO">
         SELECT * FROM review WHERE riCode IN (SELECT riCode FROM res_info WHERE htId = #{htId})
     </select>
+
+    <update id="insertReply">
+        UPDATE review SET rvOwnCont = #{rvOwnCont, jdbcType=VARCHAR} WHERE riCode = #{riCode}
+    </update>
 </mapper>

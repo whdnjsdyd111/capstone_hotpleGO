@@ -18,6 +18,14 @@
         WHERE h.uCode = #{uCode}
     </select>
 
+    <select id="searchHotple" resultType="HotpleVO">
+        SELECT * FROM hotple h FULL OUTER JOIN image_attach i ON h.htImg = i.uuid WHERE busnname LIKE '%' || #{keyword} || '%' OR htaddr LIKE '%' || #{keyword} || '%' OR htId IN (
+        SELECT SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1)
+        FROM menu
+        WHERE mecate LIKE '%' || #{keyword} || '%' OR mename LIKE '%' || #{keyword} || '%' OR mehashtag LIKE '%' || #{keyword} || '%'
+        )
+    </select>
+
     <insert id="insertBusn">
         INSERT INTO hotple (htId, busnNum, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, htLat, htLng, uCode, category)
         VALUES(seq_hot.NEXTVAL, #{busnNum}, #{busnName}, #{htAddr}, #{htAddrDet}, #{htZip}, #{htCont}, #{htTel},

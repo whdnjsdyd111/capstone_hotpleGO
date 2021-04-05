@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.OpenInfoMapper">
+
+    <update id="updateWeekdayOpen">
+        MERGE INTO open_info
+        USING DUAL
+            ON ( htOb = 'W/O' AND htId = #{htId} )
+        WHEN MATCHED THEN
+            UPDATE SET tCode = #{wo}
+        WHEN NOT MATCHED THEN
+            INSERT (htOb, htId, tCode)
+            VALUES ('W/O', #{htId}, #{wo})
+    </update>
+
+    <update id="updateWeekdayBreak">
+        MERGE INTO open_info
+        USING DUAL
+            ON ( htOb = 'W/B' AND htId = #{htId} )
+        WHEN MATCHED THEN
+            UPDATE SET tCode = #{wb}
+        WHEN NOT MATCHED THEN
+            INSERT (htOb, htId, tCode)
+            VALUES ('W/B', #{htId}, #{wb})
+    </update>
+
+    <update id="updateSaturdayOpen">
+        MERGE INTO open_info
+        USING DUAL
+            ON ( htOb = 'T/O' AND htId = #{htId} )
+        WHEN MATCHED THEN
+            UPDATE SET tCode = #{wo}
+        WHEN NOT MATCHED THEN
+            INSERT (htOb, htId, tCode)
+            VALUES ('T/O', #{htId}, #{wo})
+    </update>
+
+    <update id="updateSaturdayBreak">
+        MERGE INTO open_info
+        USING DUAL
+            ON ( htOb = 'T/B' AND htId = #{htId} )
+        WHEN MATCHED THEN
+            UPDATE SET tCode = #{wb}
+        WHEN NOT MATCHED THEN
+            INSERT (htOb, htId, tCode)
+            VALUES ('T/B', #{htId}, #{wb})
+    </update>
+
+    <update id="updateSundayOpen">
+        MERGE INTO open_info
+        USING DUAL
+            ON ( htOb = 'S/O' AND htId = #{htId} )
+        WHEN MATCHED THEN
+            UPDATE SET tCode = #{wo}
+        WHEN NOT MATCHED THEN
+            INSERT (htOb, htId, tCode)
+            VALUES ('S/O', #{htId}, #{wo})
+    </update>
+
+    <update id="updateSundayBreak">
+        MERGE INTO open_info
+        USING DUAL
+            ON ( htOb = 'S/B' AND htId = #{htId} )
+        WHEN MATCHED THEN
+            UPDATE SET tCode = #{wb}
+        WHEN NOT MATCHED THEN
+            INSERT (htOb, htId, tCode)
+            VALUES ('S/B', #{htId}, #{wb})
+    </update>
+
+    <select id="select" resultType="OpenInfoVO">
+        SELECT * FROM open_info WHERE htId = #{htId}
+    </select>
+
+</mapper>

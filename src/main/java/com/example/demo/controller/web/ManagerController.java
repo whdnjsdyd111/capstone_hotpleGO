@@ -1,12 +1,11 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
-import com.example.demo.domain.EventVO;
-import com.example.demo.domain.MenuVO;
-import com.example.demo.domain.ReservationAllVO;
+import com.example.demo.domain.*;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
-import com.example.demo.domain.ManagerVO;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -71,6 +70,7 @@ public class ManagerController {
 
     @GetMapping("/open")
     public String openSetting() {
+        // TODO
         return "manager/open";
     }
 
@@ -144,6 +144,9 @@ public class ManagerController {
     @GetMapping("/sales")
     public String sales(Model model) {
         // TODO
+        Map<String, List<ReservationAllVO>> map = reservation.getSales(5L);
+        log.info(map);
+        model.addAttribute("sales", map);
         return "manager/sales";
     }
 
@@ -151,7 +154,11 @@ public class ManagerController {
     public String orders(Model model) {
         // TODO
         Map<String, List<ReservationAllVO>> map = reservation.getList(5L);
+        List<ReviewVO> list = review.getList(5L);
+        Map<String, ReviewVO> reviewMap = new HashMap<>();
+        list.forEach(l -> reviewMap.computeIfAbsent(l.getRiCode(), k -> l));
         model.addAttribute("reservations", map);
+        model.addAttribute("review", reviewMap);
         return "manager/orders";
     }
 
@@ -160,8 +167,4 @@ public class ManagerController {
         return "manager/main";
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "manager/test";
-    }
 }

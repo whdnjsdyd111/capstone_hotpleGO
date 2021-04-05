@@ -92,9 +92,19 @@ public class HotpleAPI {
     }
 
     public static String toTel(String str) {
+        // TODO
+        if (str == null) return null;
         StringBuffer sb = new StringBuffer(str);
         sb.insert(7, '-');
         sb.insert(3, '-');
         return sb.toString();
+    }
+
+    public static String tCodeToTime(String tCode) {
+        String[] str = tCode.split("/");
+        for (int i = 0; i < 2; i++) {
+            str[i] = new StringBuilder(str[i]).insert(2, ":").toString();
+        }
+        return str[0] + " ~ " + str[1];
     }
 }

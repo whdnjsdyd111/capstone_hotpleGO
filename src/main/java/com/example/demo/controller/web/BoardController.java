@@ -41,8 +41,8 @@ public class BoardController {
         }
     }
 
-    @GetMapping(value = {"/","/list"})
-    public String boardList(@ModelAttribute("BoardVO") BoardVO boardVO, Model model) {
+    @GetMapping(value = "/list")
+    public String boardList(@ModelAttribute("BoardVO") BoardVO boardVO, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
         List<BoardVO> boardList = boardService.getBoardList(boardVO);
         model.addAttribute("result", boardList);
         model.addAttribute("board", boardVO);

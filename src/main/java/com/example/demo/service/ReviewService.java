@@ -17,4 +17,8 @@ public class ReviewService {
     public List<ReviewVO> getList(long htId) {
         return mapper.getList(htId);
     }
+
+    public boolean changeRvOwnCont(ReviewVO vo) {
+        return mapper.insertReply(vo) == 1;
+    }
 }
