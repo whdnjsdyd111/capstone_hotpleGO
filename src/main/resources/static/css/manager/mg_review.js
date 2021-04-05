@@ -4,10 +4,25 @@ $(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, to
 
 $(function() {
     $('.reply-content').each(function() {
-        if ($(this).text() !== "")
+        if ($(this).text() !== ""){
             init(this);
-    })
+            $(this).parent().parent().addClass('replied');
+        }
+
+    });
+    checkbox_check();
+});
+$('.reply-check').change(function (){
+   checkbox_check();
 })
+function checkbox_check(){
+    if($('.reply-check').is(":checked")){
+        $('.list-group-item').hide();
+        $('.replied').show();
+    } else{
+        $('.list-group-item').show();
+    }
+}
 
 function reply_mode(obj){
     if ($(obj).hasClass('reply-edit-off')) {
@@ -25,7 +40,9 @@ function init(obj) {
     $(obj).parent().parent().find('.reply-edit').hide();
     $(obj).parent().parent().find('.reply-text').show();
     $(obj).parent().parent().find('.reply-edit-off').hide();
+
 }
+
 
 function hide_reply(obj, text) {
     $(obj).parent().find('.form-control').val("");
@@ -76,6 +93,7 @@ function reply_delete(obj){
             $(obj).parent().parent().parent().find('.reply-content').text("");
             $(obj).parent().parent().parent().find('.reply-text').hide();
             $(obj).parent().parent().parent().find('.reply-edit-off').show();
+
         },
         error: function (xhr, status, err) {
             alert(xhr.responseText);

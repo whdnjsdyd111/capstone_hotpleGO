@@ -38,7 +38,7 @@
                 리뷰 <strong >숫자</strong>개·사장님댓글 <strong>숫자</strong>개
                 <label style="float:right;">
                     댓글 없는것만 보기
-                    <input type="checkbox" checked data-toggle="toggle" data-size="xs">
+                    <input type="checkbox" class="reply-check`" checked data-toggle="toggle" data-size="xs">
                 </label>
             </div>
 
@@ -79,7 +79,8 @@
                     <textarea type="text" class="form-control" placeholder="댓글 입력"></textarea>
                     <input type="button" class="btn btn-primary pull-right" value="등록" onclick="reply_submit(this)" >
                     <input type="hidden" th:value="${review.riCode}">
-                </div> <!-- 답글 달기 끝 -->
+                </div>
+                <!-- 답글 달기 끝 -->
                 <!-- 답글  -->
                 <div class="reply-text" style="display: none">
                     <div>
@@ -90,7 +91,8 @@
                         <input type="hidden" th:value="${review.riCode}">
                     </div>
                     <span class="reply-content" th:text="${review.rvOwnCont}"></span>
-                </div> <!-- 답글 끝 -->
+                </div>
+                <!-- 답글 끝 -->
             </li>
             <!-- 리뷰 전체 끝 -->
             <li class="list-group-item btn-more">
