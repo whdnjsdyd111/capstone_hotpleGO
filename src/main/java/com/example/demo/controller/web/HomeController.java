@@ -21,5 +21,9 @@ public class HomeController {
         return "user/test2";
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "user/test";
+    }
 
 }
