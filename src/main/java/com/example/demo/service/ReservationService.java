@@ -35,6 +35,19 @@ public class ReservationService {
         return map;
     }
 
+    public Map<String, List<ReservationAllVO>> getAllCurFive(Long htId) {
+        List<ReservationAllVO> list = mapper.getCurListAll(htId);
+        Map<String, List<ReservationAllVO>> map = new HashMap<>();
+        list.forEach(l -> {
+            map.computeIfAbsent(l.getRiCode(),
+                    k -> new ArrayList<>()).add(l);
+            if (map.size() == 5) return;
+        });
+
+        log.info(map);
+        return map;
+    }
+
     public Map<String, List<ReservationAllVO>> getSales(Long htId) {
         List<ReservationAllVO> list = mapper.getSales(htId);
         log.info(list);
@@ -48,5 +61,9 @@ public class ReservationService {
 
         log.info(map);
         return map;
+    }
+
+    public List<ReservationInformationVO> getCurFive(Long htId) {
+        return mapper.getCurFive(htId);
     }
 }

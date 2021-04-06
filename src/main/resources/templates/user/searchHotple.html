@@ -79,7 +79,7 @@
                 <button class="btn-primary" type="button" onclick="setGeo()">현위치로 설정</button>
             </div>
         </div>
-    </div>7 0 1
+    </div>
     <th:block th:each="num : ${#numbers.sequence(0, hotples.size() / 4)}">
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 m-2">
             <th:block th:each="index : ${#numbers.sequence(0, 3)}">
@@ -90,9 +90,8 @@
                                 <img src="/images/logo.jpg" class="ht-img m-3" alt="...">
                             </th:block>
                             <th:block th:if="${hotples.get(num * 4 + index).htImg != null}">
-                                <img th:src="'http://localhost:8000/hotpleImage/' +
-                                    ${#hotpleAPI.replaceSlash(hotples.get(num * 4 + index).uploadPath)}
-                                    + |/*{hotples.get(num * 4 + index).htImg}_*{hotples.get(num * 4 + index).fileName}|"
+                                <img th:src="${#hotpleAPI.toImg(hotples.get(num * 4 + index).uploadPath,
+                                hotples.get(num * 4 + index).htImg, hotples.get(num * 4 + index).fileName, #hotpleAPI.IMAGE)}"
                                      alt="이미지가 없습니다." class="ht-img m-3">
                             </th:block>
                             <div class="card-body">

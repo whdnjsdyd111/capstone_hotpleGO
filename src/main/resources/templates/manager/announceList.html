@@ -4,6 +4,11 @@
       layout:decorator="~{manager/default}">
 <th:block layout:fragment="styles">
     <script src="/css/manager/mg_announce.js"></script>
+    <style>
+        article:hover {
+            cursor: pointer;
+        }
+    </style>
 </th:block>
 <div class="mr-5" layout:fragment="content">
     <div class="flex-column mt-5">
@@ -45,7 +50,7 @@
 
     <section th:each="event : ${events}">
         <article class="row px-0 mx-0 border border-secondary border-top-0 board_article">
-            <input type="hidden" th:value="${#hotpleAPI.codeToStr(event.eveCode)}">
+            <input type="hidden" th:value="${event.eveCode.replaceAll('/', '')}">
             <div class="container col-9 px-0 py-2 row">
                 <div class="col-8 d-flex">
                     <div class="col-4 pt-2">
@@ -75,14 +80,12 @@
                         <i class="fa fa-user-circle mr-2"></i><span>관리자</span>
                     </div>
                 </div>
-
                 <span class="d-inline-block">
                     <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
                             th:text="${#hotpleAPI.toDateStr(event.eveCode)}">
                     </button>
                 </span>
             </div>
-
         </article>
     </section>
 </div>

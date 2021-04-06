@@ -31,8 +31,8 @@
                                         <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
                                     </th:block>
                                     <th:block th:if="${menu.uuid != null}">
-                                        <img th:src="'http://localhost:8000/hotpleImage/' + ${#hotpleAPI.replaceSlash(menu.uploadPath)}
-                                                + |/*{menu.uuid}_*{menu.fileName}|" alt="메뉴 이미지를 추가해주세요." class="img-fluid">
+                                        <img th:src="${#hotpleAPI.toImg(menu.uploadPath, menu.uuid, menu.fileName, #hotpleAPI.IMAGE)}"
+                                             alt="메뉴 이미지를 추가해주세요." class="img-fluid">
                                     </th:block>
                                 </td>
                                 <td class="menu-text col-12 col-sm-6">

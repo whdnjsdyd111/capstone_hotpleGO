@@ -95,6 +95,7 @@ public class ManagerController {
 
     @GetMapping("/reviews/{htId}")
     public String review(Model model, @PathVariable("htId") long htId) {
+        // TODO
         model.addAttribute("reviews", review.getList(htId));
         return "manager/reviews";
     }
@@ -163,8 +164,22 @@ public class ManagerController {
     }
 
     @GetMapping(value = { "/", "/main" })
-    public String main(Model model) {
-        return "manager/main";
+    public String main(Model model, @AuthenticationPrincipal CustomUser manager) {
+        // TODO
+
+        if (manager == null) {
+            // 업체등록이나 회원가입 관련 공지사항,
+            return "manager/mainLogout";
+        } else {
+            // 공지사항 => 최근꺼 5개 o, 리뷰, 예약 손님 현황, 예약에 대한 메뉴 현황, 매출현황 일주일, 예약으로 방문한 인원 현황
+            model.addAttribute("events", event.getCurrentFive());
+            model.addAttribute("reviews", review.getCurrentFive());
+            model.addAttribute("reservationInfos", reservation.getCurFive(5L));
+            model.addAttribute("reservationAll", reservation.getAllCurFive(5L));
+            model.addAttribute("reservations", reservation.getList(5L));
+            model.addAttribute("sales", reservation.getSales(5L));
+            return "manager/main";
+        }
     }
 
 }

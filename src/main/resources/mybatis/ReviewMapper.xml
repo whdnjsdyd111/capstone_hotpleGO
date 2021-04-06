@@ -11,4 +11,10 @@
     <update id="insertReply">
         UPDATE review SET rvOwnCont = #{rvOwnCont, jdbcType=VARCHAR} WHERE riCode = #{riCode}
     </update>
+
+    <select id="getCurrentFive" resultType="ReviewVO">
+        <![CDATA[
+        SELECT /*+ INDEX_DESC(review rv_ri_fk) */ * FROM review WHERE ROWNUM <= 5
+        ]]>
+    </select>
 </mapper>

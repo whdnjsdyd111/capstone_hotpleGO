@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CourseMapper">
+
+    <select id="getCourseN" resultType="CourseVO">
+        SELECT * FROM course WHERE uCode = #{uCode} AND SUBSTR(csCode, -1) = 'N' ORDER BY csCode DESC
+    </select>
+
+    <select id="getCourseInfoN" resultType="CourseInfoVO">
+        SELECT * FROM course_info NATURAL JOIN hotple FULL OUTER JOIN image_attach ON (hotple.htImg = image_attach.uuid)
+        WHERE csCode IN (SELECT csCode FROM course WHERE uCode = #{uCode}) AND SUBSTR(csCode, -1) = 'N'
+        ORDER BY cscode DESC, ciIndex
+    </select>
+
+    <select id="getCourseC" resultType="CourseVO">
+        SELECT * FROM course WHERE uCode = #{uCode} AND SUBSTR(csCode, -1) = 'C' ORDER BY csCode DESC
+    </select>
+
+    <select id="getCourseInfoC" resultType="CourseInfoVO">
+        SELECT * FROM course_info NATURAL JOIN hotple FULL OUTER JOIN image_attach ON (hotple.htImg = image_attach.uuid)
+        WHERE csCode IN (SELECT csCode FROM course WHERE uCode = #{uCode}) AND SUBSTR(csCode, -1) = 'C'
+        ORDER BY cscode DESC, ciIndex
+    </select>
+</mapper>

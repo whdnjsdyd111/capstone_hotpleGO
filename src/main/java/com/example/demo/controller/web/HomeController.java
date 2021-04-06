@@ -25,6 +25,7 @@ public class HomeController {
     private final MenuService menu;
     private final ReviewService review;
     private final OpenInfoService openInfo;
+    private final CourseService course;
 
     @GetMapping({ "/", "/main"})
     public String index() {
@@ -62,12 +63,18 @@ public class HomeController {
     public String myCourse(@RequestParam(value = "kind", defaultValue = "usingCourse") String kind, Model model,
                            @AuthenticationPrincipal CustomUser users) {
         // TODO 오어스 계정에 대한 코딩
-        if (taste.getTasteList(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/").size() == 0) return "redirect:/taste?required";
+//        if (taste.getTasteList(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/").size() == 0) return "redirect:/taste?required";
 
         if (kind.equals("usingCourse")) {
+            model.addAttribute("usingCourse", course.getUsingCourse("whdnjsdyd111@naver.com/A/"));
+            model.addAttribute("usingCourseInfos", course.getUsingCourseInfo("whdnjsdyd111@naver.com/A/"));
             return "user/usingCourse";
-        } else if (kind.equals("makeCourse")){
-            return "user/makeCourse";
+        } else if (kind.equals("myCourse")) {
+            model.addAttribute("courses", course.getMakingCourse("whdnjsdyd111@naver.com/A/"));
+            model.addAttribute("courseInfos", course.getMakingCourseInfo("whdnjsdyd111@naver.com/A/"));
+            return "user/myCourse";
+        } else if (kind.equals("usedCourse")) {
+            return "user/dibs";
         } else {
             return "redirect:/myCourse";
         }

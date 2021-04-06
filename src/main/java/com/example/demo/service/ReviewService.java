@@ -21,4 +21,8 @@ public class ReviewService {
     public boolean changeRvOwnCont(ReviewVO vo) {
         return mapper.insertReply(vo) == 1;
     }
+
+    public List<ReviewVO> getCurrentFive() {
+        return mapper.getCurrentFive();
+    }
 }

@@ -19,6 +19,12 @@
         ]]>
     </select>
 
+    <select id="getCurrentFive" resultType="EventVO">
+        <![CDATA[
+        SELECT /*+ INDEX_DESC(event eve_pk) */ * FROM event WHERE ROWNUM <= 5
+        ]]>
+    </select>
+
     <insert id="insertAnnounce">
         INSERT INTO event (eveCode, eveTitle, eveCont, uCode)
         VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_eve.NEXTVAL, 2, '0') || '/A',

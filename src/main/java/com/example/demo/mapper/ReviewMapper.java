@@ -9,5 +9,8 @@ import java.util.List;
 public interface ReviewMapper {
     public List<ReviewVO> getList(long htId);
 
+    public List<ReviewVO> getCurrentFive();
+
     public int insertReply(ReviewVO vo);
+
 }

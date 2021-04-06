@@ -29,6 +29,10 @@ public class EventService {
         return mapper.getList("A");
     }
 
+    public List<EventVO> getCurrentFive() {
+        return mapper.getCurrentFive();
+    }
+
     public EventVO getEvent(String code) {
         return mapper.read(code);
     }

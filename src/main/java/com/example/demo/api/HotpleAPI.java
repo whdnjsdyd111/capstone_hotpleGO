@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 public class HotpleAPI {
+
+    public static final int IMAGE = 0;
+    public static final int THUMBNAIL = 1;
+
     public static String toDateStr(String code) {
         SimpleDateFormat fromFm = new SimpleDateFormat("yyMMddHHmmss");
         SimpleDateFormat toFm = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
@@ -30,11 +34,6 @@ public class HotpleAPI {
         String str = null;
         str = sdf.format(time);
         return str;
-    }
-
-    public static String codeToStr(String code) {
-        code = code.replaceAll("/", "");
-        return code;
     }
 
     public static String strToCode(String str) {
@@ -92,7 +91,6 @@ public class HotpleAPI {
     }
 
     public static String toTel(String str) {
-        // TODO
         if (str == null) return null;
         StringBuffer sb = new StringBuffer(str);
         sb.insert(7, '-');
@@ -106,5 +104,35 @@ public class HotpleAPI {
             str[i] = new StringBuilder(str[i]).insert(2, ":").toString();
         }
         return str[0] + " ~ " + str[1];
+    }
+
+    public static String contSubstring(String cont) {
+        if (cont.length() > 8) {
+            return cont.substring(0, 8) + "..";
+        } else {
+            return cont;
+        }
+    }
+
+    public static Long sumMenuPrice(List<ReservationAllVO> list) {
+        long sum = 0;
+        for (ReservationAllVO vo : list) {
+            sum += vo.getRsMeNum() * vo.getMePrice();
+        }
+        return sum;
+    }
+
+    public static String toImg(String uploadPath, String uuid, String fileName, int kind) {
+        if (uploadPath == null || uuid == null || fileName == null) {
+            return "/images/logo.jpg";
+        }
+
+        String imgSrc = "/hotpleImage/";
+        imgSrc += replaceSlash(uploadPath) + "/";
+
+        if (kind == IMAGE) imgSrc += uuid + "_" + fileName;
+        if (kind == THUMBNAIL) imgSrc += "s_" + uuid + "_" + fileName;
+
+        return imgSrc;
     }
 }

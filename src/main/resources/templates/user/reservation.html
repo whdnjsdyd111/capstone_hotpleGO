@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/css/user/myCourse.css" >
+    <script src="/css/user/myCourse.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="bottom-container">
+        <div>
+            <button type="button" class="btn btn-primary doing-hotple">진행중인 장소<br>2건</button>
+            <button type="button" class="btn btn-outline-success done-hotple">완료된 장소<br>0건</button>
+        </div>
+        <div class="doing-reservation">
+            <!-- 예약 수만큼 반복할 div 시작-->
+            <div  class="reservation-div p-2 border-dark border rounded mb-5">
+                <p class="time">2021-04-05</p>
+                <div class="reservation-container">
+                    <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
+                    <span>업체명</span>
+                    <span>업체 주소</span>
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-info" data-toggle="modal"  data-target="#reservation-detail">상세 보기</button>
+                        <button type="button" class="btn btn-secondary">예약 취소</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 예약 수만큼 반복 div 끝-->
+        </div>
+        <div class="done-reservation" style="display: none;">
+            <!-- 끝난 예약 수만큼 반복할 div 시작-->
+            <div  class="reservation-div p-2 border-dark border rounded mb-5">
+                <p class="time">2021-04-04</p>
+                <div class="reservation-container">
+                    <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
+                    <span>업체명</span>
+                    <span>업체 주소</span>
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-info" data-toggle="modal"  data-target="#reservation-detail">상세 보기</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 끝난 예약 수만큼 반복 div 끝-->
+        </div>
+
+
+        <!--상세보기 모달 시작-->
+        <div>
+            <div class="modal fade" id="reservation-detail" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <table class="table" >
+                                <tbody>
+                                <th>주문 내역</th>
+                                <th>가격</th>
+                                <th>수량</th>
+                                <!-- 주문 양만큼 반복-->
+                                <tr>
+                                    <td>
+                                        후라이드
+                                    </td>
+                                    <td>
+                                        13000원
+                                    </td>
+                                    <td>
+                                        1
+                                    </td>
+                                </tr>
+                                <!-- 반복 끝 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal" >닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--상세보기 모달 끝 -->
+    </div>
+</div>
+</html>
