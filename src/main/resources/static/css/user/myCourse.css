@@ -1,0 +1,27 @@
+
+.bottom-container{
+    margin:10px auto;
+    max-width: 1020px;
+}
+.border-dark{
+    border-color: #9d9d9d !important;
+}
+.reservation-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.time{
+    text-align: right;
+}
+.btn-container{
+    display: flex;
+    flex-direction: column;
+}
+.reservation-div{
+    width:80%;
+    margin:0 auto;
+}
+@media(max-width:650px){
+
+}
