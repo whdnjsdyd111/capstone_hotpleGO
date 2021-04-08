@@ -45,6 +45,9 @@
         .time>span{
             font-size: 10px;
         }
+        div>img{
+            width:240px;
+        }
 
         @media(max-width:990px){
             div>img{
@@ -70,7 +73,7 @@
                 font-size:8px;
             }
 
-            @media(max-width:600px){
+            @media(max-width:630px){
                 div>img{
                     width:100px;
 
@@ -110,7 +113,7 @@
             <div th:each="course : ${courses}"  class="jumbotron mx-4 card">
                 <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|"  class="stretched-link"></a>
                 <div class="container">
-                    <div class="swiper-container col-sm-10">
+                    <div class="swiper-container col-xl-10 col-md-10 col-sm-10">
                         <div class="swiper-wrapper">
                             <div th:each="courseInfo : ${courseInfos.get(course.csCode)}" class="swiper-slide">
                                 <div class="swiper-contents">
