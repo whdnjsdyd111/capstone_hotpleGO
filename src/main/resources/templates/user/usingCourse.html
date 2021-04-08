@@ -16,6 +16,22 @@
             height: 25px;
             width: 25px;
         }
+        @media(max-width:990px) {
+            div > img {
+                width: 300px;
+                height: 300px;
+            }
+        }
+        @media(max-width:440px){
+            div>img{
+                width:150px;
+                height: 150px;
+            }
+            span{
+                font-size: 8px;
+            }
+        }
+
     </style>
     <script src="/css/user/user_usingCourse.js"></script>
 </th:block>
@@ -39,7 +55,7 @@
                 <hr class="col"/>
                 <div class="d-flex justify-content-around my-3">
                     <span class="my-auto c-index font-weight-bold" th:text="${num + 1}">1</span>
-                    <img height="300" width="300" alt="이미지 없음"
+                    <img height="300px" width="300px" alt="이미지 없음"
                          th:src="${#hotpleAPI.toImg(usingCourseInfos.get(num).uploadPath, usingCourseInfos.get(num).uuid,
                          usingCourseInfos.get(num).fileName, #hotpleAPI.IMAGE)}">
                     <div class="d-flex flex-column my-auto">
