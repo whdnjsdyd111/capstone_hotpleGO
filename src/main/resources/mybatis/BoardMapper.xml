@@ -17,6 +17,10 @@
         WHERE bdCode = #{bdCode} and users.uCode = board.uCode
     </select>
 
+<!--    <update id="recommendUp">-->
+<!--        UPDATE board SET bdRecy = #{bdRecy}-->
+<!--    </update>-->
+
     <insert id="insertBoard">
         INSERT INTO board (
         bdCode, bdTitle, bdCont, uCode
@@ -37,4 +41,8 @@
     <delete id="deleteBoard">
         DELETE FROM board WHERE bdCode = #{bdCode}
     </delete>
+
+    <update id="upView">
+        UPDATE board SET bdRdCount = bdRdCount + 1 WHERE bdCode = #{bdCode}
+    </update>
 </mapper>

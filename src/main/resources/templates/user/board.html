@@ -29,10 +29,12 @@
                 </div>
             </form>
         </div>
+        <button class="btn btn-primary" type="button" onclick="location.href='/board/write'" style="height: 38px; width: 100px; text-align: center;">글쓰기</button>
     </nav>
     <div th:each="vo : ${result}">
         <article class="text-center row px-0 mx-0 border border-secondary border-top-0 board_article"
-                 style="background-color: #d1c4e0;">
+                 style="background-color: #E6E6E6;">
+            <input type="hidden" th:value="${#strings.replace(vo.bdCode, '/', '')}">
             <div class="container col-9 px-0 py-2">
                 <div class="col-sm-12 d-flex flex-column">
 
@@ -46,10 +48,10 @@
                         </div>
 
                         <div class="col" style="display:inline;">
-                            <span><button class="bg-primary border border-dark rounded text-dark px-1"
-                                          style="height:23px; width:58px;" href="">게시판</button></span>
-                            <a class="text-dark col-12" th:href="|/board/boardDetail/${#strings.replace(vo.bdCode, '/', '')}|"
-                               style="display: block; margin-left:-60px; margin-top:15px; text-decoration: none;" th:text="${vo.bdTitle}"></a>
+                            <span><button class="bg-info border border-dark rounded text-dark px-1"
+                                          style="height:23px; width:58px;" href="">핫플</button></span>
+                            <span class="text-dark col-12"
+                               style="display: block; margin-left:-60px; margin-top:15px; text-decoration: none;" th:text="${vo.bdTitle}"></span>
                         </div>
                     </div>
                     <div style="clear:both;"></div>
@@ -57,9 +59,9 @@
 
                 <div class="col-4" style="float:right; margin-top:-80px; margin-right:60px;">
                     <ul class="navbar navbar nav mr-auto p-0" style="display: flex;">
-                        <li><i class="fa fa-comment" th:text="${vo.bdCode}"></i></li>
-                        <li><i class="fa fa-thumbs-o-down" th:text="${vo.bdRecn}"></i>비추</li>
-                        <li><i class="fa fa-thumbs-o-up" th:text="${vo.bdRecy}"></i>추천수</li>
+                        <li><i class="fa fa-comment" ></i></li>
+                        <li><i class="fa fa-thumbs-o-up" th:text="${vo.bdRecy}"></i></li>
+                        <li><i class="fa fa-thumbs-o-down" th:text="${vo.bdRecn}"></i></li>
                         <li><i class="fa fa-eye" th:text="${vo.bdRdCount}"></i>조회수</li>
                     </ul>
                 </div>
@@ -70,20 +72,19 @@
                 <div class="container">
                     <div class="mx-auto" style="margin-top:5px;">
                         <a class="text-dark" style="text-decoration: none;" href="">
-                            <span><i class="fa fa-user-circle mr-2" th:text="${vo.uCode}"></i></span>
+                            <span><i class="fa fa-user-circle mr-2">닉네임</i></span>
                         </a>
                     </div>
                 </div>
-                <span class="d-inline-block" tabindex="0" datat-toggle="tooltip"
-                      style="margin-left:20px; margin-top:40px;">
-                    <button class="btn" style="pointer-events: none;" vertical-align: inherit; type="button">
-                        1초전
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                      style="margin-left:20px; margin-top:40px;" th:title="${#hotpleAPI.beforeTime(vo.bdCode)}">
+                    <button class="btn" style="pointer-events: none; vertical-align: inherit;"  type="button"
+                        th:text="${#hotpleAPI.beforeBigTime(vo.bdCode)}">
                     </button>
                 </span>
             </div>
         </article>
     </div>
-
 
     <div aria-label="Page navigation example">
         <ul class="pagination justify-content-center">

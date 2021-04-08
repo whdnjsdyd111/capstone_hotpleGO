@@ -131,7 +131,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            http.authorizeRequests()
 //                    .antMatchers("/alliance").access("hasAuthority('B')");
 
-            http.csrf().ignoringAntMatchers("/popup/jusoPopup");
+            http.csrf().ignoringAntMatchers("/popup/jusoPopup")
+                    .ignoringAntMatchers("/board/rest/upload");
 
             http.formLogin().loginPage("/login")
                     .loginProcessingUrl("/login");

@@ -12,10 +12,16 @@ public interface BoardMapper {
 
     public BoardVO selectBoardDetail(String bdCode);
 
+    public int recommendUp(String bdRecy);
+
+    public int recommendDown(String bdRecn);
+
     public int insertBoard(BoardVO boardVO);
 
     public int updateBoard(BoardVO bdCode);
 
     public int deleteBoard(String bdCode);
+
+    public int upView(String bdCode);
 
 }

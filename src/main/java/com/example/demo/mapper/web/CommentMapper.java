@@ -7,7 +7,11 @@ import java.util.List;
 
 @Mapper
 public interface CommentMapper {
-    public List<CommentVO> commentList();
+    public List<CommentVO> commentOrderByReco(String bdCode);
+
+    public List<CommentVO> commentOrderByRecent(String bdCode);
+
+    public List<CommentVO> commentOrderByWritenReply(String bdCode);
 
     public int commentInsert(CommentVO commentVO);
 

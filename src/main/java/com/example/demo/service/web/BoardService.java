@@ -17,6 +17,14 @@ public class BoardService {
         return mapper.updateBoard(boardVO) == 1;
     }
 
+    public boolean upLike(String bdRecy) {
+        return mapper.recommendUp(bdRecy) == 1;
+    }
+
+    public boolean downLike(String bdRecn) {
+        return mapper.recommendDown(bdRecn) == 1;
+    }
+
     public boolean insertBoard(BoardVO boardVO){
         return mapper.insertBoard(boardVO) == 1;
     }
@@ -31,5 +39,9 @@ public class BoardService {
 
     public BoardVO getBoardDetail(String bdCode){
         return mapper.selectBoardDetail(bdCode);
+    }
+
+    public boolean upView(String bdCode) {
+        return mapper.upView(bdCode) == 1;
     }
 }

@@ -3,27 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.web.CommentMapper">
-    <select id="commentList" resultType="CommentVO">
-        SELECT * FROM comm;
+
+
+    <select id="commentOrderByReco" resultType="CommentVO">
+        SELECT * FROM comm WHERE bdCode = #{bdCode} ORDER BY REPLYCODE DESC, comrecy desc
+    </select>
+
+    <select id="commentOrderByRecent" resultType="CommentVO">
+        SELECT * FROM comm WHERE bdCode = #{bdCode} ORDER BY REPLYCODE DESC, comcode desc
+    </select>
+
+    <select id="commentOrderByWritenReply" resultType="CommentVO">
+        SELECT comcode, comcont, comrecy, comrecn, bdcode, uCode, replycode, CASE WHEN comcode = (SELECT replycode FROM comm WHERE comcode = #{comCode}) then 1 else 0 END AS inx
+        FROM comm ORDER BY REPLYCODE DESC, inx desc
     </select>
 
     <insert id="commentInsert">
         INSERT INTO comm(
-            comCode,
-            comCont,
-            comRecy,
-            comRecn,
-            bdCode,
-            uCode,
-            comCode2
+        comCode, comCont, bdCode, uCode
+        <if test="!(replyCode == null or replyCode == '')">
+            , replyCode
+        </if>
         ) VALUES(
-            TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_bd.NEXTVAL, 2, '0') || '/H' || '/N' ,
-            #{comCont},
-            #{comRecy},
-            #{comRecn},
-            #{bdCode},
-            #{uCode},
-            #{comCode2}
+        TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_com.NEXTVAL, 2, '0') || '/N',
+        #{comCont},
+        #{bdCode},
+        #{uCode}
+        <if test="!(replyCode == null or replyCode == '')">
+            , #{replyCode}
+        </if>
         )
     </insert>
 

@@ -27,6 +27,7 @@ import java.util.Map;
 @Log4j2
 public class ManagerController {
     private final UserService user;
+
     private final HotpleService hotple;
     private final MenuService menu;
     private final EventService event;

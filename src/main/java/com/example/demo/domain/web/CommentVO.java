@@ -10,5 +10,5 @@ public class CommentVO {
     private int comRecn;
     private String bdCode;
     private String uCode;
-    private String comCode2;
+    private String replyCode;
 }

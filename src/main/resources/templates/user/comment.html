@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<h2 class="p-3"><i class="fa fa-comment mr-2"></i>댓글<span class="ml-2 text-success">갯수</span>개</h2>-->
+<script src="/css/user/commentWon.js"></script>
+<!--    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
+<div class="my-2">
+    <div class="border border-dark write_comment_top mx-3 text-left">
+        <div class="ml-3 write_comment_member">닉네임</div>
+        <div class="w-100 write_comment_middle">
+            <div id="comCont" class="px-3" contentEditable="true"></div>
+            <input type="hidden" id="bdCode"/>
+            <input type="hidden" id="uCode"/>
+        </div>
+    </div>
+    <div class="border border-dark border-top-0 mx-3">
+        <div class="w-100 d-flex">
+            <div class="custom-file w-75">
+                <input type="file" class="custom-file-input" id="comment_image">
+                <label class="custom-file-label" for="comment_image"><i class="fa fa-upload mr-2"></i>이미지 삽입</label>
+            </div>
+            <button id="comment_input" class="btn btn-info w-25" style="margin: 0px; height: 38px">작성하기</button>
+        </div>
+    </div>
+</div>
+<!--    </c:if>-->
+
+<div id="start_com">
+    <div th:each="comm : ${commentList.keySet()}">
+
+        <!--        <c:forEach var="entry" items="${ commentMap }">-->
+        <!--            <c:set var="joinMemCom" value="${ entry.key }" />-->
+        <!--            <c:set var="comReco" value="${ comRecoMap.get(joinMemCom.getCom_id()) }" />-->
+        <div class="row container p-3 comments ml-0">
+            <form method="post" class="mx-3 d-flex flex-column">
+
+                <!--                    <c:if test="${ empty sessionScope.YJFBID_SES }">-->
+                <button type="button" class="go_login btn btn-outline-dark btn-sm"><i class="fa fa-chevron-up"></i>
+                </button>
+                <span class="reco_count container">추천수</span>
+                <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">
+                <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">
+                <button type="button" class="go_login btn btn-outline-dark btn-sm"><i class="fa fa-chevron-down"></i>
+                </button>
+                <!--                    </c:if>-->
+
+                <!--                <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
+
+
+                <!--                <button id="comReco_n" type="button" class="recoBtn btn btn-outline-dark btn-sm">-->
+                <!--                    <i class="fa fa-chevron-up"></i>-->
+                <!--                </button>-->
+                <!--                <span class="reco_count container">${ joinMemCom.com_reco }</span>-->
+                <!--                <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">-->
+                <!--                <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">-->
+                <!--                <button id="comNonReco_n" type="button" class="nonRecoBtn btn btn-outline-dark btn-sm">-->
+                <!--                    <i class="fa fa-chevron-down"></i>-->
+                <!--                </button>-->
+                <!--                &lt;!&ndash;                    </c:if>&ndash;&gt;-->
+                <!--                &lt;!&ndash;                    <c:if test="${ comReco == 'N' }">&ndash;&gt;-->
+                <!--                <button id="comReco_y" type="button" class="recoBtn btn btn-outline-dark btn-sm">-->
+                <!--                    <i class="fa fa-chevron-up"></i>-->
+                <!--                </button>-->
+                <!--                <span class="reco_count container">${ joinMemCom.com_reco }</span>-->
+                <!--                <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">-->
+                <!--                <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">-->
+                <!--                <button id="comNonReco_n" type="button" class="nonRecoBtn btn btn-outline-dark btn-sm">-->
+                <!--                    <i class="fa fa-chevron-down"></i>-->
+                <!--                </button>-->
+                <!--                &lt;!&ndash;                    </c:if>&ndash;&gt;-->
+                <!--                &lt;!&ndash;                    <c:if test="${ comReco == 'Y' }">&ndash;&gt;-->
+                <!--                <button id="comReco_n" type="button" class="recoBtn btn btn-outline-dark btn-sm">-->
+                <!--                    <i class="fa fa-chevron-up"></i>-->
+                <!--                </button>-->
+                <!--                <span class="reco_count container">${ joinMemCom.com_reco }</span>-->
+                <!--                <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">-->
+                <!--                <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">-->
+                <!--                <button id="comNonReco_y" type="button" class="nonRecoBtn btn btn-outline-dark btn-sm">-->
+                <!--                    <i class="fa fa-chevron-down"></i>-->
+                <!--                </button>-->
+                <!--                    </c:if>-->
+                <!--                </c:if>-->
+
+
+            </form>
+            <div class="col mr-auto d-flex flex-column">
+                <div class="">
+                    <a class="text-dark" style="text-decoration: none;"
+                       href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
+                        <span class="mr-2"><i class="fa fa-user-circle mr-2" th:text="${comm.UCode}"></i></span>
+                    </a>
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" th:title="${#hotpleAPI.beforeTime(comm.comCode)}">
+                      <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
+                              th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
+
+                      </button>
+                    </span>
+                </div>
+                <div class="container my-2 writen_comment">
+                    <div th:utext="${comm.comCont}">댓글 내용</div>
+                </div>
+                <div class="mt-2">
+                    <!--                    <c:if test="${ empty sessionScope.YJFBID_SES }">-->
+<!--                    <button class="go_login btn btn-dark">답글쓰기</button>-->
+                    <button class="go_login btn btn-danger">신고</button>
+                    <!--                    </c:if>-->
+                    <!--                    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
+                    <button class="write_reply btn btn-dark">답글쓰기</button>
+                    <input type="hidden" th:value="${comm.comCode}" />
+                    <!--                        <c:if test="${ joinMemCom.com_mem_id != mem_id }">-->
+                    <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}" />
+                    <input type="hidden" th:value="${comm.UCode}"/>
+                    <input type="hidden" style="text-align: left" name="nickname"/>
+                    <!--                        </c:if>-->
+                    <!--                    <button class="btn btn-danger report">신고</button>-->
+                    <!--                    <input type="hidden" value="${ joinMemCom.com_id }"/>-->
+                    <!--                    <input type="hidden" value="C"/>-->
+                    <!--                    &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id == mem_id }">&ndash;&gt;-->
+                    <button id="comment_delete" class="btn btn-warning "><i class="fa fa-trash mr-2"></i>삭제</button>
+                    <input type="hidden" th:value="${comm.comCode}" />
+                    <!--                        </c:if>-->
+                    <!--                    </c:if>-->
+                </div>
+            </div>
+        </div>
+
+        <th:block th:each="reply : ${commentList.get(comm)}">
+            <div class="nestComments container p-3 d-flex flex-md-row ml-0">
+                <div class="border border-right-0 border-top-0 border-dark ml-5" style="width: 30px; height: 30px">
+                </div>
+                <form method="post" class="mx-3 d-flex flex-column">
+                    <input type="hidden" id="replyCode" th:value="${reply.replyCode.replaceAll('/', '')}" />
+                    <input type="hidden" id="reBdCode" th:value="${reply.bdCode}">
+                    <input type="hidden" id="reUCode" th:value="${reply.UCode}">
+                    <button type="button" class="go_login btn btn-outline-dark btn-sm"><i class="fa fa-chevron-up"></i>
+                    </button>
+                    <span class="reco_count container">추천수</span>
+                    <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">
+                    <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">
+                    <button type="button" class="go_login btn btn-outline-dark btn-sm"><i
+                            class="fa fa-chevron-down"></i>
+                    </button>
+                </form>
+                <div class="col mr-auto ml-3 d-flex flex-column">
+                    <div class="">
+                        <a class="text-dark" style="text-decoration: none;"
+                           href="mainBoard.do?kind=all&target=writer&search=${ nestComment.mem_nickname }">
+                            <span class="mr-2"><i class="fa fa-user-circle mr-2" th:text="${reply.UCode}"></i></span>
+                        </a>
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                              th:title="${#hotpleAPI.beforeTime(reply.comCode)}">
+                         <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
+                         th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
+
+                         </button>
+                      </span>
+                    </div>
+                    <div class="container my-2 writen_comment">
+                        <div th:utext="${reply.comCont}">답글</div>
+                    </div>
+                    <div class="mt-2">
+                        <!--                    <c:if test="${ empty sessionScope.YJFBID_SES }">-->
+                        <!--                        <button class="go_login btn btn-dark">답글쓰기</button>-->
+                        <button class="go_login btn btn-danger">신고</button>
+                        <!--                    </c:if>-->
+                        <!--                    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
+                        <button class="write_nest_reply btn btn-dark">답글쓰기</button>
+                        <!--                        <c:if test="${ nestComment.mem_id != mem_id }">-->
+                        <!--                    <input type="hidden" value="${ nestComment.mem_id }"/>-->
+                        <!--                    <input type="hidden" value="${ nestComment.mem_nickname }" name="nickname"/>-->
+                        <!--                        </c:if>-->
+                        <!--                    <button class="btn btn-danger report">신고</button>-->
+                        <!--                    <input type="hidden" value="${ nestComment.neCom_id }"/>-->
+                        <!--                    <input type="hidden" value="N"/>-->
+                        <!--                        <c:if test="${ nestComment.mem_id == mem_id }">-->
+                        <!--                    <button class="btn btn-warning delete_nest_com"><i class="fa fa-trash mr-2"></i>삭제</button>-->
+                        <!--                    <input type="hidden" value="${ nestComment.neCom_id }"/>-->
+                        <!--                        </c:if>-->
+                        <!--                    </c:if>-->
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+
+
+</div>
+</html>

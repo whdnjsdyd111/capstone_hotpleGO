@@ -11,5 +11,6 @@ public class BoardVO {
     private int bdRdCount;
     private int bdRecy;
     private int bdRecn;
+//    private int commCnt;
     private String uCode;
 }

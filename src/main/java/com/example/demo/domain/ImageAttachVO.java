@@ -72,7 +72,7 @@ public class ImageAttachVO {
         String serverUrl = url.replaceFirst("C:\\\\hotple_manager", "hotpleImage");
         serverUrl = serverUrl.replaceAll("\\\\", "/");
         log.info(serverUrl);
-        return "http://localhost:8000/" + serverUrl;
+        return "/" + serverUrl;
     }
 
     private String getFolder() {
