@@ -8,9 +8,9 @@
 </th:block>
 <div class="mt-5" layout:fragment="content">
     <input type="radio" name="tab_menu" id="orderTab" checked>
-    <label for="orderTab" class="ml-2">신규 예약<span class="badge bg-light text-dark" th:text="${#hotpleAPI.reservCurNum(reservations)}">2</span></label>
+    <label for="orderTab" class="ml-2">신규 예약<span id="cur_num" class="badge bg-light text-dark">2</span></label>
     <input type="radio" name="tab_menu" id="historyTab">
-    <label for="historyTab">이전 예약<span class="badge bg-light text-dark" th:text="${#hotpleAPI.reservHistoryNum(reservations)}">1</span></label>
+    <label for="historyTab">이전 예약<span id="his_num" class="badge bg-light text-dark">1</span></label>
 
     <th:block th:each="reservation : ${reservations}">
         <div class="orderBoxes current-orderBox mx-2">
@@ -53,11 +53,11 @@
                         </tr>
                         <tr>
                             <td class="align-middle">상세 보기</td>
-                            <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" aria-expanded="false">펼치기</button></td>
+                            <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${reservation.value.get(0).riCode.replaceAll('/', '')}" aria-expanded="false">펼치기</button></td>
                         </tr>
                     </table>
                 </div>
-                <div th:id="'res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" class="collapse" >
+                <div th:id="'res' + ${reservation.value.get(0).riCode.replaceAll('/', '')}" class="collapse" >
                     <div class="p-3">
                         <table class="table">
                             <tr>
@@ -151,7 +151,7 @@
                         </tr>
                         <tr>
                             <td class="align-middle">상세 보기</td>
-                            <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" aria-expanded="false">펼치기</button></td>
+                            <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${reservation.value.get(0).riCode.replaceAll('/', '')}" aria-expanded="false">펼치기</button></td>
                         </tr>
                         <tr>
                             <td class="align-middle">평점</td>
@@ -164,7 +164,7 @@
                         </tr>
                     </table>
                 </div>
-                <div th:id="'res' + ${#hotpleAPI.codeToStr(reservation.value.get(0).riCode)}" class="collapse" >
+                <div th:id="'res' + ${reservation.value.get(0).riCode.replaceAll('/', '')}" class="collapse" >
                     <div class="p-3">
                         <table class="table">
                             <tr>

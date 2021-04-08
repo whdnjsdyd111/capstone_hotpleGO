@@ -8,7 +8,27 @@
         SELECT * FROM review WHERE riCode IN (SELECT riCode FROM res_info WHERE htId = #{htId})
     </select>
 
+    <select id="getListByUser" resultType="ReviewVO">
+        SELECT * FROM review WHERE uCode = #{uCode}
+    </select>
+
+
     <update id="insertReply">
         UPDATE review SET rvOwnCont = #{rvOwnCont, jdbcType=VARCHAR} WHERE riCode = #{riCode}
+    </update>
+
+    <select id="getCurrentFive" resultType="ReviewVO">
+        <![CDATA[
+        SELECT /*+ INDEX_DESC(review rv_ri_fk) */ * FROM review WHERE ROWNUM <= 5
+        ]]>
+    </select>
+
+    <insert id="insertReview">
+        INSERT INTO review (riCode, rvRating, rvCont, uCode)
+        VALUES (#{riCode}, #{rvRating}, #{rvCont}, #{uCode})
+    </insert>
+
+    <update id="updateReview">
+        UPDATE review SET rvCont = #{rvCont}, rvRating = #{rvRating} WHERE riCode = #{riCode}
     </update>
 </mapper>

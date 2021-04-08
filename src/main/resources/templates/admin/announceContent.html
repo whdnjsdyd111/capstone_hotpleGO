@@ -29,7 +29,7 @@
         </div>
 
         <div class="col-12 px-0 py-2 border border-muted border-bottom-0">
-            <a class="btn text-warning btn-outline-warning ml-5" th:href="|/admin/announceUpdate/${#hotpleAPI.codeToStr(event.eveCode)}|" >수정</a>
+            <a class="btn text-warning btn-outline-warning ml-5" th:href="|/admin/announceUpdate/${event.eveCode.replaceAll('/', '')}|" >수정</a>
             <button id="delete" class="btn btn-outline-warning ml-3"><i class="fa fa-trash-o mr-2"></i>삭제</button>
         </div>
 

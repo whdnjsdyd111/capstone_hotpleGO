@@ -1,7 +1,9 @@
 package com.example.demo.controller.web;
 
+import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.HotpleVO;
 import com.example.demo.domain.MenuVO;
+import com.example.demo.domain.ReservationAllVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,8 @@ public class HomeController {
     private final MenuService menu;
     private final ReviewService review;
     private final OpenInfoService openInfo;
+    private final CourseService course;
+    private final ReservationService reservation;
 
     @GetMapping({ "/", "/main"})
     public String index() {
@@ -62,15 +66,37 @@ public class HomeController {
     public String myCourse(@RequestParam(value = "kind", defaultValue = "usingCourse") String kind, Model model,
                            @AuthenticationPrincipal CustomUser users) {
         // TODO 오어스 계정에 대한 코딩
-        if (taste.getTasteList(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/").size() == 0) return "redirect:/taste?required";
-
+//        if (taste.getTasteList(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/").size() == 0) return "redirect:/taste?required";
+        model.addAttribute("kind", kind);
         if (kind.equals("usingCourse")) {
+            model.addAttribute("usingCourse", course.getUsingCourse("whdnjsdyd111@naver.com/A/"));
+            model.addAttribute("usingCourseInfos", course.getUsingCourseInfo("whdnjsdyd111@naver.com/A/"));
             return "user/usingCourse";
-        } else if (kind.equals("makeCourse")){
-            return "user/makeCourse";
+        } else if (kind.equals("myCourse")) {
+            model.addAttribute("courses", course.getMakingCourse("whdnjsdyd111@naver.com/A/"));
+            model.addAttribute("courseInfos", course.getMakingCourseInfo("whdnjsdyd111@naver.com/A/"));
+            return "user/myCourse";
+        } else if (kind.equals("usedCourse")) {
+            model.addAttribute("courses", course.getHistoryCourse("whdnjsdyd111@naver.com/A/"));
+            model.addAttribute("courseInfos", course.getHistoryCourseInfo("whdnjsdyd111@naver.com/A/"));
+            return "user/courseHistory";
         } else {
             return "redirect:/myCourse";
         }
+    }
+
+    @GetMapping("/courseDetail/{csCode}")
+    public String courseDetail(@PathVariable("csCode") String csCode, Model model) {
+        String code = HotpleAPI.strToCode(csCode);
+        log.info(code);
+        model.addAttribute("course", course.getCourseDetail(code));
+        model.addAttribute("courseInfos", course.getCourseInfoDetail(code));
+        return "user/courseDetail";
+    }
+
+    @GetMapping("/dibs")
+    public String dibs(@AuthenticationPrincipal CustomUser users) {
+        return "user/dibs";
     }
 
     @GetMapping("/hotple/{htId}")
@@ -99,5 +125,15 @@ public class HomeController {
     public String search(@RequestParam(value = "keyword") String keyword, Model model) {
         model.addAttribute("hotples", hotple.getByKeyword(keyword));
         return "user/searchHotple";
+    }
+
+    @GetMapping("/reservation")
+    public String reservation(Model model) {
+        // TODO
+        Map<String, List<ReservationAllVO>> map = reservation.getList("whdnjsdyd111@naver.com/A/");
+        model.addAttribute("hotples", reservation.getHotples("whdnjsdyd111@naver.com/A/"));
+        model.addAttribute("reviews", review.getListByUser("whdnjsdyd111@naver.com/A/"));
+        model.addAttribute("reservations", map);
+        return "user/reservation";
     }
 }

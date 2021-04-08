@@ -19,11 +19,29 @@
     </select>
 
     <select id="searchHotple" resultType="HotpleVO">
-        SELECT * FROM hotple h FULL OUTER JOIN image_attach i ON h.htImg = i.uuid WHERE busnname LIKE '%' || #{keyword} || '%' OR htaddr LIKE '%' || #{keyword} || '%' OR htId IN (
-        SELECT SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1)
-        FROM menu
-        WHERE mecate LIKE '%' || #{keyword} || '%' OR mename LIKE '%' || #{keyword} || '%' OR mehashtag LIKE '%' || #{keyword} || '%'
-        )
+        <![CDATA[
+        SELECT * FROM hotple h FULL OUTER JOIN image_attach i ON h.htImg = i.uuid
+        WHERE (busnname LIKE '%' || #{keyword} || '%' OR htaddr LIKE '%' || #{keyword} || '%' OR htId IN (
+            SELECT SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1)
+            FROM menu
+            WHERE mecate LIKE '%' || #{keyword} || '%' OR mename LIKE '%' || #{keyword} || '%' OR mehashtag LIKE '%' || #{keyword} || '%'))
+        AND ((ACOS(SIN(35.8992601 * ACOS(-1) / 180) * SIN(htLat * ACOS(-1) / 180)
+        + COS(35.8992601 * ACOS(-1) / 180) * COS(htLat * ACOS(-1) / 180)
+        * COS((128.6215081 - htLng) * ACOS(-1) / 180)) * 180 / ACOS(-1)) * 60 * 1.1515) < 1
+        ]]>
+    </select>
+
+    <select id="searchHotpleByGeo" resultType="HotpleVO">
+        <![CDATA[
+        SELECT * FROM hotple h FULL OUTER JOIN image_attach i ON h.htImg = i.uuid
+        WHERE (busnname LIKE '%' || #{keyword} || '%' OR htaddr LIKE '%' || #{keyword} || '%' OR htId IN (
+            SELECT SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1)
+            FROM menu
+            WHERE mecate LIKE '%' || #{keyword} || '%' OR mename LIKE '%' || #{keyword} || '%' OR mehashtag LIKE '%' || #{keyword} || '%'))
+        AND ((ACOS(SIN(#{lat} * ACOS(-1) / 180) * SIN(htLat * ACOS(-1) / 180)
+        + COS(#{lat} * ACOS(-1) / 180) * COS(htLat * ACOS(-1) / 180)
+        * COS((#{lng} - htLng) * ACOS(-1) / 180)) * 180 / ACOS(-1)) * 60 * 1.1515) < 1
+        ]]>
     </select>
 
     <insert id="insertBusn">

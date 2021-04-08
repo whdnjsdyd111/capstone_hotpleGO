@@ -14,7 +14,6 @@
         </div>
         <div class="area3" style="border: 0px;"></div>
         <div id="field" class="p-3">
-
             <div th:name="${menus.key}" th:each="menus : ${menu_map}" class="menu-div p-2 border-dark border rounded mb-5">
                 <input type="button" class="btn btn-danger delete-category" value="카테고리 삭제">
                 <section class="area2">
@@ -24,7 +23,6 @@
                         <li><i class="fa fa-arrow-circle-down icon_arr fa-5x mr-2" aria-hidden="true" data-toggle="collapse" role="button" th:data-target="'#' +|collapse*{menus.key}|"></i></li>
                     </ul>
                     <section class="area4 collapse" th:id="|collapse*{menus.key}|">
-
                         <table th:each="menu : ${menus.value}" style="width:100%">
                             <tbody>
                             <tr class="row">
@@ -33,8 +31,8 @@
                                         <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
                                     </th:block>
                                     <th:block th:if="${menu.uuid != null}">
-                                        <img th:src="'http://localhost:8000/hotpleImage/' + ${#hotpleAPI.replaceSlash(menu.uploadPath)}
-                                                + |/*{menu.uuid}_*{menu.fileName}|" alt="메뉴 이미지를 추가해주세요." class="img-fluid">
+                                        <img th:src="${#hotpleAPI.toImg(menu.uploadPath, menu.uuid, menu.fileName, #hotpleAPI.IMAGE)}"
+                                             alt="메뉴 이미지를 추가해주세요." class="img-fluid">
                                     </th:block>
                                 </td>
                                 <td class="menu-text col-12 col-sm-6">
@@ -52,11 +50,9 @@
                             </tr>
                             </tbody>
                         </table>
-
                     </section>
                 </section>
             </div>
-
         </div>
     </main>
     <!-- Modal -->

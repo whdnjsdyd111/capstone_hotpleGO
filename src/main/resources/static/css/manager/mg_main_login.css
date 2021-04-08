@@ -13,7 +13,6 @@ body {
     background-color: #fff;
 }
 
-
 .panel {
     margin-bottom: 20px;
     background-color: #fff;
@@ -145,7 +144,7 @@ a {
     border-top: 1px solid #ddd;
 }
 
-span {
+.span-right {
     float:right;
 }
 
@@ -171,8 +170,8 @@ h4 {
    -webkit-border-radius: 0px;
 -moz-border-radius: 0px;
 border-radius: 0px;
-
 }
+
 p {
     font-size:16px;
     line-height:25px;

@@ -16,27 +16,6 @@
             height: 25px;
             width: 25px;
         }
-        @media(max-width:990px) {
-            div > img {
-                width: 300px;
-                height: 300px;
-            }
-        }
-        @media(max-width:660px){
-            div>img{
-                width:150px;
-                height: 150px;
-            }
-            span{
-                font-size: 8px;
-            }
-            .c-index{
-                width: 23px;
-                height: 23px;
-                font-size: 15px;
-            }
-        }
-
     </style>
     <script src="/css/user/user_usingCourse.js"></script>
 </th:block>
@@ -47,25 +26,25 @@
     </div>
     <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxcd9bdd0942b542fd8c7be931fc11a3b4"></script>
     <script th:inline="javascript">
-        let htList = [[${usingCourseInfos}]];
+        let htList = [[${courseInfos}]];
     </script>
     <div class="container">
         <div class="d-flex flex-column my-3">
             <div class="my-3">
-                <span class="font-weight-bold mx-5" th:text="|함께하는 사람 : *{usingCourse.csWith}|">함께하는 사람 : 친구</span>
-                <span class="font-weight-bold mx-5" th:text="|인원 : *{usingCourse.csNum}|">인원 : 3명</span>
+                <span class="font-weight-bold mx-5" th:text="|함께하는 사람 : *{course.csWith}|">함께하는 사람 : 친구</span>
+                <span class="font-weight-bold mx-5" th:text="|인원 : *{course.csNum}|">인원 : 3명</span>
                 <span id="total_distance"></span>
             </div>
-            <th:block th:each="num : ${#numbers.sequence(0, usingCourseInfos.size() - 1)}">
+            <th:block th:each="num : ${#numbers.sequence(0, courseInfos.size() - 1)}">
                 <hr class="col"/>
                 <div class="d-flex justify-content-around my-3">
                     <span class="my-auto c-index font-weight-bold" th:text="${num + 1}">1</span>
-                    <img height="300px" width="300px" alt="이미지 없음"
-                         th:src="${#hotpleAPI.toImg(usingCourseInfos.get(num).uploadPath, usingCourseInfos.get(num).uuid,
-                         usingCourseInfos.get(num).fileName, #hotpleAPI.IMAGE)}">
+                    <img height="300" width="300" alt="이미지 없음"
+                         th:src="${#hotpleAPI.toImg(courseInfos.get(num).uploadPath, courseInfos.get(num).uuid,
+                         courseInfos.get(num).fileName, #hotpleAPI.IMAGE)}">
                     <div class="d-flex flex-column my-auto">
-                        <span th:text="|*{usingCourseInfos.get(num).busnName} 대략 소요 시간 30분|">가게 이름 ( 대략 소요 시간 30분)</span>
-                        <span th:text="|*{usingCourseInfos.get(num).htAddr}|">도로명 주소</span>
+                        <span th:text="|*{courseInfos.get(num).busnName} 대략 소요 시간 30분|">가게 이름 ( 대략 소요 시간 30분)</span>
+                        <span th:text="|*{courseInfos.get(num).htAddr}|">도로명 주소</span>
                     </div>
                 </div>
             </th:block>

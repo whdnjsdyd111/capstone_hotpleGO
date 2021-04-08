@@ -13,6 +13,46 @@
     <script src="/css/vendor/calendar/google-calendar/main.js"></script>
 </th:block>
 <div layout:fragment="content" style="background-color: cadetblue;" class="pt-3 mr-3">
+    <script th:inline="javascript">
+        let map = [[${reservations}]];
+        let sale = [[${sales}]];
+        let reservations = Object.values(map);
+        let events = [];
+        reservations.forEach(i => {
+            let e = {
+                title : '예약 코드 : ' + i[0].riCode + "\n",
+                start: new Date(i[0].riTime)
+            }
+            i.forEach(j => {
+                e.title += j.meName + ' ' + j.rsMeNum + '\n';
+            });
+            events.push(e);
+        });
+
+        function addZerobar(month) {
+            if (month < 10) return '-0' + month;
+            else return '-' + month;
+        }
+
+        function dateToTime(date) {
+            return date.getFullYear() + '-' +
+                addZero(date.getMonth()) + '-' + addZero(date.getDay()) + "T" +
+                addZero(date.getHours()) + ":" + addZero(date.getMinutes()) + ":" + addZero(date.getSeconds());
+        }
+
+        function addZero(date) {
+            if (date < 9) return '0' + date;
+            else return date;
+        }
+
+        function dateToStr (date) {
+            return date.getFullYear().toString().substring(2, 4) +
+                addZerobar(date.getMonth() + 1) + addZerobar(date.getDate());
+        }
+
+        console.log(map);
+        console.log(events);
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
@@ -26,35 +66,16 @@
 
                     // your event source
                     {
-                        events: [ // put the array in the `events` property
-                            {
-                                title: '탕수육小 , 짜장면2',
-                                start: '2021-03-01T11:00:00'
-                            },
-                            {
-                                title: 'event2',
-                                start: '2021-03-05',
-                                end: '2021-03-07'
-                            },
-                            {
-                                title: 'event3',
-                                start: '2021-03-09T12:30:00',
-                            }
-                        ],
+                        events: events,
                         color: '#E0F8E0', // an option!
                         textColor: 'black' // an option!
                     }
 
                     // any other event sources...
-
                 ],
-                googleCalendarApiKey: "AIzaSyC0W3RJxfRDyOv4LndanSMizv_lB8F8ug4",
-                events: {
-                    googleCalendarId: "ko.south_korea#holiday@group.v.calendar.google.com"
-                },
                 eventClick: function(info) {
                     console.log(info);
-                    alert('일정 :' + info.event.title);
+                    alert(info.event.title + '\n' + dateToTime(info.event.start));
                     return false;
                 }
             });
@@ -62,75 +83,38 @@
         });
     </script>
     <script>
-        function printTime() {
 
-            var clock = document.getElementById("ri_time"); // 출력할 장소 선택
+        let bg = ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'];
+        let backcolor = [];
 
-            var now = new Date(); // 현재시간
+        let border = ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'];
+        let bordercolor = [];
 
-            var nowTime = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + "-" + now.getHours() + "시" + now.getMinutes() + "분" + now.getSeconds() + "초";
-
-            clock.innerHTML = nowTime; // 현재시간을 출력
-
-            setTimeout("printTime()", 1000); // setTimeout(“실행할함수”,시간) 시간은1초의 경우 1000
-
+        for (let i = 0; i < 7; i++) {
+            backcolor.push(bg[i % bg.length]);
+            bordercolor.push(border[i % border.length]);
         }
 
-        window.onload = function() { // 페이지가 로딩되면 실행
+        const dates = Object.keys(sale);
+        const sales = [];
+        dates.forEach(date => {
+            let sum = 0;
+            sale[date].forEach(m => sum += m.mePrice * m.rsMeNum);
+            sales.push(sum);
+        });
 
-            printTime();
+        const weekDates = [];
+        const weekSales = [];
+        const sevenAgo = new Date(new Date().setDate(new Date().getDate() - 6));
 
-        }
-    </script>
-    <script>
-        let dates = [];
-
-        /*        <c:forEach var="date" items="${ dates }">
-                    dates.push('<c:out value="${ date }" />');
-                </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            dates.push(i);
-        }
-
-        let visits = [];
-
-        /*        <c:forEach begin="0" end="6" step="1" var="i">
-                    visits.push('<c:out value="${ chart_visit_rs.rowsByIndex[i][0] }" />');
-                </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            visits.push(6 - i);
-        }
-
-        let page_views = [];
-
-        /*        <c:forEach begin="0" end="6" step="1" var="i">
-                    page_views.push('<c:out value="${ chart_page_view_rs.rowsByIndex[i][0] }" />');
-                </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            page_views.push(i);
-        }
-
-        let boards = [];
-
-        /*        <c:forEach begin="0" end="6" step="1" var="i">
-                    boards.push('<c:out value="${ chart_boards_rs.rowsByIndex[i][0] }" />');
-                </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            boards.push(i + 5);
-        }
-
-        let comments = [];
-
-        /*        <c:forEach begin="0" end="6" step="1" var="i">
-                    comments.push('<c:out value="${ chart_comments_rs.rowsByIndex[i][0] }" />');
-                </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            comments.push(i);
+        for (let i = 0; i < 7; i++) {
+            weekDates.push(dateToStr(sevenAgo));
+            let index = dates.indexOf(weekDates[i]);
+            if (index === -1) weekSales.push(0);
+            else weekSales.push(sales[index]);
+            sevenAgo.setDate(sevenAgo.getDate() + 1);
         }
     </script>
     <div class="mx-4" style="border-radius: 5px; margin-bottom: 20px; background-color: #fff;">
@@ -144,20 +128,25 @@
             <div class="col-md-6 col-sm-12">
                 <canvas id="memCanvas"></canvas>
                 <script>
+                    let hours = [];
+                    let visits = [];
+                    for (let i = 0; i < 24; i++) {
+                        hours.push(i);
+                        visits.push(0);
+                    }
+
+                    reservations.forEach(i => {
+                        visits[new Date(i[0].riTime).getHours()] += i[0].riPerson;
+                    });
+
                     var lineChartData = {
-                        labels: dates,
+                        labels: hours,
                         datasets: [{
-                            label: '방문자 수',
+                            label: '시간대 별 방문자 수',
                             fill: false,
                             backgroundColor: 'rgba(255, 99, 132)',
                             borderColor: 'rgba(255, 99, 132)',
                             data: visits
-                        }, {
-                            label: '페이지 뷰',
-                            backgroundColor: 'rgba(54, 162, 235)',
-                            borderColor: 'rgba(54, 162, 235)',
-                            fill: false,
-                            data: page_views
                         }]
                     };
 
@@ -165,10 +154,6 @@
                         responsive: true,
                         hoverMode: 'index',
                         stacked: false,
-                        title: {
-                            display: true,
-                            text: '최근 방문자 현황'
-                        },
                         scales: {
                             yAxes: [{
                                 ticks: {
@@ -191,25 +176,13 @@
                 <script>
                     let contents_ctx = document.getElementById('contentsCanvas').getContext('2d');
 
-                    let purple_trans = [];
-                    let purple = [];
-
-                    let orange_trans = [];
-                    let orange = [];
-
                     let barChartData = {
-                        labels: dates,
+                        labels: weekDates,
                         datasets: [{
-                            label: '게시판',
-                            data: boards,
-                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
-                            borderColor: 'rgba(255, 159, 64, 1)',
-                            borderWidth: 1
-                        }, {
-                            label: '댓글',
-                            data: comments,
-                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                            borderColor: 'rgba(153, 102, 255, 1)',
+                            label: '최근 매출 현황',
+                            data: weekSales,
+                            backgroundColor: backcolor,
+                            borderColor: bordercolor,
                             borderWidth: 1
                         }],
                     }
@@ -217,10 +190,6 @@
                     let barChartOpt = {
                         type: 'bar',
                         data: barChartData,
-                        title: {
-                            display: true,
-                            text: '최근 매출 현황'
-                        },
                         options: {
                             scales: {
                                 yAxes: [{
@@ -248,39 +217,19 @@
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        공지사항
+                        <span>공지사항</span><i class="fa fa-bullhorn"></i>
                     </div>
                     <div class="panel-body">
                         <div class="list-group">
-
-                            <a href="#" class="list-group-item">
-                                <span>날짜</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span>날짜</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span>날짜</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span>날짜</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span>날짜</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span>날짜</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-
+                            <th:block th:each="event : ${events}">
+                                <a th:href="|/manager/announce/*{event.eveCode.replaceAll('/', '')}|">
+                                    <span class="text-dark span-right" th:text="${#hotpleAPI.toDateStr(event.eveCode)}"></span>
+                                    <pre th:text="${event.eveTitle}"></pre>
+                                </a>
+                            </th:block>
                         </div>
                         <div class="text-right">
-                            <a href="#">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="/manager/announce">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -292,45 +241,38 @@
         <div class="row col-12">
             <div class="col-md-12 col-lg-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading">
-                        리뷰
+                    <div class="d-flex panel-heading">
+                        <span class="my-auto">리뷰</span>
+                        <div class="d-flex ml-3">
+                            <span class="my-auto">사장님 답글 유무</span>
+                            <div class="spinner-grow text-success" role="status"></div>
+                            <div class="spinner-grow text-danger" role="status"></div>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <div class="list-group">
-
-                            <a href="#" class="list-group-item">
-                                <span class="badge">시간</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">시간</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">시간</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">시간</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">시간</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">시간</span>
-                                <i class="fa fa-fw fa-comment"></i> 컨텐츠내용
-                            </a>
-
+                            <th:block th:each="review : ${reviews}">
+                                <a href="/manager/reviews" class="list-group-item">
+                                    <div class="d-flex justify-content-between">
+                                        <i class="fa fa-fw fa-comment my-auto"></i>
+                                        <th:block th:if="${review.rvOwnCont == null}">
+                                            <div class="spinner-grow text-danger" role="status"></div>
+                                        </th:block>
+                                        <th:block th:if="${review.rvOwnCont != null}">
+                                            <div class="spinner-grow text-success" role="status"></div>
+                                        </th:block>
+                                        <span class="badge my-auto" th:text="${#hotpleAPI.toDateStr(review.riCode)}"></span>
+                                    </div>
+                                    <pre th:text="|*{#hotpleAPI.contSubstring(review.rvCont)}   *{review.rvRating}점|"></pre>
+                                </a>
+                            </th:block>
                         </div>
                         <div class="text-right">
-                            <a href="#">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
+                            <a href="/manager/reviews">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <div class="col-md-12 col-lg-8">
 
@@ -343,55 +285,18 @@
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>S No.</th>
+                                    <th>시간</th>
                                     <th>전화번호</th>
-                                    <th>회원이름</th>
                                     <th>닉네임</th>
                                     <th>이메일</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>010-XXXX-XXXX</td>
-                                    <td>Doe</td>
-                                    <td>John15482</td>
-                                    <td>name@site.com</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>010-XXXX-XXXX</td>
-                                    <td>Marriye</td>
-                                    <td>Kim1425</td>
-                                    <td>name@site.com</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>010-XXXX-XXXX</td>
-                                    <td>Nermal</td>
-                                    <td>Rossy1245</td>
-                                    <td>name@site.com</td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>010-XXXX-XXXX</td>
-                                    <td>Orieal</td>
-                                    <td>Rich5685</td>
-                                    <td>name@site.com</td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>010-XXXX-XXXX</td>
-                                    <td>Hielsar</td>
-                                    <td>Jac4587</td>
-                                    <td>name@site.com</td>
-                                </tr>
-                                <tr>
-                                    <td>6</td>
-                                    <td>010-XXXX-XXXX</td>
-                                    <td>Dere</td>
-                                    <td>Wrap4585</td>
-                                    <td>name@site.com</td>
+                                <tr th:each="ri : ${reservationInfos}">
+                                    <td th:text="${#hotpleAPI.toDateStr(ri.riCode)}"></td>
+                                    <td th:text="${#hotpleAPI.toTel(ri.phone)}"></td>
+                                    <td th:text="${ri.nick}"></td>
+                                    <td th:text="${ri.UCode.split('/')[0]}"></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -404,7 +309,6 @@
             </div>
         </div>
     </div>
-
     <!-- 예약현황 시작  -->
     <div class="container">
         <div class="row col-12">
@@ -416,72 +320,48 @@
                             <table class="table">
                                 <thead class="bg-light">
                                 <tr>
-                                    <th>#</th>
-                                    <th>메뉴이미지</th>
+                                    <th>예약 코드</th>
                                     <th>메뉴이름</th>
                                     <th>메뉴코드</th>
                                     <th>메뉴수량</th>
                                     <th>메뉴가격</th>
+                                    <th>총 가격</th>
                                     <th>예약시간</th>
                                     <th>회원코드</th>
                                     <th>예약상태</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>1</td>
+                                <tr th:each="rs : ${reservationAll}">
+                                    <td th:text="${rs}">예약 코드</td>
                                     <td>
-                                        <div class="m-r-10"><img src="food.jpg" alt="food" class="rounded" width="45"></div>
+                                        <th:block th:each="menu : ${reservationAll.get(rs)}">
+                                            <p th:text="${menu.meName}">메뉴 이름들</p>
+                                        </th:block>
                                     </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td id="ri_time"></td>
-                                    <td></td>
-                                    <td><span class="badge-dot badge-brand mr-1"></span></td>
+                                    <td>
+                                        <th:block th:each="menu : ${reservationAll.get(rs)}">
+                                            <p th:text="${menu.meCode}">메뉴 코드들</p>
+                                        </th:block>
+                                    </td>
+                                    <td>
+                                        <th:block th:each="menu : ${reservationAll.get(rs)}">
+                                            <p th:text="${menu.rsMeNum}">메뉴 수량들</p>
+                                        </th:block>
+                                    </td>
+                                    <td>
+                                        <th:block th:each="menu : ${reservationAll.get(rs)}">
+                                            <p th:text="${menu.mePrice}">메뉴 가격들</p>
+                                        </th:block>
+                                    </td>
+                                    <td th:text="${#hotpleAPI.sumMenuPrice(reservationAll.get(rs))}">총 가격</td>
+                                    <td th:text="${#hotpleAPI.timestampToStr(reservationAll.get(rs).get(0).riTime)}">예약시간</td>
+                                    <td th:text="${reservationAll.get(rs).get(0).UCode}">회원코드</td>
+                                    <td>Y</td>
+                                </tr>
                                 </tr>
                                 <tr>
-                                    <td>2</td>
-                                    <td>
-                                        <div class="m-r-10"><img src="food.jpg" alt="food" class="rounded" width="45"></div>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><span class="badge-dot badge-success mr-1"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>
-                                        <div class="m-r-10"><img src="food.jpg" alt="food" class="rounded" width="45"></div>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><span class="badge-dot badge-success mr-1"></span></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>
-                                        <div class="m-r-10"><img src="food.jpg" alt="food" class="rounded" width="45"></div>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><span class="badge-dot badge-success mr-1"></span></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="9"><a href="#" class="btn btn-outline-success float-right">View Details</a></td>
+                                    <td colspan="9"><a href="/manager/orders" class="btn btn-outline-success float-right">자세히 보기</a></td>
                                 </tr>
                                 </tbody>
                             </table>

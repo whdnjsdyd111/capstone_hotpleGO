@@ -17,7 +17,29 @@
     </select>
 
     <select id="getReservation" resultType="ReservationAllVO">
-        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE res_info.htId = #{htId}
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE htId = #{htId}
+    </select>
+
+    <select id="getReservationByUser" resultType="ReservationAllVO">
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE uCode = #{uCode}
+    </select>
+
+    <select id="getReservationHotple" resultType="ReservationHotpleVO">
+        SELECT * FROM res_info r JOIN hotple h ON (r.htId = h.htId) FULL OUTER JOIN image_attach i ON (h.htImg = i.uuid)
+        WHERE r.uCode = #{uCode}
+    </select>
+
+    <select id="getCurListAll" resultType="ReservationAllVO">
+        <![CDATA[
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE htId = #{htId} AND riTime >= SYSTIMESTAMP ORDER BY riTime
+        ]]>
+    </select>
+
+    <select id="getCurFive" resultType="ReservationInformationVO">
+        <![CDATA[
+        SELECT * FROM res_info NATURAL JOIN users WHERE htId = #{htId} AND riTime >= SYSTIMESTAMP AND ROWNUM <= 5
+        ORDER BY riTime
+        ]]>
     </select>
 
     <select id="getSales" resultType="ReservationAllVO">

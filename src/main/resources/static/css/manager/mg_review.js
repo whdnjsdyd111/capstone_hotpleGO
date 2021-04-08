@@ -8,21 +8,22 @@ $(function() {
             init(this);
             $(this).parent().parent().addClass('replied');
         }
+    });
 
+    function checkbox_check(){
+        if($('#reply-check').is(":checked")){
+            $('.list-group-item').show();
+            $('.replied').hide();
+        } else{
+            $('.list-group-item').show();
+        }
+    }
+    $('#reply-check').change(function (){
+        checkbox_check();
     });
     checkbox_check();
 });
-$('.reply-check').change(function (){
-   checkbox_check();
-})
-function checkbox_check(){
-    if($('.reply-check').is(":checked")){
-        $('.list-group-item').hide();
-        $('.replied').show();
-    } else{
-        $('.list-group-item').show();
-    }
-}
+
 
 function reply_mode(obj){
     if ($(obj).hasClass('reply-edit-off')) {

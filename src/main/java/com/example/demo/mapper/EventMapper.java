@@ -14,6 +14,8 @@ public interface EventMapper {
 
     public List<EventVO> getEventCurrentList();
 
+    public List<EventVO> getCurrentFive();
+
     public int insertAnnounce(EventVO vo);
 
     public int insertEvent(EventVO vo);

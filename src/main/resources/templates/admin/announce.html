@@ -4,6 +4,11 @@
       layout:decorator="~{admin/default}">
 <th:block layout:fragment="styles">
     <script src="/css/admin/adm_announce.js"></script>
+    <style>
+        article:hover {
+            cursor: pointer;
+        }
+    </style>
 </th:block>
 <div layout:fragment="content">
     <h2 class="mb-3">이벤트/공지</h2>
@@ -51,7 +56,7 @@
 
     <section th:each="event : ${events}">
         <article class="row px-0 mx-0 border border-secondary border-top-0 board_article">
-            <input type="hidden" th:value="${#hotpleAPI.codeToStr(event.eveCode)}">
+            <input type="hidden" th:value="${event.eveCode.replaceAll('/', '')}">
             <div class="container col-9 px-0 py-2 row">
                 <div class="col-8 d-flex">
                     <div class="col-4 pt-2">

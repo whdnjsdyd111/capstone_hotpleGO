@@ -1,9 +1,14 @@
 package com.example.demo.controller.web;
 
+import com.example.demo.api.HotpleAPI;
+import com.example.demo.domain.HotpleVO;
 import com.example.demo.domain.ManagerVO;
+import com.example.demo.domain.ReviewVO;
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.AllianceVO;
 import com.example.demo.security.CustomUser;
+import com.example.demo.service.HotpleService;
+import com.example.demo.service.ReviewService;
 import com.example.demo.service.TasteService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.AllianceService;
@@ -29,6 +34,8 @@ public class HomeRestController {
     private final AllianceService alliance;
     private final UserService user;
     private final TasteService taste;
+    private final HotpleService hotple;
+    private final ReviewService review;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/alliance")
@@ -82,6 +89,35 @@ public class HomeRestController {
         taste.reset(code);
         if (taste.registerAll(code, tastes)) {
             return new ResponseEntity<>("저장되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/setGeo")
+    public ResponseEntity<List<HotpleVO>> setGeo(HttpServletRequest request) {
+        double lat = Double.parseDouble(request.getParameter("lat"));
+        double lng = Double.parseDouble(request.getParameter("lng"));
+        return new ResponseEntity<>(hotple.getByKeywordGeo(request.getParameter("keyword"), lat, lng), HttpStatus.OK);
+    }
+
+    @PostMapping("/submit-review")
+    public ResponseEntity<String> submitReview(@RequestBody ReviewVO vo) {
+        // TODO
+        vo.setUCode("whdnjsdyd111@naver.com/A/");
+        vo.setRiCode(HotpleAPI.strToCode(vo.getRiCode()));
+        if (review.registerReview(vo)) {
+            return new ResponseEntity<>("댓글 작성 완료하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/update-review")
+    public ResponseEntity<String> updateReview(@RequestBody ReviewVO vo) {
+        vo.setRiCode(HotpleAPI.strToCode(vo.getRiCode()));
+        if (review.updateReview(vo)) {
+            return new ResponseEntity<>("댓글 수정하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
         }

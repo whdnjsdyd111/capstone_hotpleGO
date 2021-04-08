@@ -16,4 +16,6 @@ public class ReservationInformationVO {
     private String riOdNum;
     private String riCont;
     private String uCode;
+    private String nick;
+    private String phone;
 }

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <link rel="stylesheet" href="/css/user/myCourse.css" >
+    <script src="/css/user/myCourse.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <script th:inline="javascript">
+        let rs_map = [[${reservations}]];
+        console.log(rs_map);
+    </script>
+    <div class="bottom-container">
+        <div>
+            <button type="button" class="btn btn-primary doing-hotple">진행중인 장소<br>2건</button>
+            <button type="button" class="btn btn-outline-success done-hotple">완료된 장소<br>0건</button>
+        </div>
+        <th:block th:each="hotple : ${hotples}">
+            <th:block th:if="${#hotpleAPI.reservBol(hotple.riTime)}">
+                <div class="doing-reservation">
+                    <!-- 예약 수만큼 반복할 div 시작-->
+                    <div  class="reservation-div p-2 border-dark border rounded mb-5">
+                        <p class="time">2021-04-05</p>
+                        <div class="reservation-container">
+                            <th:block th:if="${hotple.uuid == null}">
+                                <img src="/images/logo.jpg" class="img-fluid" alt="이미지가 없습니다" />
+                            </th:block>
+                            <th:block th:if="${hotple.uuid != null}">
+                                <img th:src="${#hotpleAPI.toImg(hotple.uploadPath,
+                                    hotple.uuid, hotple.fileName, #hotpleAPI.IMAGE)}"
+                                     alt="메뉴 이미지를 추가해주세요." class="img-fluid">
+                            </th:block>
+                            <span th:text="${hotple.busnName}">업체명</span>
+                            <div class="d-flex flex-column">
+                                <span th:text="${hotple.htAddr}">업체 주소</span>
+                                <span th:text="${hotple.htAddrDet}">업체 상세주소</span>
+                            </div>
+                            <div class="btn-container">
+                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"  data-target="#reservation-detail">상세 보기</button>
+                                <input type="hidden" th:value="${hotple.riCode}">
+                                <button type="button" class="btn btn-secondary">예약 취소</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 예약 수만큼 반복 div 끝-->
+                </div>
+            </th:block>
+            <th:block th:if="${!#hotpleAPI.reservBol(hotple.riTime)}">
+                <div class="done-reservation" style="display: none;">
+                    <!-- 끝난 예약 수만큼 반복할 div 시작-->
+                    <div  class="reservation-div p-2 border-dark border rounded mb-5">
+                        <p class="time">2021-04-04</p>
+                        <div class="reservation-container">
+                            <th:block th:if="${hotple.uuid == null}">
+                                <img src="/images/logo.jpg" class="img-fluid" alt="이미지가 없습니다" />
+                            </th:block>
+                            <th:block th:if="${hotple.uuid != null}">
+                                <img th:src="${#hotpleAPI.toImg(hotple.uploadPath,
+                                    hotple.uuid, hotple.fileName, #hotpleAPI.IMAGE)}"
+                                     alt="메뉴 이미지를 추가해주세요." class="img-fluid">
+                            </th:block>
+                            <span th:text="${hotple.busnName}">업체명</span>
+                            <div class="d-flex flex-column">
+                                <span th:text="${hotple.htAddr}">업체 주소</span>
+                                <span th:text="${hotple.htAddrDet}">업체 상세주소</span>
+                            </div>
+                            <div class="btn-container">
+                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"  data-target="#reservation-detail">상세 보기</button>
+                                <input type="hidden" th:value="${hotple.riCode}">
+                                <th:block th:if="${reviews.get(hotple.riCode) == null}">
+                                    <button type="button" class="btn btn-success collapsed" data-toggle="collapse" th:data-target="'#review' + ${hotple.riCode.replaceAll('/', '')}" aria-expanded="false">리뷰 작성</button>
+                                </th:block>
+                                <th:block th:if="${reviews.get(hotple.riCode) != null}">
+                                    <button type="button" class="btn btn-success collapsed" data-toggle="collapse" th:data-target="'#review' + ${hotple.riCode.replaceAll('/', '')}" aria-expanded="false">리뷰 보기</button>
+                                </th:block>
+                            </div>
+                        </div>
+                        <div class="form-group collapse" th:id="|review*{hotple.riCode.replaceAll('/', '')}|">
+                            <th:block th:if="${reviews.get(hotple.riCode) == null}">
+                                <div class="d-flex">
+                                    <textarea class="form-control"></textarea>
+                                    <select>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                                <button type="button" class="btn btn-primary submit-review">작성하기</button>
+                            </th:block>
+                            <th:block th:if="${reviews.get(hotple.riCode) != null}">
+                                <div class="d-flex">
+                                    <input class="form-control"
+                                           th:value="${reviews.get(hotple.riCode).rvCont}" />
+                                    <select>
+                                        <div th:each="num : ${#numbers.sequence(1, 5)}">
+                                            <option th:value="${num}" th:text="${num}"
+                                                    th:selected="${reviews.get(hotple.riCode).rvRating == num ? true : false}">1</option>
+                                        </div>
+                                    </select>
+                                </div>
+                                <p>사장님 댓글</p>
+                                <button class="btn btn-info update-review">수정하기</button>
+                                <input type="text" class="form-control" readonly
+                                       th:value="${reviews.get(hotple.riCode).rvOwnCont}" />
+                            </th:block>
+                        </div>
+                    </div>
+                    <!-- 끝난 예약 수만큼 반복 div 끝-->
+                </div>
+            </th:block>
+        </th:block>
+
+        <!--상세보기 모달 시작-->
+        <div>
+            <div class="modal fade" id="reservation-detail" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <table class="table" >
+                                <thead>
+                                <th>주문 내역</th>
+                                <th>가격</th>
+                                <th>수량</th>
+                                </thead>
+                                <tbody id="menu-info">
+                                <tr>
+                                    <td>
+                                        후라이드
+                                    </td>
+                                    <td>
+                                        13000원
+                                    </td>
+                                    <td>
+                                        1
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <!-- 주문 양만큼 반복-->
+                                <!-- 반복 끝 -->
+                            </table>
+                            <div class="d-flex flex-column">
+                                <div class="d-flex justify-content-around">
+                                    <span>총 가격</span>
+                                    <span id="total">1000</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal" >닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--상세보기 모달 끝 -->
+    </div>
+</div>
+</html>
