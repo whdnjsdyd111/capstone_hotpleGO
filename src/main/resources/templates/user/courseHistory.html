@@ -21,26 +21,85 @@
         .tab-content{
             min-height: 600px;
         }
+        .swiper-container{
+            margin-left:0;
+        }
+        .set-center{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        h3{
+            font-size: 25px;
+        }
+        h5{
+            font-size:15px;
+        }
+        h7{
+            font-size:14px;
+        }
+        div>img{
+            width: 350px;
+        }
+        .time>span{
+            font-size: 10px;
+        }
 
-        @media(max-width:650px){
-            img{
-                width:100px;
-                height: 100px;
+        @media(max-width:990px){
+            div>img{
+                width:180px;
+
             }
             .swiper-slide{
                 height:130px;
             }
             h3{
-                font-size:15px;
+                font-size: 17px;
             }
             h5{
+                font-size:15px;
+            }
+            h7{
                 font-size:10px;
             }
-            .swiper-container{
+            /*.swiper-container{
                 width: 300px;
-            }
+            }*/
             .time>span{
                 font-size:8px;
+            }
+            div>img{
+                width:240px;
+            }
+
+            @media(max-width:630px){
+                div>img{
+                    width:100px;
+
+                }
+                .swiper-slide{
+                    height:100px;
+                }
+                h3{
+                    font-size: 13px;
+                }
+                h5{
+                    font-size:11px;
+                }
+                h7{
+                    font-size:5px;
+                }
+                /*.swiper-container{
+                    width: 300px;
+                }*/
+                .time>span{
+                    font-size:4px;
+                }
+                .time{
+                    display: none !important;
+                }
+
             }
         }
     </style>
@@ -54,24 +113,23 @@
             <div th:each="course : ${courses}"  class="jumbotron mx-4 card">
                 <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|"  class="stretched-link"></a>
                 <div class="container">
-                    <div class="swiper-container">
+                    <div class="swiper-container col-xl-10 col-md-10 col-sm-10">
                         <div class="swiper-wrapper">
                             <div th:each="courseInfo : ${courseInfos.get(course.csCode)}" class="swiper-slide">
                                 <div class="swiper-contents">
                                     <div class="d-flex justify-content-around">
-                                        <div>
+                                        <div class="set-center">
                                             <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath, courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
                                                  alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
                                         </div>
-                                        <div>
-                                            <p><h3>순서</h3></p>
-                                            <p><h5 th:text="${courseInfo.ciIndex}">가게 순서</h5></p>
-                                            <p><h5 th:text="${courseInfo.htAddr}">가게 주소</h5></p>
+                                        <div class="set-center">
+                                            <p><h7 th:text="${courseInfo.ciIndex}+번째">가게 순서</h7></p>
+                                            <p><h7 th:text="${courseInfo.htAddr}">가게 주소</h7></p>
                                         </div>
-                                        <div>
-                                            <p><h3 th:text="${courseInfo.busnName}">가게명</h3></p>
-                                            <p><h5 th:text="${courseInfo.htCont}">가게 설명</h5></p>
-                                            <p><h5 th:text="${#hotpleAPI.toTel(courseInfo.htTel)}">가게 전화번호</h5></p>
+                                        <div class="set-center">
+                                            <p><h5 th:text="${courseInfo.busnName}">가게명</h5></p>
+                                            <p><h7 th:text="${courseInfo.htCont}">가게 설명</h7></p>
+                                            <p><h7 th:text="${#hotpleAPI.toTel(courseInfo.htTel)}">가게 전화번호</h7></p>
                                         </div>
                                     </div>
                                 </div>
