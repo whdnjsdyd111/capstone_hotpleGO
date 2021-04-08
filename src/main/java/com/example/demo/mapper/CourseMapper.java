@@ -12,7 +12,15 @@ public interface CourseMapper {
 
     public List<CourseInfoVO> getCourseInfoN(String uCode);
 
+    public List<CourseVO> getCourseY(String uCode);
+
+    public List<CourseInfoVO> getCourseInfoY(String uCode);
+
     public CourseVO getCourseC(String uCode);
 
     public List<CourseInfoVO> getCourseInfoC(String uCode);
+
+    public CourseVO getCourse(String csCode);
+
+    public List<CourseInfoVO> getCourseInfo(String csCode);
 }

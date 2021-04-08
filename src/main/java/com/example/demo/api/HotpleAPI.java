@@ -61,30 +61,6 @@ public class HotpleAPI {
         return sum;
     }
 
-    public static int reservHistoryNum(Map<String, List<ReservationAllVO>> map) {
-        int num = 0;
-        Timestamp time = new Timestamp(System.currentTimeMillis());
-
-        for (String key : map.keySet()) {
-            List<ReservationAllVO> list = map.get(key);
-            if (time.after(list.get(0).getRiTime())) num++;
-        }
-
-        return num;
-    }
-
-    public static int reservCurNum(Map<String, List<ReservationAllVO>> map) {
-        int num = 0;
-        Timestamp time = new Timestamp(System.currentTimeMillis());
-
-        for (String key : map.keySet()) {
-            List<ReservationAllVO> list = map.get(key);
-            if (time.before(list.get(0).getRiTime())) num++;
-        }
-
-        return num;
-    }
-
     public static boolean reservBol(Timestamp time) {
         Timestamp curTime = new Timestamp(System.currentTimeMillis());
         return curTime.before(time);

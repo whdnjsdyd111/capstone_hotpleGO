@@ -11,102 +11,55 @@
             border-radius: 25px;
         }
     </style>
+    <script src="/css/user/user_search.js"></script>
 </th:block>
 <div layout:fragment="content">
     <button class="btn-info" type="button" data-toggle="collapse" data-target="#collapseMap" aria-expanded="true">
         위치 설정
     </button>
-    <div id="collapseMap">
+    <div id="collapseMap" class="collapse show">
         <div class="container">
             <div id="map_div"></div>
             <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxcd9bdd0942b542fd8c7be931fc11a3b4"></script>
-            <script>
-                let map;
-                let marker;
-                let setLat;
-                let setLng;
-                $(function() {
-                    map = new Tmapv2.Map("map_div", {
-                        center: new Tmapv2.LatLng(37.52084364186228,127.058908811749),
-                        width: "100%",
-                        height: "400px"
-                    });
-
-                    map.addListener("drag", onDrag); // 지도 드래그시, 이벤트 리스너 등록.
-                    myGeo();
-
-                    $('#collapseMap').addClass('collapse');
-                });
-
-                function onDrag() {
-                    marker.setMap(null);
-                    marker = new Tmapv2.Marker({
-                        position : new Tmapv2.LatLng(map.getCenter().lat(), map.getCenter().lng()),
-                        map : map
-                    });
-                }
-
-                function myGeo() {
-                    setLat = map.getCenter().lat();
-                    setLng = map.getCenter().lng();
-                    if (marker !== undefined) marker.setMap(null);
-                    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(
-                            function(position) {
-                                let lat = position.coords.latitude;
-                                let lon = position.coords.longitude;
-
-                                marker = new Tmapv2.Marker({
-                                    position : new Tmapv2.LatLng(lat,lon),
-                                    map : map
-                                });
-
-                                map.setCenter(new Tmapv2.LatLng(lat,lon));
-                                map.setZoom(15);
-                            });
-                    }
-                }
-
-                function setGeo() {
-                    $('#collapseMap').collapse('hide');
-                    setLat = map.getCenter().lat();
-                    setLng = map.getCenter().lng();
-                }
+            <script th:inline="javascript">
+                let ht_map = [[${hotples}]];
+                console.log(ht_map);
             </script>
             <div class="d-flex justify-content-around">
-                <button class="btn-primary" type="button" onclick="myGeo()">내 위치 보기</button>
+                <button class="btn-primary" type="button" onclick="setMyGeo()">내 위치 보기</button>
                 <button class="btn-primary" type="button" onclick="setGeo()">현위치로 설정</button>
             </div>
         </div>
     </div>
-    <th:block th:each="num : ${#numbers.sequence(0, hotples.size() / 4)}">
-        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 m-2">
-            <th:block th:each="index : ${#numbers.sequence(0, 3)}">
-                <th:block th:if="${num * 4 + index < hotples.size()}">
-                    <div class="col mb-4">
-                        <div class="card h-100">
-                            <th:block th:if="${hotples.get(num * 4 + index).htImg == null}">
-                                <img src="/images/logo.jpg" class="ht-img m-3" alt="...">
-                            </th:block>
-                            <th:block th:if="${hotples.get(num * 4 + index).htImg != null}">
-                                <img th:src="${#hotpleAPI.toImg(hotples.get(num * 4 + index).uploadPath,
-                                hotples.get(num * 4 + index).htImg, hotples.get(num * 4 + index).fileName, #hotpleAPI.IMAGE)}"
-                                     alt="이미지가 없습니다." class="ht-img m-3">
-                            </th:block>
-                            <div class="card-body">
-                                <h5 class="card-title" th:text="${hotples.get(num * 4 + index).busnName}">가게 이름</h5>
-                                <div class="text-left">
-                                    <span class="font-weight-bold">구글 평점 : </span>
-                                    <span class="text-warning h4" th:text="${hotples.get(num * 4 + index).goGrd}">4.5</span>
+    <div id="hotple_div">
+        <th:block th:each="num : ${#numbers.sequence(0, hotples.size() / 4)}">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 m-2">
+                <th:block th:each="index : ${#numbers.sequence(0, 3)}">
+                    <th:block th:if="${num * 4 + index < hotples.size()}">
+                        <div class="col mb-4">
+                            <div class="card h-100">
+                                <th:block th:if="${hotples.get(num * 4 + index).htImg == null}">
+                                    <img src="/images/logo.jpg" class="ht-img m-3" alt="이미지가 없습니다.">
+                                </th:block>
+                                <th:block th:if="${hotples.get(num * 4 + index).htImg != null}">
+                                    <img th:src="${#hotpleAPI.toImg(hotples.get(num * 4 + index).uploadPath,
+                                    hotples.get(num * 4 + index).htImg, hotples.get(num * 4 + index).fileName, #hotpleAPI.IMAGE)}"
+                                         alt="이미지가 없습니다." class="ht-img m-3">
+                                </th:block>
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${hotples.get(num * 4 + index).busnName}">가게 이름</h5>
+                                    <div class="text-left">
+                                        <span class="font-weight-bold">구글 평점 : </span>
+                                        <span class="text-warning h4" th:text="${hotples.get(num * 4 + index).goGrd}">4.5</span>
+                                    </div>
                                 </div>
+                                <a th:href="|/hotple/*{hotples.get(num * 4 + index).htId}|" class="stretched-link"></a>
                             </div>
-                            <a th:href="|/hotple/*{hotples.get(num * 4 + index).htId}|" class="stretched-link"></a>
                         </div>
-                    </div>
+                    </th:block>
                 </th:block>
-            </th:block>
-        </div>
-    </th:block>
+            </div>
+        </th:block>
+    </div>
 </div>
 </html>

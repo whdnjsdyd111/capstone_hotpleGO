@@ -50,22 +50,22 @@
                 </div>
             </form>
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="#">핫플 예약</a></li>
-                <li class="nav-item"><a class="nav-link" href="/myCourse">홧플 코스</a></li>
+                <li class="nav-item"><a class="nav-link" href="/reservation">핫플 예약</a></li>
+                <li class="nav-item"><a class="nav-link" href="/myCourse">핫플 코스</a></li>
                 <li class="nav-item"><a class="nav-link" href="/boards">핫플 공유</a></li>
                 <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
             </ul>
         </div>
     </nav>
     <script>
-        let lat;
-        let long;
+        let userLat;
+        let userLong;
         function getLocation() {
             if (navigator.geolocation) { // GPS를 지원하면
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    lat = position.coords.latitude;
-                    long = position.coords.longitude;
-                    console.log(lat, long);
+                    userLat = position.coords.latitude;
+                    userLong = position.coords.longitude;
+                    console.log(userLat, userLong);
                 }, function(error) {
                     console.error(error);
                 }, {

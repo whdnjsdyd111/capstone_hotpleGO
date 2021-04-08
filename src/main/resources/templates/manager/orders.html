@@ -8,9 +8,9 @@
 </th:block>
 <div class="mt-5" layout:fragment="content">
     <input type="radio" name="tab_menu" id="orderTab" checked>
-    <label for="orderTab" class="ml-2">신규 예약<span class="badge bg-light text-dark" th:text="${#hotpleAPI.reservCurNum(reservations)}">2</span></label>
+    <label for="orderTab" class="ml-2">신규 예약<span id="cur_num" class="badge bg-light text-dark">2</span></label>
     <input type="radio" name="tab_menu" id="historyTab">
-    <label for="historyTab">이전 예약<span class="badge bg-light text-dark" th:text="${#hotpleAPI.reservHistoryNum(reservations)}">1</span></label>
+    <label for="historyTab">이전 예약<span id="his_num" class="badge bg-light text-dark">1</span></label>
 
     <th:block th:each="reservation : ${reservations}">
         <div class="orderBoxes current-orderBox mx-2">

@@ -32,6 +32,10 @@ public class HotpleService {
         return mapper.searchHotple(keyword);
     }
 
+    public List<HotpleVO> getByKeywordGeo(String keyword, double lat, double lng) {
+        return mapper.searchHotpleByGeo(keyword, lat, lng);
+    }
+
     public boolean registerBusn(HotpleVO vo) {
         return mapper.insertBusn(vo) == 1;
     }

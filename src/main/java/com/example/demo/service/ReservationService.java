@@ -1,8 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.ReservationAllVO;
+import com.example.demo.domain.ReservationHotpleVO;
 import com.example.demo.domain.ReservationInformationVO;
-import com.example.demo.domain.ReservationStatusVO;
 import com.example.demo.mapper.ReservationMapper;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -33,6 +33,22 @@ public class ReservationService {
 
         log.info(map);
         return map;
+    }
+
+    public Map<String, List<ReservationAllVO>> getList(String uCode) {
+        List<ReservationAllVO> list = mapper.getReservationByUser(uCode);
+
+        Map<String, List<ReservationAllVO>> map = new HashMap<>();
+        list.forEach(l -> {
+            map.computeIfAbsent(l.getRiCode(),
+                    k -> new ArrayList<>()).add(l);
+        });
+        log.info(map);
+        return map;
+    }
+
+    public List<ReservationHotpleVO> getHotples(String uCode) {
+        return mapper.getReservationHotple(uCode);
     }
 
     public Map<String, List<ReservationAllVO>> getAllCurFive(Long htId) {

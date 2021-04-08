@@ -14,6 +14,16 @@
         ORDER BY cscode DESC, ciIndex
     </select>
 
+    <select id="getCourseY" resultType="CourseVO">
+        SELECT * FROM course WHERE uCode = #{uCode} AND SUBSTR(csCode, -1) = 'Y' ORDER BY csCode DESC
+    </select>
+
+    <select id="getCourseInfoY" resultType="CourseInfoVO">
+        SELECT * FROM course_info NATURAL JOIN hotple FULL OUTER JOIN image_attach ON (hotple.htImg = image_attach.uuid)
+        WHERE csCode IN (SELECT csCode FROM course WHERE uCode = #{uCode}) AND SUBSTR(csCode, -1) = 'Y'
+        ORDER BY cscode DESC, ciIndex
+    </select>
+
     <select id="getCourseC" resultType="CourseVO">
         SELECT * FROM course WHERE uCode = #{uCode} AND SUBSTR(csCode, -1) = 'C' ORDER BY csCode DESC
     </select>
@@ -22,5 +32,14 @@
         SELECT * FROM course_info NATURAL JOIN hotple FULL OUTER JOIN image_attach ON (hotple.htImg = image_attach.uuid)
         WHERE csCode IN (SELECT csCode FROM course WHERE uCode = #{uCode}) AND SUBSTR(csCode, -1) = 'C'
         ORDER BY cscode DESC, ciIndex
+    </select>
+
+    <select id="getCourse" resultType="CourseVO">
+        SELECT * FROM course WHERE csCode = #{csCode}
+    </select>
+
+    <select id="getCourseInfo" resultType="CourseInfoVO">
+        SELECT * FROM course_info NATURAL JOIN hotple FULL OUTER JOIN image_attach ON (hotple.htImg = image_attach.uuid)
+        WHERE csCode = #{csCode} ORDER BY cscode DESC, ciIndex
     </select>
 </mapper>

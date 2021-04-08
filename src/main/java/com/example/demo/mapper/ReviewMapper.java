@@ -9,8 +9,14 @@ import java.util.List;
 public interface ReviewMapper {
     public List<ReviewVO> getList(long htId);
 
+    public List<ReviewVO> getListByUser(String uCode);
+
     public List<ReviewVO> getCurrentFive();
 
     public int insertReply(ReviewVO vo);
+
+    public int insertReview(ReviewVO vo);
+
+    public int updateReview(ReviewVO vo);
 
 }

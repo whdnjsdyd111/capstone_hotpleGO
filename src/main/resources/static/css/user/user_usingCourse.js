@@ -10,6 +10,7 @@ const latLng = [];
 
 // 1. 지도 띄우기
 let map;
+let userMarker;
 
 const new_polyLine = [];
 
@@ -86,15 +87,10 @@ function addMarker(status, lon, lat, index) {
         iconHTML: '<p class="m-index font-weight-bold" style="background-color: ' + colors[index - 1] + '">' + index + '</p>',
         map: map
     });
-    // 마커 드래그 설정
-    marker.tag = index;
-    marker.addListener("dragend", function (evt) {
-        markerListenerEvent(evt);
+    //Marker에 클릭이벤트 등록.
+    marker.addListener("click", function(evt) {
+
     });
-    marker.addListener("drag", function (evt) {
-        markerObject = markerList[index];
-    });
-    markerList[index] = marker;
     return marker;
 }
 
@@ -104,6 +100,9 @@ let passList = "";  // 경로탐색 리스트
 let prtcl;
 let headers = {};
 headers["appKey"]='l7xxcd9bdd0942b542fd8c7be931fc11a3b4';
+
+
+let startMyGeo = null;
 
 $(function() {
     // 0. 위도 경도
@@ -224,4 +223,36 @@ $(function() {
     });
 
     $('#total_distance').text(Math.ceil(total_distance) / 1000 + " km");
+
+    userMarker = new Tmapv2.Marker({
+        position : new Tmapv2.LatLng(userLat, userLong),
+        iconHTML: '<p class="m-index font-weight-bold" style="background-color: #1a252f"></p>',
+        map : map
+    });
+
+    setInterval(function() {
+        userMarker.setMap(null);
+        if (navigator.geolocation) { // GPS를 지원하면
+            navigator.geolocation.getCurrentPosition(function(position) {
+                userLat = position.coords.latitude;
+                userLong = position.coords.longitude;
+                console.log(userLat, userLong);
+
+                userMarker = new Tmapv2.Marker({
+                    position : new Tmapv2.LatLng(userLat, userLong),
+                    iconHTML: '<p class="m-index font-weight-bold" style="background-color: #1a252f"></p>',
+                    map : map
+                });
+            }, function(error) {
+                console.error(error);
+            }, {
+                enableHighAccuracy: false,
+                maximumAge: 0,
+                timeout: Infinity
+            });
+        } else {
+            alert('GPS를 지원하지 않습니다');
+            clearInterval(startMyGeo);
+        }
+    }, 1000);
 })
