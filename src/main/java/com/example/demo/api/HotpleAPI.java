@@ -1,16 +1,25 @@
 package com.example.demo.api;
 
 import com.example.demo.domain.ReservationAllVO;
+import com.example.demo.domain.SaleVO;
+import com.example.demo.security.CustomUser;
+import com.example.demo.service.ReservationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@Log4j2
 public class HotpleAPI {
+    public static final int IMAGE = 0;
+    public static final int THUMBNAIL = 1;
+
     public static String toDateStr(String code) {
         SimpleDateFormat fromFm = new SimpleDateFormat("yyMMddHHmmss");
         SimpleDateFormat toFm = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
@@ -149,5 +158,57 @@ public class HotpleAPI {
             e.printStackTrace();
         }
         return str;
+    }
+
+    public static double avg(List<Integer> list) {
+        double avg = list.stream().mapToInt(Integer::intValue).average().orElse(0.0);
+        return avg;
+    }
+
+    public static Map<Integer, Integer> getMaps(List<Integer> list) {
+        Map<Integer, Integer> map = new LinkedHashMap<>();
+        for (int i = 1; i <= 5; i++) {
+            map.put(i, 0);
+        }
+        list.forEach(l -> {
+            map.put(l, map.get(l) + 1);
+        });
+        return map;
+    }
+
+    public static String toTime(String str) {
+        StringBuilder stringBuilder = new StringBuilder(str);
+        stringBuilder.insert(2, ":");
+        return stringBuilder.toString();
+    }
+
+    public static String toImg(String uploadPath, String uuid, String fileName, int kind) {
+        if (uploadPath == null || uuid == null || fileName == null) {
+            return "/images/logo.jpg";
+        }
+
+        String imgSrc = "/hotpleImage/";
+        imgSrc += replaceSlash(uploadPath) + "/";
+
+        if (kind == IMAGE) imgSrc += uuid + "_" + fileName;
+        if (kind == THUMBNAIL) imgSrc += "s_" + uuid + "_" + fileName;
+
+        return imgSrc;
+    }
+
+    public static String contSubstring(String cont) {
+        if (cont.length() > 8) {
+            return cont.substring(0, 8) + "..";
+        } else {
+            return cont;
+        }
+    }
+
+    public static Long sumMenuPrice(List<ReservationAllVO> list) {
+        long sum = 0;
+        for (ReservationAllVO vo : list) {
+            sum += vo.getRsMeNum() * vo.getMePrice();
+        }
+        return sum;
     }
 }

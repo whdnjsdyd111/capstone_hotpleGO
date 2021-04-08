@@ -7,62 +7,62 @@
     <update id="updateWeekdayOpen">
         MERGE INTO open_info
         USING DUAL
-            ON ( htOb = 'W/O' AND htId = #{htId} )
+            ON ( htOb = 'W/O' AND htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}) )
         WHEN MATCHED THEN
             UPDATE SET tCode = #{wo}
         WHEN NOT MATCHED THEN
             INSERT (htOb, htId, tCode)
-            VALUES ('W/O', #{htId}, #{wo})
+            VALUES ('W/O', (SELECT htId FROM hotple WHERE uCode = #{uCode}), #{wo})
     </update>
 
     <update id="updateWeekdayBreak">
         MERGE INTO open_info
         USING DUAL
-            ON ( htOb = 'W/B' AND htId = #{htId} )
+            ON ( htOb = 'W/B' AND htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}) )
         WHEN MATCHED THEN
             UPDATE SET tCode = #{wb}
         WHEN NOT MATCHED THEN
             INSERT (htOb, htId, tCode)
-            VALUES ('W/B', #{htId}, #{wb})
+            VALUES ('W/B', (SELECT htId FROM hotple WHERE uCode = #{uCode}), #{wb})
     </update>
 
     <update id="updateSaturdayOpen">
         MERGE INTO open_info
         USING DUAL
-            ON ( htOb = 'T/O' AND htId = #{htId} )
+            ON ( htOb = 'T/O' AND htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}) )
         WHEN MATCHED THEN
             UPDATE SET tCode = #{wo}
         WHEN NOT MATCHED THEN
             INSERT (htOb, htId, tCode)
-            VALUES ('T/O', #{htId}, #{wo})
+            VALUES ('T/O', (SELECT htId FROM hotple WHERE uCode = #{uCode}), #{wo})
     </update>
 
     <update id="updateSaturdayBreak">
         MERGE INTO open_info
         USING DUAL
-            ON ( htOb = 'T/B' AND htId = #{htId} )
+            ON ( htOb = 'T/B' AND htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}) )
         WHEN MATCHED THEN
             UPDATE SET tCode = #{wb}
         WHEN NOT MATCHED THEN
             INSERT (htOb, htId, tCode)
-            VALUES ('T/B', #{htId}, #{wb})
+            VALUES ('T/B', (SELECT htId FROM hotple WHERE uCode = #{uCode}), #{wb})
     </update>
 
     <update id="updateSundayOpen">
         MERGE INTO open_info
         USING DUAL
-            ON ( htOb = 'S/O' AND htId = #{htId} )
+            ON ( htOb = 'S/O' AND htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}) )
         WHEN MATCHED THEN
             UPDATE SET tCode = #{wo}
         WHEN NOT MATCHED THEN
             INSERT (htOb, htId, tCode)
-            VALUES ('S/O', #{htId}, #{wo})
+            VALUES ('S/O', (SELECT htId FROM hotple WHERE uCode = #{uCode}), #{wo})
     </update>
 
     <update id="updateSundayBreak">
         MERGE INTO open_info
         USING DUAL
-            ON ( htOb = 'S/B' AND htId = #{htId} )
+            ON ( htOb = 'S/B' AND htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}) )
         WHEN MATCHED THEN
             UPDATE SET tCode = #{wb}
         WHEN NOT MATCHED THEN
@@ -72,6 +72,10 @@
 
     <select id="select" resultType="OpenInfoVO">
         SELECT * FROM open_info WHERE htId = #{htId}
+    </select>
+
+    <select id="selectByManager" resultType="OpenInfoVO">
+        SELECT * FROM open_info WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
     </select>
 
 </mapper>

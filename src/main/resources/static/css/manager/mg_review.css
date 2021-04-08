@@ -76,7 +76,6 @@
 }
 
 .star-point-wrap > .inner {
-    width: 300px;
     margin: 0 auto;
 }
 
@@ -111,7 +110,7 @@
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     background: #fff;
-    height: 102px;
+    height: 142px;
     padding: 24px 15px 0 15px;
     box-sizing: border-box;
     min-width: 300px;
@@ -182,3 +181,9 @@
 .star-rating,.star-rating span { display:inline-block; height:39px; overflow:hidden;
     background:url(/images/star.jpg)no-repeat; }
 .star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
+
+
+.star-rating-yel { width:205px; }
+.star-rating-yel,.star-rating-yel span { display:inline-block; height:39px; overflow:hidden;
+    background:url(/images/star1.jpg)no-repeat; }
+.star-rating-yel span{ background-position:left bottom; line-height:0; vertical-align:top; }

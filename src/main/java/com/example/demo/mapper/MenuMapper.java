@@ -13,6 +13,8 @@ public interface MenuMapper {
 
     public List<MenuVO> selectList(String htId);
 
+    public List<MenuVO> selectListByUser(String uCode);
+
     public int delete(@Param("code") String code, @Param("uuid") boolean uuid);
 
     public int update(MenuVO vo);

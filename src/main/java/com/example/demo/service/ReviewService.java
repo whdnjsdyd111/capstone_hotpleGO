@@ -20,11 +20,19 @@ public class ReviewService {
         return mapper.getList(htId);
     }
 
+    public List<ReviewVO> getListByManager(String uCode) {
+        return mapper.getListByManager(uCode);
+    }
+
     public Map<String, ReviewVO> getListByUser(String uCode) {
         List<ReviewVO> list = mapper.getListByUser(uCode);
         Map<String, ReviewVO> map = new HashMap<>();
         list.forEach(l -> map.computeIfAbsent(l.getRiCode(), k -> l));
         return map;
+    }
+
+    public List<Integer> getRatings(String uCode) {
+        return mapper.getRatings(uCode);
     }
 
     public boolean changeRvOwnCont(ReviewVO vo) {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head (title)">
     <title th:text="${title}">제목</title>
@@ -42,7 +43,7 @@
             <img width="80" height="40" src="/images/logo.jpg">
         </a>
 
-        <div sec:authorize-expr="isAuthenticated()">
+        <th:block sec:authorize-expr="isAuthenticated()">
             <div class="navbar-expand">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
@@ -61,11 +62,11 @@
                            aria-expanded="false">
                             <span class="text-warning" sec:authentication="principal.username">이메일</span>
                         </a>
-                        <th:block th:replace="/manager/myInfo :: myInfo" />
+<!--                        <th:block th:replace="/manager/myInfo :: myInfo" />-->
                     </li>
                 </ul>
             </div>
-        </div>
+        </th:block>
 
         <button class="navbar-toggler header_support_btn mr-2" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent"
@@ -76,31 +77,39 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-md-auto">
-                <li class="nav-item dropdown mr-3"><a
-                        class="nav-link dropdown-toggle" href="#"
-                        role="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false"><span><i class="fa fa-newspaper-o mr-2"></i>정보</span></a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/manager/announce"><i class="fa fa-bullhorn mr-3"></i>공지사항</a>
-                    </div></li>
-                <li class="nav-item dropdown mr-3"><a
-                        class="nav-link dropdown-toggle" href="#"
-                        role="button" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false"><span><i class="fa fa-list mr-2"></i>업체</span></a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/manager/myShop"><i class="fa fa-building mr-3"></i>업체정보</a>
-                        <a class="dropdown-item" href="/manager/menus"><i class="fa fa-cutlery mr-3"></i>메뉴</a>
-                        <a class="dropdown-item" href="/manager/reviews"><i class="fa fa-commenting-o mr-3"></i>리뷰</a>
-                        <a class="dropdown-item" href="/manager/orders"><i class="fa fa-calendar mr-3"></i>예약정보</a>
-                        <a class="dropdown-item" href="/manager/close"><i class="fa fa-ban mr-3"></i>영업정지</a>
-                        <a class="dropdown-item" href="/manager/open"><i class="fa fa-clock-o mr-3"></i>영업오픈</a>
-                        <a class="dropdown-item" href="/manager/sales"><i class="fa fa-line-chart mr-3"></i>매출현황</a>
-                    </div>
-                </li>
-                <li class="nav-item mr-3"><a class="nav-link"
-                                             href="/manager/logout"><span><i class="fa fa-sign-out mr-2"></i>로그아웃</span></a></li>
-                <li class="nav-item mr-3"><a class="nav-link"
-                                             href="/manager/setting"><span><i class="fa fa-address-card mr-2"></i>계정설정</span></a></li>
+                <th:block sec:authorize-expr="!isAuthenticated()">
+                    <li class="nav-item mr-3"><a class="nav-link"
+                                                 href="/manager/login"><span><i class="fa fa-sign-in mr-2"></i>로그인</span></a></li>
+                    <li class="nav-item mr-3"><a class="nav-link"
+                                                 href="/manager/register"><span><i class="fa fa-user-plus mr-2"></i>회원가입</span></a></li>
+                </th:block>
+                <th:block sec:authorize-expr="isAuthenticated()">
+                    <li class="nav-item dropdown mr-3"><a
+                            class="nav-link dropdown-toggle" href="#"
+                            role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"><span><i class="fa fa-newspaper-o mr-2"></i>정보</span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/manager/announce"><i class="fa fa-bullhorn mr-3"></i>공지사항</a>
+                        </div></li>
+                    <li class="nav-item dropdown mr-3"><a
+                            class="nav-link dropdown-toggle" href="#"
+                            role="button" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false"><span><i class="fa fa-list mr-2"></i>업체</span></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/manager/myShop"><i class="fa fa-building mr-3"></i>업체정보</a>
+                            <a class="dropdown-item" href="/manager/menus"><i class="fa fa-cutlery mr-3"></i>메뉴</a>
+                            <a class="dropdown-item" href="/manager/reviews"><i class="fa fa-commenting-o mr-3"></i>리뷰</a>
+                            <a class="dropdown-item" href="/manager/orders"><i class="fa fa-calendar mr-3"></i>예약정보</a>
+                            <a class="dropdown-item" href="/manager/close"><i class="fa fa-ban mr-3"></i>영업정지</a>
+                            <a class="dropdown-item" href="/manager/open"><i class="fa fa-clock-o mr-3"></i>영업오픈</a>
+                            <a class="dropdown-item" href="/manager/sales"><i class="fa fa-line-chart mr-3"></i>매출현황</a>
+                        </div>
+                    </li>
+                    <li class="nav-item mr-3"><a class="nav-link"
+                                                 href="/manager/logout"><span><i class="fa fa-sign-out mr-2"></i>로그아웃</span></a></li>
+                    <li class="nav-item mr-3"><a class="nav-link"
+                                                 href="/manager/setting"><span><i class="fa fa-address-card mr-2"></i>계정설정</span></a></li>
+                </th:block>
             </ul>
         </div>
     </div>
@@ -111,14 +120,22 @@
             <ul>
                 <li><a href="/manager/main"><i class="fa fa-home"></i>홈으로</a></li>
             </ul>
-            <p class="px-3 text-center text-white mb-1">닉네임</p>
-            <div class="progress ml-2 mr-2">
-                <div class="progress-bar bg-success text-dark" role="progressbar" style="width: 20%"
-                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
-                    20</div>
-            </div>
+            <th:block sec:authorize-expr="isAuthenticated()">
+                <p class="px-3 text-center text-white mb-1" sec:authentication="principal.username"></p>
+<!--                <div class="progress ml-2 mr-2">-->
+<!--                    <div class="progress-bar bg-success text-dark" role="progressbar" style="width: 20%"-->
+<!--                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">-->
+<!--                        20</div>-->
+<!--                </div>-->
+            </th:block>
             <ul class="mt-1">
-                <li><a href="/manager/logout"><i class="fa fa-sign-out"></i>로그아웃</a></li>
+                <th:block sec:authorize-expr="isAuthenticated()">
+                    <li><a href="/manager/logout"><i class="fa fa-sign-out"></i>로그아웃</a></li>
+                </th:block>
+                <th:block sec:authorize-expr="!isAuthenticated()">
+                    <li><a href="/manager/login"><i class="fa fa-sign-in"></i>로그인</a></li>
+                    <li><a href="/manager/register"><i class="fa fa-user-plus"></i>회원가입</a></li>
+                </th:block>
             </ul>
             <p class="px-3 ml-5 text-white"><i class="fa fa-newspaper-o mr-3"></i>정보</p>
             <ul>
@@ -181,7 +198,7 @@
             </div>
             <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
                 <h4 class="footer_heading pt-5 text-center">
-                    <button class="badge badge-dark border-0" id="feedback">문의/피드백</button>
+                    <a class="badge badge-dark" href="/alliance">문의/피드백</a>
                 </h4>
             </div>
         </div>

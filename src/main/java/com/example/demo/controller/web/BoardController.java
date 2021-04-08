@@ -53,10 +53,11 @@ public class BoardController {
 
     @GetMapping(value = "/list")
     public String boardList(@ModelAttribute("BoardVO") BoardVO boardVO, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
+        String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
         List<BoardVO> boardList = boardService.getBoardList(boardVO);
         model.addAttribute("result", boardList);
         model.addAttribute("board", boardVO);
-
+        model.addAttribute("kind", str);
         return "user/board";
     }
 

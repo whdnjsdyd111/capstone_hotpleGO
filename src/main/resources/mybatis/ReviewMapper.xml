@@ -8,6 +8,18 @@
         SELECT * FROM review WHERE riCode IN (SELECT riCode FROM res_info WHERE htId = #{htId})
     </select>
 
+    <select id="getRatings" resultType="Integer">
+        SELECT rvRating FROM review WHERE riCode IN
+        (SELECT riCode FROM res_info WHERE htId =
+        (SELECT htId FROM hotple WHERE uCode = #{uCode})
+        )
+    </select>
+
+
+    <select id="getListByManager" resultType="ReviewVO">
+        SELECT * FROM review WHERE riCode IN (SELECT riCode FROM res_info WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}))
+    </select>
+
     <select id="getListByUser" resultType="ReviewVO">
         SELECT * FROM review WHERE uCode = #{uCode}
     </select>

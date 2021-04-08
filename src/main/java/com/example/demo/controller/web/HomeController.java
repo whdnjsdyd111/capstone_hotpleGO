@@ -41,9 +41,9 @@ public class HomeController {
     }
 
     @GetMapping("/setting")
-    public String setting(Model model) {
-        // TODO
-        model.addAttribute("user", user.get("whdnjsdyd1112@gmail.com/U/GO"));
+    public String setting(Model model, @AuthenticationPrincipal CustomUser users) {
+
+        model.addAttribute("user", user.get(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/"));
         return "user/userSetting";
     }
 
@@ -66,19 +66,20 @@ public class HomeController {
     public String myCourse(@RequestParam(value = "kind", defaultValue = "usingCourse") String kind, Model model,
                            @AuthenticationPrincipal CustomUser users) {
         // TODO 오어스 계정에 대한 코딩
-//        if (taste.getTasteList(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/").size() == 0) return "redirect:/taste?required";
+        String uCode = users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/";
+        if (taste.getTasteList(uCode).size() == 0) return "redirect:/taste?required";
         model.addAttribute("kind", kind);
         if (kind.equals("usingCourse")) {
-            model.addAttribute("usingCourse", course.getUsingCourse("whdnjsdyd111@naver.com/A/"));
-            model.addAttribute("usingCourseInfos", course.getUsingCourseInfo("whdnjsdyd111@naver.com/A/"));
+            model.addAttribute("usingCourse", course.getUsingCourse(uCode));
+            model.addAttribute("usingCourseInfos", course.getUsingCourseInfo(uCode));
             return "user/usingCourse";
         } else if (kind.equals("myCourse")) {
-            model.addAttribute("courses", course.getMakingCourse("whdnjsdyd111@naver.com/A/"));
-            model.addAttribute("courseInfos", course.getMakingCourseInfo("whdnjsdyd111@naver.com/A/"));
+            model.addAttribute("courses", course.getMakingCourse(uCode));
+            model.addAttribute("courseInfos", course.getMakingCourseInfo(uCode));
             return "user/myCourse";
         } else if (kind.equals("usedCourse")) {
-            model.addAttribute("courses", course.getHistoryCourse("whdnjsdyd111@naver.com/A/"));
-            model.addAttribute("courseInfos", course.getHistoryCourseInfo("whdnjsdyd111@naver.com/A/"));
+            model.addAttribute("courses", course.getHistoryCourse(uCode));
+            model.addAttribute("courseInfos", course.getHistoryCourseInfo(uCode));
             return "user/courseHistory";
         } else {
             return "redirect:/myCourse";
@@ -128,9 +129,11 @@ public class HomeController {
     }
 
     @GetMapping("/reservation")
-    public String reservation(Model model) {
+    public String reservation(Model model, @AuthenticationPrincipal CustomUser users) {
         // TODO
+
         Map<String, List<ReservationAllVO>> map = reservation.getList("whdnjsdyd111@naver.com/A/");
+        log.info(map);
         model.addAttribute("hotples", reservation.getHotples("whdnjsdyd111@naver.com/A/"));
         model.addAttribute("reviews", review.getListByUser("whdnjsdyd111@naver.com/A/"));
         model.addAttribute("reservations", map);

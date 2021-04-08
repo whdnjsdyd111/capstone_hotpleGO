@@ -245,9 +245,10 @@ public class ManagerRestController {
 
     @PostMapping("/save-weekday")
     public ResponseEntity<String> saveWeekday(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
         String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
         String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
-        if (openInfo.mergeOpen(wo, 5, OpenInfoService.WEEKDAY) && openInfo.mergeBreak(wb, 5, OpenInfoService.WEEKDAY)) {
+        if (openInfo.mergeOpen(wo, uCode, OpenInfoService.WEEKDAY) && openInfo.mergeBreak(wb, uCode, OpenInfoService.WEEKDAY)) {
             return new ResponseEntity<>("저장 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
@@ -256,9 +257,10 @@ public class ManagerRestController {
 
     @PostMapping("/save-weekend-sat")
     public ResponseEntity<String> saveWeekendSat(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
         String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
         String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
-        if (openInfo.mergeOpen(wo, 5, OpenInfoService.SATURDAY) && openInfo.mergeBreak(wb, 5, OpenInfoService.SATURDAY)) {
+        if (openInfo.mergeOpen(wo, uCode, OpenInfoService.SATURDAY) && openInfo.mergeBreak(wb, uCode, OpenInfoService.SATURDAY)) {
             return new ResponseEntity<>("저장 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
@@ -267,9 +269,10 @@ public class ManagerRestController {
 
     @PostMapping("/save-weekend-sun")
     public ResponseEntity<String> saveWeekendSun(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
         String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
         String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
-        if (openInfo.mergeOpen(wo, 5, OpenInfoService.SUNDAY) && openInfo.mergeBreak(wb, 5, OpenInfoService.SUNDAY)) {
+        if (openInfo.mergeOpen(wo, uCode, OpenInfoService.SUNDAY) && openInfo.mergeBreak(wb, uCode, OpenInfoService.SUNDAY)) {
             return new ResponseEntity<>("저장 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);

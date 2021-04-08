@@ -3,39 +3,52 @@
 <th:block th:fragment="course">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
         <ul class="navbar-nav mr-auto">
-            <th:block th:if="${kind == 'usingCourse'}">
-                <li class="nav-item active border-bottom">
-                    <a class="nav-link" href="/myCourse?kind=usingCourse">이용 중</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/myCourse?kind=myCourse">코스 짜기</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/myCourse?kind=usedCourse">이용 내역</a>
-                </li>
-            </th:block>
-            <th:block th:if="${kind == 'myCourse'}">
-                <li class="nav-item">
-                    <a class="nav-link" href="/myCourse?kind=usingCourse">이용 중</a>
-                </li>
-                <li class="nav-item active border-bottom">
-                    <a class="nav-link" href="/myCourse?kind=myCourse">코스 짜기</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/myCourse?kind=usedCourse">이용 내역</a>
-                </li>
-            </th:block>
-            <th:block th:if="${kind == 'usedCourse'}">
-                <li class="nav-item">
-                    <a class="nav-link" href="/myCourse?kind=usingCourse">이용 중</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/myCourse?kind=myCourse">코스 짜기</a>
-                </li>
-                <li class="nav-item active border-bottom">
-                    <a class="nav-link" href="/myCourse?kind=usedCourse">이용 내역</a>
-                </li>
-            </th:block>
+            <div th:switch="${kind}">
+                <th:block th:case="usingCourse">
+                    <li class="nav-item active border-bottom">
+                        <a class="nav-link" href="/myCourse?kind=usingCourse">이용 중</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=myCourse">코스 짜기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=usedCourse">이용 내역</a>
+                    </li>
+                </th:block>
+                <th:block th:case="myCourse">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=usingCourse">이용 중</a>
+                    </li>
+                    <li class="nav-item active border-bottom">
+                        <a class="nav-link" href="/myCourse?kind=myCourse">코스 짜기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=usedCourse">이용 내역</a>
+                    </li>
+                </th:block>
+                <th:block th:case="usedCourse">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=usingCourse">이용 중</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=myCourse">코스 짜기</a>
+                    </li>
+                    <li class="nav-item active border-bottom">
+                        <a class="nav-link" href="/myCourse?kind=usedCourse">이용 내역</a>
+                    </li>
+                </th:block>
+                <th:block th:case="*">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=usingCourse">이용 중</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=myCourse">코스 짜기</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myCourse?kind=usedCourse">이용 내역</a>
+                    </li>
+                </th:block>
+            </div>
         </ul>
     </nav>
 </th:block>

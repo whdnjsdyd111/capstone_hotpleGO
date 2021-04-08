@@ -17,6 +17,6 @@ public class ReservationTests {
 
     @Test
     public void reservations() {
-        log.info(mapper.getReservation(5L));
+//        log.info(mapper.getReservation(5L));
     }
 }

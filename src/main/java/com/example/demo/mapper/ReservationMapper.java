@@ -3,6 +3,7 @@ package com.example.demo.mapper;
 import com.example.demo.domain.ReservationAllVO;
 import com.example.demo.domain.ReservationHotpleVO;
 import com.example.demo.domain.ReservationInformationVO;
+import com.example.demo.domain.SaleVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,17 +14,19 @@ public interface ReservationMapper {
 
     public List<ReservationInformationVO> getHistoryList(String htId);
 
-    public List<ReservationAllVO> getReservation(Long htId);
+    public List<ReservationAllVO> getReservationByManager(String uCode);
 
     public List<ReservationAllVO> getReservationByUser(String uCode);
 
     public List<ReservationHotpleVO> getReservationHotple(String uCode);
 
-    public List<ReservationAllVO> getSales(Long htId);
+    public List<ReservationAllVO> getSales(String uCode);
 
-    public List<ReservationInformationVO> getCurFive(Long htId);
+    public List<ReservationInformationVO> getCurFive(String uCode);
 
-    public List<ReservationAllVO> getCurListAll(Long htId);
+    public List<ReservationAllVO> getCurListAll(String uCode);
 
     public int updateNoShow(String code, String str);
+
+    public List<SaleVO> getSale(String uCode);
 }

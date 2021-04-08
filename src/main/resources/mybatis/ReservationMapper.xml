@@ -16,8 +16,8 @@
         ]]>
     </select>
 
-    <select id="getReservation" resultType="ReservationAllVO">
-        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE htId = #{htId}
+    <select id="getReservationByManager" resultType="ReservationAllVO">
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
     </select>
 
     <select id="getReservationByUser" resultType="ReservationAllVO">
@@ -31,21 +31,36 @@
 
     <select id="getCurListAll" resultType="ReservationAllVO">
         <![CDATA[
-        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE htId = #{htId} AND riTime >= SYSTIMESTAMP ORDER BY riTime
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE htId =
+        (SELECT htId FROM hotple WHERE uCode = #{uCode}) AND riTime >= SYSTIMESTAMP ORDER BY riTime
         ]]>
     </select>
 
     <select id="getCurFive" resultType="ReservationInformationVO">
         <![CDATA[
-        SELECT * FROM res_info NATURAL JOIN users WHERE htId = #{htId} AND riTime >= SYSTIMESTAMP AND ROWNUM <= 5
+        SELECT * FROM res_info NATURAL JOIN users WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
+        AND riTime >= SYSTIMESTAMP AND ROWNUM <= 5
         ORDER BY riTime
         ]]>
     </select>
 
     <select id="getSales" resultType="ReservationAllVO">
         <![CDATA[
-        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE res_info.htId = #{htId}
+        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE res_info.htId =
+        (SELECT htId FROM hotple WHERE uCode = #{uCode})
         AND riTime <= SYSTIMESTAMP AND riNoShow = 'N'
         ]]>
+    </select>
+
+    <select id="getDateSale" resultType="SaleVO">
+        SELECT DATES, SUM(A) SUM
+        FROM (
+            SELECT SUBSTR(riCode, 0, 6) DATES, SUM(rsMeNum * mePrice) A
+            FROM res_info NATURAL JOIN res_status NATURAL JOIN menu
+            WHERE htId = (
+                SELECT htId FROM hotple WHERE uCode = #{uCode}
+            ) AND riNoShow = 'N'
+            GROUP BY riCode)
+        GROUP BY DATES
     </select>
 </mapper>

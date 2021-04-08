@@ -25,6 +25,12 @@
         WHERE SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1) = #{htId}
     </select>
 
+    <select id="selectListByUser" resultType="MenuVO">
+        SELECT meCode, meName, mePrice, meIntr, meHashTag, meCate, i.uuid AS uuid, uploadPath, fileName
+        FROM menu m FULL OUTER JOIN image_attach i ON m.uuid = i.uuid
+        WHERE SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1) = (SELECT htId FROM hotple WHERE uCode = #{uCode})
+    </select>
+
     <delete id="delete">
         DELETE FROM
         <if test="uuid">

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.ReservationAllVO;
 import com.example.demo.domain.ReservationHotpleVO;
 import com.example.demo.domain.ReservationInformationVO;
+import com.example.demo.domain.SaleVO;
 import com.example.demo.mapper.ReservationMapper;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -21,8 +22,8 @@ public class ReservationService {
     @Setter(onMethod_ = @Autowired)
     ReservationMapper mapper;
 
-    public Map<String, List<ReservationAllVO>> getList(Long htId) {
-        List<ReservationAllVO> list = mapper.getReservation(htId);
+    public Map<String, List<ReservationAllVO>> getListByManager(String uCode) {
+        List<ReservationAllVO> list = mapper.getReservationByManager(uCode);
         log.info(list);
 
         Map<String, List<ReservationAllVO>> map = new HashMap<>();
@@ -51,8 +52,8 @@ public class ReservationService {
         return mapper.getReservationHotple(uCode);
     }
 
-    public Map<String, List<ReservationAllVO>> getAllCurFive(Long htId) {
-        List<ReservationAllVO> list = mapper.getCurListAll(htId);
+    public Map<String, List<ReservationAllVO>> getAllCurFive(String uCode) {
+        List<ReservationAllVO> list = mapper.getCurListAll(uCode);
         Map<String, List<ReservationAllVO>> map = new HashMap<>();
         list.forEach(l -> {
             map.computeIfAbsent(l.getRiCode(),
@@ -64,8 +65,8 @@ public class ReservationService {
         return map;
     }
 
-    public Map<String, List<ReservationAllVO>> getSales(Long htId) {
-        List<ReservationAllVO> list = mapper.getSales(htId);
+    public Map<String, List<ReservationAllVO>> getSales(String uCode) {
+        List<ReservationAllVO> list = mapper.getSales(uCode);
         log.info(list);
 
         Map<String, List<ReservationAllVO>> map = new HashMap<>();
@@ -79,7 +80,11 @@ public class ReservationService {
         return map;
     }
 
-    public List<ReservationInformationVO> getCurFive(Long htId) {
-        return mapper.getCurFive(htId);
+    public List<ReservationInformationVO> getCurFive(String uCode) {
+        return mapper.getCurFive(uCode);
+    }
+
+    public List<SaleVO> getSale(String uCode) {
+        return mapper.getSale(uCode);
     }
 }

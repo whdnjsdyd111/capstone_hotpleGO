@@ -53,7 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Order(1)
     public static class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
         private final CustomAccessDeniedHandler customAccessDeniedHandler;
-        private final PersistentTokenRepository repository;
         private final UserDetailsService userDetailsService;
         private final PasswordEncoder passwordEncoder;
 
@@ -97,11 +96,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/manager/**").authorizeRequests()
                     .antMatchers("/manager/register").permitAll()
+                    .antMatchers("/manager/").permitAll()
+                    .antMatchers("/manager/announce").permitAll()
                     .antMatchers("/manager/login").permitAll()
                     .antMatchers("/manager/main").permitAll()
-                    .antMatchers("/manager/**").permitAll();
+                    .antMatchers("/manager/**").access("hasAuthority('M')");
 
-            http.formLogin().loginPage("/manager/login").loginProcessingUrl("/manager/login");
+            http.formLogin().loginPage("/manager/login").loginProcessingUrl("/manager/login")
+                    .successHandler((req, res, auth) -> {
+                        res.sendRedirect("/manager/main");
+                    });
 
             http.logout().logoutUrl("/manager/logout").clearAuthentication(true).invalidateHttpSession(true)
                     .deleteCookies("remember-me", "JSESSION_ID")
@@ -128,8 +132,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-//            http.authorizeRequests()
-//                    .antMatchers("/alliance").access("hasAuthority('B')");
+            http.authorizeRequests()
+                    .antMatchers("/setting").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/bmti").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/taste").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/myCourse").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/board/write").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/board/update").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/reservation").access("hasAnyAuthority('U', 'A', 'M')");
 
             http.csrf().ignoringAntMatchers("/popup/jusoPopup")
                     .ignoringAntMatchers("/board/rest/upload");

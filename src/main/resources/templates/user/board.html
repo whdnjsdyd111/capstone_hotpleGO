@@ -42,14 +42,8 @@
                         <span style="float:left;" class="mr-2"><img src="" class="img-thumbnail"
                                                                     style="height: 100px; width:100px;"></span>
                         <div class="col" style="display:inline;">
-                            <span><button onclick="location.href='#'"
-                                          class="bg-primary border border-dark rounded text-dark px-1"
-                                          style="height:23px; width:58px;" href="">게시판</button></span>
-                        </div>
-
-                        <div class="col" style="display:inline;">
                             <span><button class="bg-info border border-dark rounded text-dark px-1"
-                                          style="height:23px; width:58px;" href="">핫플</button></span>
+                                          style="height:23px; width:58px;" href="" th:text="${kind}">핫플</button></span>
                             <span class="text-dark col-12"
                                style="display: block; margin-left:-60px; margin-top:15px; text-decoration: none;" th:text="${vo.bdTitle}"></span>
                         </div>

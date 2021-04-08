@@ -8,17 +8,19 @@ import java.util.List;
 
 @Mapper
 public interface OpenInfoMapper {
-    public int updateWeekdayOpen(@Param("wo") String wo, @Param("htId") long htId);
+    public int updateWeekdayOpen(@Param("wo") String wo, @Param("uCode") String uCode);
 
-    public int updateWeekdayBreak(@Param("wb") String wb, @Param("htId") long htId);
+    public int updateWeekdayBreak(@Param("wb") String wb, @Param("uCode") String uCode);
 
-    public int updateSaturdayOpen(@Param("wo") String wo, @Param("htId") long htId);
+    public int updateSaturdayOpen(@Param("wo") String wo, @Param("uCode") String uCode);
 
-    public int updateSaturdayBreak(@Param("wb") String wb, @Param("htId") long htId);
+    public int updateSaturdayBreak(@Param("wb") String wb, @Param("uCode") String uCode);
 
-    public int updateSundayOpen(@Param("wo") String wo, @Param("htId") long htId);
+    public int updateSundayOpen(@Param("wo") String wo, @Param("uCode") String uCode);
 
-    public int updateSundayBreak(@Param("wb") String wb, @Param("htId") long htId);
+    public int updateSundayBreak(@Param("wb") String wb, @Param("uCode") String uCode);
 
     public List<OpenInfoVO> select(long htId);
+
+    public List<OpenInfoVO> selectByManager(String uCode);
 }

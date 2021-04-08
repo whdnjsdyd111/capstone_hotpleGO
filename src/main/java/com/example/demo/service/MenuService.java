@@ -22,6 +22,10 @@ public class MenuService {
         return mapper.selectList(htId);
     }
 
+    public List<MenuVO> getListByUser(String uCode) {
+        return mapper.selectListByUser(uCode);
+    }
+
     public boolean remove(String code, boolean uuid) {
         return mapper.delete(code, uuid) == 1;
     }

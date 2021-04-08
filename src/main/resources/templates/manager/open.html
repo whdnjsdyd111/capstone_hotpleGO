@@ -19,15 +19,19 @@
         <div class="form-container">
             <label for="weekday-start-time" class="visually-hidden">영업 시간</label>
             <div>
-                <input type="text" id="weekday-start-time" class="form-control datetimepicker" required>
+                <input type="text" id="weekday-start-time" class="form-control datetimepicker" required
+                    th:value="${opens.get('W/O') != null ? #hotpleAPI.toTime(opens.get('W/O')[0]) : ''}">
                 ~
-                <input type="text" id="weekday-end-time" class="form-control datetimepicker" required>
+                <input type="text" id="weekday-end-time" class="form-control datetimepicker" required
+                       th:value="${opens.get('W/O') != null ? #hotpleAPI.toTime(opens.get('W/O')[1]) : ''}">
             </div>
             <label for="weekday-break-start-time" >휴식 시간</label>
             <div>
-                <input type="text" id="weekday-break-start-time" class="form-control datetimepicker" required>
+                <input type="text" id="weekday-break-start-time" class="form-control datetimepicker"
+                       th:value="${opens.get('W/B') != null ? #hotpleAPI.toTime(opens.get('W/B')[0]) : ''}">
                 ~
-                <input type="text" id="weekday-break-end-time" class="form-control datetimepicker" required>
+                <input type="text" id="weekday-break-end-time" class="form-control datetimepicker"
+                       th:value="${opens.get('W/B') != null ? #hotpleAPI.toTime(opens.get('W/B')[1]) : ''}">
             </div>
         </div>
         <button type="button" class="btn btn-primary float-right" id="submit-weekday" >저장</button>
@@ -46,15 +50,19 @@
             <h2 class="text-center">토요일</h2>
             <label for="weekday-start-time">영업 시간</label>
             <div>
-                <input type="text" id="weekend-sat-start-time" class="form-control datetimepicker">
+                <input type="text" id="weekend-sat-start-time" class="form-control datetimepicker"
+                       th:value="${opens.get('T/O') != null ? #hotpleAPI.toTime(opens.get('T/O')[0]) : ''}">
                 ~
-                <input type="text" id="weekend-sat-end-time" class="form-control datetimepicker">
+                <input type="text" id="weekend-sat-end-time" class="form-control datetimepicker"
+                       th:value="${opens.get('T/O') != null ? #hotpleAPI.toTime(opens.get('T/O')[1]) : ''}">
             </div>
             <label for="weekday-break-start-time">휴식 시간</label>
             <div>
-                <input type="text" id="weekend-sat-break-start-time" class="form-control datetimepicker">
+                <input type="text" id="weekend-sat-break-start-time" class="form-control datetimepicker"
+                       th:value="${opens.get('T/B') != null ? #hotpleAPI.toTime(opens.get('T/B')[0]) : ''}">
                 ~
-                <input type="text" id="weekend-sat-break-end-time" class="form-control datetimepicker">
+                <input type="text" id="weekend-sat-break-end-time" class="form-control datetimepicker"
+                       th:value="${opens.get('T/B') != null ? #hotpleAPI.toTime(opens.get('T/B')[1]) : ''}">
             </div>
 <!--            <div class="custom-control custom-switch">-->
 <!--                <input type="checkbox" class="custom-control-input" id="week-sat-no">-->
@@ -66,15 +74,19 @@
             <h2 class="text-center">일요일</h2>
             <label for="weekday-start-time">영업 시간</label>
             <div>
-                <input type="text" id="weekend-sun-start-time" class="form-control datetimepicker">
+                <input type="text" id="weekend-sun-start-time" class="form-control datetimepicker"
+                       th:value="${opens.get('S/O') != null ? #hotpleAPI.toTime(opens.get('S/O')[0]) : ''}">
                 ~
-                <input type="text" id="weekend-sun-end-time" class="form-control datetimepicker">
+                <input type="text" id="weekend-sun-end-time" class="form-control datetimepicker"
+                       th:value="${opens.get('S/O') != null ? #hotpleAPI.toTime(opens.get('S/O')[1]) : ''}">
             </div>
             <label for="weekday-break-start-time">휴식 시간</label>
             <div>
-                <input type="text" id="weekend-sun-break-start-time" class="form-control datetimepicker">
+                <input type="text" id="weekend-sun-break-start-time" class="form-control datetimepicker"
+                       th:value="${opens.get('S/B') != null ? #hotpleAPI.toTime(opens.get('S/B')[0]) : ''}">
                 ~
-                <input type="text" id="weekend-sun-break-end-time" class="form-control datetimepicker">
+                <input type="text" id="weekend-sun-break-end-time" class="form-control datetimepicker"
+                       th:value="${opens.get('S/B') != null ? #hotpleAPI.toTime(opens.get('S/B')[1]) : ''}">
             </div>
         </div>
         <button type="button" class="btn btn-primary float-right" id="submit-weekend-sun" >저장</button>
