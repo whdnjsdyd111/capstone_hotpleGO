@@ -35,6 +35,10 @@
     padding-left: 3.5em;
 }
 /* rd-header__rst-name */
+.rd-header__rst-map{
+    display: flex;
+    align-content: center;
+}
 .rd-header__rst-name {
     margin: 8px 6px;
     color: #13131e;
@@ -80,11 +84,14 @@
 /* rd-header__info-wrapper */
 .rd-header__info-wrapper {
     width: 78%;
+    margin: 0 auto;
+    justify-content: space-between;
 }
 /* rd-header__info-table */
 .rd-header__info-table {
     display: table;
     margin: 0 0 8px;
+    width:60%;
 }
 .rd-header__info-table > dl {
     display: table-row;
@@ -315,7 +322,7 @@
     float: right;
 }
 .d-flex{
-    justify-content: space-between;
+    justify-content: space-between!important;
 
 }
 .flex-center{
