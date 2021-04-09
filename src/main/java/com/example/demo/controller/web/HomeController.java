@@ -112,6 +112,7 @@ public class HomeController {
         model.addAttribute("min", list.stream().mapToLong(MenuVO::getMePrice).min().orElse(0));
         model.addAttribute("avg", list.stream().mapToLong(MenuVO::getMePrice).average().orElse(0));
         model.addAttribute("reviews", review.getList(hotple.getHtId()));
+        model.addAttribute("ratings", review.getRatingsHotple(Long.parseLong(htId)));
         model.addAttribute("openInfos", openInfo.getList(hotple.getHtId()));
         return "user/shopDetail";
     }
@@ -138,5 +139,10 @@ public class HomeController {
         model.addAttribute("reviews", review.getListByUser("whdnjsdyd111@naver.com/A/"));
         model.addAttribute("reservations", map);
         return "user/reservation";
+    }
+
+    @GetMapping("/aiCourse")
+    public String aiCourse() {
+        return "user/makeCourse";
     }
 }

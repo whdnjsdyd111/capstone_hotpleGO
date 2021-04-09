@@ -199,22 +199,21 @@
                         <div class="inner">
                             <div class="restaurant-star-point">
                                 <!-- 전체 평균 -->
-                                <strong>
-                                    4.5
+                                <strong th:text="${#hotpleAPI.avg(ratings)}">
                                 </strong>
-                                <span class="star-point">
-                        <span class="full ">★</span>
-                        <span class="empty ">★</span>
-                    </span>
+                                <span class="star-rating-yel">
+                                    <span th:style="'width:' + ${#hotpleAPI.avg(ratings) * 20} + '%'" class="float-left"></span>
+                                </span>
                             </div>
                             <ul class="star-point-list">
                                 <!--5번 반복해서 각 점수별 몇명인지 표시 -->
-                                <li>
-                                    <span class="category-tit">?점</span>
+                                <li th:each="num : ${#hotpleAPI.getMaps(ratings)}">
                                     <span class="star-point">
-                            <span class="full">★</span>
-                            <span class="points">사람수</span>
-                        </span>
+                                        <th:block th:each="n : ${#numbers.sequence(1, num.key)}">
+                                            <span class="full">★</span>
+                                        </th:block>
+                                        <span class="points" th:text="|*{num.value}명|">사람수</span>
+                                    </span>
                                 </li>
                             </ul>
                         </div>

@@ -42,4 +42,10 @@
         SELECT * FROM course_info NATURAL JOIN hotple FULL OUTER JOIN image_attach ON (hotple.htImg = image_attach.uuid)
         WHERE csCode = #{csCode} ORDER BY cscode DESC, ciIndex
     </select>
+
+    <insert id="insert">
+        INSERT INTO course (csCode, csWith, csNum)
+        VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cs.NEXTVAL, 2, '0') || '/N',
+        #{csWith}, #{csNum})
+    </insert>
 </mapper>

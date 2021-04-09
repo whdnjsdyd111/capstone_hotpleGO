@@ -45,6 +45,9 @@ public class ImageAttachVO {
         // IE has file path
         uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
 
+        // 띄어쓰기 제거
+        uploadFileName = uploadFileName.replaceAll(" ", "");
+
         log.info("only file name: " + uploadFileName);
         this.fileName = uploadFileName;
 

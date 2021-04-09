@@ -102,6 +102,7 @@
             }
         }
     </style>
+    <script src="/css/user/user_myCourse.js"></script>
 </th:block>
 <div layout:fragment="content">
     <div th:replace="user/courseNav :: course"></div>
@@ -156,5 +157,44 @@
             navigation: {nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',},
         });
     </script>
+    <button class="btn-warning" data-toggle="modal" data-target="#course_add">코스 추가하기</button>
+    <div class="modal" tabindex="-1" id="course_add">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">추천 받을 코스 선택</h5>
+                    <span type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </span>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-around">
+                        <button class="btn-dark">직접 커스텀</button>
+                        <button class="btn-dark" onclick="location.href = '/aiCourse'">빅데이터 <br/>추천</button>
+                        <button class="btn-dark">MBTI 유형<br/>추천</button>
+                    </div>
+                    <form>
+                        <div class="form-group">
+                            <label for="with">함께할 인원</label>
+                            <select class="custom-select" id="with">
+                                <option value="커플">커플</option>
+                                <option value="친구">친구</option>
+                                <option value="가족">가족</option>
+                                <option value="혼자">혼자</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="person">인원수</label>
+                            <input type="text" id="person" class="form-control">
+                        </div>
+                        <button type="button" id="custom_submit" class="btn-info">확인</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </html>

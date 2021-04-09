@@ -18,10 +18,10 @@
                         <span th:style="'width:' + ${#hotpleAPI.avg(ratings) * 20} + '%'" class="float-left"></span>
                     </span>
                 </div>
-                <ul class="star-point-list">
+                <ul class="star-point-list d-flex flex-column">
                     <!--5번 반복해서 각 점수별 몇명인지 표시 -->
                     <li th:each="num : ${#hotpleAPI.getMaps(ratings)}">
-                        <span class="star-point">
+                        <span class="star-point float-left">
                             <th:block th:each="n : ${#numbers.sequence(1, num.key)}">
                                 <span class="full">★</span>
                             </th:block>

@@ -35,6 +35,10 @@ public class ReviewService {
         return mapper.getRatings(uCode);
     }
 
+    public List<Integer> getRatingsHotple(Long htId) {
+        return mapper.getRatingsHotple(htId);
+    }
+
     public boolean changeRvOwnCont(ReviewVO vo) {
         return mapper.insertReply(vo) == 1;
     }

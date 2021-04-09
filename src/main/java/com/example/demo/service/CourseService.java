@@ -54,4 +54,8 @@ public class CourseService {
     public List<CourseInfoVO> getCourseInfoDetail(String csCode) {
         return mapper.getCourseInfo(csCode);
     }
+
+    public boolean register(CourseVO vo) {
+        return mapper.insert(vo) == 1;
+    }
 }

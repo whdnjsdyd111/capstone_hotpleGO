@@ -179,8 +179,6 @@ public class ManagerController {
 
     @GetMapping(value = { "/", "/main" })
     public String main(Model model, @AuthenticationPrincipal CustomUser manager) {
-        // TODO
-
         if (manager == null) {
             // 업체등록이나 회원가입 관련 공지사항,
             return "manager/mainLogout";

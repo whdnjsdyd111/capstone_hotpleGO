@@ -139,7 +139,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/myCourse").access("hasAnyAuthority('U', 'A', 'M')")
                     .antMatchers("/board/write").access("hasAnyAuthority('U', 'A', 'M')")
                     .antMatchers("/board/update").access("hasAnyAuthority('U', 'A', 'M')")
-                    .antMatchers("/reservation").access("hasAnyAuthority('U', 'A', 'M')");
+                    .antMatchers("/reservation").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/aiCourse").access("hasAnyAuthority('U', 'A', 'M')");
 
             http.csrf().ignoringAntMatchers("/popup/jusoPopup")
                     .ignoringAntMatchers("/board/rest/upload");

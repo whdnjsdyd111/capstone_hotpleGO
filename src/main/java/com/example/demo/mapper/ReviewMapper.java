@@ -17,6 +17,8 @@ public interface ReviewMapper {
 
     public List<Integer> getRatings(String uCode);
 
+    public List<Integer> getRatingsHotple(Long htId);
+
     public int insertReply(ReviewVO vo);
 
     public int insertReview(ReviewVO vo);

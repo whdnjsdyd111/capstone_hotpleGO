@@ -1,16 +1,10 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
-import com.example.demo.domain.HotpleVO;
-import com.example.demo.domain.ManagerVO;
-import com.example.demo.domain.ReviewVO;
-import com.example.demo.domain.UserVO;
+import com.example.demo.domain.*;
 import com.example.demo.domain.web.AllianceVO;
 import com.example.demo.security.CustomUser;
-import com.example.demo.service.HotpleService;
-import com.example.demo.service.ReviewService;
-import com.example.demo.service.TasteService;
-import com.example.demo.service.UserService;
+import com.example.demo.service.*;
 import com.example.demo.service.web.AllianceService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -36,6 +30,7 @@ public class HomeRestController {
     private final TasteService taste;
     private final HotpleService hotple;
     private final ReviewService review;
+    private final CourseService course;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/alliance")
@@ -118,6 +113,16 @@ public class HomeRestController {
         vo.setRiCode(HotpleAPI.strToCode(vo.getRiCode()));
         if (review.updateReview(vo)) {
             return new ResponseEntity<>("댓글 수정하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/custom-course")
+    public ResponseEntity<String> customCourse(@RequestBody CourseVO vo) {
+        if (course.register(vo)) {
+            log.info(vo.getCsCode());
+            return new ResponseEntity<>(vo.getCsCode(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
         }

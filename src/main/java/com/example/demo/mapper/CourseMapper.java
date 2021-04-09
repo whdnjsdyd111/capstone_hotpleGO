@@ -23,4 +23,6 @@ public interface CourseMapper {
     public CourseVO getCourse(String csCode);
 
     public List<CourseInfoVO> getCourseInfo(String csCode);
+
+    public int insert(CourseVO vo);
 }
