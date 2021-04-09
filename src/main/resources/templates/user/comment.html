@@ -5,9 +5,9 @@
 <link rel="stylesheet" href="/css/user/board_cmmt.css/">
 <!--    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
 <div class="my-2">
-    <div class="border border-dark write_comment_top mx-3 text-left cmmt-box" >
+    <div class="border border-dark write_comment_top mx-3 text-left cmmt-box">
         <div class="ml-3 write_comment_member cmmt-nick">닉네임</div>
-        <div class="w-80 write_comment_middle cmmt-text">
+        <div class=" write_comment_middle cmmt-text-edit">
             <div id="comCont" class="px-3" contentEditable="true"></div>
             <input type="hidden" id="bdCode"/>
             <input type="hidden" id="uCode"/>
@@ -84,7 +84,7 @@
 
             </form>-->
             <!-- 전 추천 구현 끝-->
-            <!-- 댓글 상자 시작 -->
+            <!-- 입력된 댓글 상자 시작 -->
             <div class="col mr-auto d-flex flex-column text-left border">
                 <div class="d-flex justify-content-between">
                     <div class="">
@@ -92,7 +92,7 @@
                            href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
                             <span class="mr-2"><i class="fa fa-user-circle mr-2" th:text="${comm.UCode}"></i></span>
                         </a>
-                        <span  tabindex="0" data-toggle="tooltip" th:title="${#hotpleAPI.beforeTime(comm.comCode)}">
+                        <span tabindex="0" data-toggle="tooltip" th:title="${#hotpleAPI.beforeTime(comm.comCode)}">
                       <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
                               th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
                       </button>
@@ -101,12 +101,12 @@
                     <div class="next-to-cmmt-nick">
                         <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
                         <span class="btn comment-delete">삭제</span> <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
-                        <span ><i class="btn fa fa-thumbs-o-up mx-2" ></i></span> <!-- 안에 댓글 추천 수 -->
-                        <span ><i class="btn fa fa-thumbs-o-down mx-2"></i></span> <!-- 안에 댓글 비추 수 -->
+                        <span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> <!-- 안에 댓글 추천 수 -->
+                        <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> <!-- 안에 댓글 비추 수 -->
                         <span class="btn btn-report">신고</span>
                     </div>
                 </div>
-                <!-- 입력된 댓글 상자 끝-->
+
 
                 <div class="container my-2 writen_comment">
                     <div th:utext="${comm.comCont}">댓글 내용</div>
@@ -117,9 +117,9 @@
                     <!--                    </c:if>-->
                     <!--                    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
                     <button class="write_reply btn btn-dark">답글쓰기</button>
-                    <input type="hidden" th:value="${comm.comCode}" />
+                    <input type="hidden" th:value="${comm.comCode}"/>
                     <!--                        <c:if test="${ joinMemCom.com_mem_id != mem_id }">-->
-                    <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}" />
+                    <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
                     <input type="hidden" th:value="${comm.UCode}"/>
                     <input type="hidden" style="text-align: left" name="nickname"/>
                     <!--                        </c:if>-->
@@ -131,65 +131,67 @@
                     <!--                    </c:if>-->
                 </div>
             </div>
+            <!-- 입력된 댓글 상자 끝-->
         </div>
 
-        <th:block th:each="reply : ${commentList.get(comm)}">
-            <div class="nestComments container p-3 d-flex flex-md-row ml-0">
-                <div class="border border-right-0 border-top-0 border-dark ml-5" style="width: 30px; height: 30px">
-                </div>
-                <form method="post" class="mx-3 d-flex flex-column">
-                    <input type="hidden" id="replyCode" th:value="${reply.replyCode.replaceAll('/', '')}" />
-                    <input type="hidden" id="reBdCode" th:value="${reply.bdCode}">
-                    <input type="hidden" id="reUCode" th:value="${reply.UCode}">
-                    <button type="button" class="go_login btn btn-outline-dark btn-sm"><i class="fa fa-chevron-up"></i>
-                    </button>
-                    <span class="reco_count container">추천수</span>
-                    <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">
-                    <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">
-                    <button type="button" class="go_login btn btn-outline-dark btn-sm"><i
-                            class="fa fa-chevron-down"></i>
-                    </button>
-                </form>
-                <div class="col mr-auto ml-3 d-flex flex-column">
-                    <div class="">
-                        <a class="text-dark" style="text-decoration: none;"
-                           href="mainBoard.do?kind=all&target=writer&search=${ nestComment.mem_nickname }">
-                            <span class="mr-2"><i class="fa fa-user-circle mr-2" th:text="${reply.UCode}"></i></span>
-                        </a>
-                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
-                              th:title="${#hotpleAPI.beforeTime(reply.comCode)}">
-                         <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
-                         th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
+        <!-- 리댓 상자 시작 -->
 
-                         </button>
-                      </span>
+        <th:block th:each="reply : ${commentList.get(comm)}">
+            <div class="row container p-3 comments replies" style="margin: 0 auto;">
+                <div class="col mr-auto d-flex flex-column text-left border">
+                    <div class="d-flex justify-content-between">
+                        <div class="">
+                            <a class="text-dark" style="text-decoration: none;"
+                               href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
+                                <span class="mr-2"><i class="fa fa-user-circle mr-2"
+                                                      th:text="${reply.UCode}"></i></span>
+                            </a>
+                            <span tabindex="0" data-toggle="tooltip" th:title="${#hotpleAPI.beforeTime(reply.comCode)}">
+                      <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
+                              th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
+                      </button>
+                    </span>
+                        </div>
+                        <div class="next-to-cmmt-nick">
+                            <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                            <span class="btn comment-delete">삭제</span>
+                            <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
+                            <!--<span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> &lt;!&ndash; 안에 댓글 추천 수 &ndash;&gt;
+                            <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> &lt;!&ndash; 안에 댓글 비추 수 &ndash;&gt;-->
+                            <span class="btn btn-report">신고</span>
+                        </div>
                     </div>
+
+
                     <div class="container my-2 writen_comment">
-                        <div th:utext="${reply.comCont}">답글</div>
+                        <div th:utext="${reply.comCont}">댓글 내용</div>
                     </div>
                     <div class="mt-2">
                         <!--                    <c:if test="${ empty sessionScope.YJFBID_SES }">-->
-                        <!--                        <button class="go_login btn btn-dark">답글쓰기</button>-->
-                        <button class="go_login btn btn-danger">신고</button>
+                        <!--<button class="go_login btn btn-dark">답글쓰기</button>-->
                         <!--                    </c:if>-->
                         <!--                    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
-                        <button class="write_nest_reply btn btn-dark">답글쓰기</button>
-                        <!--                        <c:if test="${ nestComment.mem_id != mem_id }">-->
-                        <!--                    <input type="hidden" value="${ nestComment.mem_id }"/>-->
-                        <!--                    <input type="hidden" value="${ nestComment.mem_nickname }" name="nickname"/>-->
+                        <!--<button class="write_reply btn btn-dark">답글쓰기</button>
+                        <input type="hidden" th:value="${reply.comCode}" />
+                        &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id != mem_id }">&ndash;&gt;
+                        <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}" />
+                        <input type="hidden" th:value="${comm.UCode}"/>
+                        <input type="hidden" style="text-align: left" name="nickname"/>-->
                         <!--                        </c:if>-->
                         <!--                    <button class="btn btn-danger report">신고</button>-->
-                        <!--                    <input type="hidden" value="${ nestComment.neCom_id }"/>-->
-                        <!--                    <input type="hidden" value="N"/>-->
-                        <!--                        <c:if test="${ nestComment.mem_id == mem_id }">-->
-                        <!--                    <button class="btn btn-warning delete_nest_com"><i class="fa fa-trash mr-2"></i>삭제</button>-->
-                        <!--                    <input type="hidden" value="${ nestComment.neCom_id }"/>-->
+                        <!--                    <input type="hidden" value="${ joinMemCom.com_id }"/>-->
+                        <!--                    <input type="hidden" value="C"/>-->
+                        <!--                    &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id == mem_id }">&ndash;&gt;-->
                         <!--                        </c:if>-->
                         <!--                    </c:if>-->
                     </div>
                 </div>
+                <!------------------------------------------------------->
+
             </div>
         </th:block>
+
+        <!-- 리댓 상자 끝 -->
     </div>
 
 

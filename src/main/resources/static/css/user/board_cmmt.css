@@ -1,12 +1,12 @@
 .cmmt-box{
-    background-color: #fefefe;
+    background-color: #f9f9f9;
     display: flex;
     padding: 10px;"
 }
 .cmmt-text .cmmt-nick{
     background-color: white;
 }
-.cmmt-text{
+.cmmt-text-edit{
     background-color: #FFFFFF;
     width:80%;
     margin: 0 auto;
@@ -16,4 +16,8 @@
 }
  .next-to-cmmt-nick>span{
     color: #d6d6d6;
+ }
+ .replies{
+     background-color: #eeeeee;
+     width:60%;
  }
