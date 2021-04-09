@@ -1,0 +1,19 @@
+.cmmt-box{
+    background-color: #fefefe;
+    display: flex;
+    padding: 10px;"
+}
+.cmmt-text .cmmt-nick{
+    background-color: white;
+}
+.cmmt-text{
+    background-color: #FFFFFF;
+    width:80%;
+    margin: 0 auto;
+}
+.next-to-cmmt-nick{
+    margin:auto 0;
+}
+ .next-to-cmmt-nick>span{
+    color: #d6d6d6;
+ }
