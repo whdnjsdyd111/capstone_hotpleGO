@@ -20,5 +20,5 @@ const requestBody = function(data, url, success_callback, error_callback) {
 }
 
 const basicErrorFunc = function(xhr, status, err) {
-    alert(xhr.responseText);
+    swal("실패하였습니다.", xhr.responseText, "error");
 }

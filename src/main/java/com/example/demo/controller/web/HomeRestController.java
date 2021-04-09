@@ -119,9 +119,9 @@ public class HomeRestController {
     }
 
     @PostMapping("/custom-course")
-    public ResponseEntity<String> customCourse(@RequestBody CourseVO vo) {
+    public ResponseEntity<String> customCourse(@RequestBody CourseVO vo, @AuthenticationPrincipal CustomUser user) {
+        vo.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
         if (course.register(vo)) {
-            log.info(vo.getCsCode());
             return new ResponseEntity<>(vo.getCsCode(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);

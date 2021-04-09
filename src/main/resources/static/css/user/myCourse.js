@@ -1,7 +1,3 @@
-const token = $("meta[name='_csrf']").attr("content");
-const header = $("meta[name='_csrf_header']").attr("content");
-$(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
-
 $(function(){
     $(document).on('click','.doing-hotple',function (){
         $('.doing-reservation').show();

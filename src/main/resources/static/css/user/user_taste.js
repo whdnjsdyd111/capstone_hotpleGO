@@ -1,7 +1,4 @@
 $(function() {
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-
     $(tastes).each(function(index, item) {
         $('input[value=' + item + ']').prop("checked", true);
     });
@@ -21,9 +18,6 @@ $(function() {
         $.ajax({
             type: "POST",
             url: "/save-taste",
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                xhr.setRequestHeader(header, token);
-            },
             data: {
                 tastes: tastes
             },

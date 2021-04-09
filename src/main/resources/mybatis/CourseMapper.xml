@@ -44,8 +44,10 @@
     </select>
 
     <insert id="insert">
+        <selectKey keyProperty="csCode" resultType="String" order="BEFORE">
+            SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cs.NEXTVAL, 2, '0') || '/N' FROM DUAL
+        </selectKey>
         INSERT INTO course (csCode, csWith, csNum)
-        VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cs.NEXTVAL, 2, '0') || '/N',
-        #{csWith}, #{csNum})
+        VALUES (#{csCode}, #{csWith}, #{csNum})
     </insert>
 </mapper>
