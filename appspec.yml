@@ -1,28 +1,15 @@
 
 version: 0.0
-
 os: windows
-
 files:
-
   - source: Server/
-
-destination: C:\\Users\\Administrator\\Desktop\\deploy
-
+destination: C:\\
 hooks:
-
 BeforeInstall:
-
 AfterInstall:
-
 ApplicationStart:
-
   - location: ./Deploy.bat
-
 timeout: 300
-
 ValidateService:
-
   - location: ./AfterService.bat
-
 timeout: 300
