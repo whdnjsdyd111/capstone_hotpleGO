@@ -120,11 +120,27 @@ public class HomeRestController {
 
     @PostMapping("/custom-course")
     public ResponseEntity<String> customCourse(@RequestBody CourseVO vo, @AuthenticationPrincipal CustomUser user) {
+        log.info(user);
         vo.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
         if (course.register(vo)) {
             return new ResponseEntity<>(vo.getCsCode(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/add-in-course")
+    public ResponseEntity<String> addInCourse(HttpServletRequest request) {
+        String csCode = request.getParameter("csCode");
+        String htId = request.getParameter("htId");
+        if (!course.alreadyAdded(csCode, htId)) {
+            if (course.addCourse(csCode, htId)) {
+                return new ResponseEntity<>("코스에 추가하였습니다!", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>("이미 코스에 추가되어 있습니다.", HttpStatus.BAD_REQUEST);
         }
     }
 }

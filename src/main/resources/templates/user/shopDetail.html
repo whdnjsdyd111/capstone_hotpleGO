@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
     <link rel="stylesheet" href="/css/user/shopDetail.css">
@@ -8,6 +9,7 @@
     <script src="/css/user/stopDetail.js"></script>
 </th:block>
 <div layout:fragment="content">
+    <input type="hidden" th:value="${hotple.htId}" id="htId">
     <div class="rd-header l-container">
         <div class="l-contents l-contents--fixed">
             <div class="rd-header__headline rd-header__headline--award-badge">
@@ -187,6 +189,9 @@
                                 <button id="reservation-btn" data-toggle="modal"  data-target="#reservation-modal" type="button" class="w-100 btn btn-primary" style="margin: 0;">예약</button>
                             </ul>
                         </div>
+                        <div sec:authorize-expr="isAuthenticated()">
+                            <button type="button" class="w-100 btn btn-warning m-0" data-toggle="modal" data-target="#course-modal">코스에 추가</button>
+                        </div>
                         <!-- 카트 끝 -->
                     </div>
                 </main>
@@ -236,10 +241,10 @@
                                 <div class="star-point">
                                     <!-- 별점 갯수 반복 -->
                                     <span class="category">
-                            <span class="star-rating">
-                                <span th:style="'width:' + ${review.rvRating * 20} + '%; margin-right: 100%;'"></span>
-                            </span>
-                        </span>
+                                        <span class="star-rating">
+                                            <span th:style="'width:' + ${review.rvRating * 20} + '%; margin-right: 100%;'"></span>
+                                        </span>
+                                    </span>
                                 </div>
                             </div>
                             <!-- 이미지 들어갈 곳 -->
@@ -329,5 +334,40 @@
             </div>
         </div>
     </div>
+
+    <!--코스 모달 -->
+    <th:block sec:authorize-expr="isAuthenticated()">
+        <script th:inline="javascript">
+            let courses = [[${courseInfos}]];
+            console.log(courses);
+        </script>
+        <div>
+            <div class="modal" id="course-modal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">내 코스</h4>
+                        </div>
+                        <div class="modal-body d-flex flex-column">
+                            <th:block th:if="${courses != null}">
+                                <h3>핫플을 추가할 코스 선택</h3>
+                                <th:block th:each="course : ${courses}">
+                                    <span class="btn btn-google course" th:text="${course.csCode}"></span>
+                                </th:block>
+                            </th:block>
+                            <th:block th:if="${courses == null}">
+                                <a href="/myCourse?kind=myCourse" class="btn btn-info mb-0">코스 추가하러 가기</a>
+                            </th:block>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal" >제출</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
 </div>
 </html>

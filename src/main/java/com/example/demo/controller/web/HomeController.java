@@ -101,7 +101,7 @@ public class HomeController {
     }
 
     @GetMapping("/hotple/{htId}")
-    public String hotple(@PathVariable("htId") String htId, Model model) {
+    public String hotple(@PathVariable("htId") String htId, Model model, @AuthenticationPrincipal CustomUser user) {
         HotpleVO hotple = this.hotple.getId(htId);
         model.addAttribute("hotple", hotple);
         List<MenuVO> list = menu.getList(htId);
@@ -114,6 +114,13 @@ public class HomeController {
         model.addAttribute("reviews", review.getList(hotple.getHtId()));
         model.addAttribute("ratings", review.getRatingsHotple(Long.parseLong(htId)));
         model.addAttribute("openInfos", openInfo.getList(hotple.getHtId()));
+
+        if (user != null) {
+            String uCode = user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/";
+            model.addAttribute("courses", course.getAllCourse(uCode));
+            model.addAttribute("courseInfos", course.getAllInfo(uCode));
+        }
+
         return "user/shopDetail";
     }
 
@@ -132,8 +139,7 @@ public class HomeController {
     @GetMapping("/reservation")
     public String reservation(Model model, @AuthenticationPrincipal CustomUser users) {
         // TODO
-
-        Map<String, List<ReservationAllVO>> map = reservation.getList("whdnjsdyd111@naver.com/A/");
+        Map<String, List<ReservationAllVO>> map = reservation.getList(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/");
         log.info(map);
         model.addAttribute("hotples", reservation.getHotples("whdnjsdyd111@naver.com/A/"));
         model.addAttribute("reviews", review.getListByUser("whdnjsdyd111@naver.com/A/"));

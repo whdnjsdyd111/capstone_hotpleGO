@@ -39,6 +39,17 @@ public class CourseService {
         return map;
     }
 
+    public List<CourseVO> getAllCourse(String uCode) {
+        return mapper.getCourseNC(uCode);
+    }
+
+    public Map<String, List<CourseInfoVO>> getAllInfo(String uCode) {
+        List<CourseInfoVO> list = mapper.getCourseInfoNC(uCode);
+        Map<String, List<CourseInfoVO>> map = new LinkedHashMap<>();
+        list.forEach(l -> map.computeIfAbsent(l.getCsCode(), k -> new ArrayList<>()).add(l));
+        return map;
+    }
+
     public CourseVO getUsingCourse(String uCode) {
         return mapper.getCourseC(uCode);
     }
@@ -57,5 +68,13 @@ public class CourseService {
 
     public boolean register(CourseVO vo) {
         return mapper.insert(vo) == 1;
+    }
+
+    public boolean addCourse(String csCode, String htId) {
+        return mapper.addCourse(csCode, htId) == 1;
+    }
+
+    public boolean alreadyAdded(String csCode, String htId) {
+        return mapper.getCsHtId(csCode, htId) != null;
     }
 }

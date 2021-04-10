@@ -73,6 +73,46 @@ $(function (){
             $('#reservation-modal').modal('hide')
         };
     });
+
+    $('.course').click(function() {
+        let csCode = $(this).text();
+        swal("해당 코스에 핫플을 추가하시겠습니까?",
+            {
+                buttons: {
+                    cancel : "아니요!",
+                    add : "네!"
+                },
+            }).then((v) => {
+            if (v === "add") {
+                requestServlet({
+                        csCode : csCode,
+                        htId : $('#htId').val()
+                    }, '/add-in-course',
+                    function(data) {
+                        swal("추가 성공!", data, "success", {
+                            buttons : {
+                                cancel : "닫기",
+                                go : "코스 보기"
+                            }
+                        }).then((v) => {
+                            console.log(v);
+                            if (v === "go") location.href = "/courseDetail/" + csCode.replaceAll('/', '');
+                            if (v === null) {
+                                let str = "";
+                                courses[csCode].forEach((i, n) => {
+                                    str += (n + 1) + " 번째 " + i.busnName + "\n---  " + i.htAddr + "  ---\n";
+                                });
+                                str += "\n현재 핫플 : " + $('.rd-header__rst-name-main').text() + "\n"
+                                swal({
+                                    title : "코스 상황",
+                                    text : str
+                                });
+                            }
+                        })
+                    }, basicErrorFunc)
+            }
+        });
+    })
 });
 function list_append(menuTitle,menuPrice){
     let div=

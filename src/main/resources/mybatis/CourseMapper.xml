@@ -34,6 +34,16 @@
         ORDER BY cscode DESC, ciIndex
     </select>
 
+    <select id="getCourseNC" resultType="CourseVO">
+        SELECT * FROM course WHERE uCode = #{uCode} AND SUBSTR(csCode, -1) IN ('C', 'N') ORDER BY csCode DESC
+    </select>
+
+    <select id="getCourseInfoNC" resultType="CourseInfoVO">
+        SELECT * FROM course_info NATURAL JOIN hotple FULL OUTER JOIN image_attach ON (hotple.htImg = image_attach.uuid)
+        WHERE csCode IN (SELECT csCode FROM course WHERE uCode = #{uCode}) AND SUBSTR(csCode, -1) IN ('C', 'N')
+        ORDER BY cscode DESC, ciIndex
+    </select>
+
     <select id="getCourse" resultType="CourseVO">
         SELECT * FROM course WHERE csCode = #{csCode}
     </select>
@@ -50,4 +60,14 @@
         INSERT INTO course (csCode, csWith, csNum)
         VALUES (#{csCode}, #{csWith}, #{csNum})
     </insert>
+
+    <insert id="addCourse">
+        INSERT INTO course_info (csCode, htId, ciIndex)
+        VALUES (#{csCode}, #{htId},
+        (SELECT MAX(ciIndex) + 1 FROM course_info WHERE csCode = #{csCode}))
+    </insert>
+
+    <select id="getCsHtId" resultType="String">
+        SELECT csCode FROM course_info WHERE csCode = #{csCode} AND htId = #{htId}
+    </select>
 </mapper>
