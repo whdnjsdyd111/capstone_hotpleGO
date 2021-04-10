@@ -2,8 +2,8 @@
 version: 0.0
 os: windows
 files:
-  - source: /
-  destination: C:\\
+  - source: \
+  destination: C:\build
 hooks:
 BeforeInstall:
 AfterInstall:
