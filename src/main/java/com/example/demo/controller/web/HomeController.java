@@ -6,8 +6,11 @@ import com.example.demo.domain.MenuVO;
 import com.example.demo.domain.ReservationAllVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
+import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 
 @Controller
@@ -41,9 +48,8 @@ public class HomeController {
     }
 
     @GetMapping("/setting")
-    public String setting(Model model, @AuthenticationPrincipal CustomUser users) {
-
-        model.addAttribute("user", user.get(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/"));
+    public String setting(Model model, @AuthenticationPrincipal CustomUser user) {
+        model.addAttribute("user", user.user);
         return "user/userSetting";
     }
 
@@ -54,19 +60,19 @@ public class HomeController {
 
     @GetMapping("/taste")
     public String taste(@RequestParam(value = "required", required = false) String required, Model model,
-                        @AuthenticationPrincipal CustomUser users) {
+                        @AuthenticationPrincipal CustomUser user) {
         if (required != null) {
             model.addAttribute("msg", "취향 선택 후 코스를 이용해 주십시오.");
         }
-        model.addAttribute("tastes", taste.getTasteList(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/"));
+        model.addAttribute("tastes", taste.getTasteList(user.user.getUCode()));
         return "user/taste";
     }
 
     @GetMapping("/myCourse")
     public String myCourse(@RequestParam(value = "kind", defaultValue = "usingCourse") String kind, Model model,
-                           @AuthenticationPrincipal CustomUser users) {
+                           @AuthenticationPrincipal CustomUser user) {
         // TODO 오어스 계정에 대한 코딩
-        String uCode = users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/";
+        String uCode = user.user.getUCode();
         if (taste.getTasteList(uCode).size() == 0) return "redirect:/taste?required";
         model.addAttribute("kind", kind);
         if (kind.equals("usingCourse")) {
@@ -116,7 +122,7 @@ public class HomeController {
         model.addAttribute("openInfos", openInfo.getList(hotple.getHtId()));
 
         if (user != null) {
-            String uCode = user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/";
+            String uCode = user.user.getUCode();
             model.addAttribute("courses", course.getAllCourse(uCode));
             model.addAttribute("courseInfos", course.getAllInfo(uCode));
         }
@@ -137,12 +143,13 @@ public class HomeController {
     }
 
     @GetMapping("/reservation")
-    public String reservation(Model model, @AuthenticationPrincipal CustomUser users) {
+    public String reservation(Model model, @AuthenticationPrincipal CustomUser user) {
         // TODO
-        Map<String, List<ReservationAllVO>> map = reservation.getList(users.getUsername() + "/" + users.getAuthorities().toArray()[0] + "/");
+        String uCode = user.user.getUCode();
+        Map<String, List<ReservationAllVO>> map = reservation.getList(uCode);
         log.info(map);
-        model.addAttribute("hotples", reservation.getHotples("whdnjsdyd111@naver.com/A/"));
-        model.addAttribute("reviews", review.getListByUser("whdnjsdyd111@naver.com/A/"));
+        model.addAttribute("hotples", reservation.getHotples(uCode));
+        model.addAttribute("reviews", review.getListByUser(uCode));
         model.addAttribute("reservations", map);
         return "user/reservation";
     }
@@ -150,5 +157,12 @@ public class HomeController {
     @GetMapping("/aiCourse")
     public String aiCourse() {
         return "user/makeCourse";
+    }
+
+    @GetMapping("/payments")
+    public String pay(Model model, @AuthenticationPrincipal CustomUser user) {
+        model.addAttribute("email", user.user.getUCode().split("/")[0]);
+        model.addAttribute("phone", user.user.getPhone());
+        return "user/payment";
     }
 }

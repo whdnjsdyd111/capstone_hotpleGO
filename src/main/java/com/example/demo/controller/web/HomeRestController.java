@@ -9,16 +9,30 @@ import com.example.demo.service.web.AllianceService;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/*")
@@ -31,6 +45,7 @@ public class HomeRestController {
     private final HotpleService hotple;
     private final ReviewService review;
     private final CourseService course;
+    private final ReservationService reservation;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/alliance")
@@ -142,5 +157,145 @@ public class HomeRestController {
         } else {
             return new ResponseEntity<>("이미 코스에 추가되어 있습니다.", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/reservation-complete")
+    @ResponseBody
+    @Transactional
+    public ResponseEntity<String> resComplete(@RequestParam("meCode[]") List<String> meCode,
+                                              @RequestParam("rsMeNum[]") List<Integer> rsMeNum, @RequestParam("riTime") String riTime,
+                                              @RequestParam("riPerson") short riPerson, @RequestParam("riOdNum") String riOdNum,
+                                              @RequestParam("riCont") String riCont, @AuthenticationPrincipal CustomUser user) {
+        ReservationInfoVO ri = ReservationInfoVO.builder().riPerson(riPerson)
+                .riOdNum(riOdNum).riCont(riCont).uCode(user.user.getUCode())
+                .riTime(Timestamp.valueOf(riTime)).htId(Long.parseLong(meCode.get(0).split("/")[0])).build();
+        log.info(ri);
+        if (reservation.registerRes(ri)) {
+            log.info(ri);
+            List<ReservationStatusVO> list = new ArrayList<>();
+            for (int i = 0; i < meCode.size(); i++) {
+                list.add(ReservationStatusVO.builder().riCode(ri.getRiCode()).meCode(meCode.get(i))
+                        .rsMeNum(rsMeNum.get(i)).uCode(user.user.getUCode()).build());
+            }
+            if (reservation.registerResStatus(list)) {
+                return new ResponseEntity<>("예약을 완료하였습니다.", HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("예약에 실패하였습니다. 환불이 진행됩니다.", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/refund")
+    @Transactional(rollbackFor = { Exception.class })
+    public ResponseEntity<String> refund(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) throws Exception {
+
+        ReservationInfoVO ri = reservation.getByCode(request.getParameter("riCode"));
+        if (!ri.getUCode().equals(user.user.getUCode())) return new ResponseEntity<>("본인의 예약이 아닙니다.", HttpStatus.BAD_REQUEST);
+
+        HttpURLConnection conn = null;
+        String access_token = null; // 발급받을 엑세스 토큰
+        URL url = new URL("https://api.iamport.kr/users/getToken"); // 액세스 토큰 받을 주소 입력
+
+        conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");  // post 방식으로 요청
+
+        // 헤더 설정
+        conn.setRequestProperty("Content-Type", "application/json");    // 서버에서 받을 Data 방식 설정
+        conn.setRequestProperty("Accept", "application/json");
+
+        conn.setDoOutput(true); // OutputStream 으로 POST 데이터를 넘겨주겠다는 설정
+
+        // 키 설정
+        JSONObject obj = new JSONObject();
+        obj.put("imp_key", "3158229450476427"); // 고유 키
+        obj.put("imp_secret", "0ZhM3lMpwifNyac3fGOR92EXeV26EAyEAPrDbd3Hwiu4tH8JnWAwZetdawjP7RtHHVlS9oAFH4KaLTT9");  // 시크릿 키
+
+        // JSON 화한 키 값들 전달하기
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+        bw.write(obj.toString());
+        bw.flush();
+        bw.close();
+
+        int responseCode = conn.getResponseCode();
+        log.info("응답 코드 : " + responseCode);
+
+        if (responseCode == 200) {  // 성공
+            log.info("토큰 얻기 성공");
+            // 버퍼 리더로 반환 값 얻기
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            // 차례로 읽기
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            br.close();
+            log.info("" + sb.toString());
+
+            // 반환 받은 JSON String 파싱
+            JSONParser parser = new JSONParser();
+            Map<String, Object> map = (Map<String, Object>) parser.parse(sb.toString());
+            Map<String, String> response_map = (Map<String, String>) parser.parse(map.get("response").toString());
+            access_token = response_map.get("access_token").toString();
+        } else {
+            log.info(conn.getResponseMessage());
+            return new ResponseEntity<>("아임 포트 API 에 문제가 생겼습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        log.info("access_token : " + access_token);
+
+        // 환불 요청 페이지로 변경
+        conn = null;
+        url = new URL("https://api.iamport.kr/payments/cancel");
+        conn = (HttpURLConnection) url.openConnection();
+
+        conn.setRequestMethod("POST");  // post 설정
+
+        // 헤더 설정
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setRequestProperty("Accept", "application/json");
+        conn.setRequestProperty("Authorization", access_token); // 앞서 받은 엑세스 토큰 설정
+
+        conn.setDoOutput(true); // OutputStream 으로 POST 데이터를 넘겨주겠다는 설정
+
+        // JSON 설정
+        obj = new JSONObject();
+        obj.put("merchant_uid", ri.getRiOdNum()); // 내 디비의 merchant_uid 얻기
+        obj.put("amount", reservation.getTotalFee(ri.getRiCode())); // 내 디비의 총 메뉴 가격
+        obj.put("reason", "취소 테스트");
+
+        if (!reservation.removeRes(ri.getRiCode())) {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST); // 먼저 디비부터 삭제
+        }
+
+        // 요청 보내기
+        bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+        bw.write(obj.toString());
+        bw.flush();
+        bw.close();
+
+        responseCode = conn.getResponseCode();
+        log.info("응답 코드 : " + responseCode);
+
+        if (responseCode == 200) {
+            log.info("환불 성공");
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            StringBuilder sb = new StringBuilder();
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+            br.close();
+            log.info("환불 성공 : " + sb.toString());
+        } else {
+            log.info(conn.getResponseMessage());
+            throw new Exception("환불에 실패하였습니다.");
+        }
+
+        return new ResponseEntity<>("환불 성공하였습니다.", HttpStatus.OK);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> transactionErr(Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

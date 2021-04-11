@@ -85,7 +85,8 @@
                                 <tbody>
                                 <tr>
                                     <th>메뉴 값</th>
-                                    <th th:text="${min} + ' ~ ' + ${max}"></th>
+                                    <th th:text="${#numbers.formatInteger(min, 3, 'COMMA')} + ' ~ ' +
+                                        ${#numbers.formatInteger(max, 3, 'COMMA')}"></th>
                                 </tr>
                                 <tr>
                                     <th>평균 값</th>
@@ -143,7 +144,7 @@
                                                 <div><h3 class="menu-title" th:text="${menu.meName}"></h3></div>
                                                 <div><h6 class="menu-expl" th:text="${menu.meIntr}"></h6></div>
                                                 <div><h6 class="menu-price" th:text="|${#numbers.formatInteger(menu.mePrice, 0, 'COMMA')}원|"></h6></div>
-
+                                                <input type="hidden" class="menu-code" th:value="${menu.meCode}" />
                                             </td>
                                         </tr>
                                         </tbody>
@@ -167,13 +168,9 @@
                                             <div class="menu-name "></div>
                                             <div class="d-flex item-detail">
                                                 <div class="col-xs-6 pull-left flex-center">
-                                                    <!--<i class="btn btn-delete far fa-trash-alt flex-center"></i>-->
                                                     <span>카트가 비었습니다</span>
                                                 </div>
                                                 <div class="col-xs-6 pull-right flex-center">
-                                                    <!-- <i class="btn btn-minus far fa-minus-square flex-center"></i>-->
-                                                    <!-- <span class="order-num " name="num" >0</span>-->
-                                                    <!--<i class="btn btn-plus far fa-plus-square flex-center"></i>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -186,7 +183,12 @@
                                         <div id="cart-total-price">0원</div>
                                     </div>
                                 </li>
-                                <button id="reservation-btn" data-toggle="modal"  data-target="#reservation-modal" type="button" class="w-100 btn btn-primary" style="margin: 0;">예약</button>
+                                <div sec:authorize-expr="isAuthenticated()">
+                                    <button id="reservation-btn" data-toggle="modal"  data-target="#reservation-modal" type="button" class="w-100 btn btn-primary" style="margin: 0;">예약</button>
+                                </div>
+                                <div sec:authorize-expr="!isAuthenticated()">
+                                    <button type="button" class="w-100 btn btn-warning" style="margin: 0;" onclick="location.href = '/login'">로그인</button>
+                                </div>
                             </ul>
                         </div>
                         <div sec:authorize-expr="isAuthenticated()">
@@ -302,38 +304,43 @@
         </div>
     </div>
 
-    <!--예약 모달 -->
-    <div>
-        <div class="modal" id="reservation-modal" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">예약</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="flex-center">
-                            <h6>예약 인원</h6>
-                            <div class="col-xs-6 pull-right flex-center">
-                                <i class="btn btn-minus far fa-minus-square flex-center"></i>
-                                <span class="order-num " name="num">1</span>
-                                <i class="btn btn-plus far fa-plus-square flex-center"></i>
+    <th:block sec:authorize-expr="isAuthenticated()">
+        <!--예약 모달 -->
+        <div>
+            <div class="modal" id="reservation-modal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">예약</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="flex-center">
+                                <h6>예약 인원</h6>
+                                <div class="col-xs-6 pull-right flex-center">
+                                    <i class="btn btn-minus far fa-minus-square flex-center"></i>
+                                    <span class="order-num" id="riPerson">1</span>
+                                    <i class="btn btn-plus far fa-plus-square flex-center"></i>
+                                </div>
                             </div>
+                            <h6>예약 확인</h6>
+                            <div id="reservation-confirm">
+                            </div>
+                            <div id="reservation-total-price"></div>
+                            <input type="text"  id="reservation-request" class="form-control editing" placeholder="예약 요구사항" >
+                            <input type="text"  id="reservation-time" class="form-control datetimepicker" placeholder="예약 시간" >
+                            <input type="text" id="name" class="form-control editing" placeholder="실명 입력">
+                            <button type="button" class="btn-dark" id="addr_btn" onclick="goPopup()">주소 입력</button>
                         </div>
-                        <h6>예약 확인</h6>
-                        <div id="reservation-confirm">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                            <button id="submit_reservation" type="button" class="btn btn-primary" disabled>결제</button>
                         </div>
-                        <div id="reservation-total-price"></div>
-                        <input type="text"  id="reservation-request" class="form-control editing" placeholder="예약 요구사항" >
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" >제출</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </th:block>
 
     <!--코스 모달 -->
     <th:block sec:authorize-expr="isAuthenticated()">

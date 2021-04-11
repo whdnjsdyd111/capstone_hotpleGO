@@ -4,16 +4,18 @@ $(function(){
         $('.done-reservation').hide();
         $(this).removeClass('btn-outline-primary');
         $(this).addClass('btn-primary');
-        $('.done-hotple').addClass('btn-outline-success');
-        $('.done-hotple').removeClass('btn-success');
+        let done = $('.done-hotple');
+        done.addClass('btn-outline-success');
+        done.removeClass('btn-success');
     });
     $(document).on('click','.done-hotple',function (){
         $('.doing-reservation').hide();
         $('.done-reservation').show();
         $(this).removeClass('btn-outline-success');
         $(this).addClass('btn-success');
-        $('.doing-hotple').addClass('btn-outline-primary');
-        $('.doing-hotple').removeClass('btn-primary');
+        let doing = $('.doing-hotple');
+        doing.addClass('btn-outline-primary');
+        doing.removeClass('btn-primary');
     });
 
     $('.doing-hotple').html("진행중인 장소<br>" + $('.doing-reservation').length + "건");
@@ -29,6 +31,8 @@ $(function(){
         });
         $('#menu-info').html(str);
         $('#total').text(total);
+        let time = new Date(rs_map[riCode][0].riTime);
+        $('#riTime').text(time.toLocaleDateString() + " " + time.toLocaleTimeString());
     });
 
     $('.submit-review').click(function() {
@@ -73,5 +77,13 @@ $(function(){
                 alert(xhr.responseText);
             }
         });
+    });
+
+    $('.cancel-reservation').click(function() {
+        requestServlet({
+            riCode : $(this).prev().val()
+        }, "/refund", function(data) {
+            swal("환불 성공!", data, "success").then(() => { location.reload(); });
+        }, basicErrorFunc);
     })
 });

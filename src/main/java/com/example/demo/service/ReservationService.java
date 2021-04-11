@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.ReservationAllVO;
-import com.example.demo.domain.ReservationHotpleVO;
-import com.example.demo.domain.ReservationInformationVO;
-import com.example.demo.domain.SaleVO;
+import com.example.demo.domain.*;
 import com.example.demo.mapper.ReservationMapper;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -86,5 +83,25 @@ public class ReservationService {
 
     public List<SaleVO> getSale(String uCode) {
         return mapper.getSale(uCode);
+    }
+
+    public boolean registerRes(ReservationInfoVO vo) {
+        return mapper.insertRes(vo) == 1;
+    }
+
+    public boolean registerResStatus(List<ReservationStatusVO> list) {
+        return mapper.insertResStatus(list) > 0;
+    }
+
+    public ReservationInfoVO getByCode(String riCode) {
+        return mapper.getByCode(riCode);
+    }
+
+    public long getTotalFee(String riCode) {
+        return mapper.getTotalFeeByRiCode(riCode);
+    }
+
+    public boolean removeRes(String riCode) {
+        return mapper.deleteRes(riCode) == 1;
     }
 }

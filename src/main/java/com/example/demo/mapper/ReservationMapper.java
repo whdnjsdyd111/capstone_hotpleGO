@@ -1,9 +1,6 @@
 package com.example.demo.mapper;
 
-import com.example.demo.domain.ReservationAllVO;
-import com.example.demo.domain.ReservationHotpleVO;
-import com.example.demo.domain.ReservationInformationVO;
-import com.example.demo.domain.SaleVO;
+import com.example.demo.domain.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,7 +23,17 @@ public interface ReservationMapper {
 
     public List<ReservationAllVO> getCurListAll(String uCode);
 
+    public ReservationInfoVO getByCode(String riCode);
+
     public int updateNoShow(String code, String str);
 
     public List<SaleVO> getSale(String uCode);
+
+    public int insertRes(ReservationInfoVO vo);
+
+    public int insertResStatus(List<ReservationStatusVO> vo);
+
+    public long getTotalFeeByRiCode(String riCode);
+
+    public int deleteRes(String riCode);
 }

@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Data
 @Builder
-public class ReservationInformationVO {
+public class ReservationInfoVO {
     private String riCode;
     private Timestamp riTime;
     private Short riPerson;
@@ -16,6 +16,4 @@ public class ReservationInformationVO {
     private String riCont;
     private Long htId;
     private String uCode;
-    private String nick;
-    private String phone;
 }

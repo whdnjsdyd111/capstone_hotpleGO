@@ -2,14 +2,14 @@
 version: 0.0
 os: windows
 files:
-- source: \
-destination: C:\build
+  - source: \
+  destination: C:\build
 hooks:
 BeforeInstall:
 AfterInstall:
 ApplicationStart:
-- location: ./Deploy.bat
+  - location: ./Deploy.bat
 timeout: 300
 ValidateService:
-- location: ./AfterService.bat
+  - location: ./AfterService.bat
 timeout: 300

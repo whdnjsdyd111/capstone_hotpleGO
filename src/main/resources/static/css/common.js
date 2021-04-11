@@ -19,6 +19,21 @@ const requestBody = function(data, url, success_callback, error_callback) {
     });
 }
 
+const requestParams = function(data, url, success_callback, error_callback) {
+    $.ajax({
+        type : "post",
+        url : url,
+        data : data,
+        async : true,
+        success : function(data, status, xhr) {
+            success_callback(data, status, xhr);
+        },
+        error: function (xhr, status, err) {
+            error_callback(xhr, status, err);
+        }
+    })
+}
+
 const requestServlet = function(data, url, success_callback, error_callback) {
     $.ajax({
         type: "post",

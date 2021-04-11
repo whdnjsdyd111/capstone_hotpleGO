@@ -63,4 +63,32 @@
             GROUP BY riCode)
         GROUP BY DATES
     </select>
+
+    <select id="getByCode" resultType="ReservationInfoVO">
+        SELECT * FROM res_info WHERE riCode = #{riCode}
+    </select>
+
+    <select id="getTotalFeeByRiCode" resultType="Long">
+        SELECT SUM(rsMeNum * mePrice)
+        FROM res_info NATURAL JOIN res_status NATURAL JOIN menu
+        GROUP BY riCode HAVING riCode = #{riCode}
+    </select>
+
+    <insert id="insertRes">
+        <selectKey keyProperty="riCode" resultType="String" order="BEFORE">
+            SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_ri.NEXTVAL, 2, '0') FROM DUAL
+        </selectKey>
+        INSERT INTO res_info (riCode, riTime, riPerson, riOdNum, riCont, htId, uCode)
+        VALUES (#{riCode}, #{riTime}, #{riPerson}, #{riOdNum}, #{riCont}, #{htId}, #{uCode})
+    </insert>
+
+    <insert id="insertResStatus">
+        <foreach collection="vo" index="index" item="vo" open="INSERT ALL" close="SELECT * FROM DUAL">
+            INTO res_status (riCode, meCode, rsMeNum, uCode) VALUES (#{vo.riCode}, #{vo.meCode}, #{vo.rsMeNum}, #{vo.uCode})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRes">
+        DELETE FROM res_info WHERE riCode = #{riCode}
+    </delete>
 </mapper>

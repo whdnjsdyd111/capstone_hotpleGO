@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>결제</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+</head>
+<body>
+<script th:inline="javascript">
+    $(function() {
+        let IMP = window.IMP; // 생략가능
+        IMP.init('imp81208754'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+        let msg;
+
+        IMP.request_pay({
+            pg : 'kakaopay',
+            pay_method : 'card',
+            escrow : true,
+            merchant_uid : 'm_' + new Date().getTime(),
+            name : window.opener.payTitle,
+            amount : window.opener.payPrice,
+            buyer_email : [[${email}]],
+            buyer_name : window.opener.payName,
+            buyer_tel : [[${phone}]],
+            buyer_addr : window.opener.payAddr,
+            buyer_postcode : window.opener.payZipNo,
+        }, function(rsp) {
+            if ( rsp.success ) {
+                window.opener.odNum = rsp.merchant_uid;
+                window.opener.test();
+                window.close();
+            } else {
+                msg = '결제에 실패하였습니다.\n';
+                msg += '에러내용 : ' + rsp.error_msg;
+                alert(msg);
+            }
+        });
+
+    });
+</script>
+</body>
+</html>
