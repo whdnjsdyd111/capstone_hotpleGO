@@ -1,3 +1,4 @@
+
 .cmmt-box{
     background-color: #f9f9f9;
     display: flex;
@@ -14,10 +15,28 @@
 .next-to-cmmt-nick{
     margin:auto 0;
 }
- .next-to-cmmt-nick>span{
+.next-to-cmmt-nick>span{
     color: #d6d6d6;
- }
- .replies{
-     background-color: #eeeeee;
-     width:60%;
- }
+}
+.replies{
+
+    width:80%;
+    margin:0 auto;
+}
+.reply-box{
+    background-color:#f9f9f9;
+    padding: 5px;
+}
+.board-btn-box{
+    display: flex;
+    justify-content: space-between;
+}
+@media(max-width){
+    .next-to-cmmt-nick{
+        font-size:12px;
+    }
+    .btn{
+
+        margin: 0px;
+    }
+}

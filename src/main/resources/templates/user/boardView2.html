@@ -43,7 +43,6 @@
         </div>
 
         <div class="col-12 px-0 py-2 border border-muted border-bottom-0">
-
             <div class="container">
                 <div class="mx-auto">
                     <!--                        <c:if test="${ nonReco == null }">-->
@@ -217,10 +216,15 @@
         <!--        </div>-->
 
         <!--        <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
-        <div class="border border-muted border-bottom-0">
-            <button class="btn btn-outline-warning ml-5" onclick="location.href='/board/list'">목록</button>
-            <button class="btn btn-outline-warning ml-5" id="update">수정</button>
-            <button class="btn btn-outline-warning ml-5" id="delete"><i class="fa fa-trash-o mr-2"></i>삭제</button>
+        <div class="border border-muted border-bottom-0 board-btn-box">
+            <div>
+                <button class="btn btn-outline-warning ml-5" onclick="location.href='/board/list'">목록</button>
+            </div>
+            <div>
+                <button class="btn btn-outline-warning ml-5" id="update">수정</button>
+                <button class="btn btn-outline-warning ml-5" id="delete"><i class="fa fa-trash-o mr-2"></i>삭제</button>
+            </div>
+
         </div>
         <!--        </c:if>-->
 
