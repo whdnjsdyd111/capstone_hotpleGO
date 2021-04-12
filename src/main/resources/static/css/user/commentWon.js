@@ -64,7 +64,7 @@ $(function() {
     });
 
     $('.write_reply').click(function() {
-        if(!isClicked) {
+        if($('#')===undefined) {
             cur_comCode = $(this).next().val();
             $('.reply').remove();
             nest_total_file = 0;
@@ -81,7 +81,7 @@ $(function() {
 
             var com_id = $(this).parents('.comments').children('form').children('input[name=com_id]').val();
             var reply =
-                '<div id="re-reply-edit" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">' + // 각 댓글 id
+                '<div id="re-reply-edit" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">' + // 각 id는 해당 댓글의 아이디
                 "<div class='reply p-3 d-flex flex-md-row'>" +
                 "<div class='border border-right-0 border-top-0 border-dark ml-5' style='width: 30px; height: 30px'></div>" +
                 '<div id="reUCode" class="w-100"><div class="border border-dark write_comment_top mx-3">' +
@@ -201,8 +201,6 @@ $(function() {
 
             });
             isClicked=true;
-        } else{
-            $('#re-reply');
         }
     });
 
