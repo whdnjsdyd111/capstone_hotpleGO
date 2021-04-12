@@ -144,6 +144,7 @@
                                     <div class="modal-body">
                                         <textarea class="form-control review-content" cols="30" rows="4"
                                                   required></textarea>
+                                        <!-- 사진 업로드 (사장 댓 없을 경우 있고 사장이 달면 수정 못하게 숨기기) -->
                                         <div class="file-upload">
                                             <div class="image-upload-wrap">
                                                 <input class="file-upload-input" type='file' onchange="readURL(this);"
@@ -160,8 +161,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <p>사장님</p>
-                                        <textarea class="form-control" cols="30" rows="4" readonly></textarea>
+                                        <!-- 사진 업로드 끝 -->
+                                        <!-- 사장이 댓글 달면 나오기 -->
+                                        <div th:id="|ceo-reply*{hotple.riCode.replaceAll('/', '')}|">
+                                            <p>사장님</p>
+                                            <textarea class="form-control" cols="30" rows="4" readonly></textarea>
+                                        </div>
+                                        <!-- 사장 댓글 끝 -->
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
