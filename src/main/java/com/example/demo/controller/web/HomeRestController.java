@@ -85,10 +85,13 @@ public class HomeRestController {
     }
 
     @PostMapping("/save-mbti")
-    public ResponseEntity<String> saveMBTI(HttpServletRequest request) {
-        // TODO
+    public ResponseEntity<String> saveMBTI(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
         log.info(request.getParameter("mbti"));
-        return new ResponseEntity<>("저장되었습니다.", HttpStatus.OK);
+        if (this.user.updateMbti(request.getParameter("mbti"), user.user.getUCode())) {
+            return new ResponseEntity<>("저장되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/save-taste")

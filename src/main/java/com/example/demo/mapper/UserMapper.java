@@ -27,4 +27,6 @@ public interface UserMapper {
     public int updateAccount(ManagerVO vo);
 
     public int updatePw(@Param("pw") String pw, @Param("code") String code);
+
+    public int updateMbti(@Param("mbti") String mbti, @Param("uCode") String uCode);
 }

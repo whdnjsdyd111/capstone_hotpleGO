@@ -59,4 +59,8 @@
     <update id="updatePw">
         UPDATE users SET pw = #{pw} WHERE uCode = #{code}
     </update>
+
+    <update id="updateMbti">
+        UPDATE users SET mbti = #{mbti} WHERE uCode = #{uCode}
+    </update>
 </mapper>

@@ -61,4 +61,8 @@ public class UserService {
     public boolean updatePw(String pw, String code) {
         return userMapper.updatePw(pw, code) == 1;
     }
+
+    public boolean updateMbti(String mbti, String uCode) {
+        return userMapper.updateMbti(mbti, uCode) == 1;
+    }
 }
