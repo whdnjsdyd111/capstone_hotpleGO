@@ -36,4 +36,14 @@ public interface CourseMapper {
     public String getCsHtId(@Param("csCode") String csCode, @Param("htId") String htId);
 
     public int delHtInCs(@Param("csCode") String csCode, @Param("htId") String htId);
+
+    public int deleteCourse(String csCode);
+
+    public String selectUsing(String uCode);
+
+    public void updateUseCourse(String csCode);
+
+    public void updateChangeCourse(@Param("uCode") String uCode, @Param("csCode") String csCode);
+
+    public void updateReturnCourse(String csCode);
 }

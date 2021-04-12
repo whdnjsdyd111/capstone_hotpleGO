@@ -83,4 +83,24 @@ public class CourseService {
     public void removeHtInCs(String csCode, String htId) {
         mapper.delHtInCs(csCode, htId);
     }
+
+    public boolean removeCourse(String csCode) {
+        return mapper.deleteCourse(csCode) == 1;
+    }
+
+    public boolean checkUsing(String uCode) {
+        return mapper.selectUsing(uCode) != null;
+    }
+
+    public void changeUseCourse(String csCode) {
+        mapper.updateUseCourse(csCode);
+    }
+
+    public void changeCourse(String uCode, String csCode) {
+        mapper.updateChangeCourse(uCode, csCode);
+    }
+
+    public void returnCourse(String csCode) {
+        mapper.updateReturnCourse(csCode);
+    }
 }

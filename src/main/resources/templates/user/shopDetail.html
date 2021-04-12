@@ -24,7 +24,7 @@
                     <p class="rd-header__rst-map">
                         <a class="c-img-target">
                             <img class="c-img c-img--frame"
-                                 src="https://maps.googleapis.com/maps/api/staticmap?channel=restaurant_inbound_detail_header&amp;key=AIzaSyCFZGUaDWgiusOQeFpnVLT2uPM2R6Mq7J8&amp;hl=ja&amp;center=35.68187074084084,139.78496245984476&amp;style=feature:landscape%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:geometry%7Clightness:25&amp;style=feature:poi%7Celement:labels.icon%7Ccolor:0xd2d2d2&amp;style=feature:poi%7Celement:labels.text.fill%7Ccolor:0x949499&amp;style=feature:road%7Clightness:25&amp;style=feature:road%7Celement:labels%7Csaturation:-100%7Clightness:40&amp;style=feature:transit.station.airport%7Celement:geometry%7Clightness:25&amp;style=feature:water%7Celement:geometry%7Clightness:25&amp;markers=color:red%7C35.68187074084084,139.78496245984476&amp;zoom=15&amp;size=220x180&amp;language=kr&amp;signature=huPGNLWfP20aePKaA-Fqw_gJHKs=">
+                                 th:src="${#hotpleAPI.toImg(hotple.uploadPath, hotple.htImg, hotple.fileName, #hotpleAPI.IMAGE)}">
                         </a>
                     </p>
                     <div class="rd-header__info-table p-3">

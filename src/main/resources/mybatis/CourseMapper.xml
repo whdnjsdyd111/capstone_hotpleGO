@@ -57,8 +57,8 @@
         <selectKey keyProperty="csCode" resultType="String" order="BEFORE">
             SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cs.NEXTVAL, 2, '0') || '/N' FROM DUAL
         </selectKey>
-        INSERT INTO course (csCode, csWith, csNum)
-        VALUES (#{csCode}, #{csWith}, #{csNum})
+        INSERT INTO course (csCode, csWith, csNum, uCode)
+        VALUES (#{csCode}, #{csWith}, #{csNum}, #{uCode})
     </insert>
 
     <insert id="addCourse">
@@ -74,6 +74,52 @@
     <update id="delHtInCs">
         {
         CALL delHtInCs(#{csCode}, #{htId})
+        }
+    </update>
+
+    <delete id="deleteCourse">
+        DELETE FROM course WHERE csCode = #{csCode}
+    </delete>
+
+    <select id="selectUsing" resultType="String">
+        SELECT csCode FROM course WHERE SUBSTR(csCode, -1) = 'C' AND uCode = #{uCode}
+    </select>
+
+    <update id="updateUseCourse">
+        {
+            CALL
+                DECLARE
+                BEGIN
+
+                UPDATE course_info SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
+                WHERE csCode = #{csCode};
+
+                UPDATE course SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
+                WHERE csCode = #{csCode};
+
+            END
+        }
+    </update>
+
+    <update id="updateChangeCourse">
+        {
+        CALL chgUsing(#{uCode}, #{csCode})
+        }
+    </update>
+
+    <update id="updateReturnCourse">
+        {
+            CALL
+                DECLARE
+                BEGIN
+
+                UPDATE course SET csCode = SUBSTR(#{csCode}, 0, 16) || 'N'
+                WHERE csCode = #{csCode};
+
+                UPDATE course_info SET csCode = SUBSTR(#{csCode}, 0, 16) || 'N'
+                WHERE csCode = #{csCode};
+
+            END
         }
     </update>
 </mapper>

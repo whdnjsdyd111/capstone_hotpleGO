@@ -253,7 +253,54 @@ $(function() {
             if (v === "yes") requestServlet({
                 csCode : htList[0].csCode,
             }, "/delete-course", function(data) {
+                swal("삭제 성공!", data, "success").then(() => { location.href = "/myCourse?kind=myCourse" });
+            }, basicErrorFunc);
+        })
+    });
 
+    $('#course_use').click(function() {
+        requestServlet(null, "/check-course", function(data) {
+            if (data === "Y") {
+                swal("이용 중인 코스가 존재합니다.", "교체 하시겠습니까?", "info", {
+                    buttons: {
+                        cancel: "취소",
+                        yes : "교체"
+                    }
+                }).then(v => {
+                    if (v === "yes") requestServlet({
+                        csCode : htList[0].csCode
+                    }, "/change-course", function(data) {
+                        swal("교체 성공!", data, "success").then(() => { location.href = "/myCourse" });
+                    }, basicErrorFunc);
+                })
+            } else if (data === "N") {
+                swal("해당 코스로 이용하시겠습니까?", "", "info", {
+                    buttons: {
+                        cancel: "취소",
+                        yes : "이용"
+                    }
+                }).then(v => {
+                    if (v === "yes") requestServlet({
+                        csCode : htList[0].csCode
+                    }, "/use-course", function(data) {
+                        swal("이용 성공!", data, "success").then(() => { location.href = "/myCourse" });
+                    }, basicErrorFunc);
+                });
+            }
+        }, basicErrorFunc);
+    });
+
+    $('#course_return').click(function() {
+        swal("코스 내림", "해당 코스를 이용하지 않으시겠습니까?", "info", {
+            buttons: {
+                cancel : "취소",
+                yes : "네"
+            }
+        }).then(v => {
+            if (v === "yes") requestServlet({
+                csCode: htList[0].csCode
+            }, "/return-course", function(data) {
+                swal("이용 취소!", "해당 코스를 내렸습니다.", "success").then(() => { location.href = "/myCourse?kind=myCourse" });
             }, basicErrorFunc);
         })
     })

@@ -141,7 +141,7 @@ public class HomeRestController {
     @PostMapping("/custom-course")
     public ResponseEntity<String> customCourse(@RequestBody CourseVO vo, @AuthenticationPrincipal CustomUser user) {
         log.info(user);
-        vo.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
+        vo.setUCode(user.user.getUCode());
         if (course.register(vo)) {
             return new ResponseEntity<>(vo.getCsCode(), HttpStatus.OK);
         } else {
@@ -313,6 +313,37 @@ public class HomeRestController {
 
     @PostMapping("/delete-course")
     public ResponseEntity<String> deleteCourse(HttpServletRequest request) {
-        return null;
+        if (course.removeCourse(request.getParameter("csCode"))) {
+            return new ResponseEntity<>("코스를 삭제하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("삭제에 실패하였습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/check-course")
+    public ResponseEntity<String> checkCourse(@AuthenticationPrincipal CustomUser user) {
+        if (course.checkUsing(user.user.getUCode())) {
+            return new ResponseEntity<>("Y", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("N", HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/change-course")
+    public ResponseEntity<String> changeCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        course.changeCourse(user.user.getUCode(), request.getParameter("csCode"));
+        return new ResponseEntity<>("해당 코스로 교체하였습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/use-course")
+    public ResponseEntity<String> useCourse(HttpServletRequest request) {
+        course.changeUseCourse(request.getParameter("csCode"));
+        return new ResponseEntity<>("해당 코스로 이용에 성공하였습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/return-course")
+    public ResponseEntity<String> returnCourse(HttpServletRequest request) {
+        course.returnCourse(request.getParameter("csCode"));
+        return new ResponseEntity<>("코스를 내렸습니다.", HttpStatus.OK);
     }
 }
