@@ -168,5 +168,7 @@
 
 /**************************************************************/
 @media(max-width:650px){
-
+    .reservation-container{
+        flex-direction: column;
+    }
 }
