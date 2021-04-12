@@ -65,4 +65,8 @@ public class UserService {
     public boolean updateMbti(String mbti, String uCode) {
         return userMapper.updateMbti(mbti, uCode) == 1;
     }
+
+    public String getMbti(String uCode) {
+        return userMapper.getMbti(uCode);
+    }
 }

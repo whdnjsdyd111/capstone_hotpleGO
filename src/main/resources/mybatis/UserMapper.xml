@@ -60,6 +60,10 @@
         UPDATE users SET pw = #{pw} WHERE uCode = #{code}
     </update>
 
+    <select id="getMbti" resultType="String">
+        SELECT mbti FROM users WHERE uCode = #{uCode}
+    </select>
+
     <update id="updateMbti">
         UPDATE users SET mbti = #{mbti} WHERE uCode = #{uCode}
     </update>

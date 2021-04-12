@@ -12,6 +12,8 @@ public interface UserMapper {
 
     public UserVO readByEmail(String email);
 
+    public String getMbti(String uCode);
+
     public int insert(UserVO vo);
 
     public AdminVO readAdmin(String code);

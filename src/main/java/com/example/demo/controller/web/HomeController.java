@@ -54,7 +54,8 @@ public class HomeController {
     }
 
     @GetMapping("/mbti")
-    public String mbti(Model model) {
+    public String mbti(Model model, @AuthenticationPrincipal CustomUser user) {
+        model.addAttribute("mbti", this.user.getMbti(user.user.getUCode()));
         return "user/mbti";
     }
 

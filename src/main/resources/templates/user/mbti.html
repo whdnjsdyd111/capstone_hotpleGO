@@ -5,6 +5,9 @@
 <th:block layout:fragment="styles">
     <link rel="stylesheet" href="/css/user/user_mbti.css">
     <script src="/css/user/user_mbti.js"></script>
+    <script th:inline="javascript">
+        let mbti = [[${mbti}]];
+    </script>
 </th:block>
 <div layout:fragment="content">
     <div class="container">

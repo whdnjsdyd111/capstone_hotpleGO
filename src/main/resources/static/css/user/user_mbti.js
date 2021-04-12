@@ -4,6 +4,8 @@ $(function() {
         $(this).addClass('bg-dark');
     });
 
+    $('.' + mbti).addClass('bg-dark');
+
     $('#save_mbti').click(function() {
         $.ajax({
             type: "POST",
