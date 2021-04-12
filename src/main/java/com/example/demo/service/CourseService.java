@@ -4,6 +4,7 @@ import com.example.demo.domain.CourseInfoVO;
 import com.example.demo.domain.CourseVO;
 import com.example.demo.mapper.CourseMapper;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Log4j2
 public class CourseService {
     @Setter(onMethod_ = @Autowired)
     private CourseMapper mapper;
@@ -76,5 +78,9 @@ public class CourseService {
 
     public boolean alreadyAdded(String csCode, String htId) {
         return mapper.getCsHtId(csCode, htId) != null;
+    }
+
+    public void removeHtInCs(String csCode, String htId) {
+        mapper.delHtInCs(csCode, htId);
     }
 }

@@ -70,4 +70,10 @@
     <select id="getCsHtId" resultType="String">
         SELECT csCode FROM course_info WHERE csCode = #{csCode} AND htId = #{htId}
     </select>
+
+    <update id="delHtInCs">
+        {
+        CALL delHtInCs(#{csCode}, #{htId})
+        }
+    </update>
 </mapper>

@@ -3,7 +3,10 @@ const colors = [
     '#e12717',
     '#ffa400',
     '#00dd1c',
-    '#1E90FF'
+    '#1E90FF',
+    '#003399',
+    '#6B66FF',
+    '#FFB2F5',
 ];
 let total_distance = 0;
 const latLng = [];
@@ -223,6 +226,37 @@ $(function() {
     });
 
     $('#total_distance').text(Math.ceil(total_distance) / 1000 + " km");
+
+    $('.delete-hotple').click(function() {
+        swal("핫플 삭제", "이 코스에서 삭제하시겠습니까?", "warning", {
+            buttons: {
+                cancel : "취소",
+                yes : "삭제"
+            },
+        }).then(v => {
+            if (v === "yes") requestServlet({
+                csCode : htList[0].csCode,
+                htId : $(this).next().val()
+            }, "/delete-hotple-in-course", function(data) {
+                swal("삭제하였습니다!", data, "success").then(() => location.reload());
+            }, basicErrorFunc);
+        });
+    });
+
+    $('#course_delete').click(function() {
+        swal("코스 삭제", "추가된 핫플들과 코스를 삭제하시겠습니까?", "warning", {
+            buttons: {
+                cancel : "취소",
+                yes : "삭제",
+            },
+        }).then(v => {
+            if (v === "yes") requestServlet({
+                csCode : htList[0].csCode,
+            }, "/delete-course", function(data) {
+
+            }, basicErrorFunc);
+        })
+    })
 
     userMarker = new Tmapv2.Marker({
         position : new Tmapv2.LatLng(userLat, userLong),

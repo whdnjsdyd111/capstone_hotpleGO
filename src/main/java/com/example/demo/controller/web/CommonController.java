@@ -5,10 +5,14 @@ import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,8 +46,9 @@ public class CommonController {
     }
 
     @RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
-    public String logout() {
-        log.info("custom logout");
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) new SecurityContextLogoutHandler().logout(request, response, auth);
 
         return "redirect:/";
     }

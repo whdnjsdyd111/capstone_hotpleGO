@@ -14,6 +14,8 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -187,6 +189,7 @@ public class HomeRestController {
         return new ResponseEntity<>("예약에 실패하였습니다. 환불이 진행됩니다.", HttpStatus.BAD_REQUEST);
     }
 
+
     @PostMapping("/refund")
     @Transactional(rollbackFor = { Exception.class })
     public ResponseEntity<String> refund(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) throws Exception {
@@ -300,5 +303,16 @@ public class HomeRestController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> transactionErr(Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/delete-hotple-in-course")
+    public ResponseEntity<String> deleteHotpleInCourse(HttpServletRequest request) {
+        course.removeHtInCs(request.getParameter("csCode"), request.getParameter("htId"));
+        return new ResponseEntity<>("성공적으로 삭제하였습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/delete-course")
+    public ResponseEntity<String> deleteCourse(HttpServletRequest request) {
+        return null;
     }
 }
