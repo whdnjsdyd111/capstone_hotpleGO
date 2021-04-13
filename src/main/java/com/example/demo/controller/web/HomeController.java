@@ -1,6 +1,8 @@
 package com.example.demo.controller.web;
 
+import org.python.util.PythonInterpreter;
 import com.example.demo.api.HotpleAPI;
+import com.example.demo.domain.CourseWithMbtiVO;
 import com.example.demo.domain.HotpleVO;
 import com.example.demo.domain.MenuVO;
 import com.example.demo.domain.ReservationAllVO;
@@ -9,8 +11,11 @@ import com.example.demo.service.*;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.ibatis.annotations.Select;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +23,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
+
 
 @Controller
 @RequiredArgsConstructor
@@ -58,6 +65,8 @@ public class HomeController {
         model.addAttribute("mbti", this.user.getMbti(user.user.getUCode()));
         return "user/mbti";
     }
+
+
 
     @GetMapping("/taste")
     public String taste(@RequestParam(value = "required", required = false) String required, Model model,
@@ -166,4 +175,5 @@ public class HomeController {
         model.addAttribute("phone", user.user.getPhone());
         return "user/payment";
     }
+
 }

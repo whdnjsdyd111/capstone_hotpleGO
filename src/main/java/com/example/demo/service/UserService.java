@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.CourseWithMbtiVO;
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.AdminVO;
 import com.example.demo.domain.ManagerVO;
@@ -9,6 +10,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Log4j2
@@ -69,4 +72,6 @@ public class UserService {
     public String getMbti(String uCode) {
         return userMapper.getMbti(uCode);
     }
+
+
 }

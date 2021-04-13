@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.domain.CourseInfoVO;
 import com.example.demo.domain.CourseVO;
+import com.example.demo.domain.CourseWithMbtiVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,5 +36,7 @@ public interface CourseMapper {
 
     public String getCsHtId(@Param("csCode") String csCode, @Param("htId") String htId);
 
-    public int delHtInCs(@Param("csCode") String csCode, @Param("htId") String htId);
+    public int delHtInCs(String csCode, String htId);
+
+    public List<CourseWithMbtiVO> getByMbti(String mbti);
 }
