@@ -21,6 +21,22 @@
             word-break: keep-all;
         }
 
+        .itemBoxHighlight {
+            border: solid 1px black;
+            background-color: #6f6a6c;
+            width: 1040px;
+            height: 300px;
+        }
+
+        @media(max-width: 1200px) {
+            .itemBoxHighlight {
+                border: solid 1px black;
+                background-color: #6f6a6c;
+                width: 860px;
+                height: 300px;
+            }
+        }
+
         @media(max-width:992px) {
 
             .c-index {
@@ -29,7 +45,24 @@
                 width: 25px;
                 font-size:18px
             }
+
+            .itemBoxHighlight {
+                border: solid 1px black;
+                background-color: #6f6a6c;
+                width: 620px;
+                height: 300px;
+            }
         }
+
+        @media(max-width:767px){
+            .itemBoxHighlight {
+                border: solid 1px black;
+                background-color: #6f6a6c;
+                width: 470px;
+                height: 300px;
+            }
+        }
+
         @media(max-width:750px){
             div>img{
                 width:150px!important;
@@ -41,12 +74,20 @@
             .c-index{
                 width: 23px;
                 height: 23px;
-                font-size: 15pxht;
+                font-size: 15px;
+            }
+
+            .itemBoxHighlight {
+                border: solid 1px black;
+                background-color: #6f6a6c;
+                width: 470px;
+                height: 150px;
             }
         }
     </style>
     <th:block th:if="${courseInfos.size() > 0}">
         <script src="/css/user/user_usingCourse.js"></script>
+        <script src="/css/vendor/jq/jquery-ui.min.js"></script>
     </th:block>
 </th:block>
 <div layout:fragment="content">
@@ -66,23 +107,27 @@
                     <span class="font-weight-bold mx-5" th:text="|인원 : *{course.csNum}|">인원 : 3명</span>
                     <span id="total_distance"></span>
                 </div>
-                <th:block th:each="num : ${#numbers.sequence(0, courseInfos.size() - 1)}">
-                    <hr class="col"/>
-                    <div class="d-flex justify-content-around my-3">
-                        <span class="my-auto c-index font-weight-bold" th:text="${num + 1}">1</span>
-                        <img style="width: 300px; height: 300px;" alt="이미지 없음"
-                             th:src="${#hotpleAPI.toImg(courseInfos.get(num).uploadPath, courseInfos.get(num).uuid,
-                             courseInfos.get(num).fileName, #hotpleAPI.IMAGE)}">
-                        <div class="d-flex flex-column my-auto" style="width:160px;">
-                            <span th:text="|*{courseInfos.get(num).busnName}|">가게 이름 ( 대략 소요 시간 30분)</span>
-                            <span th:text="|*{courseInfos.get(num).htAddr}|">도로명 주소</span>
-                            <th:block th:if="${courseInfos.get(num).csCode.split('/')[2] == 'N'}">
-                                <button type="button" class="btn-danger mx-auto delete-hotple">삭제</button>
-                            </th:block>
-                            <input type="hidden" th:value="${courseInfos.get(num).htId}">
-                        </div>
-                    </div>
-                </th:block>
+                <ul id="sortable">
+                    <th:block th:each="num : ${#numbers.sequence(0, courseInfos.size() - 1)}">
+                        <li style="display: block;">
+                            <hr class="col"/>
+                            <div class="d-flex justify-content-around my-3">
+                                <span class="my-auto c-index font-weight-bold" th:text="${num + 1}">1</span>
+                                <img style="width: 300px; height: 300px;" alt="이미지 없음"
+                                     th:src="${#hotpleAPI.toImg(courseInfos.get(num).uploadPath, courseInfos.get(num).uuid,
+                                     courseInfos.get(num).fileName, #hotpleAPI.IMAGE)}">
+                                <div class="d-flex flex-column my-auto" style="width:160px;">
+                                    <span th:text="|*{courseInfos.get(num).busnName}|">가게 이름 ( 대략 소요 시간 30분)</span>
+                                    <span th:text="|*{courseInfos.get(num).htAddr}|">도로명 주소</span>
+                                    <th:block th:if="${courseInfos.get(num).csCode.split('/')[2] == 'N'}">
+                                        <button type="button" class="btn-danger mx-auto delete-hotple">삭제</button>
+                                    </th:block>
+                                    <input type="hidden" th:value="${courseInfos.get(num).htId}">
+                                </div>
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
                 <hr class="col"/>
             </div>
         </div>

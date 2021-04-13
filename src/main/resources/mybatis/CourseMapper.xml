@@ -64,7 +64,7 @@
     <insert id="addCourse">
         INSERT INTO course_info (csCode, htId, ciIndex)
         VALUES (#{csCode}, #{htId},
-        (SELECT MAX(ciIndex) + 1 FROM course_info WHERE csCode = #{csCode}))
+        (SELECT NVL(MAX(ciIndex), 0) + 1 FROM course_info WHERE csCode = #{csCode}))
     </insert>
 
     <select id="getCsHtId" resultType="String">
@@ -121,5 +121,11 @@
 
             END
         }
+    </update>
+
+    <update id="updateOrder">
+        <foreach collection="list" index="index" item="vo" separator=";" open="DECLARE BEGIN" close="; END;">
+            UPDATE course_info SET ciIndex = #{vo.ciIndex} WHERE htId = #{vo.htId} AND csCode = #{csCode}
+        </foreach>
     </update>
 </mapper>

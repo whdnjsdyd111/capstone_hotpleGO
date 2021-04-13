@@ -110,7 +110,7 @@
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="hotple-course">
             <!-- 찜코스 수만큼 반복 시작-->
-            <div th:each="course : ${courses}"  class="jumbotron mx-4 card">
+            <div th:each="course : ${courses}"  class="jumbotron mx-4 card" style="min-height: 150px;">
                 <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|"  class="stretched-link"></a>
                 <div class="container">
                     <div class="swiper-container col-xl-10 col-md-10 col-sm-10">

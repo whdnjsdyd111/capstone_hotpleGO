@@ -117,12 +117,11 @@ public class HomeRestController {
     }
 
     @PostMapping("/submit-review")
-    public ResponseEntity<String> submitReview(@RequestBody ReviewVO vo) {
-        // TODO
-        vo.setUCode("whdnjsdyd111@naver.com/A/");
+    public ResponseEntity<String> submitReview(@RequestBody ReviewVO vo, @AuthenticationPrincipal CustomUser user) {
+        vo.setUCode(user.user.getUCode());
         vo.setRiCode(HotpleAPI.strToCode(vo.getRiCode()));
         if (review.registerReview(vo)) {
-            return new ResponseEntity<>("댓글 작성 완료하였습니다.", HttpStatus.OK);
+            return new ResponseEntity<>("리뷰 작성 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
         }
@@ -132,7 +131,7 @@ public class HomeRestController {
     public ResponseEntity<String> updateReview(@RequestBody ReviewVO vo) {
         vo.setRiCode(HotpleAPI.strToCode(vo.getRiCode()));
         if (review.updateReview(vo)) {
-            return new ResponseEntity<>("댓글 수정하였습니다.", HttpStatus.OK);
+            return new ResponseEntity<>("리뷰를 수정하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
         }
@@ -345,5 +344,20 @@ public class HomeRestController {
     public ResponseEntity<String> returnCourse(HttpServletRequest request) {
         course.returnCourse(request.getParameter("csCode"));
         return new ResponseEntity<>("코스를 내렸습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/reorder-hotple")
+    public ResponseEntity<String> reorder(@RequestParam("htId[]") Long[] htId,
+                                          @RequestParam("ciIndex[]") Byte[] ciIndex,
+                                          @RequestParam("csCode") String csCode) {
+        List<CourseInfoVO> list = new ArrayList<>();
+        for (int i = 0; i < htId.length; i++) {
+            CourseInfoVO vo = new CourseInfoVO();
+            vo.setHtId(htId[i]);
+            vo.setCiIndex(ciIndex[i]);
+            list.add(vo);
+        }
+        course.updateOrder(list, csCode);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 }

@@ -46,4 +46,6 @@ public interface CourseMapper {
     public void updateChangeCourse(@Param("uCode") String uCode, @Param("csCode") String csCode);
 
     public void updateReturnCourse(String csCode);
+
+    public int updateOrder(@Param("list") List<CourseInfoVO> vo, @Param("csCode") String csCode);
 }

@@ -72,6 +72,10 @@ public class CourseService {
         return mapper.insert(vo) == 1;
     }
 
+    public void updateOrder(List<CourseInfoVO> vo, String csCode) {
+        mapper.updateOrder(vo, csCode);
+    }
+
     public boolean addCourse(String csCode, String htId) {
         return mapper.addCourse(csCode, htId) == 1;
     }

@@ -8,14 +8,13 @@ const colors = [
     '#6B66FF',
     '#FFB2F5',
 ];
-let total_distance = 0;
-const latLng = [];
-
 // 1. 지도 띄우기
 let map;
 let userMarker;
 
+const latLng = [];
 const new_polyLine = [];
+const pointArray = [];
 
 function drawData(data){
     // 지도위에 선은 다 지우기
@@ -79,10 +78,7 @@ function drawData(data){
     }
 }
 
-// 2. 시작, 도착 심볼찍기
-
-const markerList = [];
-const pointArray = [];
+//심볼찍기 메소드
 
 function addMarker(status, lon, lat, index) {
     let marker = new Tmapv2.Marker({
@@ -92,39 +88,37 @@ function addMarker(status, lon, lat, index) {
     });
     //Marker에 클릭이벤트 등록.
     marker.addListener("click", function(evt) {
-
     });
     return marker;
 }
 
-let passList = "";  // 경로탐색 리스트
-
-// 4. 경로탐색 API 사용요청
-let prtcl;
-let headers = {};
-headers["appKey"]='l7xxcd9bdd0942b542fd8c7be931fc11a3b4';
 
 
 let startMyGeo = null;
 
-$(function() {
-    // 0. 위도 경도
+function initMap() {
+    // 0. 지도 띄우기
+    $('#map_div').html('');
+    map = new Tmapv2.Map("map_div", {
+        center: new Tmapv2.LatLng(htList[0].htLat, htList[0].htLng),
+        width: "100%",
+        height: "400px"
+    });
+
+    // 1. 위도 경도 거리 등 정보 초기화
+    let total_distance = 0; // 총 거리
+    let passList = "";  // 경로탐색 리스트
+    let prtcl;
+    let headers = {};
+    headers["appKey"]='l7xxcd9bdd0942b542fd8c7be931fc11a3b4';   // api key
+    pointArray.length = 0;
+    new_polyLine.length = 0;
+    latLng.length = 0;  // latLng 초기화
     htList.forEach(i => {
         latLng.push({
             lat : i.htLat,
             lng : i.htLng
         });
-    });
-
-    $('.c-index').each(i => {
-        $($('.c-index')[i]).css('background', colors[i]);
-    });
-
-    // 1. 지도 띄우기
-    map = new Tmapv2.Map("map_div", {
-        center: new Tmapv2.LatLng(latLng[0].htLat, latLng[0].htLng),
-        width: "100%",
-        height: "400px"
     });
 
     // 2. 시작, 도착 심볼찍기
@@ -184,7 +178,6 @@ $(function() {
             };
             drawData(prtcl);
 
-
             // 6. 경로탐색 결과 반경만큼 지도 레벨 조정
             let newData = geoData[0];
             PTbounds = new Tmapv2.LatLngBounds();
@@ -226,6 +219,15 @@ $(function() {
     });
 
     $('#total_distance').text(Math.ceil(total_distance) / 1000 + " km");
+}
+
+$(function() {
+
+    $('.c-index').each(i => {
+        $($('.c-index')[i]).css('background', colors[i]);
+    });
+
+    initMap();
 
     $('.delete-hotple').click(function() {
         swal("핫플 삭제", "이 코스에서 삭제하시겠습니까?", "warning", {
@@ -255,7 +257,7 @@ $(function() {
             }, "/delete-course", function(data) {
                 swal("삭제 성공!", data, "success").then(() => { location.href = "/myCourse?kind=myCourse" });
             }, basicErrorFunc);
-        })
+        });
     });
 
     $('#course_use').click(function() {
@@ -303,37 +305,87 @@ $(function() {
                 swal("이용 취소!", "해당 코스를 내렸습니다.", "success").then(() => { location.href = "/myCourse?kind=myCourse" });
             }, basicErrorFunc);
         })
-    })
-
-    userMarker = new Tmapv2.Marker({
-        position : new Tmapv2.LatLng(userLat, userLong),
-        iconHTML: '<p class="m-index font-weight-bold" style="background-color: #1a252f"></p>',
-        map : map
     });
 
-    setInterval(function() {
-        userMarker.setMap(null);
-        if (navigator.geolocation) { // GPS를 지원하면
-            navigator.geolocation.getCurrentPosition(function(position) {
-                userLat = position.coords.latitude;
-                userLong = position.coords.longitude;
-                console.log(userLat, userLong);
+    $("#sortable").sortable({
+        placeholder: "itemBoxHighlight",
+        start: function(e, ui) {
+            ui.item.data('start_idx', ui.item.index());
+        },
+        stop: function(e, ui) {
+            let spos = ui.item.data('start_idx');
+            let epos = ui.item.index();
+            console.log("spos : " + spos);
+            console.log("epos : " + epos);
+            if (spos < epos) {
+                for (let i = spos; i < epos; i++) {
+                    let temp = htList[i];
+                    htList[i] = htList[i + 1];
+                    htList[i + 1] = temp;
+                }
+            } else if (spos > epos) {   // s 2  e 0
+                for (let i = spos; i > epos; i--) {
+                    let temp = htList[i];
+                    htList[i] = htList[i - 1];
+                    htList[i - 1] = temp;
+                }
+            }
 
-                userMarker = new Tmapv2.Marker({
-                    position : new Tmapv2.LatLng(userLat, userLong),
-                    iconHTML: '<p class="m-index font-weight-bold" style="background-color: #1a252f"></p>',
-                    map : map
-                });
-            }, function(error) {
-                console.error(error);
-            }, {
-                enableHighAccuracy: false,
-                maximumAge: 0,
-                timeout: Infinity
-            });
-        } else {
-            alert('GPS를 지원하지 않습니다');
-            clearInterval(startMyGeo);
+            if (spos !== epos) {
+                let htIds = [];
+                let ciIndexed = [];
+                for (let i = 0; i < htList.length; i++) {
+                    htList[i].ciIndex = i + 1;
+                    let span = $('input[value=' + htList[i].htId + ']').parent().prevAll('.c-index');
+                    span.css('background', colors[i]);
+                    span.text(i + 1);
+                    htIds.push(htList[i].htId);
+                    ciIndexed.push(htList[i].ciIndex);
+                }
+                requestParams({
+                    csCode : htList[0].csCode,
+                    htId : htIds,
+                    ciIndex: ciIndexed
+                }, "/reorder-hotple", function(data) {
+                    initMap();
+                }, basicErrorFunc);
+            }
         }
-    }, 1000);
-})
+
+    });
+
+    if ($('#kind').length > 0) {
+        userMarker = new Tmapv2.Marker({
+            position : new Tmapv2.LatLng(userLat, userLong),
+            iconHTML: '<p class="m-index font-weight-bold" style="background-color: #1a252f"></p>',
+            map : map
+        });
+
+        setInterval(function() {
+            userMarker.setMap(null);
+            if (navigator.geolocation) { // GPS를 지원하면
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    userLat = position.coords.latitude;
+                    userLong = position.coords.longitude;
+                    console.log(userLat, userLong);
+
+                    userMarker = new Tmapv2.Marker({
+                        position : new Tmapv2.LatLng(userLat, userLong),
+                        iconHTML: '<p class="m-index font-weight-bold" style="background-color: #1a252f"></p>',
+                        map : map
+                    });
+                }, function(error) {
+                    console.error(error);
+                }, {
+                    enableHighAccuracy: false,
+                    maximumAge: 0,
+                    timeout: Infinity
+                });
+            } else {
+                alert('GPS를 지원하지 않습니다');
+                clearInterval(startMyGeo);
+            }
+        }, 1000);
+    }
+});
+
