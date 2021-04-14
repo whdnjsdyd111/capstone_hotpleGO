@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.domain.CourseInfoVO;
 import com.example.demo.domain.CourseVO;
+import com.example.demo.domain.CourseWithMbtiVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -48,4 +49,6 @@ public interface CourseMapper {
     public void updateReturnCourse(String csCode);
 
     public int updateOrder(@Param("list") List<CourseInfoVO> vo, @Param("csCode") String csCode);
+
+    public List<CourseWithMbtiVO> getByMbti(String mbti);
 }

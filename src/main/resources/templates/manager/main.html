@@ -75,7 +75,7 @@
                 ],
                 eventClick: function(info) {
                     console.log(info);
-                    alert(info.event.title + '\n' + dateToTime(info.event.start));
+                    swal("예약 현황", info.event.title + '\n' + dateToTime(info.event.start));
                     return false;
                 }
             });

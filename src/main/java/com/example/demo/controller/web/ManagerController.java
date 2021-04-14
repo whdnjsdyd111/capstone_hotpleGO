@@ -114,15 +114,6 @@ public class ManagerController {
         return "manager/reviews";
     }
 
-//    @GetMapping(value = { "/reviews", "/menus" })
-//    public String select(Model model, HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
-//        // TODO
-////        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
-//        model.addAttribute("hotples", hotple.getByUCode("whdnjsdyd2@naver.com/M/"));
-//        model.addAttribute("url", request.getRequestURI().split("/")[2]);
-//        return "manager/selectComp";
-//    }
-
     @GetMapping("/announce")
     public String announceList(@RequestParam(value = "sort", defaultValue = "event") String sort, Model model) {
         if (sort.equals("event")) {
@@ -151,15 +142,14 @@ public class ManagerController {
 
     @GetMapping("/setting")
     public String userSetting(Model model, @AuthenticationPrincipal CustomUser manager) {
-        // TODO
-        model.addAttribute("user", user.getManager("whdnjsdyd1111@naver.com/M/"));
+        model.addAttribute("user", user.getManager(manager.user.getUCode()));
         return "manager/userSetting";
     }
 
     @GetMapping("/sales")
     public String sales(Model model, @AuthenticationPrincipal CustomUser manager) {
         Map<String, List<ReservationAllVO>> map =
-                reservation.getSales(manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/");
+                reservation.getSales(manager.user.getUCode());
         log.info(map);
         model.addAttribute("sales", map);
         return "manager/sales";
@@ -167,7 +157,7 @@ public class ManagerController {
 
     @GetMapping("/orders")
     public String orders(Model model, @AuthenticationPrincipal CustomUser manager) {
-        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
+        String uCode = manager.user.getUCode();
         Map<String, List<ReservationAllVO>> map = reservation.getListByManager(uCode);
         List<ReviewVO> list = review.getListByManager(uCode);
         Map<String, ReviewVO> reviewMap = new HashMap<>();
@@ -183,7 +173,8 @@ public class ManagerController {
             // 업체등록이나 회원가입 관련 공지사항,
             return "manager/mainLogout";
         } else {
-            String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
+            String uCode = manager.user.getUCode();
+            if (!uCode.split("/")[1].equals("M")) return "manager/mainLogout";
             // 공지사항 => 최근꺼 5개 o, 리뷰, 예약 손님 현황, 예약에 대한 메뉴 현황, 매출현황 일주일, 예약으로 방문한 인원 현황
             model.addAttribute("events", event.getCurrentFive());
             model.addAttribute("reviews", review.getCurrentFive());
