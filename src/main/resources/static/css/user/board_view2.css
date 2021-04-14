@@ -292,4 +292,8 @@ div[contenteditable=true] {
     resize: none;
     overflow: hidden;
 }
+.writer-box{
+    margin:auto;
+    text-align: left;
+}
 

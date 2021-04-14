@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.domain.CourseInfoVO;
 import com.example.demo.domain.CourseVO;
-import com.example.demo.domain.CourseWithMbtiVO;
 import com.example.demo.mapper.CourseMapper;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -73,6 +72,10 @@ public class CourseService {
         return mapper.insert(vo) == 1;
     }
 
+    public void updateOrder(List<CourseInfoVO> vo, String csCode) {
+        mapper.updateOrder(vo, csCode);
+    }
+
     public boolean addCourse(String csCode, String htId) {
         return mapper.addCourse(csCode, htId) == 1;
     }
@@ -85,7 +88,23 @@ public class CourseService {
         mapper.delHtInCs(csCode, htId);
     }
 
-    public List<CourseWithMbtiVO> getByMbti(String mbti) {
-        return mapper.getByMbti(mbti);
+    public boolean removeCourse(String csCode) {
+        return mapper.deleteCourse(csCode) == 1;
+    }
+
+    public boolean checkUsing(String uCode) {
+        return mapper.selectUsing(uCode) != null;
+    }
+
+    public void changeUseCourse(String csCode) {
+        mapper.updateUseCourse(csCode);
+    }
+
+    public void changeCourse(String uCode, String csCode) {
+        mapper.updateChangeCourse(uCode, csCode);
+    }
+
+    public void returnCourse(String csCode) {
+        mapper.updateReturnCourse(csCode);
     }
 }

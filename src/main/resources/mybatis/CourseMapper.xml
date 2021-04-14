@@ -57,14 +57,14 @@
         <selectKey keyProperty="csCode" resultType="String" order="BEFORE">
             SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cs.NEXTVAL, 2, '0') || '/N' FROM DUAL
         </selectKey>
-        INSERT INTO course (csCode, csWith, csNum)
-        VALUES (#{csCode}, #{csWith}, #{csNum})
+        INSERT INTO course (csCode, csWith, csNum, uCode)
+        VALUES (#{csCode}, #{csWith}, #{csNum}, #{uCode})
     </insert>
 
     <insert id="addCourse">
         INSERT INTO course_info (csCode, htId, ciIndex)
         VALUES (#{csCode}, #{htId},
-        (SELECT MAX(ciIndex) + 1 FROM course_info WHERE csCode = #{csCode}))
+        (SELECT NVL(MAX(ciIndex), 0) + 1 FROM course_info WHERE csCode = #{csCode}))
     </insert>
 
     <select id="getCsHtId" resultType="String">
@@ -77,7 +77,55 @@
         }
     </update>
 
-    <select id="getByMbti" resultMap="CourseWithMbtiVO">
-        select csCode, htId, ciIndex from course NATURAL JOIN course_info NATURAL JOIN users WHERE mbti = #{mbti};
+    <delete id="deleteCourse">
+        DELETE FROM course WHERE csCode = #{csCode}
+    </delete>
+
+    <select id="selectUsing" resultType="String">
+        SELECT csCode FROM course WHERE SUBSTR(csCode, -1) = 'C' AND uCode = #{uCode}
     </select>
+
+    <update id="updateUseCourse">
+        {
+            CALL
+                DECLARE
+                BEGIN
+
+                UPDATE course_info SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
+                WHERE csCode = #{csCode};
+
+                UPDATE course SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
+                WHERE csCode = #{csCode};
+
+            END
+        }
+    </update>
+
+    <update id="updateChangeCourse">
+        {
+        CALL chgUsing(#{uCode}, #{csCode})
+        }
+    </update>
+
+    <update id="updateReturnCourse">
+        {
+            CALL
+                DECLARE
+                BEGIN
+
+                UPDATE course SET csCode = SUBSTR(#{csCode}, 0, 16) || 'N'
+                WHERE csCode = #{csCode};
+
+                UPDATE course_info SET csCode = SUBSTR(#{csCode}, 0, 16) || 'N'
+                WHERE csCode = #{csCode};
+
+            END
+        }
+    </update>
+
+    <update id="updateOrder">
+        <foreach collection="list" index="index" item="vo" separator=";" open="DECLARE BEGIN" close="; END;">
+            UPDATE course_info SET ciIndex = #{vo.ciIndex} WHERE htId = #{vo.htId} AND csCode = #{csCode}
+        </foreach>
+    </update>
 </mapper>

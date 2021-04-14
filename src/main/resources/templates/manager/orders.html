@@ -158,7 +158,7 @@
                             <td>
                                 <th:block th:if="${review.get(reservation.value.get(0).riCode) != null}">
                                     <p class="text-warning" th:text="|*{review.get(reservation.value.get(0).riCode).rvRating} 점|"></p>
-                                    <a th:href="|/manager/reviews/*{reservation.value.get(0).htId}|" class="btn btn-outline-info btn-sm">리뷰 확인하기</a>
+                                    <a href="/manager/reviews" class="btn btn-outline-info btn-sm">리뷰 확인하기</a>
                                 </th:block>
                             </td>
                         </tr>

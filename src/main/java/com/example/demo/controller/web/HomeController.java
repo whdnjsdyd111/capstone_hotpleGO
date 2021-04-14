@@ -154,7 +154,6 @@ public class HomeController {
 
     @GetMapping("/reservation")
     public String reservation(Model model, @AuthenticationPrincipal CustomUser user) {
-        // TODO
         String uCode = user.user.getUCode();
         Map<String, List<ReservationAllVO>> map = reservation.getList(uCode);
         log.info(map);

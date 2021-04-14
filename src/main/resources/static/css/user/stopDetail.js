@@ -229,7 +229,7 @@ var test = function test() {
         }, basicErrorFunc);
 }
 
-function changeTotalPrice(){
+function changeTotalPrice() {
     let sum = 0;
     menu.forEach(i => sum += menu[i][1] * menu[i][2]);
     $('#cart-total-price').text(sum.toLocaleString('ko-KR') + "원");

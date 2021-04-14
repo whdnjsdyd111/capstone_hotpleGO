@@ -10,6 +10,10 @@
             border: 3px #1a252f solid;
             border-radius: 25px;
         }
+
+        #map_div > div > div > img:hover {
+            cursor: pointer;
+        }
     </style>
     <script src="/css/user/user_search.js"></script>
 </th:block>
@@ -23,7 +27,6 @@
             <script src="https://apis.openapi.sk.com/tmap/jsv2?version=1&appKey=l7xxcd9bdd0942b542fd8c7be931fc11a3b4"></script>
             <script th:inline="javascript">
                 let ht_map = [[${hotples}]];
-                console.log(ht_map);
             </script>
             <div class="d-flex justify-content-around">
                 <button class="btn-primary" type="button" onclick="setMyGeo()">내 위치 보기</button>

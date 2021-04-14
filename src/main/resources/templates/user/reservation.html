@@ -3,8 +3,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
-    <link rel="stylesheet" href="/css/user/myCourse.css" >
-    <script src="/css/user/myCourse.js"></script>
+    <link rel="stylesheet" href="/css/user/myCourse.css">
+    <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="/css/user/user_reservation.js"></script>
 </th:block>
 <div layout:fragment="content">
     <script th:inline="javascript">
@@ -19,12 +21,11 @@
         <th:block th:each="hotple : ${hotples}">
             <th:block th:if="${#hotpleAPI.reservBol(hotple.riTime)}">
                 <div class="doing-reservation">
-                    <!-- 예약 수만큼 반복할 div 시작-->
-                    <div  class="reservation-div p-2 border-dark border rounded mb-5">
+                    <div class="reservation-div p-2 border-dark border rounded mb-5">
                         <p class="time">2021-04-05</p>
                         <div class="reservation-container">
                             <th:block th:if="${hotple.uuid == null}">
-                                <img src="/images/logo.jpg" class="img-fluid" alt="이미지가 없습니다" />
+                                <img src="/images/logo.jpg" class="img-fluid" alt="이미지가 없습니다"/>
                             </th:block>
                             <th:block th:if="${hotple.uuid != null}">
                                 <img th:src="${#hotpleAPI.toImg(hotple.uploadPath,
@@ -37,23 +38,23 @@
                                 <span th:text="${hotple.htAddrDet}">업체 상세주소</span>
                             </div>
                             <div class="btn-container">
-                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"  data-target="#reservation-detail">상세 보기</button>
+                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"
+                                        data-target="#reservation-detail">상세 보기
+                                </button>
                                 <input type="hidden" th:value="${hotple.riCode}">
                                 <button type="button" class="btn btn-secondary cancel-reservation">예약 취소</button>
                             </div>
                         </div>
                     </div>
-                    <!-- 예약 수만큼 반복 div 끝-->
                 </div>
             </th:block>
             <th:block th:if="${!#hotpleAPI.reservBol(hotple.riTime)}">
                 <div class="done-reservation" style="display: none;">
-                    <!-- 끝난 예약 수만큼 반복할 div 시작-->
-                    <div  class="reservation-div p-2 border-dark border rounded mb-5">
-                        <p class="time">2021-04-04</p>
+                    <div class="reservation-div p-2 border-dark border rounded mb-5">
+                        <p class="time" th:text="${#hotpleAPI.toDateStr(hotple.riCode)}">2021-04-04</p>
                         <div class="reservation-container">
                             <th:block th:if="${hotple.uuid == null}">
-                                <img src="/images/logo.jpg" class="img-fluid" alt="이미지가 없습니다" />
+                                <img src="/images/logo.jpg" class="img-fluid" alt="이미지가 없습니다"/>
                             </th:block>
                             <th:block th:if="${hotple.uuid != null}">
                                 <img th:src="${#hotpleAPI.toImg(hotple.uploadPath,
@@ -66,62 +67,91 @@
                                 <span th:text="${hotple.htAddrDet}">업체 상세주소</span>
                             </div>
                             <div class="btn-container">
-                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"  data-target="#reservation-detail">상세 보기</button>
+                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"
+                                        data-target="#reservation-detail">상세 보기
+                                </button>
                                 <input type="hidden" th:value="${hotple.riCode}">
-                                <th:block th:if="${reviews.get(hotple.riCode) == null}">
-                                    <button type="button" class="btn btn-success collapsed" data-toggle="collapse" th:data-target="'#review' + ${hotple.riCode.replaceAll('/', '')}" aria-expanded="false">리뷰 작성</button>
-                                </th:block>
-                                <th:block th:if="${reviews.get(hotple.riCode) != null}">
-                                    <button type="button" class="btn btn-success collapsed" data-toggle="collapse" th:data-target="'#review' + ${hotple.riCode.replaceAll('/', '')}" aria-expanded="false">리뷰 보기</button>
-                                </th:block>
+                                <button type="button" class="btn btn-success " data-toggle="modal"
+                                        th:data-target="'#review' + ${hotple.riCode.replaceAll('/', '')}">리뷰 보기
+                                </button>
                             </div>
                         </div>
-                        <div class="form-group collapse" th:id="|review*{hotple.riCode.replaceAll('/', '')}|">
-                            <th:block th:if="${reviews.get(hotple.riCode) == null}">
-                                <div class="d-flex">
-                                    <textarea class="form-control"></textarea>
-                                    <select>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                    </select>
-                                </div>
-                                <button type="button" class="btn btn-primary submit-review">작성하기</button>
-                            </th:block>
-                            <th:block th:if="${reviews.get(hotple.riCode) != null}">
-                                <div class="d-flex">
-                                    <input class="form-control"
-                                           th:value="${reviews.get(hotple.riCode).rvCont}" />
-                                    <select>
-                                        <div th:each="num : ${#numbers.sequence(1, 5)}">
-                                            <option th:value="${num}" th:text="${num}"
-                                                    th:selected="${reviews.get(hotple.riCode).rvRating == num ? true : false}">1</option>
+                        <!-- 리뷰보기 모달 시작 -->
+                        <div class="modal fade" th:id="|review*{hotple.riCode.replaceAll('/', '')}|" tabindex="-1"
+                             role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header" style="display: block;">
+                                        <div>
+                                            <h4 class="modal-title" id="myModalLabel" th:text="${hotple.busnName}">가게명</h4>
                                         </div>
-                                    </select>
+                                        <div class="rating-css">
+                                            <div class="star-icon">
+                                                <th:block th:each="num : ${#numbers.sequence(1, 5)}">
+                                                    <input type="radio" th:name="|rating*{hotple.riCode.replaceAll('/', '')}|" th:value="${num}"
+                                                           th:checked="${reviews.get(hotple.riCode) != null ?
+                                                           num == reviews.get(hotple.riCode).rvRating : 'false'}"
+                                                           th:id="|rating*{hotple.riCode.replaceAll('/', '')}_*{num}|">
+                                                    <label th:for="|rating*{hotple.riCode.replaceAll('/', '')}_*{num}|" class="fa fa-star"></label>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        <textarea class="form-control review-content" cols="30" rows="4"
+                                                  th:text="${reviews.get(hotple.riCode) == null ? '' :
+                                                  reviews.get(hotple.riCode).rvCont}" required></textarea>
+                                        <!-- 사진 업로드 (사장 댓 없을 경우 있고 사장이 달면 수정 못하게 숨기기) -->
+                                        <div class="file-upload">
+                                            <div class="image-upload-wrap">
+                                                <input class="file-upload-input" type='file' onchange="readURL(this);"
+                                                       accept="image/*"/>
+                                                <div class="drag-text">
+                                                    <i class="far fa-image"></i>
+                                                    <p>사진 업로드</p></div>
+                                            </div>
+                                            <div class="file-upload-content">
+                                                <img class="file-upload-image" src="#" alt="your image"/>
+                                                <div class="image-title-wrap">
+                                                    <button type="button" onclick="removeUpload()" class="remove-image">
+                                                        Remove <span class="image-title">Uploaded Image</span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <th:block th:if="${reviews.get(hotple.riCode) == null ? false :
+                                        reviews.get(hotple.riCode).rvOwnCont == null ? false : true }">
+                                            <div th:id="|ceo-reply*{hotple.riCode.replaceAll('/', '')}|">
+                                                <p>사장님</p>
+                                                <textarea class="form-control" cols="30" rows="4"
+                                                          th:text="${reviews.get(hotple.riCode) == null ? '' :
+                                                      reviews.get(hotple.riCode).rvOwnCont}" readonly></textarea>
+                                            </div>
+                                        </th:block>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                        <th:block th:if="${reviews.get(hotple.riCode) == null}">
+                                            <button type="button" class="btn btn-primary submit-review">저장</button>
+                                        </th:block>
+                                        <th:block th:if="${reviews.get(hotple.riCode) != null}">
+                                            <button type="button" class="btn btn-primary update-review">수정</button>
+                                        </th:block>
+                                        <input type="hidden" th:value="${hotple.riCode.replaceAll('/', '')}"/>
+                                    </div>
                                 </div>
-                                <p>사장님 댓글</p>
-                                <button class="btn btn-info update-review">수정하기</button>
-                                <input type="text" class="form-control" readonly
-                                       th:value="${reviews.get(hotple.riCode).rvOwnCont}" />
-                            </th:block>
+                            </div>
                         </div>
                     </div>
-                    <!-- 끝난 예약 수만큼 반복 div 끝-->
                 </div>
             </th:block>
         </th:block>
-
-        <!--상세보기 모달 시작-->
         <div>
             <div class="modal fade" id="reservation-detail" role="dialog">
                 <div class="modal-dialog">
-                    <!-- Modal content-->
                     <div class="modal-content">
 
                         <div class="modal-body">
-                            <table class="table" >
+                            <table class="table">
                                 <thead>
                                 <th>주문 내역</th>
                                 <th>가격</th>
@@ -140,8 +170,6 @@
                                     </td>
                                 </tr>
                                 </tbody>
-                                <!-- 주문 양만큼 반복-->
-                                <!-- 반복 끝 -->
                             </table>
                             <div class="d-flex flex-column">
                                 <div class="d-flex justify-content-around">
@@ -155,13 +183,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal" >닫기</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">닫기</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--상세보기 모달 끝 -->
     </div>
 </div>
 </html>

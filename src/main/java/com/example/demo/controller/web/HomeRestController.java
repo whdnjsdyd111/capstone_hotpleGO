@@ -62,9 +62,8 @@ public class HomeRestController {
 
 
     @PostMapping("/setting-nick")
-    public ResponseEntity<String> settingNick(@RequestBody UserVO vo) {
-        // TODO
-        if (user.updateNick(vo.getNick(), "whdnjsdyd1112@naver.com/U/GO")) {
+    public ResponseEntity<String> settingNick(@RequestBody UserVO vo, @AuthenticationPrincipal CustomUser user) {
+        if (this.user.updateNick(vo.getNick(), user.user.getUCode())) {
             return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
@@ -118,12 +117,11 @@ public class HomeRestController {
     }
 
     @PostMapping("/submit-review")
-    public ResponseEntity<String> submitReview(@RequestBody ReviewVO vo) {
-        // TODO
-        vo.setUCode("whdnjsdyd111@naver.com/A/");
+    public ResponseEntity<String> submitReview(@RequestBody ReviewVO vo, @AuthenticationPrincipal CustomUser user) {
+        vo.setUCode(user.user.getUCode());
         vo.setRiCode(HotpleAPI.strToCode(vo.getRiCode()));
         if (review.registerReview(vo)) {
-            return new ResponseEntity<>("댓글 작성 완료하였습니다.", HttpStatus.OK);
+            return new ResponseEntity<>("리뷰 작성 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
         }
@@ -133,7 +131,7 @@ public class HomeRestController {
     public ResponseEntity<String> updateReview(@RequestBody ReviewVO vo) {
         vo.setRiCode(HotpleAPI.strToCode(vo.getRiCode()));
         if (review.updateReview(vo)) {
-            return new ResponseEntity<>("댓글 수정하였습니다.", HttpStatus.OK);
+            return new ResponseEntity<>("리뷰를 수정하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
         }
@@ -142,7 +140,7 @@ public class HomeRestController {
     @PostMapping("/custom-course")
     public ResponseEntity<String> customCourse(@RequestBody CourseVO vo, @AuthenticationPrincipal CustomUser user) {
         log.info(user);
-        vo.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
+        vo.setUCode(user.user.getUCode());
         if (course.register(vo)) {
             return new ResponseEntity<>(vo.getCsCode(), HttpStatus.OK);
         } else {
@@ -314,7 +312,53 @@ public class HomeRestController {
 
     @PostMapping("/delete-course")
     public ResponseEntity<String> deleteCourse(HttpServletRequest request) {
-        return null;
+        if (course.removeCourse(request.getParameter("csCode"))) {
+            return new ResponseEntity<>("코스를 삭제하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("삭제에 실패하였습니다.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/check-course")
+    public ResponseEntity<String> checkCourse(@AuthenticationPrincipal CustomUser user) {
+        if (course.checkUsing(user.user.getUCode())) {
+            return new ResponseEntity<>("Y", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("N", HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/change-course")
+    public ResponseEntity<String> changeCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        course.changeCourse(user.user.getUCode(), request.getParameter("csCode"));
+        return new ResponseEntity<>("해당 코스로 교체하였습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/use-course")
+    public ResponseEntity<String> useCourse(HttpServletRequest request) {
+        course.changeUseCourse(request.getParameter("csCode"));
+        return new ResponseEntity<>("해당 코스로 이용에 성공하였습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/return-course")
+    public ResponseEntity<String> returnCourse(HttpServletRequest request) {
+        course.returnCourse(request.getParameter("csCode"));
+        return new ResponseEntity<>("코스를 내렸습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/reorder-hotple")
+    public ResponseEntity<String> reorder(@RequestParam("htId[]") Long[] htId,
+                                          @RequestParam("ciIndex[]") Byte[] ciIndex,
+                                          @RequestParam("csCode") String csCode) {
+        List<CourseInfoVO> list = new ArrayList<>();
+        for (int i = 0; i < htId.length; i++) {
+            CourseInfoVO vo = new CourseInfoVO();
+            vo.setHtId(htId[i]);
+            vo.setCiIndex(ciIndex[i]);
+            list.add(vo);
+        }
+        course.updateOrder(list, csCode);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     @GetMapping("/mbti_course")
