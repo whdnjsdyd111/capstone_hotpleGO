@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -160,8 +158,8 @@ public class ManagerRestController {
 
     @PostMapping("/cate-update")
     public ResponseEntity<String> categoryUpdate(HttpServletRequest request) {
-        String before = request.getParameter("before").toString();
-        String category = request.getParameter("category").toString();
+        String before = request.getParameter("before");
+        String category = request.getParameter("category");
         if (menu.updateCategory("5", before, category)) {
             return new ResponseEntity<>("일괄 수정하였습니다.", HttpStatus.OK);
         } else {
@@ -170,8 +168,8 @@ public class ManagerRestController {
     }
 
     @PostMapping("/delete-cate")
-    public ResponseEntity<String> cateDelte(HttpServletRequest request) {
-        String category = request.getParameter("category").toString();
+    public ResponseEntity<String> cateDelete(HttpServletRequest request) {
+        String category = request.getParameter("category");
         if (menu.removeCategory("5", category)) {
             return new ResponseEntity<>("일괄 삭제하였습니다.", HttpStatus.OK);
         } else {
@@ -182,7 +180,7 @@ public class ManagerRestController {
     @PostMapping("/delete-menu")
     public ResponseEntity<String> menuDelete(@RequestBody MenuVO vo) {
         log.info(vo);
-        boolean img = vo.getUuid() == null ? false : (vo.getUuid().isEmpty() ? false : true);
+        boolean img = vo.getUuid() != null && (!vo.getUuid().isEmpty());
         if (menu.remove(vo.getMeCode(), img)) {
             if (img) {
                 ImageAttachVO image = new ImageAttachVO();
@@ -195,9 +193,8 @@ public class ManagerRestController {
     }
 
     @PostMapping("/setting-nick")
-    public ResponseEntity<String> settingNick(@RequestBody ManagerVO vo) {
-        // TODO
-        if (user.updateNick(vo.getNick(), "whdnjsdyd1111@naver.com/M/")) {
+    public ResponseEntity<String> settingNick(@RequestBody ManagerVO vo, @AuthenticationPrincipal CustomUser manager) {
+        if (user.updateNick(vo.getNick(), manager.user.getUCode())) {
             return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
@@ -205,9 +202,8 @@ public class ManagerRestController {
     }
 
     @PostMapping("/setting-account")
-    public ResponseEntity<String> settingAccount(@RequestBody ManagerVO vo) {
-        // TODO
-        vo.setUCode("whdnjsdyd1111@naver.com/M/");
+    public ResponseEntity<String> settingAccount(@RequestBody ManagerVO vo, @AuthenticationPrincipal CustomUser manager) {
+        vo.setUCode(manager.user.getUCode());
         if (user.updateAccount(vo)) {
             return new ResponseEntity<>("계좌 변경 완료하였습니다.", HttpStatus.OK);
         } else {
@@ -219,7 +215,7 @@ public class ManagerRestController {
     public ResponseEntity<String> settingPassword(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
         String pw = request.getParameter("password");
         String new_pw = request.getParameter("new_password");
-        String code = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
+        String code = manager.user.getUCode();
         if (new BCryptPasswordEncoder().matches(pw, user.getPw(code))) {
             if (user.updatePw(passwordEncoder.encode(new_pw), code)) {
                 return new ResponseEntity<>("비밀번호 변경 완료하였습니다.", HttpStatus.OK);
@@ -245,7 +241,7 @@ public class ManagerRestController {
 
     @PostMapping("/save-weekday")
     public ResponseEntity<String> saveWeekday(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
-        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
+        String uCode = manager.user.getUCode();
         String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
         String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
         if (openInfo.mergeOpen(wo, uCode, OpenInfoService.WEEKDAY) && openInfo.mergeBreak(wb, uCode, OpenInfoService.WEEKDAY)) {
@@ -257,7 +253,7 @@ public class ManagerRestController {
 
     @PostMapping("/save-weekend-sat")
     public ResponseEntity<String> saveWeekendSat(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
-        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
+        String uCode = manager.user.getUCode();
         String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
         String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
         if (openInfo.mergeOpen(wo, uCode, OpenInfoService.SATURDAY) && openInfo.mergeBreak(wb, uCode, OpenInfoService.SATURDAY)) {
@@ -269,7 +265,7 @@ public class ManagerRestController {
 
     @PostMapping("/save-weekend-sun")
     public ResponseEntity<String> saveWeekendSun(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
-        String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
+        String uCode = manager.user.getUCode();
         String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
         String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
         if (openInfo.mergeOpen(wo, uCode, OpenInfoService.SUNDAY) && openInfo.mergeBreak(wb, uCode, OpenInfoService.SUNDAY)) {

@@ -61,9 +61,8 @@ public class HomeRestController {
 
 
     @PostMapping("/setting-nick")
-    public ResponseEntity<String> settingNick(@RequestBody UserVO vo) {
-        // TODO
-        if (user.updateNick(vo.getNick(), "whdnjsdyd1112@naver.com/U/GO")) {
+    public ResponseEntity<String> settingNick(@RequestBody UserVO vo, @AuthenticationPrincipal CustomUser user) {
+        if (this.user.updateNick(vo.getNick(), user.user.getUCode())) {
             return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);

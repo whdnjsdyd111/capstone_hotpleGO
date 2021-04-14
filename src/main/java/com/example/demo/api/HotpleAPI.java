@@ -101,7 +101,6 @@ public class HotpleAPI {
     }
 
     public static String toTel(String str) {
-        // TODO
         if (str == null) return null;
         StringBuffer sb = new StringBuffer(str);
         sb.insert(7, '-');

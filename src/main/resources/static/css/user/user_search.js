@@ -4,20 +4,34 @@ let map;
 let marker;
 let setLat;
 let setLng;
+let infoWindow;
+
 $(function() {
     map = new Tmapv2.Map("map_div", {
-        center: new Tmapv2.LatLng(37.52084364186228,127.058908811749),
+        center: new Tmapv2.LatLng(35.8992601, 128.6215081),
         width: "100%",
         height: "400px"
     });
 
-    map.addListener("drag", onDrag); // 지도 드래그시, 이벤트 리스너 등록.
-    myGeo();
-    ht_map.forEach(i => {
-        addMarker(null, i.htLng, i.htLat, null);
+    marker = new Tmapv2.Marker({
+        position : new Tmapv2.LatLng(35.8992601, 128.6215081),
+        map : map
     });
+    map.setZoom(15);
 
-
+    map.addListener("click", function() {
+        if (infoWindow !== undefined) {
+            infoWindow.setMap(null);
+            infoWindow = undefined;
+        }
+    });
+    map.addListener("drag", onDrag); // 지도 드래그시, 이벤트 리스너 등록.
+    ht_map.forEach((h, n) => {
+        addMarker(null, h.htLng, h.htLat, null);
+        markerList[n].addListener("click", function() {
+            addInfoWindow(h);
+        });
+    });
 });
 
 function addMarker(status, lon, lat, index) {
@@ -27,6 +41,47 @@ function addMarker(status, lon, lat, index) {
         map: map
     });
     markerList.push(marker);
+}
+
+function addInfoWindow(h) {
+    let content=
+        "<div class='d-flex flex-column rounded infoWindow' style='background: seashell; position: absolute; box-shadow: 5px 5px 5px #00000040;width : 250px;height:250px;top: -300px;left: -125px;align-items: center;'>";
+    h.htImg === null ? content += '<img src="/images/logo.jpg" style="width: 200px; height: 100px" class="shadow-sm bg-white rounded mt-1" alt="이미지가 없습니다.">'
+        : content += '<img src="/hotpleImage/'+ h.uploadPath.replaceAll('\\', '/') + '/' + h.htImg + '_' + h.fileName + '"' +
+        'style="width: 200px; height: 100px" class="shadow-sm bg-white rounded mt-1" alt="이미지가 없습니다.">';
+    content +=
+        "<div class='mt-2'>"+
+        "<p class='m-1'>"+
+        "<span style=' font-size: 16px; font-weight: bold;'>" + h.busnName + "</span>"+
+        "</p>" +
+        "<p class='m-1'>"+
+        "<span>"+ h.htAddr + "</span>"+
+        "</p>"+
+        "<p class='m-1'>"+
+        "구글 별점 : <span class='text-warning'>" + (h.goGrd === null ? "없음" : h.goGrd) + "</span>"+
+        "<a class='btn btn-sm btn-info ml-3' href='/hotple/" + h.htId + "'>자세히 보기</a>" +
+        "</p>";
+
+    if (h.ucode !== null) content += "<p class='m-1'>핫플GO 등록 업체</p>";
+    content +=
+        "</div>" +
+        "<div style='position: absolute;border-style: solid;border-width: 15px 15px 0px;bottom: -15px;border-color: seashell transparent;'></div>" +
+        "</div>";
+
+    if (infoWindow !== undefined) {
+        infoWindow.setMap(null);
+        infoWindow = undefined;
+    }
+
+    infoWindow = new Tmapv2.InfoWindow({
+        position: new Tmapv2.LatLng(h.htLat, h.htLng), //Popup 이 표출될 맵 좌표
+        content: content, //Popup 표시될 text
+        border :'0px solid #FF0000', //Popup의 테두리 border 설정.
+        type: 2, //Popup의 type 설정.
+        map: map //Popup이 표시될 맵 객체
+    });
+    $('.infoWindow').parent().parent().css('z-index', 999);
+    map.setCenter(new Tmapv2.LatLng(h.htLat + 0.005, h.htLng));
 }
 
 function onDrag() {
@@ -87,7 +142,7 @@ function buildCards(h, n) {
         '<h5 class="card-title">' + h.busnName +'</h5>' +
         '<div class="text-left">' +
         '<span class="font-weight-bold">구글 평점 : </span>' +
-        '<span class="text-warning h4">' + (h.goGrd === null ? '' : h.goGrd) +'</span>' +
+        '<span class="text-warning h4">' + (h.goGrd === null ? '없음' : h.goGrd) +'</span>' +
         '</div>' +
         '</div>' +
         '<a href="/hotple/' + h.htId + '" class="stretched-link"></a>' +
@@ -129,11 +184,14 @@ function send() {
         success: function(data) {
             let div = $("#hotple_div");
             // div.fadeTo(500, 0.2);
-            markerList.forEach(i => i.setMap(null));
+            initMarkerWindow();
             let cards = "";
             data.forEach((h, n) => {
-                console.log(h, n)
-                addMarker(null, h.htLng, h.htLat, null)
+                console.log(h, n);
+                addMarker(null, h.htLng, h.htLat, null);
+                markerList[n].addListener("click", function() {
+                    addInfoWindow(h);
+                });
                 cards += buildCards(h, n);
             });
             div.html(cards);
@@ -143,4 +201,13 @@ function send() {
             alert(xhr.responseText);
         }
     });
+}
+
+function initMarkerWindow() {
+    markerList.forEach(i => i.setMap(null));
+    markerList.length = 0;
+    if (infoWindow !== undefined) {
+        infoWindow.setMap(null);
+        infoWindow = undefined;
+    }
 }
