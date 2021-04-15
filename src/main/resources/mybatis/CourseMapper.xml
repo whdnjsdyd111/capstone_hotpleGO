@@ -128,4 +128,8 @@
             UPDATE course_info SET ciIndex = #{vo.ciIndex} WHERE htId = #{vo.htId} AND csCode = #{csCode}
         </foreach>
     </update>
+
+    <select id="getByMbti" resultType="CourseWithMbtiVO">
+        select csCode, htId, ciIndex from course NATURAL JOIN course_info NATURAL JOIN users WHERE mbti = #{mbti}
+    </select>
 </mapper>

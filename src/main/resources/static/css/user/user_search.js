@@ -1,4 +1,10 @@
 const markerList = [];
+const markers = ['/images/icons/mark/redMark.png',
+    '/images/icons/mark/blueMark.png',
+    '/images/icons/mark/greenMark.png',
+    '/images/icons/mark/yellowMark.png',
+    '/images/icons/mark/pinkMark.png',
+    '/images/icons/mark/grayMark.png']
 
 let map;
 let marker;
@@ -27,17 +33,18 @@ $(function() {
     });
     map.addListener("drag", onDrag); // 지도 드래그시, 이벤트 리스너 등록.
     ht_map.forEach((h, n) => {
-        addMarker(null, h.htLng, h.htLat, null);
+        addMarker(h.category, h.htLng, h.htLat, null);
         markerList[n].addListener("click", function() {
             addInfoWindow(h);
         });
     });
+
 });
 
-function addMarker(status, lon, lat, index) {
+function addMarker(category, lon, lat, index) {
     let marker = new Tmapv2.Marker({
         position: new Tmapv2.LatLng(lat,lon),
-        icon: 'https://icons.iconarchive.com/icons/paomedia/small-n-flat/24/map-marker-icon.png',
+        icon: markers[Math.floor(category / 10)],
         map: map
     });
     markerList.push(marker);
@@ -73,6 +80,8 @@ function addInfoWindow(h) {
         infoWindow = undefined;
     }
 
+
+
     infoWindow = new Tmapv2.InfoWindow({
         position: new Tmapv2.LatLng(h.htLat, h.htLng), //Popup 이 표출될 맵 좌표
         content: content, //Popup 표시될 text
@@ -82,6 +91,7 @@ function addInfoWindow(h) {
     });
     $('.infoWindow').parent().parent().css('z-index', 999);
     map.setCenter(new Tmapv2.LatLng(h.htLat + 0.005, h.htLng));
+    map.setZoom(15);
 }
 
 function onDrag() {
@@ -188,7 +198,7 @@ function send() {
             let cards = "";
             data.forEach((h, n) => {
                 console.log(h, n);
-                addMarker(null, h.htLng, h.htLat, null);
+                addMarker(h.category, h.htLng, h.htLat, null);
                 markerList[n].addListener("click", function() {
                     addInfoWindow(h);
                 });

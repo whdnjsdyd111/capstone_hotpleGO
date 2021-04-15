@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.domain.CourseInfoVO;
 import com.example.demo.domain.CourseVO;
+import com.example.demo.domain.CourseWithMbtiVO;
 import com.example.demo.mapper.CourseMapper;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -106,5 +107,9 @@ public class CourseService {
 
     public void returnCourse(String csCode) {
         mapper.updateReturnCourse(csCode);
+    }
+
+    public List<CourseWithMbtiVO> getByMbti(String mbti) {
+        return mapper.getByMbti(mbti);
     }
 }

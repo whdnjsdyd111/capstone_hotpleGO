@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="user/layout::head ('Registration')"></head>
+<head th:insert="user/layout::head ('Registration')">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <style>
+        @media(max-width:650px){
+            .btn-outline-dark{
+                width:55px;
+                height:30px;
+                font-size: 8px;
+                font-weight: 600;
+                padding:0px;
+            }
+        }
+
+    </style>
+</head>
 <body class="bg-gradient-primary">
 <div class="container">
     <div class="card o-hidden border-0 shadow-lg my-5">
@@ -18,50 +32,55 @@
                                 <input type="email" class="form-control form-control-user" id="exampleInputEmail"
                                        name="uCode" th:value="${user.UCode}" placeholder="Email Address" readonly>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user"
-                                           th:value="${user.nick}" id="exampleInputPassword" name="nick" placeholder="Nick Name">
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" placeholder="birthday" autocomplete="off"
-                                           id="datepicker" name="birthday">
-                                    <script>
-                                        $('#datepicker').datetimepicker({
-                                            timepicker: false,
-                                            format: 'Y-m-d',
-                                            language: 'ko',
-                                            autoclose: true
-                                        });
-                                    </script>
-                                </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user"
+                                       th:value="${user.nick}" id="exampleInputPassword" name="nick"
+                                       placeholder="Nick Name">
                             </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" name="gender" id="radio-1" class="custom-control-input"
-                                               checked="checked" value="M">
-                                        <label class="custom-control-label" for="radio-1">Man</label>
-                                    </div>
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" name="gender" id="radio-2" class="custom-control-input"
-                                               value="W">
-                                        <label class="custom-control-label" for="radio-2">Woman</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" id="phoneInputEmail"
-                                           th:value="${user.phone}" name="phone" placeholder="Phone Number Without '-'">
-                                    <input type="button" value="인증번호 받기" id="sendPhoneNumber" >
-                                    <input type="text" class="form-control form-control-user" id="inputCertifiedNumber"
-                                           th:value="${user.phone}" placeholder="인증번호를 입력해주세요.">
-                                    <input type="button" value="인증번호 확인" id="checkBtn" >
-                                </div>
+                            <div class="form-group">
+
+                                <input type="text" class="form-control form-control-user" placeholder="birthday"
+                                       autocomplete="off"
+                                       id="datepicker" name="birthday">
+                                <script>
+                                    $('#datepicker').datetimepicker({
+                                        timepicker: false,
+                                        format: 'Y-m-d',
+                                        language: 'ko',
+                                        autoclose: true,
+                                        theme: 'dark'
+                                    });
+                                </script>
                             </div>
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <div class="form-group d-flex">
+                                <input type="text" class="form-control form-control-user" id="phoneInputEmail"
+                                       th:value="${user.phone}" name="phone" placeholder="Phone Number Without '-'">
+                                <input type="button" class="btn btn-outline-dark my-auto ml-3" value="인증번호 받기" id="sendPhoneNumber">
+                            </div>
+                            <div class=" form-group d-flex">
+                                <input type="text" class="form-control form-control-user" id="inputCertifiedNumber"
+                                       th:value="${user.phone}" placeholder="인증번호를 입력해주세요.">
+                                <input type="button" class="btn btn-outline-dark my-auto ml-3" value="인증번호 확인" id="checkBtn">
+                            </div>
+
+
+                            <div class="form-group custom-control custom-radio">
+                                <input type="radio" name="gender" id="radio-1" class="custom-control-input"
+                                       checked="checked" value="M">
+                                <label class="custom-control-label" for="radio-1">Man</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" name="gender" id="radio-2" class="custom-control-input"
+                                       value="W">
+                                <label class="custom-control-label" for="radio-2">Woman</label>
+                            </div>
+
+
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <input type="hidden" th:value="${user.pw}" name="pw">
-                            <input type="hidden" th:value="${user.profileImg}" name="profileImg" />
-                            <button type="submit" class="ml-0 btn btn-primary btn-user btn-block">
+                            <input type="hidden" th:value="${user.profileImg}" name="profileImg"/>
+                            <button type="submit" class="ml-0 btn btn-primary btn-user btn-block"
+                                    onclick="return pass()">
                                 Register Complete!
                             </button>
                             <hr>
@@ -80,27 +99,78 @@
     </div>
 </div>
 <script>
-    $('#sendPhoneNumber').click(function () {
-        let phoneNumber = $('#phoneInputEmail').val();
-        alert("인증번호 발송완료");
+    let isPassed = false;
 
-        $.ajax({
-            type: "GET",
-            url: "/sendSMS",
-            data: {
-                phoneNumber: phoneNumber
-            },
-            success: function (res) {
-                $('#checkBtn').click(function () {
-                    if ($.trim(res) == $('#inputCertifiedNumber').val()) {
-                        alert("인증 성공!");
-                    } else {
-                        alert("인증번호가 올바르지않습니다.");
-                    }
-                })
+    function pass() {
+        let arr = $('.form-control').get();
+        for(let i = 0; i < arr.length; i++){
+            if ($(arr[i]).val().trim() == "") {
+                console.log(i);
+                swal({
+                    title: "실패!",
+                    text: "모든 입력칸을 전부 입력해주세요!",
+                    icon: "error",
+                    button: "확인",
+                });
+                return false;
             }
-        });
+        };
+        if (!isPassed) {
+            swal({
+                title: "실패!",
+                text: "인증번호를 확인해주세요!",
+                icon: "error",
+                button: "확인",
+            });
+            return isPassed;
+        } else return true;
+    }
 
+    $('#sendPhoneNumber').click(function () {
+        const regTel = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
+        if (regTel.test($('#phoneInputEmail').val())) {
+            let phoneNumber = $('#phoneInputEmail').val();
+            swal({
+                title: "전송 완료!",
+                text: "인증번호를 입력해주세요!",
+                icon: "success",
+                button: "확인",
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/sendSMS",
+                data: {
+                    phoneNumber: phoneNumber
+                },
+                success: function (res) {
+                    $('#checkBtn').click(function () {
+                        if ($.trim(res) == $('#inputCertifiedNumber').val()) {
+                            isPassed = true;
+                            swal({
+                                title: "인증 성공!",
+                                text: "계속 진행해주세요!",
+                                icon: "success",
+                                button: "GO!",
+                            });
+                            $('#phoneInputEmail').attr('readonly',true);
+                        } else {
+                            swal({
+                                title: "인증 실패!",
+                                text: "인증번호를 확인해주세요!",
+                                icon: "error",
+                                button: "확인",
+                            });
+                        }
+                    })
+                }
+            });
+        } else swal({
+            title: "실패!",
+            text: "올바른 휴대폰 번호를 입력해주세요!",
+            icon: "error",
+            button: "확인",
+        });
     });
 </script>
 </body>
