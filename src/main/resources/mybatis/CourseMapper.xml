@@ -129,7 +129,7 @@
         </foreach>
     </update>
 
-    <select id="getByMbti" resultMap="CourseWithMbtiVO">
+    <select id="getByMbti" resultType="CourseWithMbtiVO">
         select csCode, htId, ciIndex from course NATURAL JOIN course_info NATURAL JOIN users WHERE mbti = #{mbti}
     </select>
 </mapper>
