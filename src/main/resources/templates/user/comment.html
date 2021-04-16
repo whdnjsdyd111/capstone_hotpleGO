@@ -59,30 +59,20 @@
                     <div th:utext="${comm.comCont}">댓글 내용</div>
                 </div>
                 <div class="mt-2">
-                    <!--                    <c:if test="${ empty sessionScope.YJFBID_SES }">-->
-                    <!--<button class="go_login btn btn-dark">답글쓰기</button>-->
-                    <!--                    </c:if>-->
-                    <!--                    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
-                    <button class="open-replies btn btn-dark" data-toggle="collapse" th:data-target="'#' +|collapse*{comm.comCode}|">답글보기</button>
+
+                    <button class="open-replies btn btn-dark" data-toggle="collapse" th:data-target="'#' +|collapse*{comm.comCode.replaceAll('/', '')}|">답글보기</button>
                     <button class="write_reply btn btn-dark" >답글쓰기</button>
                     <input type="hidden" th:value="${comm.comCode}"/>
-                    <!--                        <c:if test="${ joinMemCom.com_mem_id != mem_id }">-->
                     <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
                     <input type="hidden" th:value="${comm.UCode}"/>
                     <input type="hidden" style="text-align: left" name="nickname"/>
-                    <!--                        </c:if>-->
-                    <!--                    <button class="btn btn-danger report">신고</button>-->
-                    <!--                    <input type="hidden" value="${ joinMemCom.com_id }"/>-->
-                    <!--                    <input type="hidden" value="C"/>-->
-                    <!--                    &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id == mem_id }">&ndash;&gt;-->
-                    <!--                        </c:if>-->
-                    <!--                    </c:if>-->
+
                 </div>
             </div>
             <!-- 입력된 댓글 상자 끝-->
         </div>
         <!-- 리댓 상자 시작 -->
-        <div th:id="|collapse*{comm.comCode}|" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne"> <!-- id에 각 댓글 구분할 값 추가 -->
+        <div th:id="|collapse*{comm.comCode.replaceAll('/', '')}|" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne"> <!-- id에 각 댓글 구분할 값 추가 -->
             <th:block th:each="reply : ${commentList.get(comm)}">
                 <div class="row container p-3 comments replies" >
                     <div class="col mr-auto d-flex flex-column text-left border reply-box">
