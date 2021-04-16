@@ -57,8 +57,8 @@
         <selectKey keyProperty="csCode" resultType="String" order="BEFORE">
             SELECT TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cs.NEXTVAL, 2, '0') || '/N' FROM DUAL
         </selectKey>
-        INSERT INTO course (csCode, csWith, csNum, uCode)
-        VALUES (#{csCode}, #{csWith}, #{csNum}, #{uCode})
+        INSERT INTO course (csCode, csTitle, csWith, csNum, uCode)
+        VALUES (#{csCode}, #{csTitle}, #{csWith}, #{csNum}, #{uCode})
     </insert>
 
     <insert id="addCourse">

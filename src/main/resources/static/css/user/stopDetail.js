@@ -110,7 +110,7 @@ $(function (){
     });
 
     $('.course').click(function() {
-        let csCode = $(this).text();
+        let csCode = $(this).next().val();
         swal("해당 코스에 핫플을 추가하시겠습니까?",
             {
                 buttons: {

@@ -174,5 +174,4 @@ public class HomeController {
         model.addAttribute("phone", user.user.getPhone());
         return "user/payment";
     }
-
 }

@@ -360,7 +360,8 @@
                             <th:block th:if="${courses != null}">
                                 <h3>핫플을 추가할 코스 선택</h3>
                                 <th:block th:each="course : ${courses}">
-                                    <span class="btn btn-google course" th:text="${course.csCode}"></span>
+                                    <span class="btn btn-google course" th:text="${course.csTitle}"></span>
+                                    <input type="hidden" th:value="${course.csCode}">
                                 </th:block>
                             </th:block>
                             <th:block th:if="${courses == null}">

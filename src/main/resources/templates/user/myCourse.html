@@ -143,6 +143,7 @@
                         <span th:text="'만든 날짜 : ' + ${#hotpleAPI.toDateStr(course.csCode)}">만든 날짜 : 2021-04-02</span>
                         <span th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</span>
                         <span th:text="|인원 : *{course.csNum}|">인원 : 2명</span>
+                        <span th:text="|코스 제목 :  *{course.csTitle}|"></span>
                     </div>
                 </div>
             </div>
@@ -174,6 +175,10 @@
                         <button class="btn-dark" id="mbti">MBTI 유형<br/>추천</button>
                     </div>
                     <form id="setting" style="display: none;">
+                        <div class="form-group">
+                            <label for="title">코스 제목</label>
+                            <input type="text" id="title" class="form-control">
+                        </div>
                         <div class="form-group">
                             <label for="with">함께할 인원</label>
                             <select class="custom-select" id="with">

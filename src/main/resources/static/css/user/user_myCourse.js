@@ -1,8 +1,18 @@
 $(function() {
     $('#custom_submit').click(function() {
+        let csWith = $('#with').val();
+        let csNum = $('#person').val();
+        let csTitle = $('#title').val();
+
+        if (csWith === "" || csNum === "" || csTitle === "") {
+            swal("빈 입력사항이 있습니다.", "모두 입력해주십시오.", "warning");
+            return;
+        }
+
         requestBody({
-            csWith : $('#with').val(),
-            csNum : $('#person').val()
+            csWith : csWith,
+            csNum : csNum,
+            csTitle: csTitle
         }, '/custom-course', function(data) {
             swal({
                 title : "코스를 생성했습니다.",

@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 public class CourseVO {
     // 코스 정보
     private String csCode;
+    private String csTitle;
     private String csWith;
     private Byte csNum;
     private Double csTemp;

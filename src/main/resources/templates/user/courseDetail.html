@@ -89,6 +89,26 @@
         <script src="/css/user/user_usingCourse.js"></script>
         <script src="/css/vendor/jq/jquery-ui.min.js"></script>
     </th:block>
+    <th:block th:if="${courseInfos.size() == 0}">
+        <script>
+            $(function() {
+                $('#course_delete').click(function() {
+                    swal("코스 삭제", "해당 코스를 삭제하시겠습니까?", "warning", {
+                        buttons: {
+                            cancel : "취소",
+                            yes : "삭제",
+                        },
+                    }).then(v => {
+                        if (v === "yes") requestServlet({
+                            csCode : $('#course_delete').next().val(),
+                        }, "/delete-course", function(data) {
+                            swal("삭제 성공!", data, "success").then(() => { location.href = "/myCourse?kind=myCourse" });
+                        }, basicErrorFunc);
+                    });
+                });
+            })
+        </script>
+    </th:block>
 </th:block>
 <div layout:fragment="content">
     <div th:replace="user/courseNav :: course"></div>
@@ -141,6 +161,12 @@
     <th:block th:if="${courseInfos.size() == 0}">
         <div class="jumbotron">
             <a href="/" class="h1">코스에 핫플들을 추가해주세요!</a>
+        </div>
+    </th:block>
+    <th:block th:if="${courseInfos.size() == 0}">
+        <div class="d-flex justify-content-around">
+            <button type="button" class="btn-warning" id="course_delete">코스 삭제</button>
+            <input type="hidden" th:value="${course.csCode}">
         </div>
     </th:block>
 </div>

@@ -139,8 +139,8 @@ public class HomeRestController {
 
     @PostMapping("/custom-course")
     public ResponseEntity<String> customCourse(@RequestBody CourseVO vo, @AuthenticationPrincipal CustomUser user) {
-        log.info(user);
         vo.setUCode(user.user.getUCode());
+        log.info(vo.getCsTitle());
         if (course.register(vo)) {
             return new ResponseEntity<>(vo.getCsCode(), HttpStatus.OK);
         } else {
