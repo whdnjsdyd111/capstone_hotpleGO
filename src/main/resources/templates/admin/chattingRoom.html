@@ -7,7 +7,7 @@
 </th:block>
 <div layout:fragment="content">
     <fieldset>
-        <article class="d-flex flex-column overflow-auto bg-info" id="chat_room" style="max-height: 500px">
+        <article class="d-flex flex-column overflow-auto bg-info" id="chat_room" style="height: 500px">
             <th:block th:each="cht : ${chatLog}">
                 <th:block th:switch="${cht.UCode.split('/')[0]}">
                     <th:block th:case="${admin.UCode.split('/')[0]}">
@@ -43,7 +43,7 @@
         </div>
     </fieldset>
     <script>
-        let webSocket = new WebSocket('ws://localhost:8000/admin/websocket');
+        let webSocket = new WebSocket('ws://3.13.167.35:8000/admin/websocket');
 
         webSocket.onerror = function(event) { onError(event) };
         webSocket.onopen = function(event) { onOpen(event) };

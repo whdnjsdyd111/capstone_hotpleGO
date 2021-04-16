@@ -50,6 +50,20 @@ const requestServlet = function(data, url, success_callback, error_callback) {
     });
 }
 
+const requestGet = function(data, url, success_callback, error_callback) {
+    $.ajax({
+        type: "get",
+        url: url,
+        data: data,
+        success: function(data, status, xhr) {
+            success_callback(data, status, xhr);
+        },
+        error: function (xhr, status, err) {
+            error_callback(xhr, status, err);
+        }
+    })
+}
+
 const basicErrorFunc = function(xhr, status, err) {
     swal("실패하였습니다.", xhr.responseText, "error");
 }
