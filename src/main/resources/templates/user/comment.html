@@ -27,62 +27,7 @@
 
 <div id="start_com">
     <div th:each="comm : ${commentList.keySet()}">
-        <!--        <c:forEach var="entry" items="${ commentMap }">-->
-        <!--            <c:set var="joinMemCom" value="${ entry.key }" />-->
-        <!--            <c:set var="comReco" value="${ comRecoMap.get(joinMemCom.getCom_id()) }" />-->
         <div class="row container p-3 comments " style="margin: 0 auto;">
-            <!-- 전 추천 구현-->
-            <!--<form method="post" class="mx-3 d-flex flex-column">
-
-                &lt;!&ndash;                    <c:if test="${ empty sessionScope.YJFBID_SES }">&ndash;&gt;
-                <button type="button" class="go_login btn btn-outline-dark btn-sm"><i class="fa fa-chevron-up"></i>
-                </button>
-                <span class="reco_count container">추천수</span>
-                <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">
-                <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">
-                <button type="button" class="go_login btn btn-outline-dark btn-sm"><i class="fa fa-chevron-down"></i>
-                </button>
-                &lt;!&ndash;                    </c:if>&ndash;&gt;
-
-                &lt;!&ndash;                <c:if test="${ !empty sessionScope.YJFBID_SES }">&ndash;&gt;
-
-
-                &lt;!&ndash;                <button id="comReco_n" type="button" class="recoBtn btn btn-outline-dark btn-sm">&ndash;&gt;
-                &lt;!&ndash;                    <i class="fa fa-chevron-up"></i>&ndash;&gt;
-                &lt;!&ndash;                </button>&ndash;&gt;
-                &lt;!&ndash;                <span class="reco_count container">${ joinMemCom.com_reco }</span>&ndash;&gt;
-                &lt;!&ndash;                <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">&ndash;&gt;
-                &lt;!&ndash;                <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">&ndash;&gt;
-                &lt;!&ndash;                <button id="comNonReco_n" type="button" class="nonRecoBtn btn btn-outline-dark btn-sm">&ndash;&gt;
-                &lt;!&ndash;                    <i class="fa fa-chevron-down"></i>&ndash;&gt;
-                &lt;!&ndash;                </button>&ndash;&gt;
-                &lt;!&ndash;                &lt;!&ndash;                    </c:if>&ndash;&gt;&ndash;&gt;
-                &lt;!&ndash;                &lt;!&ndash;                    <c:if test="${ comReco == 'N' }">&ndash;&gt;&ndash;&gt;
-                &lt;!&ndash;                <button id="comReco_y" type="button" class="recoBtn btn btn-outline-dark btn-sm">&ndash;&gt;
-                &lt;!&ndash;                    <i class="fa fa-chevron-up"></i>&ndash;&gt;
-                &lt;!&ndash;                </button>&ndash;&gt;
-                &lt;!&ndash;                <span class="reco_count container">${ joinMemCom.com_reco }</span>&ndash;&gt;
-                &lt;!&ndash;                <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">&ndash;&gt;
-                &lt;!&ndash;                <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">&ndash;&gt;
-                &lt;!&ndash;                <button id="comNonReco_n" type="button" class="nonRecoBtn btn btn-outline-dark btn-sm">&ndash;&gt;
-                &lt;!&ndash;                    <i class="fa fa-chevron-down"></i>&ndash;&gt;
-                &lt;!&ndash;                </button>&ndash;&gt;
-                &lt;!&ndash;                &lt;!&ndash;                    </c:if>&ndash;&gt;&ndash;&gt;
-                &lt;!&ndash;                &lt;!&ndash;                    <c:if test="${ comReco == 'Y' }">&ndash;&gt;&ndash;&gt;
-                &lt;!&ndash;                <button id="comReco_n" type="button" class="recoBtn btn btn-outline-dark btn-sm">&ndash;&gt;
-                &lt;!&ndash;                    <i class="fa fa-chevron-up"></i>&ndash;&gt;
-                &lt;!&ndash;                </button>&ndash;&gt;
-                &lt;!&ndash;                <span class="reco_count container">${ joinMemCom.com_reco }</span>&ndash;&gt;
-                &lt;!&ndash;                <input type="hidden" name="com_id" value="${ joinMemCom.com_id }">&ndash;&gt;
-                &lt;!&ndash;                <input type="hidden" name="mem_id" value="${ joinMemCom.com_mem_id }">&ndash;&gt;
-                &lt;!&ndash;                <button id="comNonReco_y" type="button" class="nonRecoBtn btn btn-outline-dark btn-sm">&ndash;&gt;
-                &lt;!&ndash;                    <i class="fa fa-chevron-down"></i>&ndash;&gt;
-                &lt;!&ndash;                </button>&ndash;&gt;
-                &lt;!&ndash;                    </c:if>&ndash;&gt;
-                &lt;!&ndash;                </c:if>&ndash;&gt;
-
-            </form>-->
-            <!-- 전 추천 구현 끝-->
             <!-- 입력된 댓글 상자 시작 -->
             <div class="col mr-auto d-flex flex-column text-left border">
                 <div class="d-flex justify-content-between">
@@ -100,15 +45,12 @@
                     </div>
                     <div class="next-to-cmmt-nick">
                         <div class="writer-visible-box">
-                            <th:block th:if="${comm.UCode.split('/')[0] == #authentication.name}">
-                                <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
-                                <span class="btn comment-delete">삭제</span>
-                                <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
-                            </th:block>
+                            <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                            <span class="btn comment-delete">삭제</span> <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
                         </div>
 
-                        <span><i class="btn fa fa-thumbs-o-up mx-2" th:text="${comm.comRecy}"></i></span> <!-- 안에 댓글 추천 수 -->
-                        <span><i class="btn fa fa-thumbs-o-down mx-2" th:text="${comm.comRecn}"></i></span> <!-- 안에 댓글 비추 수 -->
+                        <span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> <!-- 안에 댓글 추천 수 -->
+                        <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> <!-- 안에 댓글 비추 수 -->
                     </div>
                 </div>
 
@@ -117,17 +59,18 @@
                     <div th:utext="${comm.comCont}">댓글 내용</div>
                 </div>
                 <div class="mt-2">
+
                     <button class="open-replies btn btn-dark" data-toggle="collapse" th:data-target="'#' +|collapse*{comm.comCode.replaceAll('/', '')}|">답글보기</button>
                     <button class="write_reply btn btn-dark" >답글쓰기</button>
                     <input type="hidden" th:value="${comm.comCode}"/>
                     <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
                     <input type="hidden" th:value="${comm.UCode}"/>
                     <input type="hidden" style="text-align: left" name="nickname"/>
+
                 </div>
             </div>
             <!-- 입력된 댓글 상자 끝-->
         </div>
-
         <!-- 리댓 상자 시작 -->
         <div th:id="|collapse*{comm.comCode.replaceAll('/', '')}|" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne"> <!-- id에 각 댓글 구분할 값 추가 -->
             <th:block th:each="reply : ${commentList.get(comm)}">
@@ -145,7 +88,7 @@
                               th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
                       </button>
                     </span>
-                                <span class="btn btn-report">신고</span>
+                            <span class="btn btn-report">신고</span>
                             </div>
                             <div class="next-to-cmmt-nick">
                                 <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
