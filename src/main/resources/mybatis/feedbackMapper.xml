@@ -19,7 +19,7 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO feedback VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_feed.NEXTVAL, 2, '0') || '/N',
+        INSERT INTO feedback VALUES (TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_feed.NEXTVAL, 2, '0') || '/N',
         #{feedCont}, #{uCode})
     </insert>
 

@@ -11,7 +11,7 @@
 
     <insert id="insertChat">
         <selectKey keyProperty="chtCode" resultType="String" order="BEFORE">
-            SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cht.NEXTVAL, 2, '0') || '/C' FROM DUAL
+            SELECT TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cht.NEXTVAL, 2, '0') || '/C' FROM DUAL
         </selectKey>
         INSERT INTO cht_log (chtCode, chtCont, uCode)
         VALUES(#{chtCode}, #{chtCont}, #{uCode})
@@ -19,7 +19,7 @@
 
     <insert id="insertMemo">
         <selectKey keyProperty="chtCode" resultType="String" order="BEFORE">
-            SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cht.NEXTVAL, 2, '0') || '/M' FROM DUAL
+            SELECT TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cht.NEXTVAL, 2, '0') || '/M' FROM DUAL
         </selectKey>
         INSERT INTO cht_log (chtCode, chtCont, uCode)
         VALUES(#{chtCode}, #{chtCont}, #{uCode})

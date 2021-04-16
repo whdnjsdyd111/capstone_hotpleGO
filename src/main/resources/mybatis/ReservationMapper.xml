@@ -6,13 +6,13 @@
 
     <select id="getCurList">
         <![CDATA[
-        SELECT * FROM res_info WHERE htId = #{htId} AND riTime >= SYSTIMESTAMP
+        SELECT * FROM res_info WHERE htId = #{htId} AND riTime >= CURRENT_TIMESTAMP
         ]]>
     </select>
 
     <select id="getHistoryList">
         <![CDATA[
-        SELECT * FROM res_info WHERE htId = #{htId} AND riTime < SYSTIMESTAMP
+        SELECT * FROM res_info WHERE htId = #{htId} AND riTime < CURRENT_TIMESTAMP
         ]]>
     </select>
 
@@ -32,14 +32,14 @@
     <select id="getCurListAll" resultType="ReservationAllVO">
         <![CDATA[
         SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE htId =
-        (SELECT htId FROM hotple WHERE uCode = #{uCode}) AND riTime >= SYSTIMESTAMP ORDER BY riTime
+        (SELECT htId FROM hotple WHERE uCode = #{uCode}) AND riTime >= CURRENT_TIMESTAMP ORDER BY riTime
         ]]>
     </select>
 
     <select id="getCurFive" resultType="ReservationInformationVO">
         <![CDATA[
         SELECT * FROM res_info NATURAL JOIN users WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
-        AND riTime >= SYSTIMESTAMP AND ROWNUM <= 5
+        AND riTime >= CURRENT_TIMESTAMP AND ROWNUM <= 5
         ORDER BY riTime
         ]]>
     </select>
@@ -48,7 +48,7 @@
         <![CDATA[
         SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE res_info.htId =
         (SELECT htId FROM hotple WHERE uCode = #{uCode})
-        AND riTime <= SYSTIMESTAMP AND riNoShow = 'N'
+        AND riTime <= CURRENT_TIMESTAMP AND riNoShow = 'N'
         ]]>
     </select>
 
@@ -76,7 +76,7 @@
 
     <insert id="insertRes">
         <selectKey keyProperty="riCode" resultType="String" order="BEFORE">
-            SELECT TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_ri.NEXTVAL, 2, '0') FROM DUAL
+            SELECT TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_ri.NEXTVAL, 2, '0') FROM DUAL
         </selectKey>
         INSERT INTO res_info (riCode, riTime, riPerson, riOdNum, riCont, htId, uCode)
         VALUES (#{riCode}, #{riTime}, #{riPerson}, #{riOdNum}, #{riCont}, #{htId}, #{uCode})

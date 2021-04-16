@@ -15,7 +15,7 @@
 
     <select id="getEventCurrentList" resultType="EventVO">
         <![CDATA[
-        SELECT * FROM event WHERE eveStart < SYSTIMESTAMP AND SYSTIMESTAMP < eveExpi
+        SELECT * FROM event WHERE eveStart < CURRENT_TIMESTAMP AND CURRENT_TIMESTAMP < eveExpi
         ]]>
     </select>
 
@@ -27,13 +27,13 @@
 
     <insert id="insertAnnounce">
         INSERT INTO event (eveCode, eveTitle, eveCont, uCode)
-        VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_eve.NEXTVAL, 2, '0') || '/A',
+        VALUES (TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_eve.NEXTVAL, 2, '0') || '/A',
         #{eveTitle}, #{eveCont}, #{uCode})
     </insert>
 
     <insert id="insertEvent">
         INSERT INTO event (eveCode, eveTitle, eveCont, eveStart, eveExpi, uCode)
-        VALUES (TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_eve.NEXTVAL, 2, '0') || '/E',
+        VALUES (TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_eve.NEXTVAL, 2, '0') || '/E',
         #{eveTitle}, #{eveCont}, #{eveStart}, #{eveExpi}, #{uCode})
     </insert>
 
