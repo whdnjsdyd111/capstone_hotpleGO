@@ -13,24 +13,30 @@ import java.util.List;
 public class BoardService {
     @Setter(onMethod_ = @Autowired)
     private BoardMapper mapper;
-    public boolean updateBoard(BoardVO boardVO){
-        return mapper.updateBoard(boardVO) == 1;
+
+    public boolean recoUp(String bdCode) {
+        return mapper.recommendUp(bdCode) == 1;
     }
 
-    public boolean upLike(String bdRecy) {
-        return mapper.recommendUp(bdRecy) == 1;
+    public boolean unRecoUp(String bdCode) {
+        return mapper.unRecommendUp(bdCode) == 1;
     }
 
-    public boolean downLike(String bdRecn) {
-        return mapper.recommendDown(bdRecn) == 1;
+    public boolean recoDown(String bdCode) {
+        return mapper.recommendDown(bdCode) == 1;
     }
+
+    public boolean unRecoDownd(String bdCode) {
+        return mapper.unRecommendDown(bdCode) == 1;
+    }
+
 
     public boolean insertBoard(BoardVO boardVO){
         return mapper.insertBoard(boardVO) == 1;
     }
 
-    public boolean deleteBoard(String bdCode){
-        return mapper.deleteBoard(bdCode) == 1;
+    public boolean deleteBoard(String bdCode, String uCode){
+        return mapper.deleteBoard(bdCode, uCode) == 1;
     }
 
     public List<BoardVO> getBoardList(BoardVO boardVO){
@@ -41,7 +47,40 @@ public class BoardService {
         return mapper.selectBoardDetail(bdCode);
     }
 
+
+    public boolean updateBoard(BoardVO boardVO){
+        return mapper.updateBoard(boardVO) == 1;
+    }
+
     public boolean upView(String bdCode) {
         return mapper.upView(bdCode) == 1;
+    }
+
+    public boolean insertReco(String bdCode, String uCode, char reco) {
+        return mapper.insertReco(bdCode, uCode, reco) == 1;
+    }
+
+    public boolean deleteReco(String bdCode, String uCode) {
+        return mapper.deleteReco(bdCode, uCode) == 1;
+    }
+
+    public boolean updateReco(String bdCode, String uCode, char reco) {
+        return mapper.updateReco(bdCode, uCode, reco) == 1;
+    }
+
+    public String getReco(String bdCode, String uCode) {
+        return mapper.getReco(bdCode, uCode);
+    }
+
+    public boolean getBookmark(String bdCode, String uCode) {
+        return mapper.getBookmark(bdCode, uCode) != null;
+    }
+
+    public boolean removeBookmark(String bdCode, String uCode) {
+        return mapper.deleteBookmark(bdCode, uCode) == 1;
+    }
+
+    public boolean insertBookmark(String bdCode, String uCode) {
+        return mapper.insertBookmark(bdCode, uCode) == 1;
     }
 }

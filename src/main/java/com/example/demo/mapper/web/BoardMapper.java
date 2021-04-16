@@ -12,16 +12,41 @@ public interface BoardMapper {
 
     public BoardVO selectBoardDetail(String bdCode);
 
-    public int recommendUp(String bdRecy);
+    public int recommendUp(String bdCode);
 
-    public int recommendDown(String bdRecn);
+    public int unRecommendUp(String bdCode);
+
+    public int recommendDown(String bdCode);
+
+    public int unRecommendDown(String bdCode);
 
     public int insertBoard(BoardVO boardVO);
 
     public int updateBoard(BoardVO bdCode);
 
-    public int deleteBoard(String bdCode);
+    public int deleteBoard(String bdCode, String uCode);
 
     public int upView(String bdCode);
 
+    public int insertReco(String bdCode, String uCode, char reco);
+
+    public int deleteReco(String bdCode, String uCode);
+
+    public int updateReco(String bdCode, String uCode, char reco);
+
+    public String getReco(String bdCode, String uCode);
+
+    public String getBookmark(String bdCode, String uCode);
+
+    public int deleteBookmark(String bdCode, String uCode);
+
+    public int insertBookmark(String bdCode, String uCode);
+
+//    public int updateBookmark(String bdCode);
+//
+//    public int unUpdateBookmark(String bdCode);
+//
+//    public int registerBookMark(String bdCode, String uCode);
+//
+//    public int unRegisterBookMark(String bdCode, String uCode);
 }

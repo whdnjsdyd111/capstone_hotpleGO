@@ -11,4 +11,6 @@ public class CommentVO {
     private String bdCode;
     private String uCode;
     private String replyCode;
+
+    private String nick;
 }
