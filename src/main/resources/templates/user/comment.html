@@ -96,6 +96,7 @@
                               th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
                       </button>
                     </span>
+                        <span class="btn btn-report">신고</span>
                     </div>
                     <div class="next-to-cmmt-nick">
                         <div class="writer-visible-box">
@@ -105,7 +106,6 @@
 
                         <span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> <!-- 안에 댓글 추천 수 -->
                         <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> <!-- 안에 댓글 비추 수 -->
-                        <span class="btn btn-report">신고</span>
                     </div>
                 </div>
 
@@ -118,8 +118,8 @@
                     <!--<button class="go_login btn btn-dark">답글쓰기</button>-->
                     <!--                    </c:if>-->
                     <!--                    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
-                    <button class="open-replies btn btn-dark" data-toggle="collapse" data-target="#re-reply-open">답글 (숫자)개</button>
-                    <button class="write_reply btn btn-dark" data-toggle="collapse" data-target="#re-reply-edit">답글쓰기</button>
+                    <button class="open-replies btn btn-dark" data-toggle="collapse" data-target="#re-reply-open">답글보기</button>
+                    <button class="write_reply btn btn-dark" >답글쓰기</button>
                     <input type="hidden" th:value="${comm.comCode}"/>
                     <!--                        <c:if test="${ joinMemCom.com_mem_id != mem_id }">-->
                     <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
@@ -154,13 +154,13 @@
                               th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
                       </button>
                     </span>
+                                <span class="btn btn-report">신고</span>
                             </div>
                             <div class="next-to-cmmt-nick">
                                 <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
                                 <span class="btn comment-delete">삭제</span> <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
                                 <!--<span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> &lt;!&ndash; 안에 댓글 추천 수 &ndash;&gt;
                                 <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> &lt;!&ndash; 안에 댓글 비추 수 &ndash;&gt;-->
-                                <span class="btn btn-report">신고</span>
                             </div>
                         </div>
                         <div class="container my-2 writen_comment">
@@ -184,6 +184,7 @@
                             <!--                    &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id == mem_id }">&ndash;&gt;-->
                             <!--                        </c:if>-->
                             <!--                    </c:if>-->
+                            <button class="write_re_reply btn btn-dark" >답글쓰기</button>
                         </div>
                     </div>
                     <!------------------------------------------------------->

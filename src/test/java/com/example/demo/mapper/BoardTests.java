@@ -10,15 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@Log4j2
 public class BoardTests {
-    @Setter(onMethod_ = @Autowired)
-    private ReservationMapper mapper;
-
-    @Test
-    public void test() {
-        log.info(mapper.getByCode("210411214643/15"));
+    public static void main(String[] str) {
+        boolean bol = Boolean.getBoolean("false");
+        System.out.print(bol);
     }
 }

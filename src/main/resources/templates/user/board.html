@@ -45,7 +45,7 @@
                             <span><button class="bg-info border border-dark rounded text-dark px-1"
                                           style="height:23px; width:58px;" href="" th:text="${kind}">핫플</button></span>
                             <span class="text-dark col-12"
-                               style="display: block; margin-left:-60px; margin-top:15px; text-decoration: none;" th:text="${vo.bdTitle}"></span>
+                                  style="display: block; margin-left:-60px; margin-top:15px; text-decoration: none;" th:text="${vo.bdTitle}"></span>
                         </div>
                     </div>
                     <div style="clear:both;"></div>
@@ -53,7 +53,7 @@
 
                 <div class="col-4" style="float:right; margin-top:-80px; margin-right:60px;">
                     <ul class="navbar navbar nav mr-auto p-0" style="display: flex;">
-                        <li><i class="fa fa-comment" ></i></li>
+                        <li><i class="far fa-comment-dots" th:text="${vo.commCnt}"></i></li>
                         <li><i class="fa fa-thumbs-o-up" th:text="${vo.bdRecy}"></i></li>
                         <li><i class="fa fa-thumbs-o-down" th:text="${vo.bdRecn}"></i></li>
                         <li><i class="fa fa-eye" th:text="${vo.bdRdCount}"></i>조회수</li>
@@ -66,14 +66,14 @@
                 <div class="container">
                     <div class="mx-auto" style="margin-top:5px;">
                         <a class="text-dark" style="text-decoration: none;" href="">
-                            <span><i class="fa fa-user-circle mr-2">닉네임</i></span>
+                            <span><i class="fa fa-user-circle mr-2" th:text="${vo.nick}"></i></span>
                         </a>
                     </div>
                 </div>
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
                       style="margin-left:20px; margin-top:40px;" th:title="${#hotpleAPI.beforeTime(vo.bdCode)}">
                     <button class="btn" style="pointer-events: none; vertical-align: inherit;"  type="button"
-                        th:text="${#hotpleAPI.beforeBigTime(vo.bdCode)}">
+                            th:text="${#hotpleAPI.beforeBigTime(vo.bdCode)}">
                     </button>
                 </span>
             </div>

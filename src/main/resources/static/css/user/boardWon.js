@@ -1,32 +1,27 @@
-var check_reco = false;
-var check_nonReco = false;
-var check_db_reco = false;
+let check_reco = false;
+let check_nonReco = false;
 
-var reco;
-var nonReco;
-var get;
+let reco;
+let nonReco;
+let get;
 
 $(function() {
+    let bdCode = $('#bdCode').val();
     var href = window.location.href;
     var str = 'bdNum=';
     var loc = href.indexOf(str);
     var len = str.length;
     get = href.substr(loc + len, href.length);
-    $('#comments_div').load('/board/comment/21040410433804N?sort=reco');
-    // $('#comments_div').load('/board/comment/21040410433804N?sort=recent');
-    // $('#comments_div').load('/board/comment/21040410433804N?sort=writen');
+    $('#comments_div').load('/board/comment/' + bdCode + '?sort=reco');
 
     reco = Number.parseInt($('#reco').text());
     nonReco = Number.parseInt($('#nonReco').text());
 
     if($('.reco_y').length > 0 || $('.nonReco_y').length > 0) {
-        check_db_reco = true
-
         if($('.reco_y').length > 0)
             check_reco = true;
         else
             check_nonReco = true;
-
     }
 
     if($('.bookmark_y').length > 0) {
@@ -37,219 +32,142 @@ $(function() {
 
     $('#update').click(function() {
         location.href = "/board/update/" + $('#bdCode').val();
-    })
-
-    $('#delete').click(function () {
-        alert("게시글이 삭제되었습니다.")
-        location.href = "/board/delete/" + $('#bdCode').val();
     });
 
     $('#reco').click(function() {
-        if($('#reco').attr('class') == 'btn btn-lg btn-outline-secondary mx-2 reco_y') {
-            $('#reco').attr('class', 'btn btn-lg btn-outline-secondary mx-2 reco_n');
-            $('#reco').html('<span><i class="fa fa-level-up mr-2"></i>' + --reco + '</span>');
-            check_reco = false;
+        let btn = $(this);
+        if($(this).hasClass('reco_y')) {
             // 추천되있는데 취소한경우
             // 데이터베이스에서 지우기
-
-            $.ajax({
-                type: "POST",
-                url: "board/delete/",
-                data: {
-                    check_reco: check_reco,
-                    check_nonReco: check_nonReco,
-
-                    check_db_reco: check_db_reco,
-                    board_id: get,
-                    reco: reco,
-                    nonReco: nonReco
-                }
-            });
-
-            check_db_reco = false;
+            requestServlet({
+                bdCode: bdCode,
+                check_reco: check_reco,
+                check_nonReco: check_nonReco
+            }, "/board/rest/like", function (data) {
+                btn.removeClass('reco_y');
+                btn.addClass('reco_n');
+                btn.html('<span><i class="fa fa-level-up mr-2"></i>' + --reco + '</span>');
+                check_reco = false;
+            }, basicErrorFunc);
         } else {
-            $('#reco').attr('class', 'btn btn-lg btn-outline-secondary mx-2 reco_y');
-            $('#reco').html('<span><i class="fa fa-level-up mr-2"></i>' + ++reco + '</span>');
-            check_reco = true;
-
-
-
-            if($('#nonReco').attr('class') == 'btn btn-lg btn-outline-secondary mx-2 nonReco_y') {
-                $('#nonReco').attr('class', 'btn btn-lg btn-outline-secondary mx-2 nonReco_n');
-                $('#nonReco').html('<span>' + --nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
-                check_nonReco = false;
-
+            let nonBtn = $('#nonReco');
+            if(nonBtn.hasClass('nonReco_y')) {
                 // 비추된 상태에서 추천 누르기
                 // 데이터베이스 비추 N로 바꾸기
-
-                $.ajax({
-                    type: "POST",
-                    url: "/board/recoInsertDelete",
-                    data: {
-                        check_reco: check_reco,
-                        check_nonReco: check_nonReco,
-
-                        check_db_reco: check_db_reco,
-                        board_id: get,
-                        reco: reco,
-                        nonReco: nonReco
-                    }
-                });
+                requestServlet({
+                    bdCode: bdCode,
+                    check_reco: check_reco,
+                    check_nonReco: check_nonReco
+                }, "/board/rest/like", function (data) {
+                    nonBtn.removeClass('nonReco_y');
+                    nonBtn.addClass('nonReco_n');
+                    nonBtn.html('<span>' + --nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
+                }, basicErrorFunc);
 
 
             } else {
                 // 추천 안되있는 상태에서 추천 누르기
                 // 데이터베이스 추가
-                $.ajax({
-                    type: "POST",
-                    url: "recoInsertDelete.do",
-                    data: {
-                        check_reco: check_reco,
-                        check_nonReco: check_nonReco,
-
-                        check_db_reco: check_db_reco,
-                        board_id: get,
-                        reco: reco,
-                        nonReco: nonReco
-                    }
-                });
-
-                check_db_reco = true;
+                requestServlet({
+                    bdCode: bdCode,
+                    check_reco: check_reco,
+                    check_nonReco: check_nonReco
+                }, "/board/rest/like", function() {}, basicErrorFunc);
             }
+
+            btn.removeClass('reco_n');
+            btn.addClass('reco_y');
+            btn.html('<span><i class="fa fa-level-up mr-2"></i>' + ++reco + '</span>');
+            check_reco = true;
+            check_nonReco = false;
         }
     });
 
     $('#nonReco').click(function() {
-        if($('#nonReco').attr('class') == 'btn btn-lg btn-outline-secondary mx-2 nonReco_y') {
-            $('#nonReco').attr('class', 'btn btn-lg btn-outline-secondary mx-2 nonReco_n');
-            $('#nonReco').html('<span>' + --nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
-            check_nonReco = false;
-
-            // 비추눌러진 상태에서 취소하기
-            // 데이터베이스에서 삭제
-
-            $.ajax({
-                type: "POST",
-                url: "recoInsertDelete.do",
-                data: {
-                    check_reco: check_reco,
-                    check_nonReco: check_nonReco,
-
-                    check_db_reco: check_db_reco,
-                    board_id: get,
-                    reco: reco,
-                    nonReco: nonReco
-                }
-            });
-
-            check_db_reco = false;
-
+        let nonBtn = $('#nonReco');
+        if(nonBtn.hasClass('nonReco_y')) {
+            // 비추되있는데 취소한경우
+            // 데이터베이스에서 지우기
+            requestServlet({
+                bdCode: bdCode,
+                check_reco: check_reco,
+                check_nonReco: check_nonReco
+            }, "/board/rest/unLike", function (data) {
+                nonBtn.removeClass('nonReco_y');
+                nonBtn.addClass('nonReco_n');
+                nonBtn.html('<span>' + --nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
+                check_nonReco = false;
+            }, basicErrorFunc);
         } else {
-            $('#nonReco').attr('class', 'btn btn-lg btn-outline-secondary mx-2 nonReco_y');
-            $('#nonReco').html('<span>' + ++nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
-            check_nonReco = true;
-
-            if($('#reco').attr('class') == 'btn btn-lg btn-outline-secondary mx-2 reco_y') {
-                $('#reco').attr('class', 'btn btn-lg btn-outline-secondary mx-2 reco_n');
-                $('#reco').html('<span><i class="fa fa-level-up mr-2"></i>' + --reco + '</span>');
-                check_reco = false;
-
-                $.ajax({
-                    type: "POST",
-                    url: "recoInsertDelete.do",
-                    data: {
-                        check_reco: check_reco,
-                        check_nonReco: check_nonReco,
-
-                        check_db_reco: check_db_reco,
-                        board_id: get,
-                        reco: reco,
-                        nonReco: nonReco
-                    }
-                });
+            let btn = $('#reco');
+            if(btn.hasClass('reco_y')) {
+                // 추천된 상태에서 비추 누르기
+                // 데이터베이스 비추 N로 바꾸기
+                requestServlet({
+                    bdCode: bdCode,
+                    check_reco: check_reco,
+                    check_nonReco: check_nonReco
+                }, "/board/rest/unLike", function (data) {
+                    btn.removeClass('reco_y');
+                    btn.addClass('reco_n');
+                    btn.html('<span><i class="fa fa-level-up mr-2"></i>' + --reco + '</span>');
+                }, basicErrorFunc);
 
 
             } else {
-                // 비추 안눌러진 상태에서 비추 누르기
+                // 비추 안되있는 상태에서 비추 누르기
                 // 데이터베이스 추가
-                $.ajax({
-                    type: "POST",
-                    url: "recoInsertDelete.do",
-                    data: {
-                        check_reco: check_reco,
-                        check_nonReco: check_nonReco,
-
-                        check_db_reco: check_db_reco,
-                        board_id: get,
-                        reco: reco,
-                        nonReco: nonReco
-                    }
-                });
-
-                check_db_reco = true;
+                requestServlet({
+                    bdCode: bdCode,
+                    check_reco: check_reco,
+                    check_nonReco: check_nonReco
+                }, "/board/rest/unLike", function() {}, basicErrorFunc);
             }
+
+            nonBtn.removeClass('nonReco_n');
+            nonBtn.addClass('nonReco_y');
+            nonBtn.html('<span>' + ++nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
+            check_reco = false;
+            check_nonReco = true;
         }
-
-
     });
 
     $('#bookmark').click(function() {
-        if($('#bookmark').attr('class') == 'heart_box bookmark_y') {
-            $('#bookmark').attr('class', 'heart_box bookmark_n');
+        if($(this).hasClass('bookmark_n')) {
+            $(this).removeClass('bookmark_n');
+            $(this).addClass('bookmark_y')
 
-            $.ajax({
-                type: "POST",
-                url: "bookmarkInsertDelete.do",
-                data: {
-                    board_id: get,
-                    way: "delete"
-                }
-            });
+            requestServlet({
+                bookmark: "Y",
+                bdCode: bdCode
+            }, "/board/rest/bookmark", function() {}, basicErrorFunc);
 
         } else {
-            $('#bookmark').attr('class', 'heart_box bookmark_y');
+            $(this).removeClass('bookmark_y');
+            $(this).addClass('bookmark_n')
 
-            $.ajax({
-                type: "POST",
-                url: "bookmarkInsertDelete.do",
-                data: {
-                    board_id: get,
-                    way: "insert"
-                }
-            });
+            requestServlet({
+                bookmark: "N",
+                bdCode: bdCode
+            }, "/board/rest/bookmark", function() {}, basicErrorFunc);
         }
     });
 
     $('.go_login').click(function() {
-        window.location.href = 'loginForm.do';
+        window.location.href = '/login';
     });
 
-    // $('#board_delete').click(function() {
-    //     var delete_check = confirm("글을 삭제하시겠습니까?");
-    //
-    //     if(delete_check) {
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "boardDelete.do",
-    //             data: {
-    //                 board_id: get
-    //             },
-    //             success: function(data) {
-    //                 var str = "<p id='ck'>";
-    //                 var loc = data.indexOf(str);
-    //                 var len = str.length;
-    //                 var check = data.substr(loc + len, 1);
-    //
-    //                 if(check == "1") {
-    //                     window.location.href = "mainBoard.do?kind=all&sort=recent";
-    //                 } else {
-    //                     alert("글을 삭제하지 못했습니다.");
-    //                     window.location.href = "DBFail.do";
-    //                 }
-    //             }
-    //         });
-    //     }
-    // });
+    $('#delete').click(function() {
+        var delete_check = confirm("글을 삭제하시겠습니까?");
+
+        if (delete_check) {
+            requestServlet({
+                bdCode: bdCode
+            }, "/board/rest/delete", function (data) {
+                swal("삭제 완료!", data, "success").then(() => location.href = "/board/list");
+            });
+        }
+    });
 
     $('#board_update').click(function() {
         // let data = {
@@ -264,7 +182,7 @@ $(function() {
         //     contentType:'application/json; charset=utf-8',
         //     data: JSON.stringify(data)
         // }).done(function (data){
-            window.location.href = "/board/list";
+        window.location.href = "/board/list";
         // });
     });
 

@@ -3,11 +3,13 @@ package com.example.demo.controller.web;
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
+import com.example.demo.security.CustomUser;
 import com.example.demo.service.web.BoardService;
 import com.example.demo.service.web.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,6 +57,7 @@ public class BoardController {
     public String boardList(@ModelAttribute("BoardVO") BoardVO boardVO, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
         String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
         List<BoardVO> boardList = boardService.getBoardList(boardVO);
+        System.out.println(boardList);
         model.addAttribute("result", boardList);
         model.addAttribute("board", boardVO);
         model.addAttribute("kind", str);
@@ -72,16 +75,20 @@ public class BoardController {
 
 //    원용 게시글상세 컨트롤러
     @GetMapping("/view/{bdCode}")
-    public String view(@PathVariable("bdCode") String bdCode, Model model) {
+    public String view(@PathVariable("bdCode") String bdCode, Model model, @AuthenticationPrincipal CustomUser user) {
         log.info("read request");
         boardService.upView(HotpleAPI.strToCode(bdCode));
         BoardVO vo = boardService.getBoardDetail(HotpleAPI.strToCode(bdCode));
-
         model.addAttribute("board", vo);
+
+        if (user != null) {
+            String uCode = user.user.getUCode();
+            model.addAttribute("reco", boardService.getReco(vo.getBdCode(), uCode));
+            model.addAttribute("bookmark", boardService.getBookmark(vo.getBdCode(), uCode));
+        }
 
         return "user/boardView2";
     }
-
 
 
     @GetMapping("/comment/{bdCode}")
@@ -119,24 +126,6 @@ public class BoardController {
         return "user/comment";
     }
 
-
-    @GetMapping(value = "/delete/{bdCode}")
-    public String deleteBoard(@PathVariable(value = "bdCode") String bdCode) {
-        if (bdCode == null) {
-            return "redirec:/board/list";
-        }
-        try {
-            boolean isDeleted = boardService.deleteBoard(HotpleAPI.strToCode(bdCode));
-            if (isDeleted == false) {
-                log.warn("게시글 삭제 실패");
-            }
-        } catch (DataAccessException e) {
-            log.warn("데이터 처리 실패");
-        } catch (Exception e) {
-            log.warn("시스템 에러 발생");
-        }
-        return "redirect:/board/list";
-    }
 
     @GetMapping(value = "/delete/comment/{comCode}")
     public String deleteComment(@PathVariable(value = "comCode") String comCode) {

@@ -9,7 +9,9 @@
     </sql>
 
     <select id="getBoardList" resultType="BoardVO">
-        SELECT bdCode, bdTitle, bdRdCount, bdRecy, bdRecn FROM board ORDER BY bdCode DESC
+        SELECT b.bdCode, b.bdTitle, b.bdRdCount, b.bdRecy, b.bdRecn, com.commcnt, u.nick
+        FROM board b NATURAL JOIN users u FULL OUTER JOIN (SELECT bdcode, COUNT(*) as commcnt FROM comm GROUP BY bdcode) COM
+        ON(b.bdCode = COM.bdCode) ORDER BY b.bdCode DESC
     </select>
 
     <select id="selectBoardDetail" resultType="BoardVO">
@@ -17,9 +19,6 @@
         WHERE bdCode = #{bdCode} and users.uCode = board.uCode
     </select>
 
-<!--    <update id="recommendUp">-->
-<!--        UPDATE board SET bdRecy = #{bdRecy}-->
-<!--    </update>-->
 
     <insert id="insertBoard">
         INSERT INTO board (
@@ -27,9 +26,9 @@
         ) VALUES(TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_bd.NEXTVAL, 2, '0') || '/N',
         #{bdTitle},
         #{bdCont},
-<!--        #{bdRdCount},-->
-<!--        #{bdRecy},-->
-<!--        #{bdRecn},-->
+        <!--        #{bdRdCount},-->
+        <!--        #{bdRecy},-->
+        <!--        #{bdRecn},-->
         #{uCode}
         )
     </insert>
@@ -39,10 +38,57 @@
     </update>
 
     <delete id="deleteBoard">
-        DELETE FROM board WHERE bdCode = #{bdCode}
+        DELETE FROM board WHERE bdCode = #{bdCode} AND uCode = #{uCode}
     </delete>
 
     <update id="upView">
         UPDATE board SET bdRdCount = bdRdCount + 1 WHERE bdCode = #{bdCode}
     </update>
+
+    <update id="recommendUp">
+        UPDATE board SET bdRecy = bdRecy + 1 WHERE bdCode = #{bdCode}
+    </update>
+
+    <update id="recommendDown">
+        UPDATE board SET bdRecy = bdRecy - 1 WHERE bdCode = #{bdCode}
+    </update>
+
+    <update id="unRecommendUp">
+        UPDATE board SET bdRecn = bdRecn + 1 WHERE bdCode = #{bdCode}
+    </update>
+
+    <update id="unRecommendDown">
+        UPDATE board SET bdRecn = bdRecn - 1 WHERE bdCode = #{bdCode}
+    </update>
+
+    <insert id="insertReco">
+        INSERT INTO board_reco (bdCode, uCode, reco) VALUES(#{bdCode}, #{uCode}, #{reco})
+    </insert>
+
+    <delete id="deleteReco">
+        DELETE FROM board_reco WHERE bdCode = #{bdCode} AND uCode = #{uCode}
+    </delete>
+
+    <update id="updateReco">
+        UPDATE board_reco SET reco = #{reco} WHERE bdCode = #{bdCode} AND uCode = #{uCode}
+    </update>
+    
+    <select id="getReco" resultType="String">
+        SELECT reco FROM board_reco WHERE bdCode = #{bdCode} AND uCode = #{uCode}
+    </select>
+
+    <select id="getBookmark" resultType="String">
+        SELECT bdCode FROM board_bookmark WHERE bdCode = #{bdCode} AND uCode = #{uCode}
+    </select>
+
+    <delete id="deleteBookmark">
+        DELETE FROM board_bookmark WHERE bdCode = #{bdCode} AND uCode = #{uCode}
+    </delete>
+
+    <insert id="insertBookmark">
+        INSERT INTO board_bookmark VALUES (#{bdCode}, #{uCode})
+    </insert>
+<!--    <update id="updateBookmark">-->
+<!--        UPDATE board-->
+<!--    </update>-->
 </mapper>
