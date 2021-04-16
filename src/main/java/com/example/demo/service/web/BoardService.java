@@ -47,9 +47,13 @@ public class BoardService {
         return mapper.selectBoardDetail(bdCode);
     }
 
+    public boolean getCheck(String bdCode, String uCode) {
+        return mapper.selectCheck(bdCode, uCode) == null;
+    }
 
-    public boolean updateBoard(BoardVO boardVO){
-        return mapper.updateBoard(boardVO) == 1;
+
+    public boolean updateBoard(BoardVO boardVO, String uCode){
+        return mapper.updateBoard(boardVO, uCode) == 1;
     }
 
     public boolean upView(String bdCode) {

@@ -71,9 +71,9 @@ public class BoardRestController {
 
 
     @PostMapping(value = "/update")
-    public ResponseEntity<String> updateBoard(@RequestBody BoardVO boardVO, Model model) {
+    public ResponseEntity<String> updateBoard(@RequestBody BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user) {
         log.info(boardVO);
-        boolean data = boardService.updateBoard(boardVO);
+        boolean data = boardService.updateBoard(boardVO, user.user.getUCode());
         model.addAttribute("data", data);
         return new ResponseEntity<>("수정이 완료되었습니다.", HttpStatus.OK);
     }
@@ -161,6 +161,6 @@ public class BoardRestController {
         } catch (Exception e) {
             return new ResponseEntity<>("시스템 에러가 발생하였습니다.", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("게시판을 삭제하였습니다.", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("작성자 본인이 아닙니다!", HttpStatus.BAD_REQUEST);
     }
 }

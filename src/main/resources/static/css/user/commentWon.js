@@ -18,7 +18,9 @@ const recent = "?sort=recent";
 const rec = "?sort=reco";
 
 $(function () {
-    $('#comment_input').click(function () {
+
+    $(document).on('click','#comment_input',function (){
+    /*$('#comment_input').click(function () {*/
         if (!$('#comCont').html()) {
             alert("댓글 내용을 입력해주세요.");
             return false;
@@ -41,12 +43,15 @@ $(function () {
         });
     });
 
-    $('#comment_delete').click(function () {
+    $(document).on('click','#comment_delete',function (){
+    /*$('#comment_delete').click(function () {*/
         alert("댓글이 삭제되었습니다.");
         location.href = "/board/delete/comment/" + $('#comCode').val();
     });
 
-    $('.write_reply').click(function () {
+    $(document).on('click','.write_reply',function (){
+
+    /*$('.write_reply').click(function () {*/
         cur_comCode = $(this).next().val();
         $('.reply').remove();
         nest_total_file = 0;
@@ -114,80 +119,14 @@ $(function () {
                 console.log(error.responseText);
             });
 
-            // var index = 0;
-            // for(let i = 0; i < nest_image_files.length; i++) {
-            //     if(!$('#nest_img' + i).attr('src')) {
-            //         nest_image_files.splice(index--, 1);
-            //     }
-            //     index++;
-            // }
-            //
-            // var form = new FormData();
-            //
-            // for(let i = 0; i < nest_image_files.length; i++) {
-            //     form.append("file" + i, nest_image_files[i]);
-            // }
-            //
-            // $.ajax({
-            //     type: "post",
-            //     enctype: 'multipart/form-data',
-            //     url: "imageUploadComment.do",
-            //     data: form,
-            //     processData: false,
-            //     contentType: false,
-            //     success: function(data) {
-            //         var str1 = "<p id='images'>";
-            //         var str2 = "image_p_tag</p>";
-            //         var loc1 = data.indexOf(str1);
-            //         var loc2 = data.indexOf(str2);
-            //         var len = str1.length;
-            //         var check = data.substr(loc1 + len, loc2 - (loc1 + len));
-            //
-            //         var check_files = check.split(',');
-            //
-            //         var index1 = check_files.length - 1;
-            //
-            //         for(let i = 0; i < nest_total_file; i++) {
-            //             if($('#nest_img' + i).attr('src')) {
-            //                 $('#nest_img' + i).attr('src', check_files[index1 = index1 - 1].trim());
-            //                 $('#nest_img' + i).removeAttr('id');
-            //             }
-            //         }
-            //
-            //         var href = window.location.href;
-            //         var str = 'bdNum=';
-            //         var loc = href.indexOf(str);
-            //         var len = str.length;
-            //         var get = href.substr(loc + len, href.length);
-            //         get = get.replace("#start_com", "");
-            //
-            //         var notice_content = $('#nestComCont').html().replace(span_nickname.replace('<br>', ""), "").replace(/(<([^>]+)>)/ig,"");
-            //
-            //         $.ajax({
-            //             type: "post",
-            //             url: "nestCommentInsert.do",
-            //             data: {
-            //                 board_id: get,
-            //                 target_mem_id: target_mem_id,
-            //                 com_id: target_com_id,
-            //                 content: $('#nestComCont').html(),
-            //                 notice_content: notice_content
-            //             },
-            //             success: function() {
-            //                 $('#comments_div').load("/YeungJinFunnyBone/member/board/comment.jsp?bdNum=" + get);
-            //             }
-            //         });
-            //
-            //     }
-            // });
-
         });
-        // isClicked=true;
-        // }
+
     });
 
     /* -------------------- 리-리댓달기------------------------------ */
-    $('.write_re_reply').click(function () {
+    $(document).on('click','.write_re_reply',function (){
+
+    /*$('.write_re_reply').click(function () {*/
         cur_comCode = $(this).next().val();
         $('.reply').remove();
         nest_total_file = 0;
@@ -374,7 +313,9 @@ $(function () {
         });
     });
 
-    $('.recoBtn').click(function () {
+    $(document).on('click','.recoBtn',function (){
+
+    /*$('.recoBtn').click(function () {*/
         var com_id = $(this).nextAll('input[name=com_id]').val();
         var btn = $(this);
         var check_reco = $(btn).attr('id') == 'comReco_y';
