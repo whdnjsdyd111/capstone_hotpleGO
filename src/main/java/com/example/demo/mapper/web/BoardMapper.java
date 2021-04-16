@@ -12,6 +12,8 @@ public interface BoardMapper {
 
     public BoardVO selectBoardDetail(String bdCode);
 
+    public String selectCheck(String bdCode, String uCode);
+
     public int recommendUp(String bdCode);
 
     public int unRecommendUp(String bdCode);
@@ -22,7 +24,7 @@ public interface BoardMapper {
 
     public int insertBoard(BoardVO boardVO);
 
-    public int updateBoard(BoardVO bdCode);
+    public int updateBoard(BoardVO bdCode, String uCode);
 
     public int deleteBoard(String bdCode, String uCode);
 

@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,11 +30,13 @@ public class BoardController {
     }
 
     @GetMapping("/update/{bdCode}")
-    public String updateBoard(@PathVariable(value = "bdCode") String bdCode, Model model) {
-        if (bdCode == null) {
+    public String updateBoard(@PathVariable(value = "bdCode") String bdCode, Model model, @AuthenticationPrincipal CustomUser user) {
+        if (user == null) return "redirect:/board/list";
+        String bd_code = HotpleAPI.strToCode(bdCode);
+        if (bdCode == null || boardService.getCheck(bd_code, user.user.getUCode())) {
             return "redirect:/board/list";
         } else{
-            BoardVO vo = boardService.getBoardDetail(HotpleAPI.strToCode(bdCode));
+            BoardVO vo = boardService.getBoardDetail(bd_code);
             if (vo == null) {
                 return "redirect:/board/list";
             }
@@ -43,37 +44,18 @@ public class BoardController {
             return "user/boardWrite";
         }
     }
-//    댓글 업뎃
-//    @GetMapping("/update/{comCode}")
-//    public String updateComment(@PathVariable(value = "comCode") String comCode, Model model) {
-//        if (comCode == null) {
-//            return "redirect:/board/view/{bdCode}";
-//        } else{
-//            CommentVO vo = commentService.commentUpdate(comCode);
-//        }
-//    }
 
     @GetMapping(value = "/list")
     public String boardList(@ModelAttribute("BoardVO") BoardVO boardVO, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
         String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
         List<BoardVO> boardList = boardService.getBoardList(boardVO);
-        System.out.println(boardList);
         model.addAttribute("result", boardList);
         model.addAttribute("board", boardVO);
         model.addAttribute("kind", str);
         return "user/board";
     }
 
-//    @GetMapping("/boardDetail/{bdCode}")
-//    public String boardDetail(@PathVariable("bdCode") String bdCode, CommentVO commentVO, Model model) {
-//        log.debug("read request");
-//        BoardVO vo = boardService.getBoardDetail(HotpleAPI.strToCode(bdCode));
-//        model.addAttribute("board", vo);
-//
-//        return "user/boardView";
-//    }
 
-//    원용 게시글상세 컨트롤러
     @GetMapping("/view/{bdCode}")
     public String view(@PathVariable("bdCode") String bdCode, Model model, @AuthenticationPrincipal CustomUser user) {
         log.info("read request");

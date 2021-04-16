@@ -31,7 +31,10 @@ $(function() {
     }
 
     $('#update').click(function() {
-        location.href = "/board/update/" + $('#bdCode').val();
+        var update_check = confirm("글을 수정하시겠습니까?");
+        if(update_check){
+            location.href = "/board/update/" + $('#bdCode').val();
+        }
     });
 
     $('#reco').click(function() {
@@ -157,6 +160,7 @@ $(function() {
         window.location.href = '/login';
     });
 
+
     $('#delete').click(function() {
         var delete_check = confirm("글을 삭제하시겠습니까?");
 
@@ -169,22 +173,6 @@ $(function() {
         }
     });
 
-    $('#board_update').click(function() {
-        // let data = {
-        //     bdTitle: $('#bdTitle').val(),
-        //     bdCont: $('#bdCont').val(),
-        //     bdCode: $('#bdCode').val()
-        // };
-        //
-        // $.ajax({
-        //     type: 'POST',
-        //     url: '/board/update/' + data.bdCode,
-        //     contentType:'application/json; charset=utf-8',
-        //     data: JSON.stringify(data)
-        // }).done(function (data){
-        window.location.href = "/board/list";
-        // });
-    });
 
     $('[data-toggle="tooltip"]').tooltip();
 });

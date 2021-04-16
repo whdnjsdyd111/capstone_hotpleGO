@@ -14,6 +14,10 @@
         ON(b.bdCode = COM.bdCode) ORDER BY b.bdCode DESC
     </select>
 
+    <select id="selectCheck" resultType="String">
+        SELECT bdCode FROM board WHERE bdCode = #{bdCode} AND uCode = #{uCode}
+    </select>
+
     <select id="selectBoardDetail" resultType="BoardVO">
         SELECT board.*, users.nick FROM board, users
         WHERE bdCode = #{bdCode} and users.uCode = board.uCode
@@ -44,6 +48,8 @@
     <update id="upView">
         UPDATE board SET bdRdCount = bdRdCount + 1 WHERE bdCode = #{bdCode}
     </update>
+
+    <!-- 추천 비추천 시작 -->
 
     <update id="recommendUp">
         UPDATE board SET bdRecy = bdRecy + 1 WHERE bdCode = #{bdCode}
@@ -76,6 +82,8 @@
     <select id="getReco" resultType="String">
         SELECT reco FROM board_reco WHERE bdCode = #{bdCode} AND uCode = #{uCode}
     </select>
+
+    <!-- 추천 비추천 끝 -->
 
     <select id="getBookmark" resultType="String">
         SELECT bdCode FROM board_bookmark WHERE bdCode = #{bdCode} AND uCode = #{uCode}

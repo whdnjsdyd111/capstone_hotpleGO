@@ -18,7 +18,7 @@ const recent = "?sort=recent";
 const rec = "?sort=reco";
 
 $(function () {
-    $('#comment_input').click(function () {
+    $(document).on('click','#comment_input',function (){
         if (!$('#comCont').html()) {
             alert("댓글 내용을 입력해주세요.");
             return false;
@@ -41,12 +41,12 @@ $(function () {
         });
     });
 
-    $('#comment_delete').click(function () {
+    $(document).on('click','#comment_delete',function (){
         alert("댓글이 삭제되었습니다.");
         location.href = "/board/delete/comment/" + $('#comCode').val();
     });
 
-    $('.write_reply').click(function () {
+    $(document).on('click','.write_reply',function (){
         cur_comCode = $(this).next().val();
         $('.reply').remove();
         nest_total_file = 0;
@@ -182,12 +182,10 @@ $(function () {
             // });
 
         });
-        // isClicked=true;
-        // }
     });
 
     /* -------------------- 리-리댓달기------------------------------ */
-    $('.write_re_reply').click(function () {
+    $(document).on('click','.write_re_reply',function (){
         cur_comCode = $(this).next().val();
         $('.reply').remove();
         nest_total_file = 0;
@@ -374,7 +372,7 @@ $(function () {
         });
     });
 
-    $('.recoBtn').click(function () {
+    $(document).on('click','.recoBtn',function (){
         var com_id = $(this).nextAll('input[name=com_id]').val();
         var btn = $(this);
         var check_reco = $(btn).attr('id') == 'comReco_y';
