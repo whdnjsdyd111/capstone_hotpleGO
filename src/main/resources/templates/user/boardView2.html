@@ -35,13 +35,13 @@
                 </span>
                 <span><i class="fa fa-eye mx-2" th:text="${board.bdRdCount}"></i></span>
                 <span><i class="fa fa-thumbs-o-up mx-2" th:text="${board.bdRecy}"></i></span>
-                <span><i class="fa fa-thumbs-o-down mx-2" th:text="${board.bdRecn}"></i></span>
+                <span><i class="fa fa-thumbs-o-down mx-2" th:text="${board.bdRecn}"></i></span><th:block sec:authorize-expr="isAuthenticated()">
+                    <span><i class="ri-alarm-warning-line btn" data-toggle="modal" data-target="#reportModal"></i></span>
+                </th:block>
             </div>
         </div>
-
         <div class="jumbotron border border-muted rounded-0 border-bottom-0 mb-0 text-left" th:utext="${board.bdCont}">
         </div>
-
         <th:block sec:authorize-expr="isAuthenticated()">
             <div class="col-12 px-0 py-2 border border-muted border-bottom-0">
                 <div class="container">
@@ -215,8 +215,6 @@
                 </div>
             </div>
         </th:block>
-
-
         <div class="board-btn-box">
             <div>
                 <button class="btn btn-outline-warning ml-5" onclick="location.href='/board/list'">목록</button>
@@ -226,12 +224,10 @@
                     <button class="btn btn-outline-warning ml-5" id="update">수정</button>
                     <button class="btn btn-outline-warning ml-5" id="delete"><i class="fa fa-trash-o mr-2"></i>삭제</button>
                 </th:block>
-                <th:block sec:authorize-expr="!isAuthenticated()">
-                    <button class="btn btn-outline-warning ml-5 go_login" id="report">신고</button>
-                </th:block>
                 <th:block sec:authorize-expr="isAuthenticated()">
-                    <button class="btn btn-outline-warning ml-5" id="report" data-toggle="modal" data-target="#reportModal">신고</button>
+                    <button class="btn btn-outline-warning ml-5 mr-5 go_login" onclick="location.href='/board/write'">글쓰기</button>
                 </th:block>
+
             </div>
         </div>
 

@@ -23,6 +23,7 @@ $(function() {
             },
             success: function(data) {
                 alert(data);
+                location.href='/setting';
             },
             error: function (xhr, status, err) {
                 alert(xhr.responseText);

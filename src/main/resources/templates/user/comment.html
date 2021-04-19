@@ -27,9 +27,9 @@
 
 <div id="start_com">
     <div th:each="comm : ${commentList.keySet()}">
-        <div class="row container p-3 comments " style="margin: 0 auto;">
+        <div  class="row container p-3 comments " style="margin: 0 auto;">
             <!-- 입력된 댓글 상자 시작 -->
-            <div class="col mr-auto d-flex flex-column text-left border">
+            <div th:id="${comm.comCode.replaceAll('/','')}" class="col mr-auto d-flex flex-column text-left border">
                 <div class="d-flex justify-content-between">
                     <div class="">
                         <a class="text-dark" style="text-decoration: none;"
@@ -41,40 +41,41 @@
                               th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
                       </button>
                     </span>
-                        <span class="btn btn-report">신고</span>
+                        <span class="btn btn-report"><i class="ri-alarm-warning-line btn" data-toggle="modal"
+                                                        data-target="#reportModal"></i></span>
                     </div>
                     <div class="next-to-cmmt-nick">
                         <div class="writer-visible-box">
-                            <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
-                            <span class="btn comment-delete">삭제</span> <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
+                            <span class="btn btn-modify" th:onclick="modify([[${comm.comCode}]])">수정</span> <!-- 댓글 수정 -->
+                            <span class="btn comment-delete">삭제</span>
+                            <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
                         </div>
 
                         <span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> <!-- 안에 댓글 추천 수 -->
                         <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> <!-- 안에 댓글 비추 수 -->
                     </div>
                 </div>
-
-
                 <div class="container my-2 writen_comment">
                     <div th:utext="${comm.comCont}">댓글 내용</div>
                 </div>
                 <div class="mt-2">
-
-                    <button class="open-replies btn btn-dark" data-toggle="collapse" th:data-target="'#' +|collapse*{comm.comCode.replaceAll('/', '')}|">답글보기</button>
-                    <button class="write_reply btn btn-dark" >답글쓰기</button>
+                    <button class="open-replies btn btn-dark" data-toggle="collapse"
+                            th:data-target="'#' +|collapse*{comm.comCode.replaceAll('/', '')}|">답글보기
+                    </button>
+                    <button class="write_reply btn btn-dark">답글쓰기</button>
                     <input type="hidden" th:value="${comm.comCode}"/>
-                    <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
+                    <input type="hidden"  th:value="${comm.comCode.replaceAll('/', '')}"/>
                     <input type="hidden" th:value="${comm.UCode}"/>
                     <input type="hidden" style="text-align: left" name="nickname"/>
-
                 </div>
             </div>
             <!-- 입력된 댓글 상자 끝-->
         </div>
         <!-- 리댓 상자 시작 -->
-        <div th:id="|collapse*{comm.comCode.replaceAll('/', '')}|" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne"> <!-- id에 각 댓글 구분할 값 추가 -->
+        <div th:id="|collapse*{comm.comCode.replaceAll('/', '')}|" class="panel-collapse collapse in" role="tabpanel"
+             aria-labelledby="headingOne"> <!-- id에 각 댓글 구분할 값 추가 -->
             <th:block th:each="reply : ${commentList.get(comm)}">
-                <div class="row container p-3 comments replies" >
+                <div class="row container p-3 comments replies">
                     <div class="col mr-auto d-flex flex-column text-left border reply-box">
                         <div class="d-flex justify-content-between">
                             <div class="">
@@ -83,42 +84,32 @@
                                 <span class="mr-2"><i class="fa fa-user-circle mr-2"
                                                       th:text="${reply.UCode}"></i></span>
                                 </a>
-                                <span tabindex="0" data-toggle="tooltip" th:title="${#hotpleAPI.beforeTime(reply.comCode)}">
+                                <span tabindex="0" data-toggle="tooltip"
+                                      th:title="${#hotpleAPI.beforeTime(reply.comCode)}">
                       <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
                               th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
                       </button>
                     </span>
-                            <span class="btn btn-report">신고</span>
+                                <span class="btn btn-report"><i class="ri-alarm-warning-line btn" data-toggle="modal"
+                                                                data-target="#reportModal"></i></span>
                             </div>
                             <div class="next-to-cmmt-nick">
-                                <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
-                                <span class="btn comment-delete">삭제</span> <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
-                                <!--<span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> &lt;!&ndash; 안에 댓글 추천 수 &ndash;&gt;
-                                <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> &lt;!&ndash; 안에 댓글 비추 수 &ndash;&gt;-->
+                                <span class="btn btn-modify" >수정</span> <!-- 댓글 수정 -->
+                                <span class="btn comment-delete">삭제</span>
+                                <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
+                                <span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> <!-- 안에 댓글 추천 수 -->
+                                <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> <!-- 안에 댓글 비추 수 -->
                             </div>
                         </div>
                         <div class="container my-2 writen_comment">
                             <div th:utext="${reply.comCont}">댓글 내용</div>
                         </div>
                         <div class="mt-2">
-                            <!--                    <c:if test="${ empty sessionScope.YJFBID_SES }">-->
-                            <!--<button class="go_login btn btn-dark">답글쓰기</button>-->
-                            <!--                    </c:if>-->
-                            <!--                    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
-                            <!--<button class="write_reply btn btn-dark">답글쓰기</button>
-                            <input type="hidden" th:value="${reply.comCode}" />
-                            &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id != mem_id }">&ndash;&gt;
-                            <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}" />
+                            <button class="write_re_reply btn btn-dark">답글쓰기</button>
+                            <input type="hidden" th:value="${comm.comCode}"/>
+                            <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
                             <input type="hidden" th:value="${comm.UCode}"/>
-                            <input type="hidden" style="text-align: left" name="nickname"/>-->
-                            <!--                        </c:if>-->
-                            <!--                    <button class="btn btn-danger report">신고</button>-->
-                            <!--                    <input type="hidden" value="${ joinMemCom.com_id }"/>-->
-                            <!--                    <input type="hidden" value="C"/>-->
-                            <!--                    &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id == mem_id }">&ndash;&gt;-->
-                            <!--                        </c:if>-->
-                            <!--                    </c:if>-->
-                            <button class="write_re_reply btn btn-dark" >답글쓰기</button>
+                            <input type="hidden" style="text-align: left" name="nickname"/>
                         </div>
                     </div>
                     <!------------------------------------------------------->
@@ -127,7 +118,5 @@
         </div>
         <!-- 리댓 상자 끝 -->
     </div>
-
-
 </div>
 </html>

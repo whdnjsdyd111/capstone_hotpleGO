@@ -10,6 +10,8 @@ let target_com_id;
 
 let contents_id;
 let contents_kind;
+let modifying_id;
+
 
 let cur_comCode;
 const bdCode = $('#bdCode').val();
@@ -19,8 +21,8 @@ const rec = "?sort=reco";
 
 $(function () {
 
-    $(document).on('click','#comment_input',function (){
-    /*$('#comment_input').click(function () {*/
+    $(document).on('click', '#comment_input', function () {
+        /*$('#comment_input').click(function () {*/
         if (!$('#comCont').html()) {
             alert("댓글 내용을 입력해주세요.");
             return false;
@@ -43,15 +45,15 @@ $(function () {
         });
     });
 
-    $(document).on('click','#comment_delete',function (){
-    /*$('#comment_delete').click(function () {*/
+    $(document).on('click', '#comment_delete', function () {
+        /*$('#comment_delete').click(function () {*/
         alert("댓글이 삭제되었습니다.");
         location.href = "/board/delete/comment/" + $('#comCode').val();
     });
 
-    $(document).on('click','.write_reply',function (){
+    $(document).on('click', '.write_reply', function () {
 
-    /*$('.write_reply').click(function () {*/
+        /*$('.write_reply').click(function () {*/
         cur_comCode = $(this).next().val();
         $('.reply').remove();
         nest_total_file = 0;
@@ -124,9 +126,9 @@ $(function () {
     });
 
     /* -------------------- 리-리댓달기------------------------------ */
-    $(document).on('click','.write_re_reply',function (){
+    $(document).on('click', '.write_re_reply', function () {
 
-    /*$('.write_re_reply').click(function () {*/
+        /*$('.write_re_reply').click(function () {*/
         cur_comCode = $(this).next().val();
         $('.reply').remove();
         nest_total_file = 0;
@@ -140,7 +142,7 @@ $(function () {
         if (target_mem_nickname === undefined)
             span_nickname = "";
 
-
+        const userName=$(this).parent().parent().find('.fa-user-circle').text();
         var com_id = $(this).parents('.comments').children('form').children('input[name=com_id]').val();
         var reply =
                 /*'<div id="re-reply-edit" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">' + // 각 id는 해당 댓글의 아이디*/
@@ -148,7 +150,7 @@ $(function () {
             "<div class='border border-right-0 border-top-0 border-dark ml-5' style='width: 30px; height: 30px'></div>" +
             '<div id="reUCode" class="w-100"><div class="border border-dark write_comment_top p-3 mx-3">' +
             "<div class='ml-3 write_comment_member text-left'>닉네임</div><div class='write_comment_middle p-2 text-left' style='width:98%'>" +
-            '<a class="text-primary" >@' + $(this).parent().parent().find('.fa-user-circle').text() + '</a><div id="reComCont" class="px-3 d-inline" contentEditable="true"></div></div></div>' +
+            '<div id="reComCont" class="px-3 d-inline" ><a class="text-primary" href="mainBoard.do?kind=all&target=writer&search='+userName+'>@' + userName + '</a><div contentEditable="true" class="d-inline ml-3"></div></div></div>' +
             '<div class="border border-dark border-top-0 mx-3">' +
             '<div class="w-100 d-flex"><div class="custom-file w-75">' +
             '<input type="file" class="custom-file-input" id="nest_comment_image">' +
@@ -157,10 +159,7 @@ $(function () {
             '<button onclick="reply_submit()" class="btn btn-info w-25" style="margin: 0px; height: 38px">작성</button></div></div><div>'
             /* '</div>'*/
         ;
-
         $(this).parents('.comments').after(reply);
-
-
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
@@ -313,9 +312,8 @@ $(function () {
         });
     });
 
-    $(document).on('click','.recoBtn',function (){
-
-    /*$('.recoBtn').click(function () {*/
+    $(document).on('click', '.recoBtn', function () {
+        /*$('.recoBtn').click(function () {*/
         var com_id = $(this).nextAll('input[name=com_id]').val();
         var btn = $(this);
         var check_reco = $(btn).attr('id') == 'comReco_y';
@@ -699,11 +697,55 @@ function reply_submit() {
         data: JSON.stringify(data)
     }).done(function (data, status, xhr) {
         alert(data);
-        reload(written);
+        reload(recent);
     }).fail(function (error) {
         console.log(error.responseText);
     });
 }
+
+function modify(oldId) {
+    let newId = oldId.replaceAll('/', '').replaceAll('\\', '');
+    let cmt=$('#'+newId).find('.writen_comment').children().text();
+    console.log(cmt);
+    let reply =
+        `<div id = "` + newId + `2" class= "col mr-auto d-flex flex-column text-left border" style="background-color:#f9f9f9;">
+            <div class="d-flex justify-content-between">
+                <div class="">
+                    <a class="text-dark" style="text-decoration: none;">
+                        <span class="mr-2"><i class="fa fa-user-circle mr-2" ></i></span>
+                    </a>
+                </div>
+            </div>
+                 <div class="w-100 write_comment_middle">
+                    <div id="nestComCont" class="px-3" contentEditable="true">`+
+                    cmt+`
+                    </div>
+                </div>
+                <div class="mt-2">
+                <button class=" btn btn-dark modify-submit">답글쓰기</button>
+                <input type="hidden" />
+                <input type="hidden" />
+                <input type="hidden" />
+                <input type="hidden" style="text-align: left" name="nickname"/>
+            </div>
+            </div>
+            </div>
+        </div>`
+    ;
+    $('#' + newId).parent().append(reply);
+    $('#' + newId).removeClass('d-flex');
+    $('#' + newId).hide();
+    modifying_id=newId;
+    //console.log(newId);
+};
+
+$(document).on('click','.modify-submit',function(){
+    $('#'+modifying_id).show();
+    $('#'+modifying_id).addClass('d-flex');
+    $('#'+modifying_id).find('.writen_comment').text($('#'+modifying_id+'2').find('#nestComCont').text());
+    $('#'+modifying_id+'2').remove();
+
+});
 
 function reload(kind) {
     $('#comments_div').load('/board/comment/' + bdCode + kind);
