@@ -115,11 +115,11 @@ public class ManagerController {
     }
 
     @GetMapping("/announce")
-    public String announceList(@RequestParam(value = "sort", defaultValue = "event") String sort, Model model) {
+    public String announceList(@RequestParam(value = "sort", defaultValue = "event") String sort, Criteria cri, Model model) {
         if (sort.equals("event")) {
-            model.addAttribute("events", event.getEventList());
+            model.addAttribute("events", event.getEventList(cri));
         } else if (sort.equals("announce")) {
-            model.addAttribute("events", event.getAnnounceList());
+            model.addAttribute("events", event.getAnnounceList(cri));
         } else {
             return "redirect:/manager/announceList";
         }
