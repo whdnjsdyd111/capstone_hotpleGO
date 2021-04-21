@@ -1,15 +1,9 @@
 $(function() {
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-
     $('.delete_shop').click(function() {
         if(confirm("정말 삭제하시겠습니까?")) {
             let htId = $(this).next().val();
             $.ajax({
                 type: "post",
-                beforeSend : function(xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                    xhr.setRequestHeader(header, token);
-                },
                 contentType: "application/json;charset=UTF-8",
                 data: JSON.stringify({
                     htId: htId,
@@ -47,9 +41,6 @@ $(function() {
         formData.append("category", $('#kindD' + htId).val());
         $.ajax({
             type: "post",
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                xhr.setRequestHeader(header, token);
-            },
             processData: false,
             contentType: false,
             data: formData,
