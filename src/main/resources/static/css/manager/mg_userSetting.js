@@ -5,9 +5,6 @@ let check_new_passwd = false;
 let reCheck_passwd = false;
 
 $(function() {
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-
     $('#nickname').on("propertychange change keyup paste input", function() {
         let nick = $(this).val();
 
@@ -72,9 +69,6 @@ $(function() {
     $('#updateNick').click(function() {
         $.ajax({
             type: "post",
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                xhr.setRequestHeader(header, token);
-            },
             url: "/manager/rest/setting-nick",
             data: JSON.stringify({
                 nick: $('#nickname').val()
@@ -94,9 +88,6 @@ $(function() {
     $('#updateAccount').click(function() {
         $.ajax({
             type: "post",
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                xhr.setRequestHeader(header, token);
-            },
             url: "/manager/rest/setting-account",
             data: JSON.stringify({
                 mBank : $('#bank').val(),
@@ -174,9 +165,6 @@ $(function() {
         $.ajax({
             type: "POST",
             url: "/manager/rest/setting-password",
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                xhr.setRequestHeader(header, token);
-            },
             data: {
                 password: $('#password').val(),
                 new_password: $('#new_password').val()

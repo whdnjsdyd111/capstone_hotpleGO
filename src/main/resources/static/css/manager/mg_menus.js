@@ -1,6 +1,4 @@
 $(function(){
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
     let before_category;
 
     $('#submit-menu').click( function() {
@@ -13,9 +11,6 @@ $(function(){
         formData.append("upload", $('#me-picture')[0].files[0]);
         $.ajax({
             type: "post",
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                xhr.setRequestHeader(header, token);
-            },
             processData: false,
             contentType: false,
             data: formData,
@@ -49,9 +44,6 @@ $(function(){
         formData.append("fileName", $('#me-update-fileName').val());
         $.ajax({
             type: "post",
-            beforeSend: function (xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                xhr.setRequestHeader(header, token);
-            },
             processData: false,
             contentType: false,
             data: formData,
@@ -112,9 +104,6 @@ $(function(){
         if (confirm("카테고리를 일괄 변경 하시겠습니까?")) {
             $.ajax({
                 type: "post",
-                beforeSend : function(xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                    xhr.setRequestHeader(header, token);
-                },
                 data: {
                     before: before_category,
                     category: category
@@ -147,9 +136,6 @@ $(function(){
             let parent_div = $(this).parent();
             $.ajax({
                 type: "post",
-                beforeSend : function(xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                    xhr.setRequestHeader(header, token);
-                },
                 data: {
                     category: parent_div.attr('name')
                 },
@@ -172,9 +158,6 @@ $(function(){
             let parent_div = $(this).parent();
             $.ajax({
                 type: "post",
-                beforeSend : function(xhr) {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                    xhr.setRequestHeader(header, token);
-                },
                 contentType: "application/json;charset=UTF-8",
                 data: JSON.stringify({
                     meCode : parent_div.children('.menu-code').val(),

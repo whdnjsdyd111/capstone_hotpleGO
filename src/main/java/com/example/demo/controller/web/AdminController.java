@@ -1,7 +1,9 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
+import com.example.demo.domain.Criteria;
 import com.example.demo.domain.EventVO;
+import com.example.demo.domain.PageVO;
 import com.example.demo.service.EventService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.AllianceService;
@@ -121,11 +123,13 @@ public class AdminController {
     }
 
     @GetMapping("/announce")
-    public String announceList(@RequestParam(value = "sort", defaultValue = "event") String sort, Model model) {
+    public String announceList(@RequestParam(value = "sort", defaultValue = "event") String sort, Criteria cri, Model model) {
         if (sort.equals("event")) {
-            model.addAttribute("events", event.getEventList());
+            model.addAttribute("events", event.getEventList(cri));
+            model.addAttribute("pageMaker", new PageVO(cri, event.getEventTotal(cri)));
         } else if (sort.equals("announce")) {
-            model.addAttribute("events", event.getAnnounceList());
+            model.addAttribute("events", event.getAnnounceList(cri));
+            model.addAttribute("pageMaker", new PageVO(cri, event.getAnnounceTotal(cri)));
         } else {
             return "redirect:/admin/announce";
         }

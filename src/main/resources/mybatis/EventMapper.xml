@@ -3,14 +3,52 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.EventMapper">
+
+    <sql id="criteria">
+        <trim prefix="(" suffix=") AND" prefixOverrides="OR">
+            <foreach collection="cri.typeArr" item="type">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'.toString()">
+                            eveTitle LIKE '%'||#{cri.keyword}||'%'
+                        </when>
+                        <when test="type == 'C'.toString()">
+                            eveCont LIKE '%'||#{cri.keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            writer LIKE '%'||#{cri.keyword}||'%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+
     <select id="read" resultType="EventVO">
         SELECT eveCode, eveTitle, eveCont, eveStart, eveExpi, eveRdCount, a.uCode, aName
         FROM event e JOIN admin a ON e.uCode = a.uCode WHERE eveCode = #{code}
     </select>
 
     <select id="getList" resultType="EventVO">
-        SELECT eveCode, eveTitle, eveCont, eveStart, eveExpi, eveRdCount, a.uCode, aName
-        FROM event e JOIN admin a ON e.uCode = a.uCode WHERE SUBSTR(eveCode, -1) = #{str}
+        SELECT eveCode, eveTitle, eveCont, eveStart, eveExpi, eveRdCount, uCode, aName
+        FROM (
+            SELECT /*+ INDEX_DESC(e eve_pk) */
+            ROWNUM rn, eveCode, eveTitle, eveCont, eveStart, eveExpi, eveRdCount, a.uCode uCode, aName
+            FROM event e JOIN admin a ON e.uCode = a.uCode WHERE SUBSTR(eveCode, -1) = #{str} AND
+        
+        <include refid="criteria" />
+
+        <![CDATA[
+            ROWNUM <= #{cri.pageNum} * #{cri.amount}
+            )
+            WHERE rn > (#{cri.pageNum} - 1) * #{cri.amount}
+        ]]>
+    </select>
+
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM event WHERE substr(eveCode, -1) = #{str} AND
+        <include refid="criteria" />
+        eveCode IS NOT NULL
     </select>
 
     <select id="getEventCurrentList" resultType="EventVO">

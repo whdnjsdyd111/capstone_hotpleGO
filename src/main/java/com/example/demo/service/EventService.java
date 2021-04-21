@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.Criteria;
 import com.example.demo.domain.EventVO;
 import com.example.demo.mapper.EventMapper;
 import lombok.Setter;
@@ -21,12 +22,20 @@ public class EventService {
         return mapper.insertAnnounce(vo) == 1;
     }
 
-    public List<EventVO> getEventList() {
-        return mapper.getList("E");
+    public List<EventVO> getEventList(Criteria cri) {
+        return mapper.getList("E", cri);
     }
 
-    public List<EventVO> getAnnounceList() {
-        return mapper.getList("A");
+    public List<EventVO> getAnnounceList(Criteria cri) {
+        return mapper.getList("A", cri);
+    }
+
+    public int getEventTotal(Criteria cri) {
+        return mapper.getTotalCount("E", cri);
+    }
+
+    public int getAnnounceTotal(Criteria cri) {
+        return mapper.getTotalCount("A", cri);
     }
 
     public List<EventVO> getCurrentFive() {

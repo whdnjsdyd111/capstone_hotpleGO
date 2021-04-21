@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.domain.Criteria;
 import com.example.demo.domain.EventVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +11,9 @@ import java.util.List;
 public interface EventMapper {
     public EventVO read(String code);
 
-    public List<EventVO> getList(String str);
+    public List<EventVO> getList(String str, Criteria cri);
+
+    public int getTotalCount(String str, Criteria cri);
 
     public List<EventVO> getEventCurrentList();
 
