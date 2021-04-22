@@ -6,12 +6,15 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface HotpleMapper {
     public HotpleVO readId(String htId);
 
     public HotpleVO readAddr(String str);
+
+    public List<HotpleVO> readHotples(Set<Long> htIds);
 
     public List<HotpleVO> selectByManager(String uCode);
 

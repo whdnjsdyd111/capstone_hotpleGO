@@ -3,8 +3,10 @@ package com.example.demo.controller.python;
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.CourseVO;
 import com.example.demo.domain.CourseWithMbtiVO;
+import com.example.demo.domain.HotpleVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.CourseService;
+import com.example.demo.service.HotpleService;
 import com.example.demo.service.UserService;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +27,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/python/**")
@@ -35,6 +36,7 @@ import java.util.List;
 public class PythonController {
     private final UserService user;
     private final CourseService course;
+    private final HotpleService hotple;
 
     @Transactional
     @GetMapping("/mbti_course")
@@ -45,6 +47,11 @@ public class PythonController {
         log.info(mbti);
 
         List<CourseWithMbtiVO> list = course.getByMbti(mbti);
+        Set<Long> htIds = new HashSet<>();
+        list.forEach(l -> {
+            htIds.add(l.getHtId());
+        });
+        List<HotpleVO> hotples = hotple.getHotples(htIds);
 
         log.info(list);
 
@@ -70,6 +77,7 @@ public class PythonController {
         // 키 설정
         JSONObject obj = new JSONObject();
         obj.put("mbti", JSONArray.toJSONString(list)); // mbti 에 대한 리스트 보내기
+        obj.put("hotples", JSONArray.toJSONString(hotples));
 
         // JSON 화한 키 값들 전달하기
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));

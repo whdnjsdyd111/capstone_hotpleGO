@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Log4j2
@@ -22,6 +23,10 @@ public class HotpleService {
 
     public HotpleVO getIdByAddr(String addr) {
         return mapper.readAddr(addr);
+    }
+
+    public List<HotpleVO> getHotples(Set<Long> htIds) {
+        return mapper.readHotples(htIds);
     }
 
     public List<HotpleVO> getByUCode(String uCode) {

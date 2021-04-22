@@ -118,8 +118,10 @@ public class ManagerController {
     public String announceList(@RequestParam(value = "sort", defaultValue = "event") String sort, Criteria cri, Model model) {
         if (sort.equals("event")) {
             model.addAttribute("events", event.getEventList(cri));
+            model.addAttribute("pageMaker", new PageVO(cri, event.getEventTotal(cri)));
         } else if (sort.equals("announce")) {
             model.addAttribute("events", event.getAnnounceList(cri));
+            model.addAttribute("pageMaker", new PageVO(cri, event.getAnnounceTotal(cri)));
         } else {
             return "redirect:/manager/announceList";
         }

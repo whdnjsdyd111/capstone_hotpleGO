@@ -46,6 +46,13 @@
         ]]>
     </select>
 
+    <select id="readHotples" resultType="HotpleVO">
+        SELECT * FROM hotple
+        <foreach collection="htIds" open="WHERE htId IN (" close=")" index="index" item="htId" separator=",">
+            #{htId}
+        </foreach>
+    </select>
+
     <insert id="insertBusn">
         INSERT INTO hotple (htId, busnNum, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, htLat, htLng, uCode, category)
         VALUES(seq_hot.NEXTVAL, #{busnNum}, #{busnName}, #{htAddr}, #{htAddrDet}, #{htZip}, #{htCont}, #{htTel},
