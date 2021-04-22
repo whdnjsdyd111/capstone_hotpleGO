@@ -1,14 +1,20 @@
 package com.example.demo.controller.python;
 
+import com.example.demo.api.HotpleAPI;
+import com.example.demo.domain.CourseVO;
 import com.example.demo.domain.CourseWithMbtiVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.CourseService;
 import com.example.demo.service.UserService;
+import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +25,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/python/**")
 @RequiredArgsConstructor
 @Log4j2
@@ -29,6 +36,7 @@ public class PythonController {
     private final UserService user;
     private final CourseService course;
 
+    @Transactional
     @GetMapping("/mbti_course")
     public String mbti(@AuthenticationPrincipal CustomUser user) throws Exception {
         String mbti = this.user.getMbti(user.user.getUCode());
@@ -40,7 +48,13 @@ public class PythonController {
 
         log.info(list);
 
-        String csCode = null;   // 얘는 코스 번호
+        String htId[] = null;   // 파이썬으로부터 받을 ht 아이디들
+        CourseVO vo = new CourseVO();
+        vo.setCsTitle(mbti);
+        vo.setCsWith("혼자");
+        vo.setCsNum((byte)1);
+        vo.setUCode(user.user.getUCode());
+
         HttpURLConnection conn = null;
         URL url = new URL("http://127.0.0.1:5000/mbti"); // 액세스 토큰 받을 주소 입력
 
@@ -74,21 +88,23 @@ public class PythonController {
             // 차례로 읽기
             String line = null;
             while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
+                sb.append(line);
             }
             br.close();
             log.info("" + sb.toString());
 
-//            // 반환 받은 JSON String 파싱
-//            JSONParser parser = new JSONParser();
-//            Map<String, Object> map = (Map<String, Object>) parser.parse(sb.toString());
-//            Map<String, String> response_map = (Map<String, String>) parser.parse(map.get("response").toString());
+            String str = sb.toString();
+            str = str.replace("[", "").replace("]", "").replaceAll("\"", "");
+            htId = str.split(",");
+            log.info(htId);
+            course.registerMBTI(mbti, vo);
+            course.addCourses(Arrays.stream(htId).mapToInt(Integer::parseInt).toArray(), vo.getCsCode());
         } else {
             log.info(conn.getResponseMessage());
-            return "fail";
+            return "/";
         }
 
 
-        return "success";
+        return "redirect:/courseDetail/" + HotpleAPI.codeToStr(vo.getCsCode());
     }
 }

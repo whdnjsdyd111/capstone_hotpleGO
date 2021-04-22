@@ -112,4 +112,14 @@ public class CourseService {
     public List<CourseWithMbtiVO> getByMbti(String mbti) {
         return mapper.getByMbti(mbti);
     }
+
+    public boolean registerMBTI(String mbti, CourseVO vo) {
+        return mapper.insertMBTI(mbti, vo) == 1;
+    }
+
+    public boolean addCourses(int[] htIds, String csCode) {
+        int num = mapper.addCourses(htIds, csCode);
+        log.info(num);
+        return true;
+    }
 }
