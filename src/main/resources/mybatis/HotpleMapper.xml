@@ -25,10 +25,12 @@
             SELECT SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1)
             FROM menu
             WHERE mecate LIKE '%' || #{keyword} || '%' OR mename LIKE '%' || #{keyword} || '%' OR mehashtag LIKE '%' || #{keyword} || '%'))
-        AND ((ACOS(SIN(35.8992601 * ACOS(-1) / 180) * SIN(htLat * ACOS(-1) / 180)
-        + COS(35.8992601 * ACOS(-1) / 180) * COS(htLat * ACOS(-1) / 180)
-        * COS((128.6215081 - htLng) * ACOS(-1) / 180)) * 180 / ACOS(-1)) * 60 * 1.1515) < 1
+        AND ((ACOS(SIN(35.8668621 * ACOS(-1) / 180) * SIN(htLat * ACOS(-1) / 180)
+        + COS(35.8668621 * ACOS(-1) / 180) * COS(htLat * ACOS(-1) / 180)
+        * COS((128.5902276 - htLng) * ACOS(-1) / 180)) * 180 / ACOS(-1)) * 60 * 1.1515) < 1
         ]]>
+        <!-- 복현동 35.8992601, 128.6215081
+             반월당 35.8668621, 128.5902276 -->
     </select>
 
     <select id="searchHotpleByGeo" resultType="HotpleVO">

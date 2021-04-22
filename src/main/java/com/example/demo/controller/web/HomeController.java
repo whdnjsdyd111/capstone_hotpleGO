@@ -1,6 +1,5 @@
 package com.example.demo.controller.web;
 
-//파이선 임포트 지움
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.CourseWithMbtiVO;
 import com.example.demo.domain.HotpleVO;

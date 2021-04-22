@@ -26,10 +26,7 @@ $(function() {
     });
 
     $('#mbti').click(function() {
-        requestGet({}, '/python/mbti_course',
-            function(data) {
-                swal("성공", data, "success");
-            }, basicErrorFunc);
+        location.href = "/python/mbti_course";
     });
 
     $('#custom').click(function() {
