@@ -8,6 +8,7 @@ import com.example.demo.security.CustomUser;
 import com.example.demo.service.CourseService;
 import com.example.demo.service.HotpleService;
 import com.example.demo.service.UserService;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -75,13 +76,13 @@ public class PythonController {
         conn.setDoOutput(true); // OutputStream 으로 POST 데이터를 넘겨주겠다는 설정
 
         // 키 설정
-        JSONObject obj = new JSONObject();
-        obj.put("mbti", JSONArray.toJSONString(list)); // mbti 에 대한 리스트 보내기
-        obj.put("hotples", JSONArray.toJSONString(hotples));
+        String mbti_json = new Gson().toJson(list);
+        String hotples_json = new Gson().toJson(hotples);
 
         // JSON 화한 키 값들 전달하기
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-        bw.write(obj.toString());
+        bw.write(mbti_json);
+        bw.write(hotples_json);
         bw.flush();
         bw.close();
 
