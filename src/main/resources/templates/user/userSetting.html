@@ -65,6 +65,35 @@
             <button class="btn-info" onclick="location.href = '/bookmark'">북마크</button>
             <button class="btn-info" onclick="location.href = '/taste'">취향 설정</button>
             <button class="btn-info" onclick="location.href = '/mbti'">MBTI</button>
+
+            <th:block th:if="${guide == null}">
+                <button class="btn-info" data-toggle="modal" data-target="#guide">가이드신청</button>
+            </th:block>
+            <th:block th:if="${guide != null}">
+                <button class="btn-info" id="guiding">가이드신청중</button>
+            </th:block>
+            <th:block th:if="${yourGuide != null}">
+                <button class="btn-info" onclick="location.href='#'">가이드내역</button>
+            </th:block>
+        </div>
+    </div>
+
+    <div class="modal fade" id="guide" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">가이드</h4>
+                </div>
+                <div class="modal-body">
+                    <h5>가이드 신청</h5>
+                    <textarea type="text" cols="50px" rows="5px"  id="guide-content" class="form-control editing" placeholder="신청 사유 (200자 내)"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="guideBtn">제출</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
