@@ -42,4 +42,36 @@
     <delete id="commentDelete">
         DELETE FROM comm WHERE comCode = #{comCode}
     </delete>
+
+    <update id="comRecommendUp">
+        UPDATE comm SET comRecy = comRecy + 1 WHERE comCode = #{comCode}
+    </update>
+
+    <update id="comRecommendDown">
+        UPDATE comm SET comRecy = comRecy - 1 WHERE comCode = #{comCode}
+    </update>
+
+    <update id="unComRecommendUp">
+        UPDATE comm SET comRecn = comRecn + 1 WHERE comCode = #{comCode}
+    </update>
+
+    <update id="unComRecommendDown">
+        UPDATE comm SET comRecn = comRecn - 1 WHERE comCode = #{comCode}
+    </update>
+
+    <insert id="insertComReco">
+        INSERT INTO comm_reco WHERE comCode = #{comCode} AND uCode = #{uCode}
+    </insert>
+
+    <update id="updateComReco">
+        UPDATE comm_reco SET reco = #{reco} WHERE comCode = #{comCode} AND uCode = #{uCode}
+    </update>
+
+    <delete id="deleteComReco">x
+        DELETE FROM comm_reco WHERE comCode = #{comCode} AND uCode = #{uCode}
+    </delete>
+
+    <select id="getComReco" resultType="String">
+        SELECT comCode, reco FROM comm_reco WHERE comCode IN (SELECT comCode FROM comm WHERE bdCode = #{bdCode}) AND uCode = #{uCode}
+    </select>
 </mapper>

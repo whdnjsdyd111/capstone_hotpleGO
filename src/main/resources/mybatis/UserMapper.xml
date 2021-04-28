@@ -67,4 +67,5 @@
     <update id="updateMbti">
         UPDATE users SET mbti = #{mbti} WHERE uCode = #{uCode}
     </update>
+
 </mapper>

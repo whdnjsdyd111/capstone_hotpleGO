@@ -34,5 +34,4 @@ public interface UserMapper {
     public String getMbti(String uCode);
 
     public int updateMbti(@Param("mbti") String mbti, @Param("uCode") String uCode);
-
 }

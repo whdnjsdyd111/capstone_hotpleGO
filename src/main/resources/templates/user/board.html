@@ -39,8 +39,10 @@
                 <div class="col-sm-12 d-flex flex-column">
 
                     <div class="col-sm-12 col-md-6 col-lg-4">
-                        <span style="float:left;" class="mr-2"><img src="" class="img-thumbnail"
-                                                                    style="height: 100px; width:100px;"></span>
+                        <span style="float:left;" class="mr-2">
+                            <img src="/images/no_image.png" class="img-thumbnail" style="height: 100px; width:100px;">
+                            <input type="hidden" th:value="${vo.bdCont}" />
+                        </span>
                         <div class="col" style="display:inline;">
                             <span><button class="bg-info border border-dark rounded text-dark px-1"
                                           style="height:23px; width:58px;" href="" th:text="${kind}">핫플</button></span>

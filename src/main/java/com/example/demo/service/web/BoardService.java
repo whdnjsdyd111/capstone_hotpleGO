@@ -87,4 +87,8 @@ public class BoardService {
     public boolean insertBookmark(String bdCode, String uCode) {
         return mapper.insertBookmark(bdCode, uCode) == 1;
     }
+
+    public List<BoardVO> getBookmarkList(BoardVO boardVO) {
+        return mapper.getBookmarkList(boardVO);
+    }
 }

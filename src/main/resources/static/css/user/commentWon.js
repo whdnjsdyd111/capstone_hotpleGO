@@ -11,6 +11,9 @@ let target_com_id;
 let contents_id;
 let contents_kind;
 
+let check_com_reco = false;
+let check_com_nonReco = false;
+
 let cur_comCode;
 const bdCode = $('#bdCode').val();
 const written = "?sort=writen";
@@ -167,33 +170,6 @@ $(function () {
         });
 
         $('#nest_comment_image').on("change", nest_handleImageFile);
-
-        $('#nestCommentBtn').click(function () {
-
-            target_com_id = $(this).prevAll('input[name=com_id]').val();
-
-            if (!$('#nestComCont').html()) {
-                alert("댓글 내용을 입력해주세요.");
-                return false;
-            }
-            let replyData = {
-                comCont: $('#comCont').html(),
-                bdCode: $('#bdCode').val(),
-                uCode: $('#uCode').val(),
-                replyCode: $('#replyCode').val()
-            }
-            $.ajax({
-                type: 'POST',
-                url: '/board/rest/view',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify(replyData)
-            }).done(function (data, status, xhr) {
-                alert(data);
-                $('#comments_div').load('/board/comment/21040410433804N?sort=recent');
-            }).fail(function (error) {
-                console.log(error.responseText);
-            });
-        });
     });
 
     // 성공
@@ -313,106 +289,107 @@ $(function () {
         });
     });
 
-    $(document).on('click','.recoBtn',function (){
+    $(document).on('click','#comReco',function (){
 
-    /*$('.recoBtn').click(function () {*/
-        var com_id = $(this).nextAll('input[name=com_id]').val();
-        var btn = $(this);
-        var check_reco = $(btn).attr('id') == 'comReco_y';
-        var check_nonReco = $(btn).nextAll('.nonRecoBtn').attr('id') == 'comNonReco_y';
-        var reco_count = $(btn).nextAll('.reco_count');
+        let btn = $(this);
+        if ($(this).hasClass('comReco_y')) {
+            // 추천되있는데 취소한경우
+            // db에서 지우기
+            requestServlet({
+                comCode: comCode,
+                check_com_reco: check_com_reco,
+                check_com_nonReco: check_com_nonReco
+            }, "/board/rest/comLike", function (data) {
+                btn.removeClass('comReco_y');
+                btn.addClass('comReco_n');
+                //css 먹이기
+                btn.html('<span><i class=" btn fa fa-thumbs-o-up mx-2"></i>' + --reco +'</span>');
+                check_com_reco = false;
+            }, basicErrorFunc);
+        } else{
+            let nonBtn = $('#nonComReco');
+            if (nonBtn.hasClass('nonComReco_y')) {
+                // 비추된 상태에서 추천 누르기
+                // db 비추 n 으로 바꾸기
+                requestServlet({
+                    comCode: comCode,
+                    check_com_reco: check_com_reco,
+                    check_com_nonReco: check_com_nonReco
+                }, "/board/rest/comLike", function (data) {
+                    nonBtn.removeClass('nonComReco_y');
+                    nonBtn.addClass('nonComReco_n');
+                    // css 먹이기
+                    nonBtn.html('<span><i class="btn fa fa-thumbs-o-down mx-2"></i>' + --nonComReco + '</span>')
+                }, basicErrorFunc);
+            } else{
 
-        if (check_reco) {
-            // 이미 체크가 된 상태에서 눌렀을 시
-            // db에서 삭제
-            $(btn).attr('id', 'comReco_n');
-
-            $.ajax({
-                type: "post",
-                url: "insertCommentReco.do",
-                data: {
-                    com_id: com_id,
-                    check_reco: check_reco,
-                    check_nonReco: check_nonReco,
-                    check_db: true,
-                    btn: "reco"
-                },
-                success: function (data) {
-                    var str1 = "<p id='reco'>";
-                    var str2 = "reco</p>";
-                    var loc1 = data.indexOf(str1);
-                    var loc2 = data.indexOf(str2);
-                    var len = str1.length;
-                    var check = data.substr(loc1 + len, loc2 - (loc1 + len));
-
-                    reco_count.text(check);
-                }
-            });
-        } else if (!check_reco && check_nonReco) {
-            // 비추가 된 상태에서 눌렀을 시
-            // db 수정
-            $(btn).attr('id', 'comReco_y');
-            $(btn).nextAll('.nonRecoBtn').attr('id', 'comNonReco_n');
-
-            $.ajax({
-                type: "post",
-                url: "insertCommentReco.do",
-                data: {
-                    com_id: com_id,
-                    check_reco: check_reco,
-                    check_nonReco: check_nonReco,
-                    check_db: true,
-                    btn: "reco"
-                },
-                success: function (data) {
-                    var str1 = "<p id='reco'>";
-                    var str2 = "reco</p>";
-                    var loc1 = data.indexOf(str1);
-                    var loc2 = data.indexOf(str2);
-                    var len = str1.length;
-                    var check = data.substr(loc1 + len, loc2 - (loc1 + len));
-
-                    reco_count.text(check);
-                }
-            });
-        } else if (!check_reco) {
-            // 체크 안된 상태에서 눌렀을 시
-            // db 삽입
-            $(btn).attr('id', 'comReco_y');
-
-            $.ajax({
-                type: "post",
-                url: "insertCommentReco.do",
-                data: {
-                    com_id: com_id,
-                    check_reco: check_reco,
-                    check_nonReco: check_nonReco,
-                    check_db: false,
-                    btn: "reco"
-                },
-                success: function (data) {
-                    var str1 = "<p id='reco'>";
-                    var str2 = "reco</p>";
-                    var loc1 = data.indexOf(str1);
-                    var loc2 = data.indexOf(str2);
-                    var len = str1.length;
-                    var check = data.substr(loc1 + len, loc2 - (loc1 + len));
-
-                    reco_count.text(check);
-                }
-            });
+            }
+            // 추천 안되있는 상태 -> 추천 누르기
+            // db 추가
+            requestServlet({
+                comCode: comCode,
+                check_com_reco: check_com_reco,
+                check_com_nonReco: check_com_nonReco
+            }, "/board/rest/comLike", function(){}, basicErrorFunc);
         }
 
+        btn.removeClass('comReco_n');
+        btn.addClass('comReco_y');
+        btn.html('<span><i class="btn fa fa-thumbs-o-up mx-2"></i>' + ++reco + '</span>');
+        // css 먹이기
+        check_com_reco = true;
+        check_com_nonReco = false;
     });
 
-    $('.nonRecoBtn').click(function () {
-        var com_id = $(this).prevAll('input[name=com_id]').val();
-        var btn = $(this);
-        var check_nonReco = $(btn).attr('id') == 'comNonReco_y';
-        var check_reco = $(btn).prevAll('.recoBtn').attr('id') == 'comReco_y';
-        var reco_count = $(btn).prevAll('.reco_count');
+    $(document).on('click','#nonComReco',function (){
+        let nonBtn = $('#nonReco');
 
-        if (check_nonReco) {
+        if (nonBtn.hasClass('nonComReco_y')) {
+            // 비추 -> 취소
+            // 데이터베이스에서 지우기
+
+            requestServlet({
+                comCode: comCode,
+                check_com_reco: check_com_reco,
+                check_com_nonReco: check_com_nonReco
+            }, "/board/rest/unComLike", function (data) {
+                nonBtn.removeClass('nonComReco_y');
+                nonBtn.addClass('nonComReco_n');
+                //css 먹이기
+                nonBtn.html('<span><i class="btn fa fa-thumbs-o-down mx-2">' + --nonReco + '</i></span>');
+                check_com_nonReco = false;
+            }, basicErrorFunc);
+        } else {
+            let btn = $('#comReco');
+            if (btn.hasClass('comReco_y')) {
+                // 추천 -> 비추
+                requestServlet({
+                    comCode: comCode,
+                    check_com_reco: check_com_reco,
+                    check_com_nonReco: check_com_nonReco
+                }, "/board/rest/unComLike", function (data) {
+                    btn.removeClass('comReco_y');
+                    btn.addClass('comReco_n');
+                    // css 먹이기
+                    btn.html('<span><i class="btn fa fa-thumbs-o-down mx-2">' + --reco + '</i></span>')
+                }, basicErrorFunc);
+            } else {
+                // 비추x -> 비추o
+                requestServlet({
+                    check_com_reco: check_com_reco,
+                    check_com_nonReco: check_com_nonReco
+                }, "/board/rest/unComLike", function (){}, basicErrorFunc);
+            }
+
+            nonBtn.removeClass('nonComReco_n');
+            nonBtn.addClass('nonComReco_y');
+            // css 먹이기
+            nonBtn.html('<span><i class="btn fa fa-thumbs-o-down mx-2">' + ++nonReco + '</i></span>');
+            check_com_reco = false;
+            check_com_nonReco = true;
+        }
+
+        /*if (check_nonReco) {
             // 이미 체크가 된 상태에서 눌렀을 시
             // db에서 삭제
             $(btn).attr('id', 'comNonReco_n');
@@ -491,7 +468,7 @@ $(function () {
                     reco_count.text(check);
                 }
             });
-        }
+        }*/
     });
 
     $('[data-toggle="tooltip"]').tooltip();
