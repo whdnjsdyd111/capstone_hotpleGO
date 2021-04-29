@@ -7,21 +7,15 @@ import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
 import com.example.demo.service.web.AllianceService;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +26,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +43,7 @@ public class HomeRestController {
     private final CourseService course;
     private final ReservationService reservation;
     private final PasswordEncoder passwordEncoder;
+    private final GuideService guideService;
 
     @PostMapping("/alliance")
     public ResponseEntity<String> allianceRegister(@RequestBody AllianceVO vo) {
@@ -190,11 +184,12 @@ public class HomeRestController {
 
 
     @PostMapping("/refund")
-    @Transactional(rollbackFor = { Exception.class })
+    @Transactional(rollbackFor = {Exception.class})
     public ResponseEntity<String> refund(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) throws Exception {
 
         ReservationInfoVO ri = reservation.getByCode(request.getParameter("riCode"));
-        if (!ri.getUCode().equals(user.user.getUCode())) return new ResponseEntity<>("본인의 예약이 아닙니다.", HttpStatus.BAD_REQUEST);
+        if (!ri.getUCode().equals(user.user.getUCode()))
+            return new ResponseEntity<>("본인의 예약이 아닙니다.", HttpStatus.BAD_REQUEST);
 
         HttpURLConnection conn = null;
         String access_token = null; // 발급받을 엑세스 토큰
@@ -359,5 +354,23 @@ public class HomeRestController {
         }
         course.updateOrder(list, csCode);
         return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
+
+    @PostMapping("/setting-guide")
+    @ResponseBody
+    public ResponseEntity<String> insertGuide(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        GuideApplyVO vo = new GuideApplyVO();
+        vo.setUCode(user.user.getUCode());
+        vo.setGCont(request.getParameter("gCont"));
+        log.info(vo);
+        boolean isInserted = guideService.insertGuide(vo);
+        try {
+            if (isInserted == true) {
+                log.info("성공");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("신청 완료", HttpStatus.OK);
     }
 }

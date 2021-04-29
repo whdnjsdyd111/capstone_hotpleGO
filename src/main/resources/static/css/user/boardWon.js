@@ -49,9 +49,11 @@ $(function() {
             }, "/board/rest/like", function (data) {
                 btn.removeClass('reco_y');
                 btn.addClass('reco_n');
+                btn.css('background', '');
+                btn.css('border', '');
                 btn.html('<span><i class="fa fa-level-up mr-2"></i>' + --reco + '</span>');
                 check_reco = false;
-            }, basicErrorFunc);
+            }, basicErrorFunc); // 여기!
         } else {
             let nonBtn = $('#nonReco');
             if(nonBtn.hasClass('nonReco_y')) {
@@ -64,6 +66,10 @@ $(function() {
                 }, "/board/rest/like", function (data) {
                     nonBtn.removeClass('nonReco_y');
                     nonBtn.addClass('nonReco_n');
+                    $('#reco').css('background', '#BEF53D');
+                    $('#reco').css('border', '3px solid #BEF53D');
+                    nonBtn.css('background', '');
+                    nonBtn.css('border', '');
                     nonBtn.html('<span>' + --nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
                 }, basicErrorFunc);
 
@@ -81,6 +87,8 @@ $(function() {
             btn.removeClass('reco_n');
             btn.addClass('reco_y');
             btn.html('<span><i class="fa fa-level-up mr-2"></i>' + ++reco + '</span>');
+            btn.css('background', '#BEF53D');
+            btn.css('border', '3px solid #BEF53D');
             check_reco = true;
             check_nonReco = false;
         }
@@ -98,6 +106,8 @@ $(function() {
             }, "/board/rest/unLike", function (data) {
                 nonBtn.removeClass('nonReco_y');
                 nonBtn.addClass('nonReco_n');
+                nonBtn.css('background', '');
+                nonBtn.css('border', '');
                 nonBtn.html('<span>' + --nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
                 check_nonReco = false;
             }, basicErrorFunc);
@@ -113,6 +123,10 @@ $(function() {
                 }, "/board/rest/unLike", function (data) {
                     btn.removeClass('reco_y');
                     btn.addClass('reco_n');
+                    btn.css('background', '');
+                    btn.css('border', '');
+                    $('#nonReco').css('background', '#F47070');
+                    $('#nonReco').css('border', '3px solid #F47070');
                     btn.html('<span><i class="fa fa-level-up mr-2"></i>' + --reco + '</span>');
                 }, basicErrorFunc);
 
@@ -129,6 +143,8 @@ $(function() {
 
             nonBtn.removeClass('nonReco_n');
             nonBtn.addClass('nonReco_y');
+            nonBtn.css('background', '#F47070');
+            nonBtn.css('border', '3px solid #F47070');
             nonBtn.html('<span>' + ++nonReco + '<i class="fa fa-level-down ml-2"></i></span>');
             check_reco = false;
             check_nonReco = true;

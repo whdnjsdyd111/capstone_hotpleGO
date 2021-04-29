@@ -44,11 +44,6 @@ public interface BoardMapper {
 
     public int insertBookmark(String bdCode, String uCode);
 
-//    public int updateBookmark(String bdCode);
-//
-//    public int unUpdateBookmark(String bdCode);
-//
-//    public int registerBookMark(String bdCode, String uCode);
-//
-//    public int unRegisterBookMark(String bdCode, String uCode);
+    public List<BoardVO> getBookmarkList(BoardVO boardVO);
+
 }

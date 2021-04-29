@@ -2,11 +2,13 @@ package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.EventVO;
+import com.example.demo.domain.GuideVO;
 import com.example.demo.domain.ImageAttachVO;
 import com.example.demo.domain.web.AllianceVO;
 import com.example.demo.domain.web.FeedbackVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.EventService;
+import com.example.demo.service.GuideService;
 import com.example.demo.service.ImageAttachService;
 import com.example.demo.service.web.AllianceService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.yaml.snakeyaml.util.UriEncoder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
@@ -32,6 +35,7 @@ public class AdminRestController {
     private final AllianceService alliance;
     private final ImageAttachService imageAttach;
     private final EventService event;
+    private final GuideService guide;
 
     @PostMapping(value= "/changeAlc")
     public ResponseEntity<String> changeAlc(@RequestBody AllianceVO vo) {
@@ -109,5 +113,37 @@ public class AdminRestController {
     public ResponseEntity<String> deleteEvent(@RequestBody EventVO vo) {
         return event.remove(UriEncoder.decode(vo.getEveCode())) ? new ResponseEntity<>("삭제 완료하였습니다.", HttpStatus.OK)
                 : new ResponseEntity<>("삭제 실패하였습니다. 다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/confirmGuide")
+    @ResponseBody
+    public ResponseEntity<String> confirmGuide(HttpServletRequest request, String uCode) {
+        GuideVO vo = new GuideVO();
+        vo.setUCode(request.getParameter("uCode"));
+        log.info(vo);
+        boolean isInserted = guide.confirmGuide(vo);
+        try {
+            if (isInserted == true) {
+                log.info("성공");
+                guide.removeGuideApply(uCode);
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("등록 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteGuideApply")
+    public ResponseEntity<String> removeGuideApply(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        boolean isDeleted = guide.removeGuideApply(uCode);
+        try {
+            if (isDeleted == true) {
+                log.info("성공");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

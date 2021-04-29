@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.GuideMapper">
+    <insert id="insertGuide">
+        INSERT INTO guide_apply (uCode, gCont) VALUES (#{uCode}, #{gCont})
+    </insert>
+
+    <select id="checkGuide" resultType="GuideApplyVO">
+        SELECT * FROM guide_apply WHERE uCode = #{uCode}
+    </select>
+
+    <select id="getGuideApplyList" resultType="GuideApplyVO">
+        SELECT * FROM guide_apply ORDER BY gAplTime DESC
+    </select>
+
+    <insert id="confirmGuide">
+        INSERT INTO guide (uCode) VALUES (#{uCode})
+    </insert>
+
+    <delete id="removeGuideApply">
+        DELETE FROM guide_apply WHERE uCode = #{uCode}
+    </delete>
+
+    <select id="yourGuide" resultType="GuideVO">
+        SELECT * FROM guide WHERE uCode = #{uCode}
+    </select>
+</mapper>

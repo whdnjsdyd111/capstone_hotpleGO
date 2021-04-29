@@ -5,6 +5,7 @@ import com.example.demo.domain.ImageAttachVO;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
 import com.example.demo.security.CustomUser;
+import com.example.demo.service.GuideService;
 import com.example.demo.service.ImageAttachService;
 import com.example.demo.service.web.BoardService;
 import com.example.demo.service.web.CommentService;
@@ -69,7 +70,6 @@ public class BoardRestController {
         return new ResponseEntity<>("댓글 등록이 완료되었습니다.", HttpStatus.OK);
     }
 
-
     @PostMapping(value = "/update")
     public ResponseEntity<String> updateBoard(@RequestBody BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user) {
         log.info(boardVO);
@@ -88,6 +88,48 @@ public class BoardRestController {
         map.put("fileName", vo.getFileName());
         imageAttach.upload(vo);
         return map;
+    }
+
+    @PostMapping("/comLike")
+    public ResponseEntity<String> comLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));
+        boolean com_non_reco = Boolean.parseBoolean(request.getParameter("check_com_nonReco"));
+        String comCode = HotpleAPI.strToCode(request.getParameter("comCode"));
+
+        if (com_reco) {
+            commentService.deleteComReco(comCode, user.user.getUCode());
+            commentService.comRecoDown(comCode);
+        } else {
+            if (com_non_reco) {
+                commentService.updateComReco(comCode, user.user.getUCode(), 'Y');
+                commentService.unComRecoDown(comCode);
+            } else {
+                commentService.insertComReco(comCode, user.user.getUCode(), 'Y');
+            }
+            commentService.comRecoUp(comCode);
+        }
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PostMapping("/unComLike")
+    public ResponseEntity<String> unComLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));
+        boolean com_non_reco = Boolean.parseBoolean(request.getParameter("check_com_nonReco"));
+        String comCode = HotpleAPI.strToCode(request.getParameter("comCode"));
+
+        if (com_non_reco) {
+            commentService.deleteComReco(comCode, user.user.getUCode());
+            commentService.unComRecoDown(comCode);
+        }else {
+            if (com_reco) {
+                commentService.updateComReco(comCode, user.user.getUCode(), 'N');
+                commentService.comRecoDown(comCode);
+            } else {
+                commentService.insertComReco(comCode, user.user.getUCode(), 'N');
+            }
+            commentService.unComRecoUp(comCode);
+        }
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @PostMapping("/like")

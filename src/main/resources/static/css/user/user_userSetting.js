@@ -128,7 +128,37 @@ $(function() {
             }
         });
     });
+
+
+    $('#guideBtn').click(function () {
+        let guideCont = $('#guide-content').val();
+        if (guideCont === "") {
+            swal("사유 작성!", "가이드 신청 사유를 작성해주세요!", "warning");
+            return false;
+        }
+
+        requestServlet({
+            gCont: guideCont
+        }, "/setting-guide", function (data) {
+            swal({
+                title: "신청 완료!",
+                text: data,
+                icon: "success",
+                button: "확인"
+            }).then(v => {location.reload()})
+        }, basicErrorFunc);
+    });
+
+    $('#guiding').click(function () {
+        swal({
+            title: "컨펌 중!",
+            text: "관리자 승인을 기다려주세요",
+            icon: "warning",
+            button: "확인"
+        })
+    });
 });
+
 
 function checkAll() {
     if(check_new_passwd && reCheck_passwd && check_passwd) {
