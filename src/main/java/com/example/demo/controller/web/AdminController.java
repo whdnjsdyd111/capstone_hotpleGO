@@ -62,7 +62,7 @@ public class AdminController {
 
     @GetMapping("/members")
     public String memberManagement() {
-        return "admin/index";
+        return "admin/member_management";
     }
 
     @GetMapping("/contents")

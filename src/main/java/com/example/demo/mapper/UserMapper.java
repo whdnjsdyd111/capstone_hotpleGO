@@ -25,7 +25,7 @@ public interface UserMapper {
 
     public int insertManager(ManagerVO vo);
 
-    public int updateNick(@Param("nick") String nick, @Param("code") String code);
+    public int updateNick(String nick, String uCode);
 
     public int updateAccount(ManagerVO vo);
 
