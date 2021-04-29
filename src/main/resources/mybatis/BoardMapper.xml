@@ -4,14 +4,56 @@
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.web.BoardMapper">
 
+    <sql id="criteria">
+        <trim prefix="(" suffix=") AND" prefixOverrides="OR">
+            <foreach collection="typeArr" item="type">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'.toString()">
+                            bdTitle LIKE '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'C'.toString()">
+                            bdCont LIKE '%'||#{keyword}||'%'
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            nick LIKE '%'||#{keyword}||'%'
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    </sql>
+
     <sql id="boardColumns">
         bdCode, bdTitle, bdCont, bdRdCount, bdRecy, bdRecn, uCode
     </sql>
 
     <select id="getBoardList" resultType="BoardVO">
-        SELECT b.bdCode, b.bdTitle, b.bdRdCount, b.bdRecy, b.bdCont, b.bdRecn, com.commcnt, u.nick
-        FROM board b NATURAL JOIN users u FULL OUTER JOIN (SELECT bdcode, COUNT(*) as commcnt FROM comm GROUP BY bdcode) COM
-        ON(b.bdCode = COM.bdCode) ORDER BY b.bdCode DESC
+        SELECT bdCode, bdTitle, bdRdCount, bdRecy, bdCont, bdRecn, commcnt, nick
+        FROM (
+            SELECT ROWNUM rn, bdCode, bdTitle, bdRdCount, bdRecy, bdCont, bdRecn, commcnt, nick
+            FROM ( SELECT b.bdCode, b.bdTitle, b.bdRdCount, b.bdRecy,
+                    b.bdCont, b.bdRecn, com.commcnt, u.nick
+                    FROM board b NATURAL JOIN users u FULL OUTER JOIN
+                    (SELECT bdcode, COUNT(*) as commcnt FROM comm GROUP BY bdCode) COM
+                    ON(b.bdCode = COM.bdCode) ORDER BY bdCode DESC)
+            WHERE
+
+            <include refid="criteria" />
+
+        <![CDATA[
+            ROWNUM <= #{pageNum} * #{amount}
+            )
+            WHERE rn > (#{pageNum} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <select id="getTotalBd" resultType="int">
+        SELECT COUNT(*) FROM (
+        SELECT b.bdTitle title, b.bdCont bdCont, u.nick nick
+        FROM board b NATURAL JOIN users u WHERE
+        <include refid="criteria" />
+        bdCode IS NOT NULL )
     </select>
 
 

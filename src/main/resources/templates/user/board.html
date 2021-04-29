@@ -5,6 +5,7 @@
 <th:block layout:fragment="styles">
     <script src="/css/user/board_write.js"></script>
     <link rel="stylesheet" href="/css/user/board.css">
+    <link rel="stylesheet" href="/css/pagination.css">
 </th:block>
 <div layout:fragment="content">
 
@@ -20,14 +21,23 @@
                 <li class="nav-item"><a class="nav-link" href="">핫플</a></li>
                 <li class="nav-item"><a class="nav-link" href="">코스</a></li>
             </ul>
-            <form class="d-flex">
-                <div class="input-group-prepend">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit" style="height:38px; margin:0 0 0 5px;">
-                        Search
-                    </button>
-                </div>
-            </form>
+            <div class="navbar-nav nav ml-auto">
+                <form class="input-group input-group-sm" th:action="@{/board/list}" method="get" id="search_form" >
+                    <select class="custom-select" name="type" id="select_form">
+                        <option value="" th:selected="${pageMaker.cri.type eq null}">-</option>
+                        <option value="T" th:selected="${pageMaker.cri.type eq 'T'}">제목</option>
+                        <option value="C" th:selected="${pageMaker.cri.type eq 'C'}">내용</option>
+                        <option value="W" th:selected="${pageMaker.cri.type eq 'W'}">작성자</option>
+                        <option value="TC" th:selected="${pageMaker.cri.type eq 'TC'}">제목 + 내용</option>
+                        <option value="TW" th:selected="${pageMaker.cri.type eq 'TW'}">제목 + 작성자</option>
+                        <option value="CW" th:selected="${pageMaker.cri.type eq 'CW'}">내용 + 작성자</option>
+                        <option value="TWC" th:selected="${pageMaker.cri.type eq 'TWC'}">제목 + 내용 + 작성자</option>
+                    </select>
+                    <input class="form-control" name="keyword" type="text" placeholder="검색" th:value="${pageMaker.cri.keyword}">
+                    <input type="hidden" name="pageNum" th:value="${pageMaker.cri.pageNum}">
+                    <input type="hidden" name="amount" th:value="${pageMaker.cri.amount}">
+                </form>
+            </div>
         </div>
         <button class="btn btn-primary" type="button" onclick="location.href='/board/write'" style="height: 38px; width: 100px; text-align: center;">글쓰기</button>
     </nav>
@@ -82,22 +92,29 @@
         </article>
     </div>
 
-    <div aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
+    <div class="pagination-wrapper">
+        <div class="pagination-custom">
+            <th:block th:if="${pageMaker.prev}">
+                <a th:href="@{'/board/list?pageNum=' + ${pageMaker.startPage - 1}}" class="prev page-numbers">이전</a>
+            </th:block>
+            <th:block th:if="${!pageMaker.prev}">
+                <span aria-current="page" class="prev page-numbers">이전</span>
+            </th:block>
+
+            <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                <a th:href="@{'/board/list?pageNum=' + ${num}}" th:text="${num}"
+                   th:class="|page-numbers ${pageMaker.cri.pageNum == num ? 'current' : ''}|"></a>
+            </th:block>
+
+            <th:block th:if="${pageMaker.next}">
+                <li class="page-item next">
+                    <a th:href="@{'/board/list?pageNum=' + ${pageMaker.endPage + 1}}" class="next page-numbers">다음</a>
+                </li>
+            </th:block>
+            <th:block th:if="${!pageMaker.next}">
+                <span aria-current="page" class="next page-numbers">다음</span>
+            </th:block>
+        </div>
     </div>
 </div>
 </html>

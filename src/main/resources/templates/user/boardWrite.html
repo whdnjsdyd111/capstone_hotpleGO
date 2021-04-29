@@ -27,18 +27,8 @@
                                    aria-describedby="inputGroup-sizing-lg" th:value="${board == null ? '' : board.UCode}">
                         </div>
                     </div>
-
-                    <div class="input-group" style="left: 15px; width: 35%;">
-                        <div class="custom-file">
-                            <input type="file" id="me-picture" class="custom-file-input">
-                            <label class="custom-file-label" for="me-picture" data-browse="이미지">업로드 할 이미지
-                                선택하십시오.</label>
-                        </div>
-
-                    </div>
                     <br>
                     <div class="form-floating">
-                        <label for="bdCont">내용</label>
                         <textarea class="form-control" placeholder="내용을 입력해주세요" id="bdCont" name="editor"
                                   style="height: 300px" th:text="${board == null ? '' : board.bdCont}"></textarea>
                         <script>

@@ -1,6 +1,8 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
+import com.example.demo.domain.Criteria;
+import com.example.demo.domain.PageVO;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
 import com.example.demo.security.CustomUser;
@@ -45,12 +47,12 @@ public class BoardController {
         }
     }
 
-    @GetMapping(value = "/list")
-    public String boardList(@ModelAttribute("BoardVO") BoardVO boardVO, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
+    @GetMapping("/list")
+    public String boardList(Criteria cri, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
         String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
-        List<BoardVO> boardList = boardService.getBoardList(boardVO);
-        model.addAttribute("result", boardList);
-        model.addAttribute("board", boardVO);
+        log.info(cri.toString());
+        model.addAttribute("result", boardService.getBoardList(cri));
+        model.addAttribute("pageMaker", new PageVO(cri, boardService.getTotal(cri)));
         model.addAttribute("kind", str);
         return "user/board";
     }

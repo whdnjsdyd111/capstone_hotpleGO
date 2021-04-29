@@ -1,14 +1,18 @@
 package com.example.demo.mapper.web;
 
+import com.example.demo.domain.Criteria;
 import com.example.demo.domain.web.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface BoardMapper {
 
-    public List<BoardVO> getBoardList(BoardVO boardVO);
+    public List<BoardVO> getBoardList(Criteria cri);
+
+    public int getTotalBd(Criteria cri);
 
     public BoardVO selectBoardDetail(String bdCode);
 
