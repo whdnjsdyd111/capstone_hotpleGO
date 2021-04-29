@@ -14,8 +14,8 @@
     </select>
 
     <select id="commentOrderByWritenReply" resultType="CommentVO">
-        SELECT comcode, comcont, comrecy, comrecn, bdcode, uCode, replycode, CASE WHEN comcode = (SELECT replycode FROM comm WHERE comcode = #{comCode}) then 1 else 0 END AS inx
-        FROM comm ORDER BY REPLYCODE DESC, inx desc
+            SELECT comcode, comcont, comrecy, comrecn, bdcode, uCode, replycode, CASE WHEN comcode = (SELECT replycode FROM comm WHERE comcode = #{comCode}) then 1 else 0 END AS inx
+            FROM comm ORDER BY REPLYCODE DESC, inx desc
     </select>
 
     <insert id="commentInsert">

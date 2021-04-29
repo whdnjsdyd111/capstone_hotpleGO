@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/user/board_write.js"></script>
+    <link rel="stylesheet" href="/css/user/board.css">
+</th:block>
+<div layout:fragment="content">
+
+    <nav class="navbar navbar-expand-sm navbar-light navbar-light d-flex">
+        <a class="navbar-brand" href="/" style="text-align: center;">BOOKMARK</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon justify-content-end"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+            <!--      <ul class="navbar-nav">-->
+            <!--        <li class="nav-item"><a class="nav-link" href="/list?kind=B">게시판</a></li>-->
+            <!--        <li class="nav-item"><a class="nav-link" href="">핫플</a></li>-->
+            <!--        <li class="nav-item"><a class="nav-link" href="">코스</a></li>-->
+            <!--      </ul>-->
+            <!--      <form class="d-flex">-->
+            <!--        <div class="input-group-prepend">-->
+            <!--          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+            <!--          <button class="btn btn-outline-success" type="submit" style="height:38px; margin:0 0 0 5px;">-->
+            <!--            Search-->
+            <!--          </button>-->
+            <!--        </div>-->
+            <!--      </form>-->
+        </div>
+        <!--    <button class="btn btn-primary" type="button" onclick="location.href='/board/write'" style="height: 38px; width: 100px; text-align: center;">글쓰기</button>-->
+    </nav>
+    <th:block sec:authorize/>
+    <div th:each="vo : ${result}">
+        <article class="text-center row px-0 mx-0 border border-secondary border-top-0 board_article"
+                 style="background-color: #E6E6E6;">
+            <input type="hidden" th:value="${#strings.replace(vo.bdCode, '/', '')}">
+            <div class="container col-9 px-0 py-2">
+                <div class="col-sm-12 d-flex flex-column">
+
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <span style="float:left;" class="mr-2"><img src="" class="img-thumbnail"
+                                                                    style="height: 100px; width:100px;"></span>
+                        <div class="col" style="display:inline;">
+                            <!--                            <span><button class="bg-info border border-dark rounded text-dark px-1"-->
+                            <!--                                          style="height:23px; width:58px;" href="" th:text="${kind}">핫플</button></span>-->
+                            <span class="text-dark col-12"
+                                  style="display: block; margin-left:-60px; margin-top:15px; text-decoration: none;"
+                                  th:text="${vo.bdTitle}"></span>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+
+                <div class="col-4" style="float:right; margin-top:-80px; margin-right:60px;">
+                    <ul class="navbar navbar nav mr-auto p-0" style="display: flex;">
+                        <li><i class="far fa-comment-dots" th:text="${vo.commCnt}"></i></li>
+                        <li><i class="fa fa-thumbs-o-up" th:text="${vo.bdRecy}"></i></li>
+                        <li><i class="fa fa-thumbs-o-down" th:text="${vo.bdRecn}"></i></li>
+                        <li><i class="fa fa-eye" th:text="${vo.bdRdCount}"></i>조회수</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="col-3 d-flex flex-column px-0">
+                <div class="container">
+                    <div class="mx-auto" style="margin-top:5px;">
+                        <a class="text-dark" style="text-decoration: none;" href="">
+                            <span><i class="fa fa-user-circle mr-2" th:text="${vo.nick}"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                      style="margin-left:20px; margin-top:40px;" th:title="${#hotpleAPI.beforeTime(vo.bdCode)}">
+                    <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
+                            th:text="${#hotpleAPI.beforeBigTime(vo.bdCode)}">
+                    </button>
+                </span>
+            </div>
+        </article>
+    </div>
+
+    <div aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</html>

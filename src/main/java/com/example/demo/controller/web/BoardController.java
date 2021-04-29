@@ -57,8 +57,9 @@ public class BoardController {
 
     @GetMapping("/bookmark")
     public String bookmarkList(@ModelAttribute("BoardVO") BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user) {
+        boardVO.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
         List<BoardVO> bookmarkList = boardService.getBookmarkList(boardVO);
-        
+        log.info(boardVO);
         model.addAttribute("result", bookmarkList);
         return "user/bookmark";
     }
@@ -80,7 +81,6 @@ public class BoardController {
 
         return "user/boardView2";
     }
-
 
     @GetMapping("/comment/{bdCode}")
     public String commentList(@PathVariable(value = "bdCode") String bdCode, @RequestParam(value = "sort", defaultValue = "reco") String sort, Model model, @AuthenticationPrincipal CustomUser user) {

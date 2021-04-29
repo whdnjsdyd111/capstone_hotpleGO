@@ -17,8 +17,8 @@
 
     <select id="getBookmarkList" resultType="BoardVO">
         SELECT b.bdCode, b.bdTitle, b.bdRdCount, b.bdRecy, b.bdCont, b.bdRecn, com.commcnt, u.nick
-        FROM board b NATURAL JOIN users u FULL OUTER JOIN (SELECT bdcode, COUNT(*) as commcnt FROM comm GROUP BY bdcode) COM
-        ON(b.bdCode = COM.bdCode) WHERE b.bdcode IN(SELECT bdCode FROM board_bookmark WHERE uCode = #{uCode})
+        FROM board b NATURAL JOIN users u FULL OUTER JOIN (SELECT bdcode, COUNT(*) as commcnt FROM comm GROUP BY bdcode) COM ON(b.bdCode = COM.bdCode)
+        JOIN board_bookmark m ON(m.bdCode = b.bdCode) WHERE m.uCode = #{uCode} ORDER BY m.bRegDate
     </select>
 
     <select id="selectCheck" resultType="String">
@@ -101,7 +101,7 @@
     </delete>
 
     <insert id="insertBookmark">
-        INSERT INTO board_bookmark VALUES (#{bdCode}, #{uCode})
+        INSERT INTO board_bookmark(bdCode, uCode) VALUES (#{bdCode}, #{uCode})
     </insert>
 
 </mapper>
