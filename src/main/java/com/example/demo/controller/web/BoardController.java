@@ -56,11 +56,13 @@ public class BoardController {
     }
 
     @GetMapping("/bookmark")
-    public String bookmarkList(@ModelAttribute("BoardVO") BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user) {
+    public String bookmarkList(@ModelAttribute("BoardVO") BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user, @RequestParam(value = "kind", defaultValue = "B") String kind) {
+        String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
         boardVO.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
         List<BoardVO> bookmarkList = boardService.getBookmarkList(boardVO);
         log.info(boardVO);
         model.addAttribute("result", bookmarkList);
+        model.addAttribute("kind", str);
         return "user/bookmark";
     }
 
