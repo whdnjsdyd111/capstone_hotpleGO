@@ -2,8 +2,10 @@ package com.example.demo.controller.android;
 
 import com.example.demo.domain.ManagerVO;
 import com.example.demo.domain.UserVO;
+import com.example.demo.domain.web.BoardVO;
 import com.example.demo.service.TasteService;
 import com.example.demo.service.UserService;
+import com.example.demo.service.web.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
@@ -19,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/android/*")
@@ -29,7 +30,7 @@ public class AndroidCommonController {
     private final PasswordEncoder passwordEncoder;
     private final UserService users;
     private final TasteService taste;
-
+    private final BoardService board;
     // 유저 정보
 
     @PostMapping("/login")
@@ -42,7 +43,7 @@ public class AndroidCommonController {
             return "{message: '아이디 또는 비밀번호가 틀렸습니다.'}";
         } else if (new BCryptPasswordEncoder().matches(pw, vo.getPw())) {
             JSONObject obj = new JSONObject();
-            obj.put("user", vo);
+            obj.put("user", new JSONObject(vo));
             obj.put("message", true);
             return obj.toString();
         } else {
@@ -100,6 +101,23 @@ public class AndroidCommonController {
 
 
     // 핫플 공유
+
+    @PostMapping("/getBoards")
+    public String getBoards(HttpServletRequest request) {
+        String keyword = request.getParameter("keyword");
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("boards", board.getBoardsByKeyword(keyword));
+        return jsonObject.toString();
+    }
+
+    @PostMapping("/getBoard")
+    public String getBoard(HttpServletRequest request) {
+        String bdCode = request.getParameter("bdCode");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("board", new JSONObject(board.getBoardDetail(bdCode)));
+        return jsonObject.toString();
+    }
 
     // 사용자 정보 관련 메소드
 
@@ -164,4 +182,6 @@ public class AndroidCommonController {
             return "{message:'다시 시도해주십시오.', status:500}";
         }
     }
+
+
 }

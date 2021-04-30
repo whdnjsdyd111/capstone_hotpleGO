@@ -90,6 +90,15 @@ public class BoardRestController {
         return map;
     }
 
+    @PostMapping("/upload_comm")
+    public ResponseEntity<String> upload(MultipartHttpServletRequest request) {
+        MultipartFile file = request.getFile("upload");
+        ImageAttachVO vo = new ImageAttachVO();
+        String url = vo.upload(file);
+        imageAttach.upload(vo);
+        return new ResponseEntity<>(url, HttpStatus.OK);
+    }
+
     @PostMapping("/comLike")
     public ResponseEntity<String> comLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
         boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));

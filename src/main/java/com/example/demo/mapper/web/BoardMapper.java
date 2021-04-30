@@ -14,6 +14,8 @@ public interface BoardMapper {
 
     public int getTotalBd(Criteria cri);
 
+    public List<BoardVO> getBoardsByKeyword(String keyword);
+
     public BoardVO selectBoardDetail(String bdCode);
 
     public String selectCheck(String bdCode, String uCode);

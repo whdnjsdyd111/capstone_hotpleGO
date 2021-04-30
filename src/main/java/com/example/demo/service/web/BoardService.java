@@ -45,6 +45,10 @@ public class BoardService {
         return mapper.getBoardList(cri);
     }
 
+    public List<BoardVO> getBoardsByKeyword(String keyword) {
+        return mapper.getBoardsByKeyword(keyword);
+    }
+
     public int getTotal(Criteria cri) {
         return mapper.getTotalBd(cri);
     }

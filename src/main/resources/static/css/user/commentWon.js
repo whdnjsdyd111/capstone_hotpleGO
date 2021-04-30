@@ -94,8 +94,6 @@ $(function () {
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
 
-        $('#nest_comment_image').on("change", nest_handleImageFile);
-
         $('#nestCommentBtn').click(function () {
 
             target_com_id = $(this).prevAll('input[name=com_id]').val();
@@ -210,7 +208,24 @@ $(function () {
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });
 
-        $('#nest_comment_image').on("change", nest_handleImageFile);
+        $('#nest_comment_image').on("change", function() {
+            let formData = new FormData();
+            formData.append("upload", $(this)[0].files[0]);
+            $.ajax({
+                type: "post",
+                processData: false,
+                contentType: false,
+                data: formData,
+                url: "/board/rest/upload_comm",
+                success: function (data, status, xhr) {
+                    let cont = $('#reComCont');
+                    cont.html(cont.html() + "<img src='" + data + "' />");
+                },
+                error: function (xhr, status, err) {
+                    swal("업로드 에러 발생!", "다시 시도해주십시오.", "error");
+                }
+            });
+        })
 
         $('#nestCommentBtn').click(function () {
 
@@ -505,7 +520,24 @@ $(function () {
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 
-    $('#comment_image').on("change", handleImageFile);
+    $('#comment_image').on("change", function() {
+        let formData = new FormData();
+        formData.append("upload", $(this)[0].files[0]);
+        $.ajax({
+            type: "post",
+            processData: false,
+            contentType: false,
+            data: formData,
+            url: "/board/rest/upload_comm",
+            success: function (data, status, xhr) {
+                let cont = $('#comCont')
+                cont.html(cont.html() + "<img src='" + data + "' />");
+            },
+            error: function (xhr, status, err) {
+                swal("업로드 에러 발생!", "다시 시도해주십시오.", "error");
+            }
+        });
+    });
 
     $('#report_content').val("");
 
@@ -552,56 +584,6 @@ $(function () {
     });
 });
 
-function upload() {
-
-    var index = 0;
-    for (let i = 0; i < image_files.length; i++) {
-        if (!$('#img' + i).attr('src')) {
-            image_files.splice(index--, 1);
-        }
-        index++;
-    }
-
-    var form = new FormData();
-
-    for (let i = 0; i < image_files.length; i++) {
-        form.append("file" + i, image_files[i]);
-    }
-
-    $.ajax({
-        type: "post",
-        enctype: 'multipart/form-data',
-        url: "/board/rest/comment",
-        data: form,
-        processData: false,
-        contentType: false,
-        success: function (data) {
-            var str1 = "<p id='images'>";
-            var str2 = "image_p_tag</p>";
-            var loc1 = data.indexOf(str1);
-            var loc2 = data.indexOf(str2);
-            var len = str1.length;
-            var check = data.substr(loc1 + len, loc2 - (loc1 + len));
-
-            var check_files = check.split(',');
-
-            var index1 = check_files.length - 1;
-
-            for (let i = 0; i < total_file; i++) {
-                if ($('#img' + i).attr('src')) {
-                    index1 = index1 - 1;
-                    document.getElementById('img' + i).setAttribute('src', check_files[index1].trim());
-                    document.getElementById('img' + i).removeAttribute('id');
-                    $('#img' + i).attr('src', check_files[index1].trim());
-                    $('#img' + i).removeAttr('id');
-                }
-            }
-
-            comment_comple();
-        }
-    });
-}
-
 function comment_comple() {
     var href = window.location.href;
     var str = 'bdNum=';
@@ -621,40 +603,6 @@ function comment_comple() {
         }
 
     });
-}
-
-function handleImageFile() {
-    if (!$('#comment_image').val())
-        return false;
-
-    total_file++;
-    image_files.push($('#comment_image')[0].files[0]);
-
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-        var img_html = "<div><br></div><img class='img-fluid img-thumbnail comment_upload' id='img" + (image_files.length - 1) + "' src='" + e.target.result + "' /><div><br></div>";
-        $('#comment_content').append(img_html);
-    }
-
-    reader.readAsDataURL(image_files[image_files.length - 1]);
-}
-
-function nest_handleImageFile() {
-    if (!$('#nest_comment_image').val())
-        return false;
-
-    nest_total_file++;
-    nest_image_files.push($('#nest_comment_image')[0].files[0]);
-
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-        var img_html = "<div><br></div><img class='img-fluid img-thumbnail comment_upload' id='nest_img" + (nest_image_files.length - 1) + "' src='" + e.target.result + "' /><div><br></div>";
-        $('#nestComCont').append(img_html);
-    }
-
-    reader.readAsDataURL(nest_image_files[nest_image_files.length - 1]);
 }
 
 // 성공

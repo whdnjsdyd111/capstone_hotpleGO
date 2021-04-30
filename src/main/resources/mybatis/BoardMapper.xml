@@ -48,6 +48,16 @@
         ]]>
     </select>
 
+    <select id="getBoardsByKeyword" resultType="BoardVO">
+        SELECT b.bdCode, b.bdTitle, b.bdRdCount, b.bdRecy, b.bdCont, b.bdRecn, c.commCnt, u.nick
+        FROM board b NATURAL JOIN users u FULL OUTER JOIN
+            (SELECT bdCode, COUNT(*) AS commCnt FROM comm GROUP BY bdCode) c
+            ON(b.bdCode = c.bdCode) ORDER BY bdCode DESC
+            <if test="keyword != null">
+                WHERE bdTitle LIKE '%' || #{keyword} '%' OR bdCont LIKE '%' || #{keyword} '%' OR nick '%' || #{keyword} '%'
+            </if>
+    </select>
+
     <select id="getTotalBd" resultType="int">
         SELECT COUNT(*) FROM (
         SELECT b.bdTitle title, b.bdCont bdCont, u.nick nick
