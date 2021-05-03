@@ -74,17 +74,21 @@ public class PythonController {
         conn.setRequestProperty("Accept", "application/json");
 
         conn.setDoOutput(true); // OutputStream 으로 POST 데이터를 넘겨주겠다는 설정
-
         // 키 설정
         String mbti_json = new Gson().toJson(list);
         String hotples_json = new Gson().toJson(hotples);
 
         // JSON 화한 키 값들 전달하기
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-        bw.write(mbti_json);
-        bw.write(hotples_json);
+        bw.write("{"+mbti_json+","+hotples_json+"}");   //json 객체로 1차적으로 다듬어서 보냄.
+//        bw.write(mbti_json);
+//        bw.newLine();
+//        bw.write(hotples_json);
+        //bw.write(mbti_json + hotples_json);
         bw.flush();
         bw.close();
+
+
 
         int responseCode = conn.getResponseCode();
         log.info("응답 코드 : " + responseCode);
