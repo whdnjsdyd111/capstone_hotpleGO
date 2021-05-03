@@ -1,11 +1,15 @@
 package com.example.demo.controller.android;
 
+import com.example.demo.domain.ImageAttachVO;
 import com.example.demo.domain.ManagerVO;
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.BoardVO;
+import com.example.demo.service.ImageAttachService;
 import com.example.demo.service.TasteService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.BoardService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
@@ -14,6 +18,8 @@ import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
@@ -31,6 +37,7 @@ public class AndroidCommonController {
     private final UserService users;
     private final TasteService taste;
     private final BoardService board;
+    private final ImageAttachService imageAttach;
     // 유저 정보
 
     @PostMapping("/login")
@@ -114,9 +121,18 @@ public class AndroidCommonController {
     @PostMapping("/getBoard")
     public String getBoard(HttpServletRequest request) {
         String bdCode = request.getParameter("bdCode");
+        board.upView(bdCode);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("board", new JSONObject(board.getBoardDetail(bdCode)));
+        jsonObject.put("board", new Gson().toJson(board.getBoardDetail(bdCode)));
         return jsonObject.toString();
+    }
+
+    @PostMapping("/insertBoard")
+    public String insertBoard(HttpServletRequest request) {
+        BoardVO vo = new Gson().fromJson(request.getParameter("board"), BoardVO.class);
+        log.info(vo);
+        if (board.insertBoard(vo)) return "{message: true}";
+        else return "{message: false}";
     }
 
     // 사용자 정보 관련 메소드
@@ -183,5 +199,14 @@ public class AndroidCommonController {
         }
     }
 
-
+    // 이미지 업로드
+    @PostMapping("/upload")
+    public String upload(MultipartHttpServletRequest request) {
+        MultipartFile image = request.getFile("upload");
+        ImageAttachVO vo = new ImageAttachVO();
+        String url = vo.upload(image);
+        log.info(url);
+        imageAttach.upload(vo);
+        return new JSONObject().put("file", url).toString();
+    }
 }

@@ -75,13 +75,6 @@
         (SELECT NVL(MAX(ciIndex), 0) + 1 FROM course_info WHERE csCode = #{csCode}))
     </insert>
 
-    <insert id="addCourses">
-        <foreach collection="htIds" index="index" item="htId" open="INSERT ALL" close="SELECT * FROM DUAL">
-            INTO course_info (csCode, htId, ciIndex)
-            VALUES (#{csCode}, #{htId}, (SELECT COUNT(*) + 1 FROM course_info WHERE csCode = #{csCode}))
-        </foreach>
-    </insert>
-
     <select id="getCsHtId" resultType="String">
         SELECT csCode FROM course_info WHERE csCode = #{csCode} AND htId = #{htId}
     </select>
