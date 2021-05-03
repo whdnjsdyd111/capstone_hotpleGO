@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<!--<h2 class="p-3"><i class="fa fa-comment mr-2"></i>댓글<span class="ml-2 text-success">갯수</span>개</h2>-->
 <script src="/css/user/commentWon.js"></script>
 <link rel="stylesheet" href="/css/user/board_cmmt.css/">
-<!--    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
-<div class="my-2">
-    <div class="border border-dark write_comment_top mx-3 text-left cmmt-box">
-        <div class="ml-3 write_comment_member cmmt-nick">닉네임</div>
-        <div class=" write_comment_middle cmmt-text-edit">
-            <div id="comCont" class="px-3" contentEditable="true"></div>
-            <input type="hidden" id="bdCode"/>
-            <input type="hidden" id="uCode"/>
-        </div>
-    </div>
-    <div class="border border-dark border-top-0 mx-3">
-        <div class="w-100 d-flex">
-            <div class="custom-file w-75">
-                <input type="file" class="custom-file-input" id="comment_image">
-                <label class="custom-file-label" for="comment_image"><i class="fa fa-upload mr-2"></i>이미지 삽입</label>
+
+<th:block sec:authorize-expr="isAuthenticated()">
+    <div class="my-2">
+        <div class="border border-dark write_comment_top mx-3 text-left cmmt-box">
+            <div class="ml-3 write_comment_member cmmt-nick" th:text="${#authentication.getName()}"></div>
+            <div class=" write_comment_middle cmmt-text-edit">
+                <div id="comCont" class="px-3" contentEditable="true"></div>
+                <input type="hidden" id="bdCode"/>
+                <input type="hidden" id="uCode"/>
             </div>
-            <button id="comment_input" class="btn btn-info w-25" style="margin: 0px; height: 38px">작성하기</button>
+        </div>
+        <div class="border border-dark border-top-0 mx-3">
+            <div class="w-100 d-flex">
+                <div class="custom-file w-75">
+                    <input type="file" class="custom-file-input" id="comment_image">
+                    <label class="custom-file-label" for="comment_image"><i class="fa fa-upload mr-2"></i>이미지 삽입</label>
+                </div>
+                <button id="comment_input" class="btn btn-info w-25" style="margin: 0px; height: 38px">작성하기</button>
+            </div>
         </div>
     </div>
-</div>
-<!--    </c:if>-->
+</th:block>
 
 <div id="start_com">
     <div th:each="comm : ${commentList.keySet()}">
@@ -36,39 +35,54 @@
                     <div class="">
                         <a class="text-dark" style="text-decoration: none;"
                            href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
-                            <span class="mr-2"><i class="fa fa-user-circle mr-2" th:text="${comm.UCode}"></i></span>
+                            <span class="mr-2"><i class="fa fa-user-circle mr-2" th:text="${comm.nick}"></i></span>
                         </a>
                         <span tabindex="0" data-toggle="tooltip" th:title="${#hotpleAPI.beforeTime(comm.comCode)}">
-                      <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
-                              th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
-                      </button>
-                    </span>
+                            <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
+                                    th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
+                            </button>
+                        </span>
                         <span class="btn btn-report">신고</span>
                     </div>
                     <div class="next-to-cmmt-nick">
-                        <div class="writer-visible-box">
-                            <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
-                            <span class="btn comment-delete">삭제</span>
-                            <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
-                        </div>
-
                         <th:block sec:authorize-expr="isAuthenticated()">
-                            <th:block th:switch="${commReco.get(comm.comCode.replace('/', ''))}">
-                                <th:block th:case="null">
-                                    <span><i class="btn fa fa-thumbs-o-up mx-2 reco_n" th:text="${comm.comRecy}" id="comReco"></i></span>
-                                    <span><i class="btn fa fa-thumbs-o-down mx-2 nonComReco_n" th:text="${comm.comRecn}" id="nonComReco"></i></span>
-                                </th:block>
-                                <th:block th:case="'Y'">
-                                    <span><i class="btn fa fa-thumbs-o-up mx-2 comReco_y" th:text="${comm.comRecy}" id="comReco"></i></span>
-                                    <span><i class="btn fa fa-thumbs-o-down mx-2 nonComReco_n" th:text="${comm.comRecn}" id="nonComReco"></i></span>
-                                </th:block>
-                                <th:block th:case="'N'">
-                                    <span><i class="btn fa fa-thumbs-o-up mx-2 comReco_n" th:text="${comm.comRecy}" id="comReco"></i></span>
-                                    <span><i class="btn fa fa-thumbs-o-down mx-2 nonComReco_y" th:text="${comm.comRecn}" id="nonComReco"></i></span>
-                                </th:block>
-
+                            <th:block th:if="${#authentication.getName().equals(comm.UCode.split('/')[0])}">
+                                <div class="writer-visible-box">
+                                    <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    <span class="btn comment-delete">삭제</span>
+                                    <input type="hidden" th:value="${comm.comCode}"/>
+                                    <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
+                                </div>
                             </th:block>
                         </th:block>
+
+                        <th:block sec:authorize-expr="isAuthenticated()">
+                            <th:block th:switch="${commReco.get(comm.comCode)}">
+                                <th:block th:case="null">
+                                    <span class="comReco"><i class="btn fa fa-thumbs-o-up mx-2 comReco_n"
+                                                             th:text="${comm.comRecy}"></i></span>
+                                    <span class="nonComReco"><i class="btn fa fa-thumbs-o-down mx-2 nonComReco_n"
+                                                                th:text="${comm.comRecn}"></i></span>
+                                </th:block>
+                                <th:block th:case="'Y'">
+                                    <span class="comReco"><i class="btn fa fa-thumbs-o-up mx-2 comReco_y"
+                                                             th:text="${comm.comRecy}"></i></span>
+                                    <span class="nonComReco"><i class="btn fa fa-thumbs-o-down mx-2 nonComReco_n"
+                                                                th:text="${comm.comRecn}"></i></span>
+                                </th:block>
+                                <th:block th:case="'N'">
+                                    <span class="comReco"><i class="btn fa fa-thumbs-o-up mx-2 comReco_n"
+                                                             th:text="${comm.comRecy}"></i></span>
+                                    <span class="nonComReco"><i class="btn fa fa-thumbs-o-down mx-2 nonComReco_y"
+                                                                th:text="${comm.comRecn}"></i></span>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                        <th:block sec:authorize-expr="!isAuthenticated()">
+                            <span><i class="btn fa fa-thumbs-o-up mx-2 go_login" th:text="${comm.comRecy}"></i></span>
+                            <span><i class="btn fa fa-thumbs-o-down mx-2 go_login" th:text="${comm.comRecn}"></i></span>
+                        </th:block>
+                        <input type="hidden" th:value="${comm.comCode}"/>
                     </div>
                 </div>
 
@@ -77,12 +91,16 @@
                     <div th:utext="${comm.comCont}">댓글 내용</div>
                 </div>
                 <div class="mt-2">
-
                     <button class="open-replies btn btn-dark" data-toggle="collapse"
                             th:data-target="'#' +|collapse*{comm.comCode.replaceAll('/', '')}|">답글보기
                     </button>
-                    <button class="write_reply btn btn-dark">답글쓰기</button>
-                    <input type="hidden" th:value="${comm.comCode}"/>
+                    <th:block sec:authorize-expr="isAuthenticated()">
+                        <button class="write_reply btn btn-dark">답글쓰기</button>
+                    </th:block>
+                    <th:block sec:authorize-expr="!isAuthenticated()">
+                        <button class="go_login btn btn-dark">답글쓰기</button>
+                    </th:block>
+                    <input type="hidden" class="comCode1" th:value="${comm.comCode}"/>
                     <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
                     <input type="hidden" th:value="${comm.UCode}"/>
                     <input type="hidden" style="text-align: left" name="nickname"/>
@@ -101,47 +119,64 @@
                             <div class="">
                                 <a class="text-dark" style="text-decoration: none;"
                                    href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
-                                <span class="mr-2"><i class="fa fa-user-circle mr-2"
-                                                      th:text="${reply.UCode}"></i></span>
+                                    <span class="mr-2"><i class="fa fa-user-circle mr-2"
+                                                          th:text="${reply.nick}"></i></span>
                                 </a>
                                 <span tabindex="0" data-toggle="tooltip"
                                       th:title="${#hotpleAPI.beforeTime(reply.comCode)}">
-                      <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
-                              th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
-                      </button>
-                    </span>
+                                    <button class="btn" style="pointer-events: none; vertical-align: inherit;"
+                                            type="button" th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
+                                    </button>
+                                </span>
                                 <span class="btn btn-report">신고</span>
                             </div>
                             <div class="next-to-cmmt-nick">
-                                <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
-                                <span class="btn comment-delete">삭제</span>
-                                <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
-                                <!--<span><i class="btn fa fa-thumbs-o-up mx-2"></i></span> &lt;!&ndash; 안에 댓글 추천 수 &ndash;&gt;
-                                <span><i class="btn fa fa-thumbs-o-down mx-2"></i></span> &lt;!&ndash; 안에 댓글 비추 수 &ndash;&gt;-->
+                                <th:block th:if="${#authentication.getName().equals(reply.UCode.split('/')[0])}">
+
+                                    <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    <span class="btn comment-delete">삭제</span>
+                                    <input type="hidden" th:value="${reply.comCode}"/>
+
+                                </th:block>
+                                <th:block sec:authorize-expr="isAuthenticated()">
+                                    <th:block th:switch="${commReco.get(reply.comCode)}">
+                                        <th:block th:case="null">
+                                            <span class="comReco"><i class="btn fa fa-thumbs-o-up mx-2 comReco_n"
+                                                                     th:text="${reply.comRecy}"></i></span>
+                                            <span class="nonComReco"><i
+                                                    class="btn fa fa-thumbs-o-down mx-2 nonComReco_n"
+                                                    th:text="${reply.comRecn}"></i></span>
+                                        </th:block>
+                                        <th:block th:case="'Y'">
+                                            <span class="comReco"><i class="btn fa fa-thumbs-o-up mx-2 comReco_y"
+                                                                     th:text="${reply.comRecy}"></i></span>
+                                            <span class="nonComReco"><i
+                                                    class="btn fa fa-thumbs-o-down mx-2 nonComReco_n"
+                                                    th:text="${reply.comRecn}"></i></span>
+                                        </th:block>
+                                        <th:block th:case="'N'">
+                                            <span class="comReco"><i class="btn fa fa-thumbs-o-up mx-2 comReco_n"
+                                                                     th:text="${reply.comRecy}"></i></span>
+                                            <span class="nonComReco"><i
+                                                    class="btn fa fa-thumbs-o-down mx-2 nonComReco_y"
+                                                    th:text="${reply.comRecn}"></i></span>
+                                        </th:block>
+                                    </th:block>
+                                </th:block>
+                                <th:block sec:authorize-expr="!isAuthenticated()">
+                                    <span><i class="btn fa fa-thumbs-o-up mx-2 go_login" th:text="${reply.comRecy}"></i></span>
+                                    <span><i class="btn fa fa-thumbs-o-down mx-2 go_login"
+                                             th:text="${reply.comRecn}"></i></span>
+                                </th:block>
+                                <input type="hidden" th:value="${reply.comCode}"/>
                             </div>
                         </div>
                         <div class="container my-2 writen_comment">
                             <div th:utext="${reply.comCont}">댓글 내용</div>
                         </div>
                         <div class="mt-2">
-                            <!--                    <c:if test="${ empty sessionScope.YJFBID_SES }">-->
-                            <!--<button class="go_login btn btn-dark">답글쓰기</button>-->
-                            <!--                    </c:if>-->
-                            <!--                    <c:if test="${ !empty sessionScope.YJFBID_SES }">-->
-                            <!--<button class="write_reply btn btn-dark">답글쓰기</button>
-                            <input type="hidden" th:value="${reply.comCode}" />
-                            &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id != mem_id }">&ndash;&gt;
-                            <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}" />
-                            <input type="hidden" th:value="${comm.UCode}"/>
-                            <input type="hidden" style="text-align: left" name="nickname"/>-->
-                            <!--                        </c:if>-->
-                            <!--                    <button class="btn btn-danger report">신고</button>-->
-                            <!--                    <input type="hidden" value="${ joinMemCom.com_id }"/>-->
-                            <!--                    <input type="hidden" value="C"/>-->
-                            <!--                    &lt;!&ndash;                        <c:if test="${ joinMemCom.com_mem_id == mem_id }">&ndash;&gt;-->
-                            <!--                        </c:if>-->
-                            <!--                    </c:if>-->
                             <button class="write_re_reply btn btn-dark">답글쓰기</button>
+                            <input type="hidden" th:value="${comm.comCode}" />
                         </div>
                     </div>
                     <!------------------------------------------------------->

@@ -119,7 +119,7 @@ public class BoardController {
         log.info(map);
 
         model.addAttribute("commentList", map);
-        model.addAttribute("commReco", commentService.getComReco(bdcode, user.user.getUCode()));
+        if (user != null) model.addAttribute("commReco", commentService.getComReco(bdcode, user.user.getUCode()));
         return "user/comment";
     }
 

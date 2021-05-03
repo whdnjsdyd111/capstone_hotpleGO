@@ -103,8 +103,10 @@ public class BoardRestController {
     public ResponseEntity<String> comLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
         boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));
         boolean com_non_reco = Boolean.parseBoolean(request.getParameter("check_com_nonReco"));
-        String comCode = HotpleAPI.strToCode(request.getParameter("comCode"));
-
+        String comCode = request.getParameter("comCode");
+        log.info(com_reco);
+        log.info(com_non_reco);
+        log.info(comCode);
         if (com_reco) {
             commentService.deleteComReco(comCode, user.user.getUCode());
             commentService.comRecoDown(comCode);
@@ -124,12 +126,12 @@ public class BoardRestController {
     public ResponseEntity<String> unComLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
         boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));
         boolean com_non_reco = Boolean.parseBoolean(request.getParameter("check_com_nonReco"));
-        String comCode = HotpleAPI.strToCode(request.getParameter("comCode"));
+        String comCode = request.getParameter("comCode");
 
         if (com_non_reco) {
             commentService.deleteComReco(comCode, user.user.getUCode());
             commentService.unComRecoDown(comCode);
-        }else {
+        } else {
             if (com_reco) {
                 commentService.updateComReco(comCode, user.user.getUCode(), 'N');
                 commentService.comRecoDown(comCode);
@@ -197,6 +199,7 @@ public class BoardRestController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+
     @PostMapping("/delete")
     public ResponseEntity<String> deleteBoard(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
         String bdCode = request.getParameter("bdCode");
@@ -213,5 +216,19 @@ public class BoardRestController {
             return new ResponseEntity<>("시스템 에러가 발생하였습니다.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("작성자 본인이 아닙니다!", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/delete/comment/{comCode}")
+    public ResponseEntity<String> deleteComment(@PathVariable("comCode") String comCode, HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        String comcode = HotpleAPI.strToCode(comCode);
+        boolean isDeleted = commentService.commentDelete(comcode);
+        try {
+            if (isDeleted == true) {
+                log.info("삭제 완료");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
 }
