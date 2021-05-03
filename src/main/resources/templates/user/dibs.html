@@ -5,48 +5,68 @@
 <th:block layout:fragment="styles">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="/css/user/user_userSetting.js"></script>
     <style>
-        .container{
+        .container {
             display: flex;
-            margin:15px;
+            max-width: 100%;
         }
-        .jumbotron{
-            padding:3px;
+
+        .jumbotron {
+            padding: 3px;
             margin-top: 30px;
         }
-        .time{
-            position: absolute;
-            right:40px;
+
+        .time {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            margin: 0 0 0 auto;
 
         }
-        .swiper-container{
-            margin:0px;
-            max-width:400px;
+
+        .swiper-container {
+            margin: 0px;
+            max-width: 400px;
         }
-        .tab-content{
+
+        .tab-content {
             min-height: 600px;
         }
 
-        @media(max-width:650px){
-            img{
-                width:100px;
+        @media (max-width: 650px) {
+            img {
+                width: 100px;
                 height: 100px;
             }
-            .swiper-slide{
-                height:130px;
+
+            .swiper-slide {
+                height: 130px;
             }
-            h3{
-                font-size:15px;
+
+            h3 {
+                font-size: 15px;
             }
-            h5{
-                font-size:10px;
+
+            h5 {
+                font-size: 10px;
             }
-            .swiper-container{
+
+            .swiper-container {
                 width: 300px;
             }
-            .time>span{
-                font-size:8px;
+
+            .time > span {
+                font-size: 8px;
             }
+        }
+
+        article:hover {
+            cursor: pointer;
+        }
+
+        b:hover{
+            cursor: pointer;
         }
     </style>
 </th:block>
@@ -56,10 +76,11 @@
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="nav-item">
-                <a href="#hotple-course"class="nav-link active" aria-controls="hotple-course" role="tab" data-toggle="tab" onclick="mySwiper.update();">핫코스</a>
+                <a href="#hotple-course" class="nav-link active" aria-controls="hotple-course" role="tab"
+                   data-toggle="tab" onclick="mySwiper.update();">핫코스</a>
             </li>
             <li role="presentation" class="nav-item">
-                <a href="#hotple" class="nav-link "aria-controls="hotple" role="tab" data-toggle="tab">핫플</a>
+                <a href="#hotple" class="nav-link " aria-controls="hotple" role="tab" data-toggle="tab">핫플</a>
             </li>
         </ul>
 
@@ -67,18 +88,24 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane " id="hotple">
                 <!-- 찜핫플 수만큼 반복 시작-->
-                <div  class="jumbotron mx-4">
-                    <div class="container">
-                        <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
-                        <div style="margin-left:30px; ">
-                            <p><h3>가게명</h3></p>
-                            <p><h5>가게 설명</h5></p>
+                <div th:each="vo : ${result}">
+                    <article>
+                        <input type="hidden" id="htId" th:value="${vo.htId}">
+                        <div class="jumbotron mx-4">
+                            <div class="container">
+                                <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
+                                <div style="margin-left:30px; ">
+                                    <p>
+                                    <h3 th:text="${vo.busnName}"></h3></p>
+                                    <p th:text="${vo.htAddr}"></p>
+                                </div>
+                                <div class="time">
+                                    <span>2021-04-02</span>
+                                    <button type="button" class="btn-warning float-right pickDelete">삭제하기</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="time">
-                            <span >2021-04-02</span>
-                            <span>★</span>
-                        </div>
-                    </div>
+                    </article>
                 </div>
                 <!-- 찜핫플 수만큼 반복 시작-->
 
@@ -86,34 +113,58 @@
             </div>
             <div role="tabpanel" class="tab-pane active" id="hotple-course">
                 <!-- 찜코스 수만큼 반복 시작-->
-                <div  class="jumbotron mx-4">
-                    <div class="container">
-                        <div class="swiper-container">
-                            <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="swiper-contents">
-                                        <div style="display: flex;">
-                                            <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
-                                            <div style="margin-left: 30px">
-                                                <p><h3>가게명</h3></p>
-                                                <p><h5>가게 설명</h5></p>
+                <div th:each="course : ${result1}" class="jumbotron mx-4 card" style="min-height: 150px;">
+                    <input type="hidden" id="csCode" th:value="${course.csCode}">
+                    <input type="hidden" id="csCode1" th:value="${course.csCode.replaceAll('/', '')}">
+<!--                    <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" class="stretched-link"></a>-->
+                    <b>
+                        <div class="container" id="pickCourse">
+                            <div class="swiper-container col-xl-10 col-md-10 col-sm-10">
+                                <div class="swiper-wrapper">
+                                    <div th:each="courseInfo : ${courseInfos.get(course.csCode)}" class="swiper-slide">
+                                        <div class="swiper-contents">
+                                            <div class="d-flex justify-content-around">
+                                                <div class="set-center">
+                                                    <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath, courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
+                                                         alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
+                                                </div>
+                                                <div class="set-center">
+                                                    <p>
+                                                        <h7 th:text="${courseInfo.ciIndex}+ 번째">가게 순서</h7>
+                                                    </p>
+                                                    <p>
+                                                        <h7 th:text="${courseInfo.htAddr}">가게 주소</h7>
+                                                    </p>
+                                                </div>
+                                                <div class="set-center">
+                                                    <p>
+                                                        <h7 th:text="${courseInfo.busnName}">가게명</h7>
+                                                    </p>
+                                                    <p>
+                                                        <h7 th:text="${courseInfo.htCont}">가게 설명</h7>
+                                                    </p>
+                                                    <p>
+                                                        <h7 th:text="${#hotpleAPI.toTel(courseInfo.htTel)}">가게 전화번호</h7>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
-                                <div class="swiper-slide">Slide 2</div>
-                                <div class="swiper-slide">Slide 3</div>
+                                <div class="swiper-pagination"></div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
                             </div>
-                            <div class="swiper-pagination"></div>
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
+                            <div class="time d-flex flex-column" style="font-size: 13px;">
+                                <span th:text="'만든 날짜 : ' + ${#hotpleAPI.toDateStr(course.csCode)}">만든 날짜 : 2021-04-02</span>
+                                <span th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</span>
+                                <span th:text="|인원 : *{course.csNum}|">인원 : 2명</span>
+                                <span th:text="|코스 제목 :  *{course.csTitle}|"></span>
+                                <button type="button" class="btn-warning pickCourseDelete" id="pickCourseDelete">삭제하기
+                                </button>
+                            </div>
                         </div>
-                        <div class="time">
-                            <span >2021-04-02</span>
-                            <span>★</span>
-                        </div>
-                    </div>
+                    </b>
                 </div>
                 <!-- 찜코스 수만큼 반복 끝-->
 

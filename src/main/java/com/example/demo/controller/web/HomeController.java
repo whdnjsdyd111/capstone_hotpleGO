@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,6 +31,7 @@ public class HomeController {
     private final CourseService course;
     private final ReservationService reservation;
     private final GuideService guide;
+    private final UserService users;
 
     @GetMapping({ "/", "/main"})
     public String index() {
@@ -103,7 +105,13 @@ public class HomeController {
     }
 
     @GetMapping("/dibs")
-    public String dibs(@AuthenticationPrincipal CustomUser users) {
+    public String dibs(@AuthenticationPrincipal CustomUser user, Model model) {
+        String uCode = user.user.getUCode();
+        List<HotpleVO> pickHotpleList = users.getPickHotpleList(uCode);
+        List<CourseVO> pickCourseList = users.getPickCourseList(uCode);
+        model.addAttribute("result", pickHotpleList);
+        model.addAttribute("result1", pickCourseList);
+        model.addAttribute("courseInfos", course.getMakingCourseInfo(uCode));
         return "user/dibs";
     }
 

@@ -373,4 +373,71 @@ public class HomeRestController {
         }
         return new ResponseEntity<>("신청 완료", HttpStatus.OK);
     }
+
+    @PostMapping("/pick-hotple")
+    public ResponseEntity<String> pickHotple(HttpServletRequest request, @AuthenticationPrincipal CustomUser users) {
+        PickListVO vo = new PickListVO();
+        vo.setUCode(users.user.getUCode());
+        vo.setHtId(request.getParameter("htId"));
+        log.info(vo);
+        boolean isInserted = user.pickHotple(vo);
+        try {
+            if (isInserted == true) {
+                log.info("성공");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("찜 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/pick-course")
+    public ResponseEntity<String> pickCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser users) {
+        PickListVO vo = new PickListVO();
+        vo.setUCode(users.user.getUCode());
+        vo.setCsCode(request.getParameter("csCode"));
+        log.info(vo);
+        boolean isInserted = user.pickCourse(vo);
+        try {
+            if (isInserted == true) {
+                log.info("성공");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("찜 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/pick-delete")
+    public ResponseEntity<String> deletePickHotple(HttpServletRequest request, @AuthenticationPrincipal CustomUser users) {
+
+        String uCode = users.user.getUCode();
+        String htId = request.getParameter("htId");
+
+        boolean isDeleted = user.deletePickHotple(htId, uCode);
+        try {
+            if (isDeleted == true) {
+                log.info("삭제 완료");
+            }
+        } catch (Exception e) {
+            log.info("에러 발생");
+        }
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("pickCourse-delete")
+    public ResponseEntity<String> deletePickCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser users) {
+        String uCode = users.user.getUCode();
+        String csCode = request.getParameter("csCode");
+
+        boolean isDeleted = user.deletePickCourse(csCode, uCode);
+        try {
+            if (isDeleted == true) {
+                log.info("삭제 완료");
+            }
+        } catch (Exception e) {
+            log.info("에러 발생");
+        }
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
 }

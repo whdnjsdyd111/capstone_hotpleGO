@@ -387,5 +387,19 @@ $(function() {
             }
         }, 1000);
     }
+
+    $('#pickBtn').click(function () {
+        let csCode = $('#csCode').val();
+        requestServlet({
+            csCode: csCode
+        }, "/pick-course", function (data) {
+            swal({
+                title: "찜 완료!",
+                text: data,
+                icon: "success",
+                button: "확인"
+            })
+        }, basicErrorFunc);
+    });
 });
 

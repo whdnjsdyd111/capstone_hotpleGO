@@ -111,6 +111,7 @@
     </th:block>
 </th:block>
 <div layout:fragment="content">
+    <input type="hidden" id="csCode" th:value="${course.csCode}">
     <div th:replace="user/courseNav :: course"></div>
     <th:block th:if="${courseInfos.size() > 0}">
         <div class="container my-2">
@@ -152,7 +153,8 @@
             </div>
         </div>
         <th:block th:if="${courseInfos.get(0).csCode.split('/')[2] == 'N'}">
-            <div class="d-flex justify-content-around">
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn-info" id="pickBtn">찜하기</button>
                 <button type="button" class="btn-success" id="course_use">코스 이용</button>
                 <button type="button" class="btn-warning" id="course_delete">코스 삭제</button>
             </div>
