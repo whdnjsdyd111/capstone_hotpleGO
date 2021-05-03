@@ -4,6 +4,12 @@
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.UserMapper">
 
+    <select id="userList" resultType="UserVO">
+        SELECT * FROM users
+    </select>
+
+    <select id="userPosts" resultType=""
+
     <select id="read" resultType="UserVO">
         SELECT * FROM users WHERE uCode = #{code}
     </select>

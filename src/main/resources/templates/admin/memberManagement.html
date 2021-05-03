@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{admin/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/admin/adm_member.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="mb-3" style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">회원 관리</h2>
+            <div class="mb-3 pull-right">
+                <form method="post" class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" id="member-type">
+                            <option value="normal">일반</option>
+                            <option value="guide">가이드</option>
+                            <option value="manager">매니저</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="order">
+                        <select class="form-control" name="skey" id="skey">
+                            <option value="newest">최신순</option>
+                            <option value="oldest">오래된순</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="사용자명" id="svalue" name="svalue">
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>닉네임</th>
+                    <th>이메일</th>
+                    <th>가입일</th>
+                    <th>역할</th>
+                    <th>활동보기</th>
+                    <th>경고/권한</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member : ${result}">
+                    <td th:text="${member.nick}"></td>
+                    <td th:text="${member.UCode.split('/')[0]}"></td>
+                    <td th:text="${member.regDate}"></td>
+                    <td th:text="${member.UCode.split('/')[1]}"></td> <!-- 역할 -->
+                    <td>
+                        <button class="btn btn-outline-info member-action-btn" data-toggle="modal" data-target="#user-action">활동 보기</button>
+
+                    </td>
+                    <td>
+                        <button class="btn btn-warning warn-authority-btn" data-toggle="modal" data-target="#warn-authority">경고/권한
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <!-- 활동 모달 -->
+    <div class="modal fade" id="user-action" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> 활동 내역 </h5>
+                </div>
+                <div class="modal-body">
+                    <input type="text" class="form-control mb-3" id="mem-nick" readonly> <!-- 회원 닉네임 -->
+                    <input type="text" class="form-control mb-3" id="mem-email" readonly> <!-- 회원 이메일 -->
+                    <input type="text"class="form-control mb-3" id="mem-regDate" readonly><!-- 회원 가입일 -->
+                    <input type="text" class="form-control mb-3" id="mem-role" readonly> <!-- 회원 역할 -->
+                    <h5 class="modal-title"> 게시판 활동 </h5>
+                    <!-- 버튼 반복 -->
+               <hr>
+                    <h5 class="modal-title"> 댓글 활동 </h5>
+                    <!-- 버튼 반복 -->
+                <hr>
+                    <h5 class="modal-title"> 리댓 활동 </h5>
+                    <!-- 버튼 반복 -->
+                <hr>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 권한/경고 모달 -->
+    <div class="modal fade" id="warn-authority" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> 유저명 </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" >포인트</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Default"
+                           aria-describedby="inputGroup-sizing-default">
+                    <div class="input-group-append">
+                        <button class="btn btn-danger"> 변경 </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >메세지 보내기</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Default"
+                               aria-describedby="inputGroup-sizing-default">
+                        <div class="input-group-append">
+                            <button class="btn btn-danger"> 보내기 </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

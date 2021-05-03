@@ -65,8 +65,9 @@ public class AdminController {
     }
 
     @GetMapping("/members")
-    public String memberManagement() {
-        return "admin/member_management";
+    public String memberManagement(Model model) {
+        model.addAttribute("result", user.getList());
+        return "admin/memberManagement";
     }
 
     @GetMapping("/contents")

@@ -1,5 +1,4 @@
 $(function () {
-
     $('button[data-toggle=modal]').click(function() {
         $('#gCont').text($(this).next().text());
         $('#uCode').text($($(this).prev().children()[0]).text())

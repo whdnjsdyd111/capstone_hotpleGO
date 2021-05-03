@@ -9,6 +9,8 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
+    public List<UserVO> userList();
+
     public UserVO read(String code);
 
     public UserVO readByEmail(String email);
