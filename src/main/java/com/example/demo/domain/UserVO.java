@@ -19,6 +19,6 @@ public class UserVO {
     private String phone;
     private String profileImg;
     private Long point;
-    private String mbti;
     private Timestamp regDate;
+    private String mbti;
 }

@@ -160,6 +160,7 @@ $(function () {
         })
     });
 
+    // 코스 삭제
     $(document).on('click', '.pickDelete', function(e) {
         let htId = $(this).parent().parent().parent().parent().children('input[type=hidden]').val();
         e.stopPropagation(); // 부모 무시
@@ -187,7 +188,11 @@ $(function () {
         });
     });
 
-    $('article').click(function () {
+   /* $('article').click(function () {
+        location.href = '/hotple/' + $(this).children('input[type=hidden]').val();
+    });*/
+    // 핫플 정보 보기
+    $(document).on('click','article',function (){
         location.href = '/hotple/' + $(this).children('input[type=hidden]').val();
     });
 
@@ -197,19 +202,24 @@ $(function () {
     // });
 
 
-
-    $('b').click(function (){
+    // 코스 정보 보기
+    $(document).on('click','.pickCourse',function (){
+    /*$('b').click(function (){*/
         let csCode = $('#csCode1').val();
         location.href = '/courseDetail/' + csCode;
-    })
+    });
 
-    $('.swiper-contents').click(function (e) {
+    $(document).on('click','.swiper-container',function (e){
+    /*$('.swiper-contents').click(function (e) {*/
         e.stopPropagation();
     });
 
-    $('#pickCourseDelete').click(function (e) {
+    // 찜 코스 삭제
+    $(document).on('click','.pickCourseDelete',function (e){
+    /*$('#pickCourseDelete').click(function (e) {*/
 
-        let csCode = $('#csCode').val();
+        let csCode = $(this).parent().parent().parent().parent().find('#csCode').val();
+        //let csCode = $('#csCode').val();
         e.stopPropagation();
         swal("정말 삭제하시겠습니까?",
             {
