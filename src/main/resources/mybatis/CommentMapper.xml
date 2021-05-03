@@ -6,7 +6,7 @@
 
 
     <select id="commentOrderByReco" resultType="CommentVO">
-        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode) ORDER BY c.replyCode DESC, c.comRecy DESC
+        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode) WHERE c.bdCode = #{bdCode} ORDER BY c.replyCode DESC, c.comRecy DESC
     </select>
 
     <select id="commentOrderByRecent" resultType="CommentVO">
