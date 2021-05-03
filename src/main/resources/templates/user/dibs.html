@@ -118,7 +118,7 @@
                     <input type="hidden" id="csCode1" th:value="${course.csCode.replaceAll('/', '')}">
 <!--                    <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" class="stretched-link"></a>-->
                     <b>
-                        <div class="container" id="pickCourse">
+                        <div class="container pickCourse" >
                             <div class="swiper-container col-xl-10 col-md-10 col-sm-10">
                                 <div class="swiper-wrapper">
                                     <div th:each="courseInfo : ${courseInfos.get(course.csCode)}" class="swiper-slide">
@@ -160,7 +160,7 @@
                                 <span th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</span>
                                 <span th:text="|인원 : *{course.csNum}|">인원 : 2명</span>
                                 <span th:text="|코스 제목 :  *{course.csTitle}|"></span>
-                                <button type="button" class="btn-warning pickCourseDelete" id="pickCourseDelete">삭제하기
+                                <button type="button" class="btn-warning pickCourseDelete" >삭제하기
                                 </button>
                             </div>
                         </div>
