@@ -34,8 +34,6 @@ public interface CourseMapper {
 
     public int insertMBTI(String mbti, CourseVO vo);
 
-    public int addCourses(int[] htIds, String csCode);
-
     public int addCourse(@Param("csCode") String csCode, @Param("htId") String htId);
 
     public String getCsHtId(@Param("csCode") String csCode, @Param("htId") String htId);

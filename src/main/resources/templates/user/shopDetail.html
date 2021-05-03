@@ -192,7 +192,10 @@
                             </ul>
                         </div>
                         <div sec:authorize-expr="isAuthenticated()">
-                            <button type="button" class="w-100 btn btn-warning m-0" data-toggle="modal" data-target="#course-modal">코스에 추가</button>
+                            <div class="d-flex justify-content-center">
+                                <button type="button" class="w-40 btn btn-info m-0" id="pickBtn">찜 하기</button>
+                                <button type="button" class="w-40 btn btn-warning m-0" data-toggle="modal" data-target="#course-modal">코스에 추가</button>
+                            </div>
                         </div>
                         <!-- 카트 끝 -->
                     </div>

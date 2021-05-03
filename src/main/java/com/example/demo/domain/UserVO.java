@@ -20,4 +20,5 @@ public class UserVO {
     private String profileImg;
     private Long point;
     private Timestamp regDate;
+    private String mbti;
 }

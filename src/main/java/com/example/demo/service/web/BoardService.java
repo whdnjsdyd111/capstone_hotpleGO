@@ -1,5 +1,7 @@
 package com.example.demo.service.web;
 
+import com.example.demo.domain.Criteria;
+import com.example.demo.domain.PageVO;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.mapper.web.BoardMapper;
 import lombok.Setter;
@@ -39,8 +41,16 @@ public class BoardService {
         return mapper.deleteBoard(bdCode, uCode) == 1;
     }
 
-    public List<BoardVO> getBoardList(BoardVO boardVO){
-        return mapper.getBoardList(boardVO);
+    public List<BoardVO> getBoardList(Criteria cri){
+        return mapper.getBoardList(cri);
+    }
+
+    public List<BoardVO> getBoardsByKeyword(String keyword) {
+        return mapper.getBoardsByKeyword(keyword);
+    }
+
+    public int getTotal(Criteria cri) {
+        return mapper.getTotalBd(cri);
     }
 
     public BoardVO getBoardDetail(String bdCode){
@@ -86,5 +96,9 @@ public class BoardService {
 
     public boolean insertBookmark(String bdCode, String uCode) {
         return mapper.insertBookmark(bdCode, uCode) == 1;
+    }
+
+    public List<BoardVO> getBookmarkList(BoardVO boardVO) {
+        return mapper.getBookmarkList(boardVO);
     }
 }

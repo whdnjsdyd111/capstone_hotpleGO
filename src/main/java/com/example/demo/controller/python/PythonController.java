@@ -111,7 +111,7 @@ public class PythonController {
             htId = str.split(",");
             log.info(htId);
             course.registerMBTI(mbti, vo);
-            course.addCourses(Arrays.stream(htId).mapToInt(Integer::parseInt).toArray(), vo.getCsCode());
+            course.addCourses(htId, vo.getCsCode());
         } else {
             log.info(conn.getResponseMessage());
             return "/";

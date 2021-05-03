@@ -5,6 +5,7 @@ import com.example.demo.domain.ImageAttachVO;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
 import com.example.demo.security.CustomUser;
+import com.example.demo.service.GuideService;
 import com.example.demo.service.ImageAttachService;
 import com.example.demo.service.web.BoardService;
 import com.example.demo.service.web.CommentService;
@@ -69,7 +70,6 @@ public class BoardRestController {
         return new ResponseEntity<>("댓글 등록이 완료되었습니다.", HttpStatus.OK);
     }
 
-
     @PostMapping(value = "/update")
     public ResponseEntity<String> updateBoard(@RequestBody BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user) {
         log.info(boardVO);
@@ -88,6 +88,59 @@ public class BoardRestController {
         map.put("fileName", vo.getFileName());
         imageAttach.upload(vo);
         return map;
+    }
+
+    @PostMapping("/upload_comm")
+    public ResponseEntity<String> upload(MultipartHttpServletRequest request) {
+        MultipartFile file = request.getFile("upload");
+        ImageAttachVO vo = new ImageAttachVO();
+        String url = vo.upload(file);
+        imageAttach.upload(vo);
+        return new ResponseEntity<>(url, HttpStatus.OK);
+    }
+
+    @PostMapping("/comLike")
+    public ResponseEntity<String> comLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));
+        boolean com_non_reco = Boolean.parseBoolean(request.getParameter("check_com_nonReco"));
+        String comCode = request.getParameter("comCode");
+        log.info(com_reco);
+        log.info(com_non_reco);
+        log.info(comCode);
+        if (com_reco) {
+            commentService.deleteComReco(comCode, user.user.getUCode());
+            commentService.comRecoDown(comCode);
+        } else {
+            if (com_non_reco) {
+                commentService.updateComReco(comCode, user.user.getUCode(), 'Y');
+                commentService.unComRecoDown(comCode);
+            } else {
+                commentService.insertComReco(comCode, user.user.getUCode(), 'Y');
+            }
+            commentService.comRecoUp(comCode);
+        }
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PostMapping("/unComLike")
+    public ResponseEntity<String> unComLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));
+        boolean com_non_reco = Boolean.parseBoolean(request.getParameter("check_com_nonReco"));
+        String comCode = request.getParameter("comCode");
+
+        if (com_non_reco) {
+            commentService.deleteComReco(comCode, user.user.getUCode());
+            commentService.unComRecoDown(comCode);
+        } else {
+            if (com_reco) {
+                commentService.updateComReco(comCode, user.user.getUCode(), 'N');
+                commentService.comRecoDown(comCode);
+            } else {
+                commentService.insertComReco(comCode, user.user.getUCode(), 'N');
+            }
+            commentService.unComRecoUp(comCode);
+        }
+        return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
     @PostMapping("/like")
@@ -146,6 +199,7 @@ public class BoardRestController {
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
 
+
     @PostMapping("/delete")
     public ResponseEntity<String> deleteBoard(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
         String bdCode = request.getParameter("bdCode");
@@ -162,5 +216,19 @@ public class BoardRestController {
             return new ResponseEntity<>("시스템 에러가 발생하였습니다.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("작성자 본인이 아닙니다!", HttpStatus.BAD_REQUEST);
+    }
+
+    @PostMapping("/delete/comment/{comCode}")
+    public ResponseEntity<String> deleteComment(@PathVariable("comCode") String comCode, HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        String comcode = HotpleAPI.strToCode(comCode);
+        boolean isDeleted = commentService.commentDelete(comcode);
+        try {
+            if (isDeleted == true) {
+                log.info("삭제 완료");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
 }

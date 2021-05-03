@@ -1,8 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.domain.UserVO;
+import com.example.demo.domain.*;
 import com.example.demo.domain.web.AdminVO;
-import com.example.demo.domain.ManagerVO;
 import com.example.demo.mapper.UserMapper;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -97,5 +97,29 @@ public class UserService {
             System.out.println(e.getCode());
         }
 
+    }
+
+    public boolean pickHotple(PickListVO pickListVO) {
+        return userMapper.pickHotple(pickListVO) == 1;
+    }
+
+    public boolean pickCourse(PickListVO pickListVO) {
+        return userMapper.pickCourse(pickListVO) == 1;
+    }
+
+    public List<HotpleVO> getPickHotpleList(String uCode) {
+        return userMapper.getPickHotpleList(uCode);
+    }
+
+    public List<CourseVO> getPickCourseList(String uCode) {
+        return userMapper.getPickCourseList(uCode);
+    }
+
+    public boolean deletePickHotple(String htId, String uCode) {
+        return userMapper.deletePickHotple(htId, uCode) == 1;
+    }
+
+    public boolean deletePickCourse(String csCode, String uCode) {
+        return userMapper.deletePickCourse(csCode, uCode) == 1;
     }
 }

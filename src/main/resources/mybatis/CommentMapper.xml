@@ -6,16 +6,16 @@
 
 
     <select id="commentOrderByReco" resultType="CommentVO">
-        SELECT * FROM comm WHERE bdCode = #{bdCode} ORDER BY REPLYCODE DESC, comrecy desc
+        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode) WHERE c.bdCode = #{bdCode} ORDER BY c.replyCode DESC, c.comRecy DESC
     </select>
 
     <select id="commentOrderByRecent" resultType="CommentVO">
-        SELECT * FROM comm WHERE bdCode = #{bdCode} ORDER BY REPLYCODE DESC, comcode desc
+        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode) WHERE c.bdCode = #{bdCode} ORDER BY c.replyCode DESC, c.comCode desc
     </select>
 
     <select id="commentOrderByWritenReply" resultType="CommentVO">
-        SELECT comcode, comcont, comrecy, comrecn, bdcode, uCode, replycode, CASE WHEN comcode = (SELECT replycode FROM comm WHERE comcode = #{comCode}) then 1 else 0 END AS inx
-        FROM comm ORDER BY REPLYCODE DESC, inx desc
+            SELECT c.comcode, c.comcont, c.comrecy, c.comrecn, c.bdcode, c.uCode, c.replycode, u.nick, CASE WHEN c.comCode = (SELECT replycode FROM comm WHERE comcode = #{comCode}) then 1 else 0 END AS inx
+            FROM comm c JOIN users u ON(c.uCode = u.uCode) ORDER BY REPLYCODE DESC, inx desc
     </select>
 
     <insert id="commentInsert">
@@ -42,4 +42,36 @@
     <delete id="commentDelete">
         DELETE FROM comm WHERE comCode = #{comCode}
     </delete>
+
+    <update id="comRecommendUp">
+        UPDATE comm SET comRecy = comRecy + 1 WHERE comCode = #{comCode}
+    </update>
+
+    <update id="comRecommendDown">
+        UPDATE comm SET comRecy = comRecy - 1 WHERE comCode = #{comCode}
+    </update>
+
+    <update id="unComRecommendUp">
+        UPDATE comm SET comRecn = comRecn + 1 WHERE comCode = #{comCode}
+    </update>
+
+    <update id="unComRecommendDown">
+        UPDATE comm SET comRecn = comRecn - 1 WHERE comCode = #{comCode}
+    </update>
+
+    <insert id="insertComReco">
+        INSERT INTO comm_reco VALUES ( #{comCode}, #{uCode}, #{reco} )
+    </insert>
+
+    <update id="updateComReco">
+        UPDATE comm_reco SET reco = #{reco} WHERE comCode = #{comCode} AND uCode = #{uCode}
+    </update>
+
+    <delete id="deleteComReco">
+        DELETE FROM comm_reco WHERE comCode = #{comCode} AND uCode = #{uCode}
+    </delete>
+
+    <select id="getComReco" resultType="CommRecoVO">
+        SELECT comCode, reco FROM comm_reco WHERE comCode IN (SELECT comCode FROM comm WHERE bdCode = #{bdCode}) AND uCode = #{uCode}
+    </select>
 </mapper>

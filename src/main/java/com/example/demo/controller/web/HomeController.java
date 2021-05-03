@@ -1,32 +1,20 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
-import com.example.demo.domain.CourseWithMbtiVO;
-import com.example.demo.domain.HotpleVO;
-import com.example.demo.domain.MenuVO;
-import com.example.demo.domain.ReservationAllVO;
+import com.example.demo.domain.*;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
-import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.ibatis.annotations.Select;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.*;
 
 
@@ -42,6 +30,8 @@ public class HomeController {
     private final OpenInfoService openInfo;
     private final CourseService course;
     private final ReservationService reservation;
+    private final GuideService guide;
+    private final UserService users;
 
     @GetMapping({ "/", "/main"})
     public String index() {
@@ -55,7 +45,11 @@ public class HomeController {
 
     @GetMapping("/setting")
     public String setting(Model model, @AuthenticationPrincipal CustomUser user) {
+        GuideApplyVO guideApplyVO = guide.checkGuide(user.user.getUCode());
+        GuideVO guideVO = guide.yourGuide(user.user.getUCode());
         model.addAttribute("user", user.user);
+        model.addAttribute("guide", guideApplyVO);
+        model.addAttribute("yourGuide", guideVO);
         return "user/userSetting";
     }
 
@@ -111,7 +105,13 @@ public class HomeController {
     }
 
     @GetMapping("/dibs")
-    public String dibs(@AuthenticationPrincipal CustomUser users) {
+    public String dibs(@AuthenticationPrincipal CustomUser user, Model model) {
+        String uCode = user.user.getUCode();
+        List<HotpleVO> pickHotpleList = users.getPickHotpleList(uCode);
+        List<CourseVO> pickCourseList = users.getPickCourseList(uCode);
+        model.addAttribute("result", pickHotpleList);
+        model.addAttribute("result1", pickCourseList);
+        model.addAttribute("courseInfos", course.getMakingCourseInfo(uCode));
         return "user/dibs";
     }
 

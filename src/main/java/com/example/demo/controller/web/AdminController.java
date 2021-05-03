@@ -4,7 +4,9 @@ import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.Criteria;
 import com.example.demo.domain.EventVO;
 import com.example.demo.domain.PageVO;
+import com.example.demo.domain.GuideApplyVO;
 import com.example.demo.service.EventService;
+import com.example.demo.service.GuideService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.AllianceService;
 import com.example.demo.service.web.FeedbackService;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -33,6 +36,7 @@ public class AdminController {
     private final UserService user;
     private final FeedbackService feedback;
     private final EventService event;
+    private final GuideService guide;
 
     @GetMapping("/main")
     public String index() {
@@ -62,7 +66,7 @@ public class AdminController {
 
     @GetMapping("/members")
     public String memberManagement() {
-        return "admin/index";
+        return "admin/member_management";
     }
 
     @GetMapping("/contents")
@@ -153,5 +157,13 @@ public class AdminController {
     @GetMapping("/reports")
     public String reports() {
         return "admin/index";
+    }
+
+    @GetMapping(value = "/guideApply")
+    public String guideList(Model model){
+        List<GuideApplyVO> guideApplyList = guide.getGuideList();
+        log.info(guideApplyList);
+        model.addAttribute("result", guideApplyList);
+        return "admin/guideApply";
     }
 }

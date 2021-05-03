@@ -1,6 +1,8 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
+import com.example.demo.domain.Criteria;
+import com.example.demo.domain.PageVO;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
 import com.example.demo.security.CustomUser;
@@ -45,15 +47,27 @@ public class BoardController {
         }
     }
 
-    @GetMapping(value = "/list")
-    public String boardList(@ModelAttribute("BoardVO") BoardVO boardVO, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
+    @GetMapping("/list")
+    public String boardList(Criteria cri, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
         String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
-        List<BoardVO> boardList = boardService.getBoardList(boardVO);
-        model.addAttribute("result", boardList);
-        model.addAttribute("board", boardVO);
+        log.info(cri.toString());
+        model.addAttribute("result", boardService.getBoardList(cri));
+        model.addAttribute("pageMaker", new PageVO(cri, boardService.getTotal(cri)));
         model.addAttribute("kind", str);
         return "user/board";
     }
+
+    @GetMapping("/bookmark")
+    public String bookmarkList(@ModelAttribute("BoardVO") BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user, @RequestParam(value = "kind", defaultValue = "B") String kind) {
+        String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
+        boardVO.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
+        List<BoardVO> bookmarkList = boardService.getBookmarkList(boardVO);
+        log.info(boardVO);
+        model.addAttribute("result", bookmarkList);
+        model.addAttribute("kind", str);
+        return "user/bookmark";
+    }
+
 
 
     @GetMapping("/view/{bdCode}")
@@ -72,19 +86,19 @@ public class BoardController {
         return "user/boardView2";
     }
 
-
     @GetMapping("/comment/{bdCode}")
-    public String commentList(@PathVariable(value = "bdCode") String bdCode, @RequestParam(value = "sort", defaultValue = "reco") String sort, Model model) {
+    public String commentList(@PathVariable(value = "bdCode") String bdCode, @RequestParam(value = "sort", defaultValue = "reco") String sort, Model model, @AuthenticationPrincipal CustomUser user) {
         log.info(bdCode);
+        String bdcode = HotpleAPI.strToCode(bdCode);
         List<CommentVO> commentList = null;
         Map<CommentVO, List<CommentVO>> map = new LinkedHashMap<>();
         log.info(sort);
         if (sort.equals("reco")) {
-            commentList = commentService.commOdByReco(HotpleAPI.strToCode(bdCode));
+            commentList = commentService.commOdByReco(bdcode);
         } else if (sort.equals("recent")){
-            commentList = commentService.commOdByRecent(HotpleAPI.strToCode(bdCode));
+            commentList = commentService.commOdByRecent(bdcode);
         } else if (sort.equals("writen")) {
-            commentList = commentService.commOdByWritenReply(HotpleAPI.strToCode(bdCode));
+            commentList = commentService.commOdByWritenReply(bdcode);
         } else {
             return "redirect:/board/comment/" + bdCode;
         }
@@ -105,6 +119,7 @@ public class BoardController {
         log.info(map);
 
         model.addAttribute("commentList", map);
+        if (user != null) model.addAttribute("commReco", commentService.getComReco(bdcode, user.user.getUCode()));
         return "user/comment";
     }
 

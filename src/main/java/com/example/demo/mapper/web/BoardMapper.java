@@ -1,14 +1,20 @@
 package com.example.demo.mapper.web;
 
+import com.example.demo.domain.Criteria;
 import com.example.demo.domain.web.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface BoardMapper {
 
-    public List<BoardVO> getBoardList(BoardVO boardVO);
+    public List<BoardVO> getBoardList(Criteria cri);
+
+    public int getTotalBd(Criteria cri);
+
+    public List<BoardVO> getBoardsByKeyword(String keyword);
 
     public BoardVO selectBoardDetail(String bdCode);
 
@@ -44,11 +50,6 @@ public interface BoardMapper {
 
     public int insertBookmark(String bdCode, String uCode);
 
-//    public int updateBookmark(String bdCode);
-//
-//    public int unUpdateBookmark(String bdCode);
-//
-//    public int registerBookMark(String bdCode, String uCode);
-//
-//    public int unRegisterBookMark(String bdCode, String uCode);
+    public List<BoardVO> getBookmarkList(BoardVO boardVO);
+
 }
