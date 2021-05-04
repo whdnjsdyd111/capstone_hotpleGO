@@ -71,32 +71,29 @@
     <select id="getPickCourseList" resultType="CourseVO">
         SELECT p.*, c.csTitle, c.csWith, c.csNum from pick_list p
         JOIN course c ON (c.csCode = p.csCode) WHERE p.uCode = #{uCode}
-        ORDER BY p.pickId DESC
+        ORDER BY p.pickTime DESC
     </select>
 
-<!--    SELECT * FROM course_info NATURAL JOIN hotple-->
-<!--    WHERE csCode IN (SELECT csCode FROM course WHERE uCode = #{uCode}) AND SUBSTR(csCode, -1) = 'N'-->
-<!--    ORDER BY cscode DESC, ciIndex-->
     <select id="getPickHotpleList" resultType="HotpleVO">
-        SELECT h.htId, h.busnName, h.htAddr, h.htCont, p.uCode FROM hotple h join pick_list p
-        ON (h.htId = p.htId) WHERE p.uCode = #{uCode} ORDER BY p.pickId DESC
+        SELECT h.htId, h.busnName, h.htAddr, h.htCont, p.uCode, p.pickTime FROM hotple h join pick_list p
+        ON (h.htId = p.htId) WHERE p.uCode = #{uCode} ORDER BY p.pickTime DESC
     </select>
 
     <insert id="pickHotple">
-        INSERT INTO pick_list(pickId, htId, uCode)
+        INSERT INTO pick_list(uCode, csCode, htId)
         VALUES(
-        TO_CHAR(SYSTIMESTAMP,'RRMMDDHH24MISS/') || LPAD(seq_pl.NEXTVAL, 2, '0'),
-        #{htId},
-        #{uCode}
+        #{uCode},
+        null,
+        #{htId}
         )
     </insert>
 
     <insert id="pickCourse">
-        INSERT INTO pick_list(pickId, csCode, uCode)
+        INSERT INTO pick_list(uCode, csCode, htId)
         VALUES(
-        TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_pl.NEXTVAL, 2, '0'),
+        #{uCode},
         #{csCode},
-        #{uCode}
+        null
         )
     </insert>
 

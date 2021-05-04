@@ -15,4 +15,6 @@ public class CourseVO {
     private String csWt;
     private Double csHum;
     private String uCode;
+
+    private Timestamp pickTime;
 }
