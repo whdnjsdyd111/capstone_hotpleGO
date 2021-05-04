@@ -4,206 +4,158 @@
       layout:decorator="~{admin/default}">
 <div layout:fragment="content">
     <div class="row d-flex flex-column">
-        <div class="col">
-            <canvas id="memCanvas" class="col"></canvas>
-        </div>
-        <div class="col">
-            <canvas id="contentsCanvas" class="col"></canvas>
-        </div>
         <script>
             let dates = [];
-            let hour = [];
-            let visit_num = [];
-            let page_view = [];
-            let board_hour = [];
-            let board = [];
-            let comment_hour = [];
-            let comment = [];
-/*            <c:forEach var="mem" items="${ mem_rs.rowsByIndex }">
-                dates.push('<c:out value="${ mem[0] }" />');
-                visit_num.push('<c:out value="${ mem[1] }" />');
-            </c:forEach>
 
-            <c:forEach var="page_view" items="${ page_view_rs.rowsByIndex }">
-                page_view.push('<c:out value="${ page_view[1] }" />');
-            </c:forEach>
+            /*        <c:forEach var="date" items="${ dates }">
+                        dates.push('<c:out value="${ date }" />');
+                    </c:forEach>*/
 
-            <c:forEach var="board" items="${ board_rs.rowsByIndex }">
-                board_hour.push({'<c:out value="${ board[0] }" />': Number.parseInt('<c:out value="${ board[1] }" />')});
-            </c:forEach>
-
-            <c:forEach var="comment" items="${ comment_rs.rowsByIndex }">
-                comment_hour.push({'<c:out value="${ comment[0] }" />': Number.parseInt('<c:out value="${ comment[1] }" />')});
-            </c:forEach>*/
-
-            for (let i = 0; i < 24; i++) {
+            for (let i = 0; i < 6; i++) {
                 dates.push(i);
-                visit_num.push(i);
-                page_view.push(i);
-                board_hour.push(i);
-                comment_hour.push(i);
-                hour.push(i);
             }
 
-            let j1 = 0;
-            let j2 = 0;
+            let visits = [];
 
-            for(let i = 0; i < 24; i++) {
-                if(j1 === board_hour.length)
-                    break;
-                if(i < 10) {
-                    if(board_hour[j1]['0' + i] === undefined)
-                        board.push(0);
-                    else
-                        board.push(board_hour[j1++]['0' + i]);
-                } else {
-                    if(board_hour[j1][i] === undefined)
-                        board.push(0);
-                    else
-                        board.push(board_hour[j1++][i]);
-                }
+            /*        <c:forEach begin="0" end="6" step="1" var="i">
+                        visits.push('<c:out value="${ chart_visit_rs.rowsByIndex[i][0] }" />');
+                    </c:forEach>*/
+
+            for (let i = 0; i < 6; i++) {
+                visits.push(6 - i);
             }
 
-            for(let i = 0; i < 24; i++) {
-                if(j2 === comment_hour.length)
-                    break;
-                if(i < 10) {
-                    if(comment_hour[j2]['0' + i] === undefined)
-                        comment.push(0);
-                    else
-                        comment.push(comment_hour[j2++]['0' + i]);
-                } else {
-                    if(comment_hour[j2][i] === undefined)
-                        comment.push(0);
-                    else
-                        comment.push(comment_hour[j2++][i]);
-                }
+            let page_views = [];
+
+            /*        <c:forEach begin="0" end="6" step="1" var="i">
+                        page_views.push('<c:out value="${ chart_page_view_rs.rowsByIndex[i][0] }" />');
+                    </c:forEach>*/
+
+            for (let i = 0; i < 6; i++) {
+                page_views.push(i);
             }
 
-            for(let i = 0; i < 24; i++) {
-                hour.push(i + '시');
+            let boards = [];
+
+            /*        <c:forEach begin="0" end="6" step="1" var="i">
+                        boards.push('<c:out value="${ chart_boards_rs.rowsByIndex[i][0] }" />');
+                    </c:forEach>*/
+
+            for (let i = 0; i < 6; i++) {
+                boards.push(i + 5);
             }
 
-            const mem_ctx = document.getElementById('memCanvas').getContext('2d');
+            let comments = [];
 
-            const mem_chart = new Chart(mem_ctx, {
-                type: 'line',
-                data: {
-                    labels: dates,
-                    datasets: [{
-                        label: "방문자 일별",
-                        backgroundColor: 'rgba(255, 99, 132)',
-                        borderColor: 'rgba(255, 99, 132, 0.4)',
-                        lineTension: 0,
-                        fill: false,
-                        data: visit_num
-                    }, {
-                        label: "페이지뷰 일별",
-                        backgroundColor: 'rgba(54, 162, 235)',
-                        borderColor: 'rgba(54, 162, 235, 0.4)',
-                        lineTension: 0,
-                        fill: false,
-                        data: page_view
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: '일별 현황'
-                    },
-                    scales: {
-                        xAxes: [{
-                            type: 'time',
-                            distribution: 'series',
-                            offset: true,
-                            ticks: {
-                                major: {
-                                    enabled: true,
-                                    fontStyle: 'bold'
-                                },
-                                source: 'data',
-                                autoSkip: true,
-                                autoSkipPadding: 75,
-                                maxRotation: 0,
-                                sampleSize: 100
-                            }
-                        }],
-                        yAxes: [{
-                            gridLines: {
-                                drawBorder: false
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: '이용자 수'
-                            }
-                        }]
-                    },
-                    tooltips: {
-                        intersect: false,
-                        mode: 'index'
-                    }
-                }
-            });
+            /*        <c:forEach begin="0" end="6" step="1" var="i">
+                        comments.push('<c:out value="${ chart_comments_rs.rowsByIndex[i][0] }" />');
+                    </c:forEach>*/
 
-            const contents_ctx = document.getElementById('contentsCanvas').getContext('2d');
-
-            const contents_chart = new Chart(contents_ctx, {
-                type: 'line',
-                data: {
-                    labels: hour,
-                    datasets: [{
-                        label: "게시판",
-                        backgroundColor: 'rgba(255, 159, 64)',
-                        borderColor: 'rgba(255, 159, 64, 0.4)',
-                        lineTension: 0,
-                        fill: false,
-                        data: board
-                    }, {
-                        label: "댓글",
-                        backgroundColor: 'rgba(153, 102, 255)',
-                        borderColor: 'rgba(153, 102, 255, 0.4)',
-                        lineTension: 0,
-                        fill: false,
-                        data: comment
-                    }]
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: '시간대별 콘텐츠 현황'
-                    },
-                    scales: {
-                        xAxes: [{
-                            offset: true,
-                            ticks: {
-                                major: {
-                                    enabled: true,
-                                    fontStyle: 'bold'
-                                },
-                                source: 'data',
-                                autoSkip: true,
-                                autoSkipPadding: 75,
-                                maxRotation: 0,
-                                sampleSize: 100
-                            }
-                        }],
-                        yAxes: [{
-                            gridLines: {
-                                drawBorder: false
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: '콘텐츠 사용 수'
-                            }
-                        }]
-                    },
-                    tooltips: {
-                        intersect: false,
-                        mode: 'index'
-                    }
-                }
-            });
+            for (let i = 0; i < 6; i++) {
+                comments.push(i);
+            }
         </script>
+        <div class="row">
+            <div class="col-xl-6 col-md-12 mb-3">
+                <canvas id="memCanvas"></canvas>
+                <script>
+                    var lineChartData = {
+                        labels: dates,
+                        datasets: [{
+                            label: '방문자 수',
+                            fill: false,
+                            backgroundColor: 'rgba(255, 99, 132)',
+                            borderColor: 'rgba(255, 99, 132)',
+                            data: visits
+                        }, {
+                            label: '페이지 뷰',
+                            backgroundColor: 'rgba(54, 162, 235)',
+                            borderColor: 'rgba(54, 162, 235)',
+                            fill: false,
+                            data: page_views
+                        }]
+                    };
+
+                    var lineChartOpt = {
+                        responsive: true,
+                        hoverMode: 'index',
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: '최근 방문자 현황'
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    };
+
+                    var mem_ctx = document.getElementById('memCanvas').getContext('2d');
+                    window.myLine = Chart.Line(mem_ctx, {
+                        type: 'line',
+                        data: lineChartData,
+                        options: lineChartOpt
+                    });
+
+                </script>
+            </div>
+            <div class="col-xl-6 col-md-12 mb-3">
+                <canvas id="contentsCanvas"></canvas>
+                <script>
+                    let contents_ctx = document.getElementById('contentsCanvas').getContext('2d');
+
+                    let purple_trans = [];
+                    let purple = [];
+
+                    let orange_trans = [];
+                    let orange = [];
+
+                    let barChartData = {
+                        labels: dates,
+                        datasets: [{
+                            label: '게시판',
+                            data: boards,
+                            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                            borderColor: 'rgba(255, 159, 64, 1)',
+                            borderWidth: 1
+                        }, {
+                            label: '댓글',
+                            data: comments,
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }],
+                    }
+
+                    let barChartOpt = {
+                        type: 'bar',
+                        data: barChartData,
+                        title: {
+                            display: true,
+                            text: '최근 콘텐츠 현황'
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    }
+
+                    window.myBar = new Chart(contents_ctx, {
+                        type: 'bar',
+                        data: barChartData,
+                        options: barChartOpt
+                    });
+                </script>
+            </div>
+        </div>
     </div>
 </div>
 </html>

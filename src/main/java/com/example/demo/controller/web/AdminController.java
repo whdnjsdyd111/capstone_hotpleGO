@@ -8,10 +8,8 @@ import com.example.demo.domain.GuideApplyVO;
 import com.example.demo.service.EventService;
 import com.example.demo.service.GuideService;
 import com.example.demo.service.UserService;
-import com.example.demo.service.web.AllianceService;
-import com.example.demo.service.web.FeedbackService;
+import com.example.demo.service.web.*;
 import com.example.demo.security.CustomUser;
-import com.example.demo.service.web.ChatLogService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.Authentication;
@@ -37,6 +35,8 @@ public class AdminController {
     private final FeedbackService feedback;
     private final EventService event;
     private final GuideService guide;
+    private final BoardService board;
+    private final CommentService comm;
 
     @GetMapping("/main")
     public String index() {
@@ -68,6 +68,15 @@ public class AdminController {
     public String memberManagement(Model model) {
         model.addAttribute("result", user.getList());
         return "admin/memberManagement";
+    }
+
+    @GetMapping("/content_modal")
+    public String contentModal(Model modal, @RequestParam(value = "uCode") String uCode) {
+        modal.addAttribute("boards", board.getBoardCodes(uCode));
+        modal.addAttribute("comm", comm.getComCodes(uCode));
+        modal.addAttribute("reply", comm.getReplyCodes(uCode));
+
+        return "admin/content_modal";
     }
 
 

@@ -15,13 +15,14 @@
                 <form method="post" class="form-inline">
                     <div class="form-group">
                         <select class="form-control" id="member-type">
+                            <option value="all">모두</option>
                             <option value="normal">일반</option>
                             <option value="guide">가이드</option>
                             <option value="manager">매니저</option>
                         </select>
                     </div>
-                    <div class="form-group" id="order">
-                        <select class="form-control" name="skey" id="skey">
+                    <div class="form-group" >
+                        <select class="form-control" id="order">
                             <option value="newest">최신순</option>
                             <option value="oldest">오래된순</option>
                         </select>
@@ -53,10 +54,8 @@
                     <td th:text="${member.regDate}"></td>
                     <td th:text="${member.UCode.split('/')[1]}"></td> <!-- 역할 -->
                     <td>
-                        <button class="btn btn-outline-info member-action-btn" data-toggle="modal"
-                                data-target="#user-action">활동 보기
-                        </button>
-
+                        <button class="btn btn-outline-info member-action-btn">활동 보기</button>
+                        <input type="hidden" th:value="${member.UCode}" />
                     </td>
                     <td>
                         <button class="btn btn-warning warn-authority-btn" data-toggle="modal"
@@ -66,37 +65,10 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
     <!-- 활동 모달 -->
-    <div class="modal fade" id="user-action" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"> 활동 내역 </h5>
-                </div>
-                <div class="modal-body">
-                    <input type="text" class="form-control mb-3" id="mem-nick" readonly> <!-- 회원 닉네임 -->
-                    <input type="text" class="form-control mb-3" id="mem-email" readonly> <!-- 회원 이메일 -->
-                    <input type="text" class="form-control mb-3" id="mem-regDate" readonly><!-- 회원 가입일 -->
-                    <input type="text" class="form-control mb-3" id="mem-role" readonly> <!-- 회원 역할 -->
-                    <h5 class="modal-title"> 게시판 활동 </h5>
-                    <!-- 버튼 반복 -->
-                    <hr>
-                    <h5 class="modal-title"> 댓글 활동 </h5>
-                    <!-- 버튼 반복 -->
-                    <hr>
-                    <h5 class="modal-title"> 리댓 활동 </h5>
-                    <!-- 버튼 반복 -->
-                    <hr>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div id="content_modal"></div>
     <!-- 권한/경고 모달 -->
     <div class="modal fade" id="warn-authority" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
