@@ -5,6 +5,9 @@ $(function (){
         $('#mem-regDate').val($(arr[1]).text());
         $('#mem-email').val($(arr[2]).text());
         $('#mem-nick').val($(arr[3]).text());
-        console.log(arr[0].text());
+    });
+    $(document).on('click','.warn-authority-btn',function (){
+       const role = $(this).parent().prev().prev().text();
+       $('#input-role').val(role);
     });
 });

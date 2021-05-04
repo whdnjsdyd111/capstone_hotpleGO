@@ -70,6 +70,7 @@ public class AdminController {
         return "admin/memberManagement";
     }
 
+
     @GetMapping("/contents")
     public String contentsManagement() {
         return "admin/index";
