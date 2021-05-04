@@ -6,45 +6,139 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <style>
-        .swiper-button-next, .swiper-button-prev{
+        .swiper-button-next, .swiper-button-prev {
             color: #9d9d9d;
+        }
+
+        section {
+            border-bottom: #dbdbdb solid 1px;
+        }
+
+        .section-title-wrap {
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-title {
+            color: #28be7f;
+        }
+
+        .top-img {
+            height: 350px;
+            padding: 100px;
+        }
+
+        .section-title-wrap {
+            width: 80%
+        }
+
+        .section-title {
+            text-align: left;
+        }
+
+        .title {
+            color: white;
         }
     </style>
 </th:block>
 <div layout:fragment="content">
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="swiper-contents">
-                    <figure class="figure">
-                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                        <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+    <div class="top-img"
+         style="background-image: url('https://mp-seoul-image-production-s3.mangoplate.com/0776fea76b4a824ff583128cb51dd45c.jpg');">
+        <div>
+            <p class="title">입맛에 맞게 인기장소 추천!</p>
+            <h1 class="title">핫플GO</h1>
+        </div>
+    </div>
+    <section class="p-5 mx-3">
+        <div class="section-title-wrap"><h2 class="section-title">제목</h2></div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="swiper-contents">
+                        <figure class="figure mx-5">
+                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                                 class="figure-img img-fluid rounded">
+                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <figure class="figure mx-5 ">
+                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                             class="figure-img img-fluid rounded fig">
+                        <figcaption class="figure-caption text-right ">
+                            <div class="info-wrap">
+                                    <span>
+                                        A caption for the above image.
+                                    </span>
+                            </div>
+                        </figcaption>
                     </figure>
-                    <figure class="figure">
-                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
-                        <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
-                    </figure>
-                    <figure class="figure">
-                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+                </div>
+                <div class="swiper-slide">
+                    <figure class="figure mx-5">
+                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                             class="figure-img img-fluid rounded">
                         <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
                     </figure>
                 </div>
             </div>
-            <div class="swiper-slide">Slide 2</div>
-            <div class="swiper-slide">Slide 3</div>
-            ...
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
+    </section>
+    <section class="p-5 mx-3">
+        <div class="section-title-wrap"><h2 class="section-title">제목</h2></div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="swiper-contents">
+                        <figure class="figure mx-5">
+                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                                 class="figure-img img-fluid rounded">
+                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <figure class="figure mx-5 ">
+                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                             class="figure-img img-fluid rounded fig">
+                        <figcaption class="figure-caption text-right ">
+                            <div class="info-wrap">
+                                    <span>
+                                        A caption for the above image.
+                                    </span>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+                <div class="swiper-slide">
+                    <figure class="figure mx-5">
+                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                             class="figure-img img-fluid rounded">
+                        <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
+                    </figure>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </section>
+
+
     <script>
         let mySwiper = new Swiper
         ('.swiper-container', {
+            slidesPerView: '3',
             direction: 'horizontal',
             loop: true,
             pagination: {el: '.swiper-pagination',},
-            navigation: {nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',},
+            navigation: {
+                nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',
+            },
         });
     </script>
 </div>
