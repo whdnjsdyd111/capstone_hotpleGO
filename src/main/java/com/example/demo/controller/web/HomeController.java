@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -107,6 +108,7 @@ public class HomeController {
     @GetMapping("/dibs")
     public String dibs(@AuthenticationPrincipal CustomUser user, Model model) {
         String uCode = user.user.getUCode();
+
         List<HotpleVO> pickHotpleList = users.getPickHotpleList(uCode);
         List<CourseVO> pickCourseList = users.getPickCourseList(uCode);
         model.addAttribute("result", pickHotpleList);

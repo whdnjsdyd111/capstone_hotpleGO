@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -28,4 +30,6 @@ public class HotpleVO {
     private String uCode;
     private Long category;
     private String ttKind;
+
+    private Timestamp pickTime;
 }
