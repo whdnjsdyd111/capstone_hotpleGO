@@ -52,10 +52,11 @@
         SELECT b.bdCode, b.bdTitle, b.bdRdCount, b.bdRecy, b.bdCont, b.bdRecn, c.commCnt, u.nick
         FROM board b NATURAL JOIN users u FULL OUTER JOIN
             (SELECT bdCode, COUNT(*) AS commCnt FROM comm GROUP BY bdCode) c
-            ON(b.bdCode = c.bdCode) ORDER BY bdCode DESC
+            ON(b.bdCode = c.bdCode)
             <if test="keyword != null">
-                WHERE bdTitle LIKE '%' || #{keyword} '%' OR bdCont LIKE '%' || #{keyword} '%' OR nick '%' || #{keyword} '%'
+                WHERE bdTitle LIKE '%' || #{keyword} || '%' OR bdCont LIKE '%' || #{keyword} || '%' OR nick LIKE '%' || #{keyword} || '%'
             </if>
+        ORDER BY bdCode DESC
     </select>
 
     <select id="getTotalBd" resultType="int">

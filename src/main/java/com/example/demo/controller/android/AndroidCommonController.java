@@ -4,12 +4,12 @@ import com.example.demo.domain.ImageAttachVO;
 import com.example.demo.domain.ManagerVO;
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.BoardVO;
+import com.example.demo.service.CourseService;
 import com.example.demo.service.ImageAttachService;
 import com.example.demo.service.TasteService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.BoardService;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
@@ -38,6 +38,8 @@ public class AndroidCommonController {
     private final TasteService taste;
     private final BoardService board;
     private final ImageAttachService imageAttach;
+    private final CourseService course;
+
     // 유저 정보
 
     @PostMapping("/login")
@@ -105,7 +107,29 @@ public class AndroidCommonController {
 
     // 코스 정보
 
+    @PostMapping("/myCourse")
+    public String getUsingCourse(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        String kind = request.getParameter("kind");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("taste", taste.getTasteList(uCode).size() != 0);
 
+        switch (kind) {
+            case "usingCourse":
+                jsonObject.put("courses", new JSONObject(course.getUsingCourse(uCode)));
+                jsonObject.put("coursesInfos", course.getUsingCourseInfo(uCode));
+                break;
+            case "myCourse":
+                jsonObject.put("courses", new JSONObject(course.getMakingCourse(uCode)));
+                jsonObject.put("courseInfos", course.getMakingCourseInfo(uCode));
+                break;
+            case "usedCourse":
+                jsonObject.put("courses", new JSONObject(course.getHistoryCourse(uCode)));
+                jsonObject.put("courseInfos", course.getHistoryCourseInfo(uCode));
+                break;
+        }
+        return jsonObject.toString();
+    }
 
     // 핫플 공유
 

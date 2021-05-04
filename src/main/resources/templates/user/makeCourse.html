@@ -18,11 +18,11 @@
             <script>
                 let map;
                 let marker;
-                let setLat;
-                let setLng;
+                let setLat = 37.52084364186228;
+                let setLng = 127.058908811749;
                 $(function() {
                     map = new Tmapv2.Map("map_div", {
-                        center: new Tmapv2.LatLng(37.52084364186228,127.058908811749),
+                        center: new Tmapv2.LatLng(setLat,setLng),
                         width: "100%",
                         height: "400px"
                     });
@@ -130,12 +130,12 @@
                 <i class="fa fa-cutlery fa-5x"></i>
                 <div class="form-group my-3">
                     <select class="form-control course-kind">
-                        <option value="먹거리" selected>먹거리</option>
-                        <option value="디저트">디저트</option>
-                        <option value="놀이">놀이/취미</option>
-                        <option value="음주">음주</option>
-                        <option value="보기">보기</option>
-                        <option value="걷기">걷기</option>
+                        <option value="0" selected>먹거리</option>
+                        <option value="1">디저트</option>
+                        <option value="2">놀이/취미</option>
+                        <option value="3">음주</option>
+                        <option value="4">보기</option>
+                        <option value="5">걷기</option>
                     </select>
                 </div>
             </div>
@@ -143,7 +143,14 @@
             <i class="fa fa-plus-square fa-5x my-auto mx-5 plus-course" aria-hidden="true"></i>
         </div>
         <div>
-            <button class="btn-success">추천 받기</button>
+            <button class="btn-success" id="recommend">추천 받기</button>
+            <form action="/python/ai_course" method="post" id="form" style="visibility: hidden">
+                <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}" />
+                <input type="hidden" name="lat">
+                <input type="hidden" name="lng">
+                <input type="hidden" name="area">
+                <input type="hidden" name="index">
+            </form>
         </div>
     </div>
 </div>

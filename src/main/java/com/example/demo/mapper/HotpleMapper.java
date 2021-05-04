@@ -22,6 +22,8 @@ public interface HotpleMapper {
 
     public List<HotpleVO> searchHotpleByGeo(String keyword, double lat, double lng);
 
+    public List<HotpleVO> searchHotpleByGeoAndArea(double lat, double lng, int area);
+
     public int insertBusn(HotpleVO vo);
 
     public int insertBusnGo(HotpleVO vo);

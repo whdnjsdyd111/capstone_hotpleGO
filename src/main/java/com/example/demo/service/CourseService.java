@@ -117,6 +117,10 @@ public class CourseService {
         return mapper.insertMBTI(mbti, vo) == 1;
     }
 
+    public boolean registerAi(String ai, CourseVO vo) {
+        return mapper.insertAi(ai, vo) == 1;
+    }
+
     public boolean addCourses(String[] htIds, String csCode) {
         int num = 0;
         for (String htId : htIds) {

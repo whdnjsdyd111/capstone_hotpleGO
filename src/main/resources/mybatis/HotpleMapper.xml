@@ -46,6 +46,15 @@
         ]]>
     </select>
 
+    <select id="searchHotpleByGeoAndArea" resultType="HotpleVO">
+        <![CDATA[
+        SELECT * FROM hotple h FULL OUTER JOIN image_attach i ON h.htImg = i.uuid
+        WHERE ((ACOS(SIN(#{lat} * ACOS(-1) / 180) * SIN(htLat * ACOS(-1) / 180)
+        + COS(#{lat} * ACOS(-1) / 180) * COS(htLat * ACOS(-1) / 180)
+        * COS((#{lng} - htLng) * ACOS(-1) / 180)) * 180 / ACOS(-1)) * 60 * 1.1515) < #{area}
+        ]]>
+    </select>
+
     <select id="readHotples" resultType="HotpleVO">
         SELECT * FROM hotple
         <foreach collection="htIds" open="WHERE htId IN (" close=")" index="index" item="htId" separator=",">

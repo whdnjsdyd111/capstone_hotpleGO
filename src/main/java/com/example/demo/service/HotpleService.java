@@ -41,6 +41,10 @@ public class HotpleService {
         return mapper.searchHotpleByGeo(keyword, lat, lng);
     }
 
+    public List<HotpleVO> getByGeoAndArea(double lat, double lng, int area) {
+        return mapper.searchHotpleByGeoAndArea(lat, lng, area);
+    }
+
     public boolean registerBusn(HotpleVO vo) {
         return mapper.insertBusn(vo) == 1;
     }

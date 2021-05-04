@@ -69,6 +69,14 @@
         VALUES (#{vo.csCode}, #{mbti} || (SELECT COUNT(*) FROM course WHERE uCode = #{vo.uCode} AND csTitle LIKE #{mbti} || '%'), #{vo.csWith}, #{vo.csNum}, #{vo.uCode})
     </insert>
 
+    <insert id="insertAi">
+        <selectKey keyProperty="vo.csCode" resultType="String" order="BEFORE">
+            SELECT TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cs.NEXTVAL, 2, '0') || '/N' FROM DUAL
+        </selectKey>
+        INSERT INTO course (csCode, csTitle, csWith, csNum, uCode)
+        VALUES (#{vo.csCode}, #{ai} || (SELECT COUNT(*) FROM course WHERE uCode = #{vo.uCode} AND csTitle LIKE #{ai} || '%'), #{vo.csWith}, #{vo.csNum}, #{vo.uCode})
+    </insert>
+
     <insert id="addCourse">
         INSERT INTO course_info (csCode, htId, ciIndex)
         VALUES (#{csCode}, #{htId},
