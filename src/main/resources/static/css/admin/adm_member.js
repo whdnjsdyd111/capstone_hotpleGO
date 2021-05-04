@@ -7,7 +7,10 @@ $(function (){
         $('#mem-nick').val($(arr[3]).text());
     });
     $(document).on('click','.warn-authority-btn',function (){
-       const role = $(this).parent().prev().prev().text();
-       $('#input-role').val(role);
+       const arr = $(this).parent().prevAll();
+       $('#input-role').val($(arr[1]).text());
+       $('#mem-nick-sec').val($(arr[4]).text());
+        $('#mem-email-sec').val($(arr[3]).text());
+        $('#mem-regDate-sec').val($(arr[2]).text());
     });
 });

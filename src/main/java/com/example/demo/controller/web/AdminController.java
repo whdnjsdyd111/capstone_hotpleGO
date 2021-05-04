@@ -73,7 +73,7 @@ public class AdminController {
 
     @GetMapping("/contents")
     public String contentsManagement() {
-        return "admin/index";
+        return "admin/contentManagement";
     }
 
     @GetMapping("/chattingRoom")
