@@ -1,14 +1,16 @@
 $(function (){
     $(document).on('click','.member-action-btn',function (){
         $('#content_modal').load('/admin/content_modal?uCode=' + $(this).next().val());
-        $('#content_modal').ready(function() {
-            const arr = $(this).parent().prevAll();
+        const arr = $(this).parent().prevAll();
+
+        $('#content_modal').load(function() {
             $('#mem-role').val($(arr[0]).text());
             $('#mem-regDate').val($(arr[1]).text());
             $('#mem-email').val($(arr[2]).text());
             $('#mem-nick').val($(arr[3]).text());
             $('#user-action').modal('show');
-        })
+            console.log($('#user-action'));
+        });
     });
     $(document).on('click','.warn-authority-btn',function (){
        const arr = $(this).parent().prevAll();
