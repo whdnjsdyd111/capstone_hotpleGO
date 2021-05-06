@@ -178,7 +178,7 @@ $(function() {
 
 
     $('#delete').click(function() {
-        var delete_check = confirm("글을 삭제하시겠습니까?");
+        let delete_check = confirm("글을 삭제하시겠습니까?");
 
         if (delete_check) {
             requestServlet({
