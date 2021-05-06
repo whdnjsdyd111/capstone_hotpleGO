@@ -15,7 +15,7 @@
 
     <select id="commentOrderByWritenReply" resultType="CommentVO">
             SELECT c.comcode, c.comcont, c.comrecy, c.comrecn, c.bdcode, c.uCode, c.replycode, u.nick, CASE WHEN c.comCode = (SELECT replycode FROM comm WHERE comcode = #{comCode}) then 1 else 0 END AS inx
-            FROM comm c JOIN users u ON(c.uCode = u.uCode) ORDER BY REPLYCODE DESC, inx desc
+            FROM comm c JOIN users u ON(c.uCode = u.uCode) WHERE c.bdCode = #{bdCode} ORDER BY REPLYCODE DESC, inx desc
     </select>
 
     <insert id="commentInsert">
