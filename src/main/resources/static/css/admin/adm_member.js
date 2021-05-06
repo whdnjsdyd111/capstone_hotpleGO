@@ -19,8 +19,9 @@ $(function () {
         $('#mem-email-sec').val($(arr[3]).text());
         $('#mem-regDate-sec').val($(arr[2]).text());
     });
-    $('.show-board').click(function() {
-        location.href = '/board/view/' + $(this).html();
+    $(document).on('click','.show-board',function (){
+    /*$('.show-board').click(function() {*/
+        location.href = '/board/view/' + $(this).text().replaceAll('/','');
     })
     /*$(document).on('click', '#modal-close', function () {
         $('#user-action').modal('hide');
