@@ -17,7 +17,7 @@ public interface CommentMapper {
 
     public int commentInsert(CommentVO commentVO);
 
-    public int commentUpdate(CommentVO commentVO);
+    public int commentUpdate(String uCode, String comCont);
 
     public int commentDelete(String comCode);
 
