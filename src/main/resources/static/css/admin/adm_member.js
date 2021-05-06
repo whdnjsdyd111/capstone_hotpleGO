@@ -22,6 +22,7 @@ $(function () {
     $(document).on('click','.show-board',function (){
     /*$('.show-board').click(function() {*/
         location.href = '/board/view/' + $(this).text().replaceAll('/','');
+
     })
     /*$(document).on('click', '#modal-close', function () {
         $('#user-action').modal('hide');
