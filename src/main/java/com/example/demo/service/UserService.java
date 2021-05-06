@@ -21,6 +21,10 @@ public class UserService {
     @Setter(onMethod_ = @Autowired)
     UserMapper userMapper;
 
+    public List<UserVO> getList() {
+        return userMapper.userList();
+    }
+
     public UserVO get(String code) {
         return userMapper.read(code);
     }

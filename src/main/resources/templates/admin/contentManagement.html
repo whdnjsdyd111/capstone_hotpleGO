@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{admin/default}">
+<th:block layout:fragment="styles">
+  <script src="/css/admin/adm_member.js"></script>
+</th:block>
+<div layout:fragment="content">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="mb-3"
+          style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">
+        컨텐츠 관리</h2>
+      <div class="mb-3 pull-right">
+        <form method="post" class="form-inline">
+          <div class="form-group">
+            <select class="form-control" id="board-type">
+              <option value="all">모두</option>
+              <option value="hotple">핫플</option>
+              <option value="hotCourse">핫코스</option>
+            </select>
+          </div>
+          <div class="form-group" >
+            <select class="form-control" id="content-type">
+              <option value="board">게시글</option>
+              <option value="comment">댓글/리댓</option>
+              <option value="deleted">삭제된 컨텐츠</option>
+            </select>
+          </div>
+          <div class="form-group" >
+            <select class="form-control" id="order">
+              <option value="newest">최신순</option>
+              <option value="like">추천순</option>
+              <option value="unlike">비추순</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="사용자명" id="svalue" name="svalue">
+          </div>
+          <button type="submit" class="btn btn-outline-dark">Search</button>
+        </form>
+      </div>
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>닉네임</th>
+          <th id="th-title">글 제목</th>
+          <th>내용보기</th>
+          <th>지우기</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${result}">
+          <td th:text="${member.nick}"></td>
+          <td th:text="${member.UCode.split('/')[0]}"></td>
+          <td>
+            <button class="btn btn-outline-info member-action-btn" data-toggle="modal"
+                    data-target="#user-action">내용 보기
+            </button>
+          </td>
+          <td>
+            <button class="btn btn-warning warn-authority-btn" data-toggle="modal"
+                    data-target="#warn-authority">지우기
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- 활동 모달 -->
+  <div class="modal fade" id="user-action" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"> 글제목 </h5>
+          <span><i class="fa fa-eye mx-2" th:text="${board.bdRdCount}"></i></span>
+          <span><i class="fa fa-thumbs-o-up mx-2" th:text="${board.bdRecy}"></i></span>
+          <span><i class="fa fa-thumbs-o-down mx-2" th:text="${board.bdRecn}"></i></span>
+        </div>
+        <div class="modal-body">
+          <div></div> <!-- 내용 -->
+          <hr>
+          <h5>댓글</h5>
+          <div></div> <!-- 댓글 -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</html>

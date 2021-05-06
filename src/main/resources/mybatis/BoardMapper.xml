@@ -67,6 +67,11 @@
         bdCode IS NOT NULL )
     </select>
 
+    <select id="getBoardCodes" resultType="String">
+        SELECT bdCode FROM board WHERE uCode = #{uCode}
+    </select>
+
+
 
     <select id="getBookmarkList" resultType="BoardVO">
         SELECT b.bdCode, b.bdTitle, b.bdRdCount, b.bdRecy, b.bdCont, b.bdRecn, com.commcnt, u.nick

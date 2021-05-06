@@ -76,4 +76,12 @@ public class CommentService {
         commentMapper.getComReco(bdCode, uCode).forEach(l -> map.computeIfAbsent(l.getComCode(), k -> l.getReco()));
         return map;
     }
+
+    public List<String> getComCodes(String uCode) {
+        return commentMapper.commCodes(uCode);
+    }
+
+    public List<String> getReplyCodes(String uCode) {
+        return commentMapper.replyCodes(uCode);
+    }
 }

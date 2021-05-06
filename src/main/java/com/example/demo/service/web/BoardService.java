@@ -101,4 +101,8 @@ public class BoardService {
     public List<BoardVO> getBookmarkList(BoardVO boardVO) {
         return mapper.getBookmarkList(boardVO);
     }
+
+    public List<String> getBoardCodes(String uCode) {
+        return mapper.getBoardCodes(uCode);
+    }
 }
