@@ -8,6 +8,7 @@ $(function () {
                 $('#mem-email').val($(arr[2]).text());
                 $('#mem-nick').val($(arr[3]).text());
 
+
                 $('#user-action').modal('toggle');
             });
     });
