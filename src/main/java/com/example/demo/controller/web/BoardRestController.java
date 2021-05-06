@@ -70,6 +70,25 @@ public class BoardRestController {
         return new ResponseEntity<>("댓글 등록이 완료되었습니다.", HttpStatus.OK);
     }
 
+
+    @PostMapping("/view/update/{bdCode}")
+    public ResponseEntity<String> updateComment(HttpServletRequest request, @PathVariable(value = "bdCode") String bdCode, @AuthenticationPrincipal CustomUser user, @RequestBody CommentVO commentVO) {
+        String uCode = user.user.getUCode();
+        commentVO.setBdCode(HotpleAPI.strToCode(bdCode));
+        commentVO.setReplyCode(commentVO.getReplyCode());
+        String comCont = request.getParameter("comCont");
+        log.info(commentVO);
+        boolean isCommUpdate = commentService.commentUpdate(uCode, comCont);
+        try {
+            if (isCommUpdate == true) {
+                log.info("댓글 수정 완료");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("댓글 수정 완료되었습니다.", HttpStatus.OK);
+    }
+
     @PostMapping(value = "/update")
     public ResponseEntity<String> updateBoard(@RequestBody BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user) {
         log.info(boardVO);
@@ -209,6 +228,8 @@ public class BoardRestController {
             boolean isDeleted = boardService.deleteBoard(HotpleAPI.strToCode(bdCode), uCode);
             if (isDeleted == false) {
                 return new ResponseEntity<>("작성자 본인이 아닙니다!", HttpStatus.BAD_REQUEST);
+            } else if (isDeleted == true) {
+                return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
             }
         } catch (DataAccessException e) {
             return new ResponseEntity<>("삭제에 실패하였습니다.", HttpStatus.BAD_REQUEST);
@@ -231,4 +252,5 @@ public class BoardRestController {
         }
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
+
 }
