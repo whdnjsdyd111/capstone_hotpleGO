@@ -34,7 +34,12 @@ $(function () {
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function (data, status, xhr) {
-            alert(data);
+            swal({
+                title: "등록 완료!",
+                text: data,
+                icon: "success",
+                button: "확인"
+            })
             reload(recent);
         }).fail(function (error) {
             console.log(error.responseText);
@@ -145,7 +150,12 @@ $(function () {
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(replyData)
             }).done(function (data, status, xhr) {
-                alert(data);
+                swal({
+                    title: "등록 완료!",
+                    text: data,
+                    icon: "success",
+                    button: "확인"
+                })
                 reload(recent);
             }).fail(function (error) {
                 console.log(error.responseText);
@@ -400,7 +410,12 @@ function reply_submit() {
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data)
     }).done(function (data, status, xhr) {
-        alert(data);
+        swal({
+            title: "등록 완료!",
+            text: data,
+            icon: "success",
+            button: "확인"
+        })
         reload(written);
     }).fail(function (error) {
         console.log(error.responseText);
