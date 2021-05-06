@@ -78,7 +78,12 @@ var main = {
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function (data, status, xhr) {
-            alert(data);
+            swal({
+                title: "등록 완료!",
+                text: data,
+                icon: "success",
+                button: "확인"
+            })
             window.location.href = '/board/list';
         }).fail(function (error) {
             console.log(error.responseText);
@@ -96,7 +101,12 @@ var main = {
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function (data, status, xhr){
-            alert(data);
+            swal({
+                title: "수정 완료!",
+                text: data,
+                icon: "success",
+                button: "확인"
+            })
             window.location.href = '/board/list';
         }).fail(function (error) {
             console.log(error.responseText);
@@ -112,7 +122,12 @@ var main = {
             contentType:'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function (data, status, xhr) {
-            alert(data);
+            swal({
+                title: "삭제 완료!",
+                text: data,
+                icon: "success",
+                button: "확인"
+            })
             window.location.href = '/board/list';
         }).fail(function (error) {
             console.log(error.responseText);
