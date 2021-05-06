@@ -6,15 +6,14 @@ import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.catalina.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -34,7 +33,7 @@ public class HomeController {
     private final GuideService guide;
     private final UserService users;
 
-    @GetMapping({ "/", "/main"})
+    @GetMapping({"/", "/main"})
     public String index() {
         return "user/aroundHotple";
     }
@@ -59,7 +58,6 @@ public class HomeController {
         model.addAttribute("mbti", this.user.getMbti(user.user.getUCode()));
         return "user/mbti";
     }
-
 
 
     @GetMapping("/taste")
@@ -174,5 +172,26 @@ public class HomeController {
         model.addAttribute("email", user.user.getUCode().split("/")[0]);
         model.addAttribute("phone", user.user.getPhone());
         return "user/payment";
+    }
+
+    @GetMapping("/forgotPw")
+    public String forgotPw() {
+        return "user/forgotPassword";
+    }
+
+    @PostMapping("/checkPw")
+    public String checkPw(Model model, HttpServletRequest request) {
+        String uCode = request.getParameter("username");
+        log.info(uCode);
+
+        UserVO vo = user.getByEmail(uCode);
+        log.info(vo);
+        if (vo == null) {
+            return "redirect:/user/forgotPw";
+        } else {
+
+            model.addAttribute("uCode", vo.getUCode());
+            return "user/checkPw";
+        }
     }
 }

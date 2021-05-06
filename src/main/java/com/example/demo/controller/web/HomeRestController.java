@@ -8,6 +8,7 @@ import com.example.demo.service.*;
 import com.example.demo.service.web.AllianceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.catalina.User;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/*")
@@ -439,5 +441,35 @@ public class HomeRestController {
             log.info("에러 발생");
         }
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
+
+
+    @PostMapping("/forgotPw")
+    public ResponseEntity<String> forgotPw(HttpServletRequest request, UserVO vo) {
+        String email = request.getParameter("uCode");
+        String phone = request.getParameter("phone");
+        String uCode = vo.getUCode().split("/")[0];
+
+        if (uCode.equals(email)) {
+            if (vo.getPhone().equals(phone)) {
+                return new ResponseEntity<>("성공", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("실패", HttpStatus.BAD_REQUEST);
+            }
+        }
+        return new ResponseEntity<>("성공", HttpStatus.OK);
+    }
+
+    @PostMapping("/setNewPw")
+    public ResponseEntity<String> forgotNewPw(HttpServletRequest request) {
+        String new_pw = request.getParameter("newPw");
+        String code = request.getParameter("uCode");
+        log.info(new_pw);
+        log.info(code);
+        if (this.user.updatePw(passwordEncoder.encode(new_pw), code)) {
+            return new ResponseEntity<>("비밀번호 변경 완료하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("변경 실패하였습니다.", HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -2,6 +2,7 @@ let check_nick = false;
 let check_passwd = false;
 let check_new_passwd = false;
 let reCheck_passwd = false;
+let isPassed = false;
 
 $(function () {
 
@@ -188,38 +189,26 @@ $(function () {
         });
     });
 
-   /* $('article').click(function () {
-        location.href = '/hotple/' + $(this).children('input[type=hidden]').val();
-    });*/
+
     // 핫플 정보 보기
     $(document).on('click','article',function (){
         location.href = '/hotple/' + $(this).children('input[type=hidden]').val();
     });
 
-    // $('b').click(function () {
-    //     let csCode = $('#csCode1').val();
-    //     location.href = '/courseDetail/' + csCode;
-    // });
-
-
     // 코스 정보 보기
     $(document).on('click','.pickCourse',function (){
-    /*$('b').click(function (){*/
         let csCode = $('#csCode1').val();
         location.href = '/courseDetail/' + csCode;
     });
 
     $(document).on('click','.swiper-container',function (e){
-    /*$('.swiper-contents').click(function (e) {*/
         e.stopPropagation();
     });
 
     // 찜 코스 삭제
     $(document).on('click','.pickCourseDelete',function (e){
-    /*$('#pickCourseDelete').click(function (e) {*/
 
         let csCode = $(this).parent().parent().parent().parent().find('#csCode').val();
-        //let csCode = $('#csCode').val();
         e.stopPropagation();
         swal("정말 삭제하시겠습니까?",
             {
@@ -241,6 +230,101 @@ $(function () {
                 }, basicErrorFunc);
             }
         });
+    });
+
+    $('#goFindPw').click(function () {
+        let uCode = $('#forgotEmail').val();
+        let phone = $('#forgotPhoneNum').val();
+        let phoneCheck = $('#inputCertifiedNumber').val();
+        if (uCode === "") {
+            swal("이메일 입력!", "이메일을 입력해주세요!", "warning");
+            return false;
+        } else if (phone === "") {
+            swal("전화번호 입력!", "전화번호를 입력해주세요!", "warning");
+            return false;
+        } else if (phoneCheck === "") {
+            swal("인증번호 입력!", "인증번호를 입력해주세요!", "warning");
+        } else if (isPassed == true) {
+            requestServlet({
+                uCode: uCode,
+                phone: phone,
+                phoneCheck: phoneCheck
+            }, "/forgotPw", function (data) {
+                $('#findPw').submit();
+            }, basicErrorFunc);
+        } else if (isPassed == false) {
+            swal("인증 실패!", "올바른 인증번호를 입력해주세요!", "warning");
+        }
+    });
+
+    $('#sendPhoneNumber').click(function () {
+        const regTel = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
+        if (regTel.test($('#forgotPhoneNum').val())) {
+            let phoneNumber = $('#forgotPhoneNum').val();
+            swal({
+                title: "전송 완료!",
+                text: "인증번호를 입력해주세요!",
+                icon: "success",
+                button: "확인",
+            });
+
+            $.ajax({
+                type: "GET",
+                url: "/sendSMS",
+                data: {
+                    phoneNumber: phoneNumber
+                },
+                success: function (res) {
+                    $('#checkBtn').click(function () {
+                        if ($.trim(res) == $('#inputCertifiedNumber').val()) {
+                            isPassed = true;
+                            swal({
+                                title: "인증 성공!",
+                                text: "계속 진행해주세요!",
+                                icon: "success",
+                                button: "GO!",
+                            });
+                            $('#forgotPhoneNum').attr('readonly',true);
+                        } else {
+                            swal({
+                                title: "인증 실패!",
+                                text: "인증번호를 확인해주세요!",
+                                icon: "error",
+                                button: "확인",
+                            });
+                        }
+                    })
+                }
+            });
+        } else swal({
+            title: "실패!",
+            text: "올바른 휴대폰 번호를 입력해주세요!",
+            icon: "error",
+            button: "확인",
+        });
+    });
+
+    $('#goLogin').click(function () {
+        let uCode = $('#uCode').val();
+        let newPw = $('#newPw').val();
+        let checkNewPw = $('#checkNewPw').val();
+        if (newPw != checkNewPw) {
+            swal("비밀번호가 일치하지 않습니다!", "비밀번호를 확인해주세요!", "warning");
+            return false;
+        } else {
+            requestServlet({
+                uCode: uCode,
+                newPw: newPw
+            }, "/setNewPw", function (data) {
+                swal({
+                    title: "비밀번호 변경 성공!",
+                    text: "로그인 하러 GO",
+                    icon: "success",
+                    button: "확인"
+                }).then(location.href = "/login")
+            }, basicErrorFunc);
+        }
+
     });
 });
 

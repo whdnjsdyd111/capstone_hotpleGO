@@ -104,4 +104,8 @@
     <delete id="deletePickCourse">
         DELETE FROM pick_list WHERE csCode = #{csCode} AND uCode = #{uCode}
     </delete>
+
+    <select id="forgotPw" resultType="UserVO">
+        SELECT pw FROM users WHERE uCode = #{uCode}
+    </select>
 </mapper>
