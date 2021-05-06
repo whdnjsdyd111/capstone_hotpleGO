@@ -14,22 +14,22 @@
         <input type="text" class="form-control mb-3" id="mem-role" readonly> <!-- 회원 역할 -->
         <h5 class="modal-title"> 게시판 활동 </h5>
         <th:block th:each="bdCode : ${boards}">
-          <span th:text="${bdCode}"></span>
+          <button class="btn btn-primary" th:onclick="window.open('http://localhost:8000/board/view/'+${bdCode}.replace('/',''))" th:text="${bdCode}"></button>
         </th:block>
         <hr>
         <h5 class="modal-title"> 댓글 활동 </h5>
         <th:block th:each="comCode : ${comm}">
-          <span th:text="${comCode}"></span>
+          <button class="btn btn-success" th:text="${comCode}"></button>
         </th:block>
         <hr>
         <h5 class="modal-title"> 리댓 활동 </h5>
         <th:block th:each="replyCode : ${reply}">
-          <span th:text="${replyCode}"></span>
+          <button class="btn btn-info" th:text="${replyCode}"></button>
         </th:block>
         <hr>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button type="button" id="modal-close" class="btn btn-secondary" data-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
