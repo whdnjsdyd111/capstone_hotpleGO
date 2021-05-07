@@ -30,7 +30,7 @@ public interface BoardMapper {
 
     public int insertBoard(BoardVO boardVO);
 
-    public int updateBoard(BoardVO bdCode, String uCode);
+    public int updateBoard(BoardVO vo, String uCode);
 
     public int deleteBoard(String bdCode, String uCode);
 

@@ -103,7 +103,7 @@
     </insert>
 
     <update id="updateBoard">
-        UPDATE board SET bdTitle = #{bdTitle}, bdCont = #{bdCont} WHERE bdCode = #{bdCode}
+        UPDATE board SET bdTitle = #{vo.bdTitle}, bdCont = #{vo.bdCont} WHERE bdCode = #{vo.bdCode} AND uCode = #{uCode}
     </update>
 
     <delete id="deleteBoard">

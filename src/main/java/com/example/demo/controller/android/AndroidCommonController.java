@@ -161,6 +161,33 @@ public class AndroidCommonController {
         else return "{message: false}";
     }
 
+    @PostMapping("/bookmark")
+    public String bookmark(HttpServletRequest request) {
+        boolean bookmark = Boolean.parseBoolean(request.getParameter("bookmark"));
+        String bdCode = request.getParameter("bdCode");
+        String uCode = request.getParameter("uCode");
+
+        if (bookmark) return "{message:" + board.removeBookmark(bdCode, uCode) + "}";
+        else return "{message:" + board.insertBookmark(bdCode, uCode) + "}";
+    }
+
+    @PostMapping("/deleteBoard")
+    public String deleteBoard(HttpServletRequest request) {
+        String bdCode = request.getParameter("bdCode");
+        String uCode = request.getParameter("uCode");
+
+        return "{message:" + board.deleteBoard(bdCode, uCode) + "}";
+    }
+
+    @PostMapping("/updateBoard")
+    public String updateBoard(HttpServletRequest request) {
+        BoardVO vo = new Gson().fromJson(request.getParameter("board"), BoardVO.class);
+        log.info(vo);
+        String uCode = request.getParameter("uCode");
+        if (board.updateBoard(vo, uCode)) return "{message: true}";
+        else return "{message: false}";
+    }
+
     // 사용자 정보 관련 메소드
 
         // 사용자 취향 관련 메소드
@@ -226,8 +253,8 @@ public class AndroidCommonController {
     }
 
     // 북마크
-    @PostMapping("/bookmark")
-    public String bookmkar(HttpServletRequest request) {
+    @PostMapping("/getBookmark")
+    public String getBookmark(HttpServletRequest request) {
         String uCode = request.getParameter("uCode");
         BoardVO vo = new BoardVO();
         vo.setUCode(uCode);
