@@ -233,8 +233,9 @@
                     <button class="btn btn-outline-warning ml-5 go_login" id="report">신고</button>
                 </th:block>
                 <th:block sec:authorize-expr="isAuthenticated()">
+                    <input type="hidden" th:value="${board.bdCode}">
                     <button class="btn btn-outline-warning ml-5" id="report" data-toggle="modal"
-                            data-target="#reportModal">
+                            data-target="#boardReportModal">
                         신고
                     </button>
                 </th:block>
@@ -244,7 +245,7 @@
         <div class="border border-muted" id="comments_div">
         </div>
     </div>
-    <div class="modal" tabindex="-1" id="reportModal">
+    <div class="modal" tabindex="-1" id="boardReportModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -255,44 +256,44 @@
                 </div>
                 <div class="modal-body bg-light">
                     <h5>신고 사유</h5>
-                    <div id="radioGroup">
+                    <div id="radioBoardGroup">
                         <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline1" name="customRadioInline1"
+                            <input type="radio" id="customRadioInline1-1" name="customRadioInline2"
                                    class="custom-control-input" value="100">
-                            <label class="custom-control-label" for="customRadioInline1">회원을 향한 욕설 및 비방</label>
+                            <label class="custom-control-label" for="customRadioInline1-1">회원을 향한 욕설 및 비방</label>
                         </div>
                         <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline2" name="customRadioInline1"
+                            <input type="radio" id="customRadioInline2-1" name="customRadioInline2"
                                    class="custom-control-input" value="200">
-                            <label class="custom-control-label" for="customRadioInline2">음란 및 성적인 콘텐츠</label>
+                            <label class="custom-control-label" for="customRadioInline2-1">음란 및 성적인 콘텐츠</label>
                         </div>
                         <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline3" name="customRadioInline1"
+                            <input type="radio" id="customRadioInline3-1" name="customRadioInline2"
                                    class="custom-control-input" value="300">
-                            <label class="custom-control-label" for="customRadioInline3">정치와 관련된 콘텐츠</label>
+                            <label class="custom-control-label" for="customRadioInline3-1">정치와 관련된 콘텐츠</label>
                         </div>
                         <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline4" name="customRadioInline1"
+                            <input type="radio" id="customRadioInline4-1" name="customRadioInline2"
                                    class="custom-control-input" value="400">
-                            <label class="custom-control-label" for="customRadioInline4">홍보 및 불법 광고</label>
+                            <label class="custom-control-label" for="customRadioInline4-1">홍보 및 불법 광고</label>
                         </div>
                         <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline5" name="customRadioInline1"
+                            <input type="radio" id="customRadioInline5-1" name="customRadioInline2"
                                    class="custom-control-input" value="500">
-                            <label class="custom-control-label" for="customRadioInline5">권리 침해</label>
+                            <label class="custom-control-label" for="customRadioInline5-1">권리 침해</label>
                         </div>
                         <div class="custom-control custom-radio mb-4">
-                            <input type="radio" id="customRadioInline6" name="customRadioInline1"
+                            <input type="radio" id="customRadioInline6-1" name="customRadioInline2"
                                    class="custom-control-input" value="600">
-                            <label class="custom-control-label" for="customRadioInline6">기타</label>
+                            <label class="custom-control-label" for="customRadioInline6-1">기타</label>
                         </div>
                     </div>
                     <h5>상세 내용</h5>
-                    <textarea maxlength="100" id="report_content" placeholder="상세한 내용을 백자 내로 입력하십시오. (선택)">
-                    </textarea>
+                    <textarea maxlength="100" id="report_content" placeholder="상세한 내용을 백자 내로 입력하십시오. (선택)"></textarea>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="modal_report">신고하기</button>
+                    <input type="hidden" th:value="${board.bdCode}">
+                    <button type="button" class="btn btn-danger" id="modal_board_report">신고하기</button>
                 </div>
             </div>
         </div>

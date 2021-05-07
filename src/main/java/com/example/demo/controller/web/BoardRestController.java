@@ -2,11 +2,13 @@ package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.ImageAttachVO;
+import com.example.demo.domain.ReportVO;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.GuideService;
 import com.example.demo.service.ImageAttachService;
+import com.example.demo.service.ReportService;
 import com.example.demo.service.web.BoardService;
 import com.example.demo.service.web.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +34,7 @@ public class BoardRestController {
     private final BoardService boardService;
     private final CommentService commentService;
     private final ImageAttachService imageAttach;
+    private final ReportService report;
 
     @PostMapping("/write")
     public ResponseEntity<String> insertBoard(@RequestBody BoardVO boardVO, @AuthenticationPrincipal CustomUser user) {
@@ -74,11 +77,12 @@ public class BoardRestController {
     @PostMapping("/view/update/{bdCode}")
     public ResponseEntity<String> updateComment(HttpServletRequest request, @PathVariable(value = "bdCode") String bdCode, @AuthenticationPrincipal CustomUser user, @RequestBody CommentVO commentVO) {
         String uCode = user.user.getUCode();
+        String comCode = request.getParameter("comCode");
         commentVO.setBdCode(HotpleAPI.strToCode(bdCode));
         commentVO.setReplyCode(commentVO.getReplyCode());
         String comCont = request.getParameter("comCont");
         log.info(commentVO);
-        boolean isCommUpdate = commentService.commentUpdate(uCode, comCont);
+        boolean isCommUpdate = commentService.commentUpdate(uCode, comCode, comCont);
         try {
             if (isCommUpdate == true) {
                 log.info("댓글 수정 완료");
@@ -253,4 +257,39 @@ public class BoardRestController {
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
 
+    @PostMapping("/report")
+    public ResponseEntity<String> reportBoard(HttpServletRequest request, @AuthenticationPrincipal CustomUser user, ReportVO vo) {
+        vo.setUCode(user.user.getUCode());
+        vo.setRepCont(request.getParameter("repCont"));
+        vo.setRepKind(request.getParameter("repKind"));
+        vo.setBdCode(request.getParameter("bdCode"));
+        log.info(vo);
+        boolean isInserted = report.reportBoard(vo);
+        try {
+            if (isInserted == true) {
+                log.info("신고 완료");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("신고 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/comment/report")
+    public ResponseEntity<String> reportComment(HttpServletRequest request, @AuthenticationPrincipal CustomUser user, ReportVO vo) {
+        vo.setUCode(user.user.getUCode());
+        vo.setComCode(request.getParameter("comCode"));
+        vo.setRepKind(request.getParameter("repKind"));
+        vo.setRepCont(request.getParameter("repCont"));
+        log.info(vo);
+        boolean isInserted = report.reportComment(vo);
+        try {
+            if (isInserted == true) {
+                log.info("신고 완료");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("신고 완료", HttpStatus.OK);
+    }
 }

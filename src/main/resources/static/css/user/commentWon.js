@@ -345,50 +345,36 @@ $(function () {
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 
-
-
-    $('#report_content').val("");
-
-    $(".report").click(function () {
-        $('#reportModal').modal();
-        contents_id = $(this).next().val();
-        contents_kind = $(this).next().next().val();
+    $(document).on('click', '.btn-report', function() {
+        cur_comCode = $(this).prev().val();
     });
 
-    $('#modal_close').click(function () {
-        $('#radioGroup input:radio:checked').prop('checked', false);
-        $('#report_content').val("");
-    });
+    $('#modal_report').click(function() {
+        let repKind = $('input[name=customRadioInline1]:checked').next().text();
+        let repCont = $('#report_content').val();
 
-    $('#modal_report').click(function () {
-        if (!$('#radioGroup input:radio:checked').val()) {
-            alert("신고 사유를 선택하십시오.");
-            return false;
-        }
-
-        $.ajax({
-            type: "post",
-            url: "report.do",
-            data: {
-                rep_content: $('#report_content').val(),
-                rep_kind: $('#radioGroup input:radio:checked').val(),
-                contents_id: contents_id,
-                contents_kind: contents_kind
-            },
-            success: function (data) {
-                var str = "<p id='ck'>";
-                var loc = data.indexOf(str);
-                var len = str.length;
-                var check = data.substr(loc + len, 1);
-
-                if (check == "1") {
-                    $('#reportModal').modal("hide");
-                    alert("신고 감사합니다.");
-                } else {
-                    alert("다시 신고해주십시오.")
-                }
+        swal("정말 신고하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니오!",
+                    add: "네!"
+                },
+            }).then((v) => {
+            if (v === "add"){
+                requestServlet({
+                    comCode: cur_comCode,
+                    repKind: repKind,
+                    repCont: repCont
+                }, "/board/rest/comment/report", function (data){
+                    swal({
+                        title: "신고 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.reload())
+                }, basicErrorFunc);
             }
-        });
+        })
     });
 });
 

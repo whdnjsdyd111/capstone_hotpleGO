@@ -179,7 +179,7 @@ public class ManagerController {
             if (!uCode.split("/")[1].equals("M")) return "manager/mainLogout";
             // 공지사항 => 최근꺼 5개 o, 리뷰, 예약 손님 현황, 예약에 대한 메뉴 현황, 매출현황 일주일, 예약으로 방문한 인원 현황
             model.addAttribute("events", event.getCurrentFive());
-            model.addAttribute("reviews", review.getCurrentFive(uCode));
+//            model.addAttribute("reviews", review.getCurrentFive(uCode));
             model.addAttribute("reservationInfos", reservation.getCurFive(uCode));
 //            model.addAttribute("reservationAll", reservation.getAllCurFive(uCode));
             model.addAttribute("reservations", reservation.getListByManager(uCode));

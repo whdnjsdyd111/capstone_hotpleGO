@@ -8,7 +8,7 @@
 <div layout:fragment="content">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h2 class="mb-3" style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">회원 관리</h2>
+      <h2 class="mb-3" style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">신고 관리</h2>
     </div>
 
     <div class="panel-body">
@@ -18,16 +18,21 @@
           <th>신고시간</th>
           <th>신고 종류</th>
           <th>신고 내용</th>
-          <th>컨텐츠 종류</th>
           <th>신고한 유저</th>
           <th>활동보기</th>
+          <th>삭제</th>
+          <th>처리</th> <!--신고한 유저 포인트 처리-->
         </tr>
         </thead>
         <tbody>
         <tr th:each="report : ${reports}">
           <td th:text="${#hotpleAPI.toDateStr(report.repCode)}"></td>
           <td th:text="${report.repKind}"></td>
-          <td th:text="${report.repCont}"></td>
+          <td>
+            <input type="hidden" th:value="${report.UCode.split('/')[0]}">
+            <input type="hidden" th:value="${report.repCont}">
+            <button class="btn btn-outline-dark" data-toggle="modal" data-target="#report_modal">내용 보기</button>
+          </td>
           <td th:text="${report.uCode.split('/')[0]}"></td>
           <td>
             <button class="btn btn-outline-info member-action-btn">활동 보기</button>
@@ -40,9 +45,36 @@
               <input type="hidden" th:value="${report.comCode}">
             </th:block>
           </td>
+          <td>
+            <input type="hidden" th:value="${report.repCode}">
+            <button class="btn btn-outline-danger deleteReport" id="deleteReport">삭제 하기</button>
+          </td>
+          <td>
+            <button class="btn btn-outline-warning">처리 하기</button>
+          </td>
         </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="modal fade" id="report_modal" tabindex="-1" aria-labelledby="report_modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">신고 접수 내용</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          신고자: <div id="uCode"></div>
+          <hr/>
+          신고 내용: <div id="repCont"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
