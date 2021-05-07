@@ -10,6 +10,7 @@ import com.example.demo.security.CustomUser;
 import com.example.demo.service.EventService;
 import com.example.demo.service.GuideService;
 import com.example.demo.service.ImageAttachService;
+import com.example.demo.service.ReportService;
 import com.example.demo.service.web.AllianceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -36,8 +37,9 @@ public class AdminRestController {
     private final ImageAttachService imageAttach;
     private final EventService event;
     private final GuideService guide;
+    private final ReportService report;
 
-    @PostMapping(value= "/changeAlc")
+    @PostMapping(value = "/changeAlc")
     public ResponseEntity<String> changeAlc(@RequestBody AllianceVO vo) {
         return alliance.change(UriEncoder.decode(vo.getAlcCode())) ? new ResponseEntity<>("성공적으로 처리하였습니다.", HttpStatus.OK) :
                 new ResponseEntity<>("다시 시도해주십시요.", HttpStatus.BAD_REQUEST);
@@ -49,7 +51,7 @@ public class AdminRestController {
                 new ResponseEntity<>("다시 시도해주십시요.", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(value= "/changeFeed")
+    @PostMapping(value = "/changeFeed")
     public ResponseEntity<String> changeFeed(@RequestBody FeedbackVO vo) {
         return alliance.change(UriEncoder.decode(vo.getFeedCode())) ? new ResponseEntity<>("성공적으로 처리하였습니다.", HttpStatus.OK) :
                 new ResponseEntity<>("다시 시도해주십시요.", HttpStatus.BAD_REQUEST);
@@ -145,5 +147,20 @@ public class AdminRestController {
             log.warn("에러 발생");
         }
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteReport")
+    public ResponseEntity<String> deleteReport(HttpServletRequest request) {
+        String repCode = request.getParameter("repCode");
+        boolean isDeleted = report.deleteReport(repCode);
+        log.info(repCode);
+        try {
+            if (isDeleted == true) {
+                log.info("삭제 완료");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
 }

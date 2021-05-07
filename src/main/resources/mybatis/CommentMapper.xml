@@ -44,7 +44,7 @@
     </insert>
 
     <update id="commentUpdate">
-        UPDATE comm SET comCont = #{comCont} WHERE comCode = #{comCode} AND uCode = #{uCode}iuuk
+        UPDATE comm SET comCont = #{comCont} WHERE comCode = #{comCode} AND uCode = #{uCode} AND bdCode = #{bdCode}
     </update>
 
     <delete id="commentDelete">

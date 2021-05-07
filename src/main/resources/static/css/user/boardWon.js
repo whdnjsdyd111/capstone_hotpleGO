@@ -4,6 +4,7 @@ let check_nonReco = false;
 let reco;
 let nonReco;
 let get;
+let cur_bdCode;
 
 $(function() {
     let bdCode = $('#bdCode').val();
@@ -187,6 +188,39 @@ $(function() {
                 swal("삭제 완료!", data, "success").then(() => location.href = "/board/list");
             });
         }
+    });
+
+    // $('#report').click(function (){
+    //     cur_bdCode = $(this).prev().val();
+    // });
+
+    $('#modal_board_report').click(function () {
+        let bdCode = $(this).prev().val();
+        let repKind = $('input[name=customRadioInline2]:checked').next().text();
+        let repCont = $('#report_content').val();
+
+        swal("정말 신고하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니오!",
+                    add: "네!"
+                },
+            }).then((v) => {
+            if (v === "add"){
+                requestServlet({
+                    repCont: repCont,
+                    repKind: repKind,
+                    bdCode: bdCode
+                }, "/board/rest/report", function (data){
+                    swal({
+                        title: "신고 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.reload())
+                }, basicErrorFunc);
+            }
+        })
     });
 
 

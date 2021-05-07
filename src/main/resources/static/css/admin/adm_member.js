@@ -28,5 +28,35 @@ $(function () {
         $('#user-action').modal('hide');
         $('#content_modal').html('');
     });*/
+
+    $('button[data-toggle=modal]').click(function() {
+        $('#repCont').text($(this).prev().val());
+        $('#uCode').text($(this).prev().prev().val());
+    });
+
+    $(document).on('click', '.deleteReport', function (){
+        let repCode = $(this).prev().val();
+
+        swal("정말 삭제하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니오!",
+                    add: "네!"
+                },
+            }).then((v) => {
+            if (v === "add"){
+                requestServlet({
+                    repCode: repCode
+                }, "/admin/rest/deleteReport", function (data){
+                    swal({
+                        title: "삭제 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.reload())
+                }, basicErrorFunc);
+            }
+        })
+    });
 });
 

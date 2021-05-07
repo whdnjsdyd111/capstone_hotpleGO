@@ -35,8 +35,8 @@ public class CommentService {
         return commentMapper.commentInsert(commentVO) == 1;
     }
 
-    public boolean commentUpdate(String uCode, String comCont){
-        return commentMapper.commentUpdate(uCode, comCont) == 1;
+    public boolean commentUpdate(String uCode, String comCode, String comCont){
+        return commentMapper.commentUpdate(uCode, comCode, comCont) == 1;
     }
 
     public boolean commentDelete(String comCode){
