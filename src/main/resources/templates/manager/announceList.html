@@ -62,7 +62,8 @@
             <div class="container col-9 px-0 py-2 row">
                 <div class="col-8 d-flex">
                     <div class="col-4 pt-2">
-                        <img src="" alt="noImg">
+                        <img src="/images/no_image.png" alt="noImg" class="img-thumbnail">
+                        <input type="hidden" th:value="${event.eveCont}" />
                     </div>
                     <div class="col-8 pt-2">
                         <span class="mr-2" th:text="${event.eveTitle}">제목</span>

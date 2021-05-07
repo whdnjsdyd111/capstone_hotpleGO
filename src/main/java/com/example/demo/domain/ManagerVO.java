@@ -16,6 +16,7 @@ public class ManagerVO {
     private String profileImg;
     private Long point;
     private Timestamp regDate;
+    private String mbti;
     private String mName;
     private String mAccount;
     private String mBank;

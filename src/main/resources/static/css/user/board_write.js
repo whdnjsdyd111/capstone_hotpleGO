@@ -43,7 +43,7 @@ $(function() {
         src = src[1];
         src = src.substring(0, temp.length) + 's_' + src.substring(temp.length, src.length);
         return src;
-    })
+    });
 })
 
 var main = {

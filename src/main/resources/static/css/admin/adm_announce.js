@@ -29,6 +29,15 @@ $(function() {
         }
     });
 
+    $('.img-thumbnail').attr('src', function() {
+        let temp = '/hotpleImage/0000/00/00/';
+        let src = $(this).next().val().match(/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/);
+        if (src === null) return '/images/no_image.png';
+        src = src[1];
+        src = src.substring(0, temp.length) + 's_' + src.substring(temp.length, src.length);
+        return src;
+    });
+
     let form = $('#search_form');
 
     form.submit(e => {

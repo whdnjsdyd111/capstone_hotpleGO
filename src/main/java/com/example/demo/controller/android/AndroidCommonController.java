@@ -47,7 +47,7 @@ public class AndroidCommonController {
         String id = request.getParameter("id");
         String pw = request.getParameter("pw");
 
-        UserVO vo = users.getByEmail("id");
+        UserVO vo = users.getByEmail(id);
         if (vo == null) {
             return "{message: '아이디 또는 비밀번호가 틀렸습니다.'}";
         } else if (new BCryptPasswordEncoder().matches(pw, vo.getPw())) {
@@ -120,11 +120,11 @@ public class AndroidCommonController {
                 jsonObject.put("coursesInfos", course.getUsingCourseInfo(uCode));
                 break;
             case "myCourse":
-                jsonObject.put("courses", new JSONObject(course.getMakingCourse(uCode)));
+                jsonObject.put("courses", course.getMakingCourse(uCode));
                 jsonObject.put("courseInfos", course.getMakingCourseInfo(uCode));
                 break;
             case "usedCourse":
-                jsonObject.put("courses", new JSONObject(course.getHistoryCourse(uCode)));
+                jsonObject.put("courses", course.getHistoryCourse(uCode));
                 jsonObject.put("courseInfos", course.getHistoryCourseInfo(uCode));
                 break;
         }
@@ -145,9 +145,11 @@ public class AndroidCommonController {
     @PostMapping("/getBoard")
     public String getBoard(HttpServletRequest request) {
         String bdCode = request.getParameter("bdCode");
+        String uCode = request.getParameter("uCode");
         board.upView(bdCode);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("board", new Gson().toJson(board.getBoardDetail(bdCode)));
+        if (uCode != null) jsonObject.put("bookmark", board.getBookmark(bdCode, uCode));
         return jsonObject.toString();
     }
 
@@ -221,6 +223,17 @@ public class AndroidCommonController {
         } else {
             return "{message:'다시 시도해주십시오.', status:500}";
         }
+    }
+
+    // 북마크
+    @PostMapping("/bookmark")
+    public String bookmkar(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        BoardVO vo = new BoardVO();
+        vo.setUCode(uCode);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("boards", board.getBookmarkList(vo));
+        return jsonObject.toString();
     }
 
     // 이미지 업로드

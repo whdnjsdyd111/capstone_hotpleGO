@@ -35,7 +35,7 @@
     </select>
 
     <select id="readManager" resultType="ManagerVO">
-        SELECT u.uCode, pw, nick, birth, gender, phone, profileImg, point, mbti, regDate, mName, mAccount, mBank
+        SELECT u.uCode, pw, nick, birth, gender, phone, profileImg, point, regDate, mbti, mName, mAccount, mBank
         FROM users u JOIN manager m ON u.uCode = m.uCode WHERE m.uCode = #{code}
     </select>
 
