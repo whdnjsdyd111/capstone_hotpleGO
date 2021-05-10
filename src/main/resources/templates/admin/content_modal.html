@@ -14,18 +14,17 @@
         <input type="text" class="form-control mb-3" id="mem-role" readonly> <!-- 회원 역할 -->
         <h5 class="modal-title"> 게시판 활동 </h5>
         <th:block th:each="bdCode : ${boards}">
-          <button class="btn btn-primary show-board"  th:text="${bdCode}"></button>
-
+          <button class="btn btn-primary show-board mb-3" th:onclick="'location.href=\''+ @{${bdCode}}.replace('/','') + '\''" th:text="${bdCode}"></button>
         </th:block>
         <hr>
         <h5 class="modal-title"> 댓글 활동 </h5>
         <th:block th:each="comCode : ${comm}">
-          <button class="btn btn-success" th:text="${comCode}"></button>
+          <button class="btn btn-success mb-3" th:text="${comCode}"></button>
         </th:block>
         <hr>
         <h5 class="modal-title"> 리댓 활동 </h5>
         <th:block th:each="replyCode : ${reply}">
-          <button class="btn btn-info" th:text="${replyCode}"></button>
+          <button class="btn btn-info mb-3" th:text="${replyCode}"></button>
         </th:block>
         <hr>
       </div>
