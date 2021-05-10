@@ -38,6 +38,7 @@ public class AdminController {
     private final BoardService board;
     private final CommentService comm;
 
+
     @GetMapping("/main")
     public String index() {
         return "admin/index";
@@ -69,6 +70,18 @@ public class AdminController {
         model.addAttribute("result", user.getList());
         return "admin/memberManagement";
     }
+    @GetMapping("/contents")
+    /*public String contentsManagement(Model model) {
+        model.getAttribute("board",board.getBoardList());
+        return "admin/contentManagement";*/
+        public String contentsManagement(Criteria cri,  Model model) {
+            //String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
+           // log.info(cri.toString());
+            model.addAttribute("result", board.getBoardList(cri));
+            //model.addAttribute("pageMaker", new PageVO(cri, board.getTotal(cri)));
+            //model.addAttribute("kind", str);
+            return "admin/contentManagement";
+    }
 
     @GetMapping("/content_modal")
     public String contentModal(Model modal, @RequestParam(value = "uCode") String uCode) {
@@ -80,10 +93,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/contents")
-    public String contentsManagement() {
-        return "admin/contentManagement";
-    }
+
 
     @GetMapping("/chattingRoom")
     public String chattingRoom(Model model, @AuthenticationPrincipal CustomUser admin) {

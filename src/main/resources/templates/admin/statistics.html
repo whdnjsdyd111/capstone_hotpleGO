@@ -56,6 +56,7 @@
             }
         </script>
         <div class="row">
+            <!-- 방문자 수 현황 -->
             <div class="col-xl-6 col-md-12 mb-3">
                 <canvas id="memCanvas"></canvas>
                 <script>
@@ -102,6 +103,7 @@
 
                 </script>
             </div>
+            <!-- 최근 컨텐츠 현황 -->
             <div class="col-xl-6 col-md-12 mb-3">
                 <canvas id="contentsCanvas"></canvas>
                 <script>
@@ -155,7 +157,127 @@
                     });
                 </script>
             </div>
+
         </div>
+        <div class="row">
+            <!-- 예약 현황 -->
+            <div class="col-xl-6 col-md-12 mb-3">
+                <canvas id="reservationCanvas"></canvas>
+                <script>
+                    var reservationChartData = {
+                        labels: dates,
+                        datasets: [{
+                            label: '방문자 수',
+                            fill: false,
+                            backgroundColor: 'rgba(255, 99, 132)',
+                            borderColor: 'rgba(255, 99, 132)',
+                            data: visits
+                        }, {
+                            label: '페이지 뷰',
+                            backgroundColor: 'rgba(54, 162, 235)',
+                            borderColor: 'rgba(54, 162, 235)',
+                            fill: false,
+                            data: page_views
+                        },
+                            {
+                                label: '페이지 뷰',
+                                backgroundColor: 'rgba(54, 162, 235)',
+                                borderColor: 'rgba(54, 162, 235)',
+                                fill: false,
+                                data: page_views
+                            }
+                        ]
+                    };
+
+                    var reservationChartOpt = {
+                        responsive: true,
+                        hoverMode: 'index',
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: '예약 현황'
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    };
+
+                    var res_ctx = document.getElementById('reservationCanvas').getContext('2d');
+                    window.myLine2 = Chart.Line(res_ctx, {
+                        type: 'line',
+                        data: reservationChartData,
+                        options: reservationChartOpt
+                    });
+
+                </script>
+            </div>
+
+            <!-- 이용률 현황 -->
+            <div class="col-xl-6 col-md-12 mb-3">
+                <canvas id="courseUtilizationCanvas"></canvas>
+                <script>
+                    var courseData = {
+                        labels: dates,
+                        datasets: [{
+                            label: '혼자',
+                            fill: false,
+                            backgroundColor: 'rgba(255, 99, 132)',
+                            borderColor: 'rgba(255, 99, 132)',
+                            data: visits
+                        }, {
+                            label: '커플',
+                            backgroundColor: 'rgba(54, 162, 235)',
+                            borderColor: 'rgba(54, 162, 235)',
+                            fill: false,
+                            data: page_views
+                        },
+                            {
+                                label: '친구',
+                                backgroundColor: 'rgba(32, 45, 63)',
+                                borderColor: 'rgba(32, 45, 63)',
+                                fill: false,
+                                data: page_views
+                            },
+                            {
+                                label: '가족',
+                                backgroundColor: 'rgba(54, 98, 76)',
+                                borderColor: 'rgba(54, 98, 76)',
+                                fill: false,
+                                data: page_views
+                            }
+                        ]
+                    };
+
+                    var courseOpt = {
+                        responsive: true,
+                        hoverMode: 'index',
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: '이용률'
+                        },
+
+                        legend: {
+                            position: 'top',
+                        }
+
+                    };
+
+                    var course_ctx = document.getElementById('courseUtilizationCanvas').getContext('2d');
+                    window.myPie = new Chart(course_ctx, {
+                        type: 'pie',
+                        data: courseData,
+                        options: courseOpt
+                    });
+
+                </script>
+            </div>
+        </div>
+
     </div>
 </div>
 </html>

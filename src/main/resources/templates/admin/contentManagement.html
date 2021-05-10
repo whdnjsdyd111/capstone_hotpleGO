@@ -54,7 +54,7 @@
         <tbody>
         <tr th:each="member : ${result}">
           <td th:text="${member.nick}"></td>
-          <td th:text="${member.UCode.split('/')[0]}"></td>
+          <td th:text="${member.bdTitle"></td>
           <td>
             <button class="btn btn-outline-info member-action-btn" data-toggle="modal"
                     data-target="#user-action">내용 보기
@@ -71,7 +71,7 @@
     </div>
   </div>
   <!-- 활동 모달 -->
-  <div class="modal fade" id="user-action" tabindex="-1" aria-hidden="true">
+  <!--<div class="modal fade" id="user-action" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -81,16 +81,16 @@
           <span><i class="fa fa-thumbs-o-down mx-2" th:text="${board.bdRecn}"></i></span>
         </div>
         <div class="modal-body">
-          <div></div> <!-- 내용 -->
+          <div></div> &lt;!&ndash; 내용 &ndash;&gt;
           <hr>
           <h5>댓글</h5>
-          <div></div> <!-- 댓글 -->
+          <div></div> &lt;!&ndash; 댓글 &ndash;&gt;
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </div>
 </html>
