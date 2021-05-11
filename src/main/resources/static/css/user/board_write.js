@@ -83,8 +83,7 @@ var main = {
                 text: data,
                 icon: "success",
                 button: "확인"
-            })
-            window.location.href = '/board/list';
+            }).then( v => window.location.href = '/board/list')
         }).fail(function (error) {
             console.log(error.responseText);
         });

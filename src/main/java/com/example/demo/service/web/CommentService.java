@@ -19,16 +19,24 @@ public class CommentService {
     @Setter(onMethod_ = @Autowired)
     CommentMapper commentMapper;
 
-    public List<CommentVO> commOdByReco(String bdCode){
-        return commentMapper.commentOrderByReco(bdCode);
+    public List<CommentVO> commentListN() {
+        return commentMapper.commentList("N", "N");
+    }
+
+    public List<CommentVO> commentListY(){
+        return commentMapper.commentList("Y", "N");
+    }
+
+    public List<CommentVO> commOdByRecoN(String bdCode){
+        return commentMapper.commentOrderByReco(bdCode, "N", "N");
     }
 
     public List<CommentVO> commOdByRecent(String bdCode){
-        return commentMapper.commentOrderByRecent(bdCode);
+        return commentMapper.commentOrderByRecent(bdCode, "N", "N");
     }
 
     public List<CommentVO> commOdByWritenReply(String comCode){
-        return commentMapper.commentOrderByWritenReply(comCode);
+        return commentMapper.commentOrderByWritenReply(comCode, "N", "N");
     }
 
     public boolean commentInsert(CommentVO commentVO){
@@ -83,5 +91,13 @@ public class CommentService {
 
     public List<String> getReplyCodes(String uCode) {
         return commentMapper.replyCodes(uCode);
+    }
+
+    public boolean commentType(String comCode) {
+        return commentMapper.commentType(comCode) == 1;
+    }
+
+    public boolean commentReType(String comCode){
+        return commentMapper.commentReType(comCode) == 1;
     }
 }

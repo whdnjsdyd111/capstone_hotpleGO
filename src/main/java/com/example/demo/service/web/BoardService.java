@@ -41,8 +41,12 @@ public class BoardService {
         return mapper.deleteBoard(bdCode, uCode) == 1;
     }
 
-    public List<BoardVO> getBoardList(Criteria cri){
-        return mapper.getBoardList(cri);
+    public List<BoardVO> getBoardListN(Criteria cri){
+        return mapper.getBoardList(cri, "N");
+    }
+
+    public List<BoardVO> getBoardListY(Criteria cri){
+        return mapper.getBoardList(cri, "Y");
     }
 
     public List<BoardVO> getBoardsByKeyword(String keyword) {
@@ -104,5 +108,13 @@ public class BoardService {
 
     public List<String> getBoardCodes(String uCode) {
         return mapper.getBoardCodes(uCode);
+    }
+
+    public boolean boardType(String bdCode) {
+        return mapper.boardType(bdCode) == 1;
+    }
+
+    public boolean boardReType(String bdCode) {
+        return mapper.boardReType(bdCode) == 1;
     }
 }

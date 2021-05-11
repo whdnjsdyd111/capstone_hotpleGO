@@ -51,7 +51,7 @@ public class BoardController {
     public String boardList(Criteria cri, @RequestParam(value = "kind", defaultValue = "B") String kind, Model model) {
         String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
         log.info(cri.toString());
-        model.addAttribute("result", boardService.getBoardList(cri));
+        model.addAttribute("result", boardService.getBoardListN(cri));
         model.addAttribute("pageMaker", new PageVO(cri, boardService.getTotal(cri)));
         model.addAttribute("kind", str);
         return "user/board";
@@ -90,11 +90,12 @@ public class BoardController {
     public String commentList(@PathVariable(value = "bdCode") String bdCode, @RequestParam(value = "sort", defaultValue = "reco") String sort, Model model, @AuthenticationPrincipal CustomUser user) {
         log.info(bdCode);
         String bdcode = HotpleAPI.strToCode(bdCode);
+
         List<CommentVO> commentList = null;
         Map<CommentVO, List<CommentVO>> map = new LinkedHashMap<>();
         log.info(sort);
         if (sort.equals("reco")) {
-            commentList = commentService.commOdByReco(bdcode);
+            commentList = commentService.commOdByRecoN(bdcode);
         } else if (sort.equals("recent")){
             commentList = commentService.commOdByRecent(bdcode);
         } else if (sort.equals("writen")) {

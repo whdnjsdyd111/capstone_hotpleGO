@@ -224,7 +224,7 @@
                 <button class="btn btn-outline-warning ml-5" onclick="history.go(-1)">목록</button>
             </div>
             <div>
-                <th:block th:if="${board.UCode.split('/')[0] == #authentication.name}">
+                <th:block th:if="${board.UCode.split('/')[0] == #authentication.name} or ${#authentication.authorities[0].authority == 'A'}">
                     <button class="btn btn-outline-warning ml-5" id="update">수정</button>
                     <button class="btn btn-outline-warning ml-5" id="delete"><i class="fa fa-trash-o mr-2"></i>삭제
                     </button>

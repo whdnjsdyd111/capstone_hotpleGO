@@ -6,7 +6,7 @@
 
     <sql id="criteria">
         <trim prefix="(" suffix=") AND" prefixOverrides="OR">
-            <foreach collection="typeArr" item="type">
+            <foreach collection="cri.typeArr" item="type">
                 <trim prefix="OR">
                     <choose>
                         <when test="type == 'T'.toString()">
@@ -36,17 +36,27 @@
                     b.bdCont, b.bdRecn, com.commcnt, u.nick
                     FROM board b NATURAL JOIN users u FULL OUTER JOIN
                     (SELECT bdcode, COUNT(*) as commcnt FROM comm GROUP BY bdCode) COM
-                    ON(b.bdCode = COM.bdCode) ORDER BY bdCode DESC)
+                    ON(b.bdCode = COM.bdCode)
+                    WHERE SUBSTR(b.bdCode, -1) = #{s}
+                    ORDER BY bdCode DESC)
             WHERE
 
             <include refid="criteria" />
 
         <![CDATA[
-            ROWNUM <= #{pageNum} * #{amount}
+            ROWNUM <= #{cri.pageNum} * #{cri.amount}
             )
-            WHERE rn > (#{pageNum} - 1) * #{amount}
+            WHERE rn > (#{cri.pageNum} - 1) * #{cri.amount}
         ]]>
     </select>
+
+    <update id="boardType">
+        UPDATE board SET bdCode = replace(bdCode, 'N', 'Y') WHERE bdCode = #{bdCode}
+    </update>
+
+    <update id="boardReType">
+        UPDATE board SET bdCode = replace(bdCode, 'Y', 'N') WHERE bdCode = #{bdCode}
+    </update>
 
     <select id="getBoardsByKeyword" resultType="BoardVO">
         SELECT b.bdCode, b.bdTitle, b.bdRdCount, b.bdRecy, b.bdCont, b.bdRecn, c.commCnt, u.nick

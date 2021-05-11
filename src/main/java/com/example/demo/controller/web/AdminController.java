@@ -2,10 +2,9 @@ package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.*;
-import com.example.demo.service.EventService;
-import com.example.demo.service.GuideService;
-import com.example.demo.service.ReportService;
-import com.example.demo.service.UserService;
+import com.example.demo.domain.web.BoardVO;
+import com.example.demo.domain.web.CommentVO;
+import com.example.demo.service.*;
 import com.example.demo.service.web.*;
 import com.example.demo.security.CustomUser;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +35,22 @@ public class AdminController {
     private final BoardService board;
     private final CommentService comm;
     private final ReportService report;
+    private final AdminService adminService;
 
     @GetMapping("/main")
-    public String index() {
+    public String index(Model model, String count) {
+        String user = adminService.countUsers(count);
+        String board = adminService.countBoard(count);
+        String comm = adminService.countComm(count);
+        String course = adminService.countCourse(count);
+        String report = adminService.countReport(count);
+        String alc = adminService.countAlc(count);
+        model.addAttribute("userCount", user);
+        model.addAttribute("boardCount", board);
+        model.addAttribute("commCount", comm);
+        model.addAttribute("courseCount", course);
+        model.addAttribute("reportCount", report);
+        model.addAttribute("alcCount", alc);
         return "admin/index";
     }
 
@@ -79,10 +91,6 @@ public class AdminController {
     }
 
 
-    @GetMapping("/contents")
-    public String contentsManagement() {
-        return "admin/contentManagement";
-    }
 
     @GetMapping("/chattingRoom")
     public String chattingRoom(Model model, @AuthenticationPrincipal CustomUser admin) {
@@ -103,6 +111,25 @@ public class AdminController {
         }
 
         return "admin/alliances";
+    }
+
+    @GetMapping("/contents")
+    public String contentsManagement(@RequestParam(value = "sort", defaultValue = "nonProcessed") String sort, Criteria cri, Model model) {
+
+        if (sort.equals("nonProcessed")) {
+            model.addAttribute("nBoard", board.getBoardListN(cri));
+        } else if (sort.equals("processed")) {
+            model.addAttribute("yBoard", board.getBoardListY(cri));
+        } else if (sort.equals("comNonProcessed")) {
+            log.info(comm.commentListN());
+            model.addAttribute("nComm", comm.commentListN());
+        } else if (sort.equals("comProcessed")) {
+            model.addAttribute("yComm", comm.commentListY());
+        } else {
+            return "redirect:/admin/contents";
+        }
+
+        return "admin/contentManagement";
     }
 
     @GetMapping("/feedback")

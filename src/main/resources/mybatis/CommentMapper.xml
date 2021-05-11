@@ -4,18 +4,29 @@
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.web.CommentMapper">
 
+    <select id="commentList" resultType="CommentVO">
+        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode)
+        WHERE SUBSTR(c.comCode, -1) = #{s} AND SUBSTR(c.bdCode, -1) = #{p}
+        ORDER BY c.replyCode DESC, c.comRecy DESC
+    </select>
 
     <select id="commentOrderByReco" resultType="CommentVO">
-        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode) WHERE c.bdCode = #{bdCode} ORDER BY c.replyCode DESC, c.comRecy DESC
+        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode)
+        WHERE c.bdCode = #{bdCode} AND SUBSTR(c.comCode, -1) = #{s} AND SUBSTR(c.bdCode, -1) = #{p}
+        ORDER BY c.replyCode DESC, c.comRecy DESC
     </select>
 
     <select id="commentOrderByRecent" resultType="CommentVO">
-        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode) WHERE c.bdCode = #{bdCode} ORDER BY c.replyCode DESC, c.comCode desc
+        SELECT c.*, u.nick FROM comm c JOIN users u ON(c.uCode = u.uCode)
+        WHERE c.bdCode = #{bdCode} AND SUBSTR(c.comCode, -1) = #{s} AND SUBSTR(c.bdCode, -1) = #{p}
+        ORDER BY c.replyCode DESC, c.comCode desc
     </select>
 
     <select id="commentOrderByWritenReply" resultType="CommentVO">
-            SELECT c.comcode, c.comcont, c.comrecy, c.comrecn, c.bdcode, c.uCode, c.replycode, u.nick, CASE WHEN c.comCode = (SELECT replycode FROM comm WHERE comcode = #{comCode}) then 1 else 0 END AS inx
-            FROM comm c JOIN users u ON(c.uCode = u.uCode) WHERE c.bdCode = #{bdCode} ORDER BY REPLYCODE DESC, inx desc
+        SELECT c.comcode, c.comcont, c.comrecy, c.comrecn, c.bdcode, c.uCode, c.replycode, u.nick, CASE WHEN c.comCode = (SELECT replycode FROM comm WHERE comcode = #{comCode}) then 1 else 0 END AS inx
+        FROM comm c JOIN users u ON(c.uCode = u.uCode)
+        WHERE c.bdCode = #{bdCode} AND SUBSTR(c.comCode, -1) = #{s} AND SUBSTR(c.bdCode, -1) = #{p}
+        ORDER BY REPLYCODE DESC, inx desc
     </select>
 
     <select id="commCodes" resultType="String">
@@ -82,4 +93,28 @@
     <select id="getComReco" resultType="CommRecoVO">
         SELECT comCode, reco FROM comm_reco WHERE comCode IN (SELECT comCode FROM comm WHERE bdCode = #{bdCode}) AND uCode = #{uCode}
     </select>
+
+    <update id="commentType">
+        {
+            CALL
+                DECLARE
+                BEGIN
+
+                UPDATE comm SET comCode = replace(comCode, 'N', 'Y') WHERE comCode = #{comCode};
+                update comm set replyCode = replace(replyCode, 'N', 'Y') WHERE replyCode = #{comCode};
+            END
+        }
+    </update>
+
+    <update id="commentReType">
+        {
+            CALL
+                DECLARE
+                BEGIN
+
+                UPDATE comm SET comCode = replace(comCode, 'Y', 'N') WHERE comCode = #{comCode};
+                update comm set replyCode = replace(replyCode, 'Y', 'N') WHERE replyCode = #{comCode};
+            END
+        }
+    </update>
 </mapper>
