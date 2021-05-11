@@ -122,8 +122,10 @@ $(function () {
             "<div class='border border-right-0 border-top-0 border-dark ml-5' style='width: 90px; height: 45px'></div>" +
             '<div id="reUCode" class="w-100"><div class="border border-dark write_comment_top mx-3">' +
             "<div class='ml-3 write_comment_member text-left'>닉네임</div><div class='write_comment_middle text-left'>" +
+            '<a class="text-primary" >@' + $(this).parent().parent().find('.fa-user-circle').text() + '</a>'+
             '<div id="reComCont" class="px-3 d-inline" contentEditable="true">' +
-            '<a class="text-primary" >@' + $(this).parent().parent().find('.fa-user-circle').text() + '</a><br></div></div></div>' +
+
+            '<br></div></div></div>' +
             '<div class="border border-dark border-top-0 mx-3">' +
             '<div class="w-100 d-flex"><div class="custom-file w-75">' +
             '<input type="file" class="custom-file-input" id="nest_comment_image">' +
@@ -218,8 +220,9 @@ $(function () {
             "<div class='border border-right-0 border-top-0 border-dark ml-5' style='width: 90px; height: 45px'></div>" +
             '<div id="reUCode" class="w-100"><div class="border border-dark write_comment_top p-3 mx-3">' +
             "<div class='ml-3 write_comment_member text-left'>닉네임</div><div class='write_comment_middle p-2 text-left' style='width:98%'>" +
+            '<a class="text-primary" >@' + $(this).parent().parent().find('.fa-user-circle').text() + '</a>'+
             '<div id="reComCont" class="px-3 d-inline" contentEditable="true">' +
-            '<a class="text-primary" >@' + $(this).parent().parent().find('.fa-user-circle').text() + '</a><br></div></div></div>' +
+            '<br></div></div></div>' +
             '<div class="border border-dark border-top-0 mx-3">' +
             '<div class="w-100 d-flex"><div class="custom-file w-75">' +
             '<input type="file" class="custom-file-input" id="nest_comment_image">' +

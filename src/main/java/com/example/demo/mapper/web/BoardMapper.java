@@ -52,6 +52,6 @@ public interface BoardMapper {
 
     public List<BoardVO> getBookmarkList(BoardVO boardVO);
 
-    public List<String> getBoardCodes(String uCode);
+    public List<BoardVO> getBoardCodes(String uCode);
 
 }

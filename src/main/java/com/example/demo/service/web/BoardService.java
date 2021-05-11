@@ -102,7 +102,7 @@ public class BoardService {
         return mapper.getBookmarkList(boardVO);
     }
 
-    public List<String> getBoardCodes(String uCode) {
+    public List<BoardVO> getBoardCodes(String uCode) {
         return mapper.getBoardCodes(uCode);
     }
 }

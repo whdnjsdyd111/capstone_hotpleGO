@@ -67,8 +67,8 @@
         bdCode IS NOT NULL )
     </select>
 
-    <select id="getBoardCodes" resultType="String">
-        SELECT bdCode FROM board WHERE uCode = #{uCode}
+    <select id="getBoardCodes" resultType="BoardVO">
+        SELECT bdCode,bdTitle FROM board WHERE uCode = #{uCode}
     </select>
 
 
