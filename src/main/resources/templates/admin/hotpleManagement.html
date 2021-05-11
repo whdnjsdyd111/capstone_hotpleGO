@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{admin/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/admin/adm_member.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="mb-3"
+                style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">
+                회원 관리</h2>
+            <div class="mb-3 pull-right">
+                <form method="post" class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" id="member-type">
+                            <option value="all">모두</option>
+                            <option value="normal">일반</option>
+                            <option value="guide">가이드</option>
+                            <option value="manager">매니저</option>
+                        </select>
+                    </div>
+                    <div class="form-group" >
+                        <select class="form-control" id="order">
+                            <option value="newest">최신순</option>
+                            <option value="oldest">오래된순</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="사용자명" id="svalue" name="svalue">
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>업체명</th>
+                    <th>카테고리</th>
+                    <th>위치</th>
+                    <th>상세보기</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member : ${result}">
+                    <td th:text="${member.nick}"></td>
+                    <td th:text="${member.UCode.split('/')[0]}"></td>
+                    <td th:text="${member.regDate}"></td>
+                    <td>
+                        <button class="btn btn-outline-info member-action-btn">상세보기</button>
+                        <input type="hidden"  th:value="${member.UCode}" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 활동 모달 -->
+    <div id="content_modal"></div>
+</div>
+</html>

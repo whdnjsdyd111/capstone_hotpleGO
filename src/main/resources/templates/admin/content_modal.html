@@ -25,7 +25,7 @@
         <hr>
         <h5 class="modal-title"> 리댓 활동 </h5>
         <th:block th:each="rpy : ${reply}">
-          <button class="rpy-btn btn btn-info mb-3" th:text="${rpy.comCont}"></button>
+          <button class="rpy-btn btn btn-info mb-3" th:text="${rpy.comCont.replace('<br>','')}"></button>
           <input type="hidden" th:value="${rpy.bdCode}">
         </th:block>
         <hr>

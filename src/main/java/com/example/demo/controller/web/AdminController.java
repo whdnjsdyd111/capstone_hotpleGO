@@ -39,6 +39,7 @@ public class AdminController {
     private final CommentService comm;
 
 
+
     @GetMapping("/main")
     public String index() {
         return "admin/index";
@@ -82,6 +83,12 @@ public class AdminController {
             //model.addAttribute("kind", str);
             return "admin/contentManagement";
     }
+
+    /*@GetMapping("/hotple_modal")
+    public String companyModal(Model modal, @RequestParam(value = "htId") String htId) {
+        modal.addAttribute("hotple", hotple.getHotple(htId));
+        return "admin/hotple_modal";
+    }*/
 
     @GetMapping("/content_modal")
     public String contentModal(Model modal, @RequestParam(value = "uCode") String uCode) {
@@ -177,7 +184,7 @@ public class AdminController {
 
     @GetMapping("/reports")
     public String reports() {
-        return "admin/index";
+        return "admin/report";
     }
 
     @GetMapping(value = "/guideApply")
