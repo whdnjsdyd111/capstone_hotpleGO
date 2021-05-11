@@ -14,7 +14,7 @@
         <input type="text" class="form-control mb-3" id="mem-role" readonly> <!-- 회원 역할 -->
         <h5 class="modal-title"> 게시판 활동 </h5>
         <th:block th:each="bdCode : ${boards}">
-          <button class="btn btn-primary show-board mb-3" th:onclick="'location.href=\''+ @{${bdCode}}.replace('/','') + '\''" th:text="${bdCode}"></button>
+          <button class="btn btn-primary show-board mb-3" th:onclick="'location.href=/board/view'+ @{${bdCode}} + '\''" th:text="${bdCode}"></button>
         </th:block>
         <hr>
         <h5 class="modal-title"> 댓글 활동 </h5>

@@ -1,3 +1,10 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<script src="/css/user/commentWon.js"></script>
+<link rel="stylesheet" href="/css/user/board_cmmt.css/">
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -28,9 +35,11 @@
 
 <div id="start_com">
     <div th:each="comm : ${commentList.keySet()}">
+
         <div class="row container p-3 comments " style="margin: 0 auto;">
             <!-- 입력된 댓글 상자 시작 -->
-            <div class="col mr-auto d-flex flex-column text-left border">
+            <div th:id="|comm*{comm.comCode.replaceAll('/', '')}|"
+                 class="col mr-auto flex-column text-left border" style="display: flex">
                 <div class="d-flex justify-content-between">
                     <div class="">
                         <a class="text-dark" style="text-decoration: none;"
@@ -42,13 +51,16 @@
                                     th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
                             </button>
                         </span>
-                        <span class="btn btn-report">신고</span>
+                        <span class="btn btn-report" data-toggle="modal"
+                              data-target="#reportModal">신고</span>
                     </div>
                     <div class="next-to-cmmt-nick">
                         <th:block sec:authorize-expr="isAuthenticated()">
                             <th:block th:if="${#authentication.getName().equals(comm.UCode.split('/')[0])}">
                                 <div class="writer-visible-box">
                                     <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    <input type="hidden" th:value="${comm.comCode.replaceAll('/', '')}"/>
+                                    <input type="hidden" th:value="comm"/>
                                     <span class="btn comment-delete">삭제</span>
                                     <input type="hidden" th:value="${comm.comCode}"/>
                                     <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
@@ -85,8 +97,6 @@
                         <input type="hidden" th:value="${comm.comCode}"/>
                     </div>
                 </div>
-
-
                 <div class="container my-2 writen_comment">
                     <div th:utext="${comm.comCont}">댓글 내용</div>
                 </div>
@@ -108,12 +118,44 @@
                 </div>
             </div>
             <!-- 입력된 댓글 상자 끝-->
+            <!-- 댓글 수정 -->
+            <div th:id="|comm-modify*{comm.comCode.replaceAll('/', '')}|"
+                 class="col mr-auto  flex-column text-left border" style="display: none">
+                <div class="d-flex justify-content-between">
+                    <div class="">
+                        <a class="text-dark" style="text-decoration: none;"
+                           href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
+                            <span class="mr-2"><i class="fa fa-user-circle mr-2" th:text="${comm.nick}"></i></span>
+                        </a>
+                        <span tabindex="0" data-toggle="tooltip" th:title="${#hotpleAPI.beforeTime(comm.comCode)}">
+                            <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
+                                    th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="container my-2 writen_comment">
+                    <textarea class="form-control" th:value="${comm.comCont}"> [[${comm.comCont}]]</textarea>
+                </div>
+                <div class="mt-2">
+                    <button class="modify-cancel btn btn-dark">취소</button>
+                    <input type="hidden" th:value="${comm.comCode.replaceAll('/', '')}"/>
+                    <input type="hidden" th:value="comm"/>
+                    <button class="write_reply btn btn-dark">저장</button>
+                    <input type="hidden" class="comCode1" th:value="${comm.comCode}"/>
+                    <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
+                    <input type="hidden" th:value="${comm.UCode}"/>
+                    <input type="hidden" style="text-align: left" name="nickname"/>
+                </div>
+            </div>
+            <!-- 댓글 수정 끝 -->
         </div>
         <!-- 리댓 상자 시작 -->
         <div th:id="|collapse*{comm.comCode.replaceAll('/', '')}|" class="panel-collapse collapse in" role="tabpanel"
              aria-labelledby="headingOne"> <!-- id에 각 댓글 구분할 값 추가 -->
             <th:block th:each="reply : ${commentList.get(comm)}">
-                <div class="row container p-3 comments replies">
+                <!-- reply 시작 -->
+                <div th:id="|reply*{replyStat.index}*{comm.comCode.replaceAll('/', '')}|" class="row container p-3 comments replies">
                     <div class="col mr-auto d-flex flex-column text-left border reply-box">
                         <div class="d-flex justify-content-between">
                             <div class="">
@@ -128,12 +170,15 @@
                                             type="button" th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
                                     </button>
                                 </span>
-                                <span class="btn btn-report">신고</span>
+                                <span class="btn btn-report" data-toggle="modal"
+                                      data-target="#reportModal">신고</span>
                             </div>
                             <div class="next-to-cmmt-nick">
                                 <th:block th:if="${#authentication.getName().equals(reply.UCode.split('/')[0])}">
 
                                     <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    <input type="hidden" th:value="|{replyStat.index}*{comm.comCode.replaceAll('/', '')}|">
+                                    <input type="hidden" th:value="reply">
                                     <span class="btn comment-delete">삭제</span>
                                     <input type="hidden" th:value="${reply.comCode}"/>
 
@@ -176,16 +221,49 @@
                         </div>
                         <div class="mt-2">
                             <button class="write_re_reply btn btn-dark">답글쓰기</button>
-                            <input type="hidden" th:value="${comm.comCode}" />
+                            <input type="hidden" th:value="${comm.comCode}"/>
                         </div>
                     </div>
                     <!------------------------------------------------------->
                 </div>
+                <!-- reply 끝 -->
+                <!-- reply 수정 시작 -->
+                <div th:id="|reply*modify*{replyStat.index}*{comm.comCode.replaceAll('/', '')}|" class="row container p-3 comments replies" style="display: none">
+                    <div class="col mr-auto d-flex flex-column text-left border reply-box">
+                        <div class="d-flex justify-content-between">
+                            <div class="">
+                                <a class="text-dark" style="text-decoration: none;"
+                                   href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
+                                    <span class="mr-2"><i class="fa fa-user-circle mr-2"
+                                                          th:text="${reply.nick}"></i></span>
+                                </a>
+                                <span tabindex="0" data-toggle="tooltip"
+                                      th:title="${#hotpleAPI.beforeTime(reply.comCode)}">
+                                    <button class="btn" style="pointer-events: none; vertical-align: inherit;"
+                                            type="button" th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
+                                    </button>
+                                </span>
+
+                            </div>
+
+                        </div>
+                        <div class="container my-2 writen_comment">
+                            <textarea > [[${reply.comCont}]]</textarea>
+                        </div>
+                        <div class="mt-2">
+                            <button class="modify-cancel btn btn-dark">취소</button>
+                            <input type="hidden" th:value="|reply*{replyStat.index}*{comm.comCode.replaceAll('/', '')}|">
+                            <input type="hidden" th:value="reply">
+                            <button class="modify-save btn btn-dark">저장</button>
+                            <input type="hidden" th:value="${comm.comCode}"/>
+                        </div>
+                    </div>
+                    <!------------------------------------------------------->
+                </div>
+                <!-- reply 수정 끝 -->
             </th:block>
         </div>
         <!-- 리댓 상자 끝 -->
     </div>
-
-
 </div>
 </html>
