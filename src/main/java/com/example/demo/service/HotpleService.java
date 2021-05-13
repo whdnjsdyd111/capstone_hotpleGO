@@ -28,6 +28,9 @@ public class HotpleService {
     public List<HotpleVO> getHotples(Set<Long> htIds) {
         return mapper.readHotples(htIds);
     }
+    public List<HotpleVO> getAllHotples(){
+        return mapper.getAllHotples();
+    }
 
     public List<HotpleVO> getByUCode(String uCode) {
         return mapper.selectByManager(uCode);

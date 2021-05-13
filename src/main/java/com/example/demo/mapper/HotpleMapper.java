@@ -33,4 +33,6 @@ public interface HotpleMapper {
     public int update(HotpleVO vo);
 
     public int delete(HotpleVO vo);
+
+    List<HotpleVO> getAllHotples();
 }

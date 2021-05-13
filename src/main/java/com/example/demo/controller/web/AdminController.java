@@ -7,6 +7,7 @@ import com.example.demo.domain.PageVO;
 import com.example.demo.domain.GuideApplyVO;
 import com.example.demo.service.EventService;
 import com.example.demo.service.GuideService;
+import com.example.demo.service.HotpleService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.*;
 import com.example.demo.security.CustomUser;
@@ -37,6 +38,7 @@ public class AdminController {
     private final GuideService guide;
     private final BoardService board;
     private final CommentService comm;
+    private final HotpleService hotple;
 
 
 
@@ -84,11 +86,11 @@ public class AdminController {
             return "admin/contentManagement";
     }
 
-    /*@GetMapping("/hotple_modal")
-    public String companyModal(Model modal, @RequestParam(value = "htId") String htId) {
-        modal.addAttribute("hotple", hotple.getHotple(htId));
-        return "admin/hotple_modal";
-    }*/
+    @GetMapping("/hotples")
+    public String companyModal(Model model ) {
+        model.addAttribute("hotples", hotple.getAllHotples());
+        return "admin/hotpleManagement";
+    }
 
     @GetMapping("/content_modal")
     public String contentModal(Model modal, @RequestParam(value = "uCode") String uCode) {
