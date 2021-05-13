@@ -115,14 +115,26 @@
                     <option value="별점순">별점순</option>
                     <option value="거리순">거리순</option>
                 </select></div>
-            <div class="form-group">
-                <select class="form-control">
+            <div class="form-group d-flex">
+                <select class="form-control course-with">
                     <option selected>함께하는 사람</option>
                     <option value="커플">커플</option>
                     <option value="친구">친구</option>
                     <option value="가족">가족</option>
                     <option value="혼자">혼자</option>
-                </select></div>
+                </select>
+                <select class="ml-4 form-control course-num">
+                    <option selected>함께하는 인원</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+            </div>
         </div>
         <div>코스 순서 지정(최대 9개 까지 가능)</div>
         <div class="row my-5">
@@ -150,6 +162,8 @@
                 <input type="hidden" name="lng">
                 <input type="hidden" name="area">
                 <input type="hidden" name="index">
+                <input type="hidden" name="with">
+                <input type="hidden" name="withNum">
             </form>
         </div>
     </div>
