@@ -43,6 +43,8 @@ $(function() {
 
     $('#recommend').click(function() {
         let indexes = "";
+        let withWho = $('.course-with').val();
+        let withNum = $('.course-num').val();
         $('.course-index').each(v => {
             indexes += $($('.course-index')[v]).find('.course-kind').val();
         });
@@ -51,6 +53,8 @@ $(function() {
         form.find('input[name=lng]').val(setLng);
         form.find('input[name=area]').val($('#area').val());
         form.find('input[name=index]').val(indexes);
+        form.find('input[name=with]').val(withWho);
+        form.find('input[name=withNum]').val(withNum);
         form.submit();
     });
 });

@@ -225,36 +225,64 @@ public class BoardRestController {
 
     @PostMapping("/delete")
     public ResponseEntity<String> deleteBoard(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
-        String bdCode = request.getParameter("bdCode");
+        String bdCode = HotpleAPI.strToCode(request.getParameter("bdCode"));
         String uCode = user.user.getUCode();
+        log.info(bdCode);
 
-        try {
-            boolean isDeleted = boardService.deleteBoard(HotpleAPI.strToCode(bdCode), uCode);
-            if (isDeleted == false) {
-                return new ResponseEntity<>("작성자 본인이 아닙니다!", HttpStatus.BAD_REQUEST);
-            } else if (isDeleted == true) {
-                return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
+        log.info(user.getAuthorities().toArray()[0].toString().equals("A"));
+        if (user.getAuthorities().toArray()[0].toString().equals("A")) {
+            boolean isUpdate = boardService.boardType(bdCode);
+            try {
+                if (isUpdate == true) {
+                    log.info("수정 완료");
+                }
+            } catch (Exception e) {
+                log.warn("에러 발생");
             }
-        } catch (DataAccessException e) {
-            return new ResponseEntity<>("삭제에 실패하였습니다.", HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>("시스템 에러가 발생하였습니다.", HttpStatus.BAD_REQUEST);
+        } else {
+            try {
+                boolean isDeleted = boardService.deleteBoard(bdCode, uCode);
+                if (isDeleted == false) {
+                    return new ResponseEntity<>("작성자 본인이 아닙니다!", HttpStatus.BAD_REQUEST);
+                } else if (isDeleted == true) {
+                    return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
+                }
+            } catch (DataAccessException e) {
+                return new ResponseEntity<>("삭제에 실패하였습니다.", HttpStatus.BAD_REQUEST);
+            } catch (Exception e) {
+                return new ResponseEntity<>("시스템 에러가 발생하였습니다.", HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>("작성자 본인이 아닙니다!", HttpStatus.BAD_REQUEST);
+
         }
-        return new ResponseEntity<>("작성자 본인이 아닙니다!", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("업데이트 완료", HttpStatus.OK);
     }
 
     @PostMapping("/delete/comment/{comCode}")
     public ResponseEntity<String> deleteComment(@PathVariable("comCode") String comCode, HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
         String comcode = HotpleAPI.strToCode(comCode);
         boolean isDeleted = commentService.commentDelete(comcode);
-        try {
-            if (isDeleted == true) {
-                log.info("삭제 완료");
+
+        if (user.getAuthorities().toArray()[0].toString().equals("A")) {
+            boolean isUpdate = commentService.commentType(comCode);
+            try {
+                if (isUpdate == true) {
+                    log.info("수정 완료");
+                }
+            } catch (Exception e) {
+                log.warn("에러 발생");
             }
-        } catch (Exception e) {
-            log.warn("에러 발생");
+        } else {
+            try {
+                if (isDeleted == true) {
+                    log.info("삭제 완료");
+                }
+            } catch (Exception e) {
+                log.warn("에러 발생");
+            }
+            return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
         }
-        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+        return new ResponseEntity<>("업데이트 완료", HttpStatus.OK);
     }
 
     @PostMapping("/report")

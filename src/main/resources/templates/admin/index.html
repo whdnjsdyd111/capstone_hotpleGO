@@ -12,7 +12,7 @@
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
             <div class="row no-gutters">
                 <div class="card w-100 flex-row text-center" style="height: 150px;">
-                    <a href="memberManagement.do" class="stretched-link"></a>
+                    <a href="/admin/statistics" class="stretched-link"></a>
                     <div class="col-5" style="background-color: #5cb85c">
                         <i class="fa fa-calendar-check-o fa-5x ml-1" style="padding-top: 35px;"></i>
                     </div>
@@ -20,7 +20,7 @@
                         <div class="card-body">
                             <p class="card-text">TOTAL</p>
                             <h4 class="card-title">토탈 사용자 수</h4>
-                            <p class="card-text">사용자</p>
+                            <p class="card-text" th:text="'총 사용자 수: '+${userCount}"></p>
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
             <div class="row no-gutters">
                 <div class="card w-100 flex-row text-center" style="height: 150px;">
-                    <a href="contentsManagement.do?search=board&sort=recent" class="stretched-link"></a>
+                    <a href="/admin/statistics" class="stretched-link"></a>
                     <div class="col-5" style="background-color: #4CB1CF">
                         <i class="fa fa-list-alt fa-5x ml-1" style="padding-top: 35px;"></i>
                     </div>
@@ -37,7 +37,7 @@
                         <div class="card-body">
                             <p class="card-text">TOTAL</p>
                             <h4 class="card-title">토탈 게시판 수</h4>
-                            <p class="card-text">게시판</p>
+                            <p class="card-text" th:text="'총 게시판 수: '+${boardCount}"></p>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
             <div class="row no-gutters">
                 <div class="card w-100 flex-row text-center" style="height: 150px;">
-                    <a href="contentsManagement.do?search=board&sort=recent" class="stretched-link"></a>
+                    <a href="/admin/statistics" class="stretched-link"></a>
                     <div class="col-5" style="background-color: #f0ad4e">
                         <i class="fa fa-comment-o fa-5x ml-1" style="padding-top: 35px;"></i>
                     </div>
@@ -54,7 +54,7 @@
                         <div class="card-body">
                             <p class="card-text">TOTAL</p>
                             <h4 class="card-title">토탈 댓글 수</h4>
-                            <p class="card-text">댓글</p>
+                            <p class="card-text" th:text="'총 댓글 수: '+${commCount}"></p>
                         </div>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
             <div class="row no-gutters">
                 <div class="card w-100 flex-row text-center" style="height: 150px;">
-                    <a href="contentsManagement.do?search=board&sort=recent" class="stretched-link"></a>
+                    <a href="/admin/statistics" class="stretched-link"></a>
                     <div class="col-5" style="background-color: #f0ad4e">
                         <i class="fa fa-comment-o fa-5x ml-1" style="padding-top: 35px;"></i>
                     </div>
@@ -71,7 +71,7 @@
                         <div class="card-body">
                             <p class="card-text">TOTAL</p>
                             <h4 class="card-title">유저 코스 이용 수</h4>
-                            <p class="card-text">코스</p>
+                            <p class="card-text" th:text="'총 코스 수: '+${courseCount}"></p>
                         </div>
                     </div>
                 </div>
@@ -80,14 +80,14 @@
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
             <div class="row no-gutters">
                 <div class="card w-100 flex-row text-center" style="height: 150px;">
-                    <a href="report.do" class="stretched-link"></a>
+                    <a href="/admin/reports" class="stretched-link"></a>
                     <div class="col-5" style="background-color: #F0433D">
                         <i class="fa fa-fire fa-5x ml-1" style="padding-top: 35px;"></i>
                     </div>
                     <div class="col-7">
                         <div class="card-body" style="padding-top: 35px;">
                             <h4 class="card-title">신고 수</h4>
-                            <p class="card-text">신고</p>
+                            <p class="card-text" th:text="'총 신고 수: '+${reportCount}"></p>
                         </div>
                     </div>
                 </div>
@@ -96,14 +96,14 @@
         <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-xs-12 mb-3">
             <div class="row no-gutters">
                 <div class="card w-100 flex-row text-center" style="height: 150px;">
-                    <a href="report.do" class="stretched-link"></a>
+                    <a href="/admin/alliances" class="stretched-link"></a>
                     <div class="col-5" style="background-color: #F0433D">
                         <i class="fa fa-fire fa-5x ml-1" style="padding-top: 35px;"></i>
                     </div>
                     <div class="col-7">
                         <div class="card-body" style="padding-top: 35px;">
                             <h4 class="card-title">제휴 수</h4>
-                            <p class="card-text">제휴</p>
+                            <p class="card-text" th:text="'총 제휴 수: '+${alcCount}"></p>
                         </div>
                     </div>
                 </div>

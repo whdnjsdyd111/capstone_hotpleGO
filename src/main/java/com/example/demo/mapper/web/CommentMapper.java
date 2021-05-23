@@ -9,11 +9,13 @@ import java.util.Set;
 
 @Mapper
 public interface CommentMapper {
-    public List<CommentVO> commentOrderByReco(String bdCode);
+    public List<CommentVO> commentList(String s, String p);
 
-    public List<CommentVO> commentOrderByRecent(String bdCode);
+    public List<CommentVO> commentOrderByReco(String bdCode, String s, String p);
 
-    public List<CommentVO> commentOrderByWritenReply(String bdCode);
+    public List<CommentVO> commentOrderByRecent(String bdCode, String s, String p);
+
+    public List<CommentVO> commentOrderByWritenReply(String bdCode, String s, String p);
 
     public int commentInsert(CommentVO commentVO);
 
@@ -41,4 +43,7 @@ public interface CommentMapper {
 
     public List<CommentVO> replyCodes(String uCode);
 
+    public int commentType(String comCode);
+
+    public int commentReType(String comCode);
 }

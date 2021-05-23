@@ -56,7 +56,7 @@
                     </div>
                     <div class="next-to-cmmt-nick">
                         <th:block sec:authorize-expr="isAuthenticated()">
-                            <th:block th:if="${#authentication.getName().equals(comm.UCode.split('/')[0])}">
+                            <th:block th:if="${#authentication.getName().equals(comm.UCode.split('/')[0])} or ${#authentication.authorities[0].authority == 'A'}">
                                 <div class="writer-visible-box">
                                     <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
                                     <input type="hidden" th:value="${comm.comCode.replaceAll('/', '')}"/>
@@ -174,7 +174,7 @@
                                       data-target="#reportModal">신고</span>
                             </div>
                             <div class="next-to-cmmt-nick">
-                                <th:block th:if="${#authentication.getName().equals(reply.UCode.split('/')[0])}">
+                                <th:block th:if="${#authentication.getName().equals(reply.UCode.split('/')[0])} or ${#authentication.authorities[0].authority == 'A'}">
 
                                     <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
                                     <input type="hidden" th:value="|{replyStat.index}*{comm.comCode.replaceAll('/', '')}|">

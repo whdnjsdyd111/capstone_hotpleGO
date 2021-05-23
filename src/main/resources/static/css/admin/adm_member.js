@@ -58,5 +58,114 @@ $(function () {
             }
         })
     });
+
+    /*컨텐츠 관리*/
+    $(document).on('click', '.moveContent', function () {
+        let bdCode = $(this).prev().val();
+        location.href = "/board/view/" + bdCode;
+    });
+
+    $(document).on('click', '.deleteContent', function (){
+        let bdCode = $(this).prev().val();
+
+        swal("정말 삭제하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니오!",
+                    add: "네!"
+                },
+            }).then((v) => {
+            if (v === "add"){
+                requestServlet({
+                    bdCode: bdCode
+                }, "/admin/rest/deleteContent", function (data){
+                    swal({
+                        title: "삭제 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.reload())
+                }, basicErrorFunc);
+            }
+        })
+    });
+
+    $(document).on('click', '.deleteCommContent', function () {
+        let comCode = $(this).prev().val();
+
+        swal("정말 삭제하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니오!",
+                    add: "네!"
+                },
+            }).then((v) => {
+            if (v === "add"){
+                requestServlet({
+                    comCode: comCode
+                }, "/admin/rest/deleteCommContent", function (data){
+                    swal({
+                        title: "삭제 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.reload())
+                }, basicErrorFunc);
+            }
+        })
+    });
+
+    $(document).on('click', '.deleteReContent', function (){
+        let bdCode = $(this).prev().val();
+
+        swal("정말 수정하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니오!",
+                    add: "네!"
+                },
+            }).then((v) => {
+            if (v === "add"){
+                requestServlet({
+                    bdCode: bdCode
+                }, "/admin/rest/deleteReContent", function (data){
+                    swal({
+                        title: "수정 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.reload())
+                }, basicErrorFunc);
+            }
+        })
+    });
+
+    $(document).on('click', '.deleteReCommContent', function () {
+        let comCode = $(this).prev().val();
+
+        swal("정말 수정하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니오!",
+                    add: "네!"
+                },
+            }).then((v) => {
+            if (v === "add"){
+                requestServlet({
+                    comCode: comCode
+                }, "/admin/rest/deleteReCommContent", function (data){
+                    swal({
+                        title: "수정 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.reload())
+                }, basicErrorFunc);
+            }
+        })
+    });
+
+
+
 });
 

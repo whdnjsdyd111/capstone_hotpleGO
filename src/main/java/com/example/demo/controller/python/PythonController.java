@@ -140,8 +140,8 @@ public class PythonController {
         String htId[] = null;   // 파이썬으로부터 받을 ht 아이디들
         CourseVO vo = new CourseVO();
         vo.setCsTitle("aiCourse");
-        vo.setCsWith("혼자");
-        vo.setCsNum((byte)1);
+        vo.setCsWith(request.getParameter("with"));
+        vo.setCsNum(Byte.parseByte(request.getParameter("withNum")));
         vo.setUCode(user.user.getUCode());
 
         HttpURLConnection conn = null;

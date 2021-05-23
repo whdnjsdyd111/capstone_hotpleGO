@@ -10,9 +10,9 @@ import java.util.List;
 @Mapper
 public interface BoardMapper {
 
-    public List<BoardVO> getBoardList(Criteria cri);
+    public List<BoardVO> getBoardList(@Param("cri") Criteria cri, @Param("s") String s);
 
-    public int getTotalBd(Criteria cri);
+    public int getTotalBd(@Param("cri") Criteria cri);
 
     public List<BoardVO> getBoardsByKeyword(String keyword);
 
@@ -53,5 +53,9 @@ public interface BoardMapper {
     public List<BoardVO> getBookmarkList(BoardVO boardVO);
 
     public List<BoardVO> getBoardCodes(String uCode);
+
+    public int boardType(String bdCode);
+
+    public int boardReType(String bdCode);
 
 }

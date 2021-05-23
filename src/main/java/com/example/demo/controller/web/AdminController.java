@@ -1,14 +1,10 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
-import com.example.demo.domain.Criteria;
-import com.example.demo.domain.EventVO;
-import com.example.demo.domain.PageVO;
-import com.example.demo.domain.GuideApplyVO;
-import com.example.demo.service.EventService;
-import com.example.demo.service.GuideService;
-import com.example.demo.service.HotpleService;
-import com.example.demo.service.UserService;
+import com.example.demo.domain.*;
+import com.example.demo.domain.web.BoardVO;
+import com.example.demo.domain.web.CommentVO;
+import com.example.demo.service.*;
 import com.example.demo.service.web.*;
 import com.example.demo.security.CustomUser;
 import lombok.RequiredArgsConstructor;
@@ -38,12 +34,23 @@ public class AdminController {
     private final GuideService guide;
     private final BoardService board;
     private final CommentService comm;
-    private final HotpleService hotple;
-
-
+    private final ReportService report;
+    private final AdminService adminService;
 
     @GetMapping("/main")
-    public String index() {
+    public String index(Model model, String count) {
+        String user = adminService.countUsers(count);
+        String board = adminService.countBoard(count);
+        String comm = adminService.countComm(count);
+        String course = adminService.countCourse(count);
+        String report = adminService.countReport(count);
+        String alc = adminService.countAlc(count);
+        model.addAttribute("userCount", user);
+        model.addAttribute("boardCount", board);
+        model.addAttribute("commCount", comm);
+        model.addAttribute("courseCount", course);
+        model.addAttribute("reportCount", report);
+        model.addAttribute("alcCount", alc);
         return "admin/index";
     }
 
@@ -73,24 +80,6 @@ public class AdminController {
         model.addAttribute("result", user.getList());
         return "admin/memberManagement";
     }
-    @GetMapping("/contents")
-    /*public String contentsManagement(Model model) {
-        model.getAttribute("board",board.getBoardList());
-        return "admin/contentManagement";*/
-        public String contentsManagement(Criteria cri,  Model model) {
-            //String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
-           // log.info(cri.toString());
-            model.addAttribute("result", board.getBoardList(cri));
-            //model.addAttribute("pageMaker", new PageVO(cri, board.getTotal(cri)));
-            //model.addAttribute("kind", str);
-            return "admin/contentManagement";
-    }
-
-    @GetMapping("/hotples")
-    public String companyModal(Model model ) {
-        model.addAttribute("hotples", hotple.getAllHotples());
-        return "admin/hotpleManagement";
-    }
 
     @GetMapping("/content_modal")
     public String contentModal(Model modal, @RequestParam(value = "uCode") String uCode) {
@@ -100,7 +89,6 @@ public class AdminController {
 
         return "admin/content_modal";
     }
-
 
 
 
@@ -123,6 +111,25 @@ public class AdminController {
         }
 
         return "admin/alliances";
+    }
+
+    @GetMapping("/contents")
+    public String contentsManagement(@RequestParam(value = "sort", defaultValue = "nonProcessed") String sort, Criteria cri, Model model) {
+
+        if (sort.equals("nonProcessed")) {
+            model.addAttribute("nBoard", board.getBoardListN(cri));
+        } else if (sort.equals("processed")) {
+            model.addAttribute("yBoard", board.getBoardListY(cri));
+        } else if (sort.equals("comNonProcessed")) {
+            log.info(comm.commentListN());
+            model.addAttribute("nComm", comm.commentListN());
+        } else if (sort.equals("comProcessed")) {
+            model.addAttribute("yComm", comm.commentListY());
+        } else {
+            return "redirect:/admin/contents";
+        }
+
+        return "admin/contentManagement";
     }
 
     @GetMapping("/feedback")
@@ -185,7 +192,10 @@ public class AdminController {
     }
 
     @GetMapping("/reports")
-    public String reports() {
+    public String reports(Model model) {
+        List<ReportVO> reportList = report.getReportList();
+        log.info(reportList);
+        model.addAttribute("reports", reportList);
         return "admin/report";
     }
 

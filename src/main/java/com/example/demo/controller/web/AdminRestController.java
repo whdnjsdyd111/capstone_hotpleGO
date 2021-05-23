@@ -7,17 +7,16 @@ import com.example.demo.domain.ImageAttachVO;
 import com.example.demo.domain.web.AllianceVO;
 import com.example.demo.domain.web.FeedbackVO;
 import com.example.demo.security.CustomUser;
-import com.example.demo.service.EventService;
-import com.example.demo.service.GuideService;
-import com.example.demo.service.ImageAttachService;
-import com.example.demo.service.ReportService;
+import com.example.demo.service.*;
 import com.example.demo.service.web.AllianceService;
+import com.example.demo.service.web.BoardService;
+import com.example.demo.service.web.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +37,8 @@ public class AdminRestController {
     private final EventService event;
     private final GuideService guide;
     private final ReportService report;
+    private final BoardService board;
+    private final CommentService comment;
 
     @PostMapping(value = "/changeAlc")
     public ResponseEntity<String> changeAlc(@RequestBody AllianceVO vo) {
@@ -162,5 +163,73 @@ public class AdminRestController {
             log.warn("에러 발생");
         }
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteContent")
+    public ResponseEntity<String> deleteContent(HttpServletRequest request) {
+        String bdCode = request.getParameter("bdCode");
+        boolean isUpdate = board.boardType(bdCode);
+        log.info(bdCode);
+        try {
+            if (isUpdate == true) {
+                log.info("수정 완료");
+                return new ResponseEntity<>("수정 성공", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+            return new ResponseEntity<>("수정 실패", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("수정 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteCommContent")
+    public ResponseEntity<String> deleteCommContent(HttpServletRequest request) {
+        String comCode = request.getParameter("comCode");
+        boolean isChange = comment.commentType(comCode);
+        log.info(comCode);
+        try {
+            if (isChange == true) {
+                log.info("수정 완료");
+                return new ResponseEntity<>("수정 성공", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+            return new ResponseEntity<>("수정 실패", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("수정완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteReContent")
+    public ResponseEntity<String> deleteReContent(HttpServletRequest request) {
+        String bdCode = request.getParameter("bdCode");
+        boolean isUpdate = board.boardReType(bdCode);
+        log.info(bdCode);
+        try {
+            if (isUpdate == true) {
+                log.info("수정 완료");
+                return new ResponseEntity<>("수정 성공", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+            return new ResponseEntity<>("수정 실패", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("수정 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteReCommContent")
+    public ResponseEntity<String> deleteReCommContent(HttpServletRequest request) {
+        String comCode = request.getParameter("comCode");
+        boolean isChange = comment.commentReType(comCode);
+        log.info(comCode);
+        try {
+            if (isChange == true) {
+                log.info("수정 완료");
+                return new ResponseEntity<>("수정 성공", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+            return new ResponseEntity<>("수정 실패", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("수정완료", HttpStatus.OK);
     }
 }
