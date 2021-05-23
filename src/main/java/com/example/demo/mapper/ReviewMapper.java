@@ -13,7 +13,9 @@ public interface ReviewMapper {
 
     public List<ReviewVO> getListByUser(String uCode);
 
-    public List<ReviewVO> getCurrentFive();
+    public List<ReviewVO> getCurrentFive(String uCode);
+
+    public ReviewVO getReview(String riCode);
 
     public List<Integer> getRatings(String uCode);
 

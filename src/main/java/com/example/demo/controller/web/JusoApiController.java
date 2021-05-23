@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 @Log4j2
 @Controller
 public class JusoApiController {
+    @GetMapping("/popup/androidJuso")
+    public String androidJoso() {
+        return "user/jusoAnd";
+    }
+
     @GetMapping("/popup/jusoPopup")
     public String jusoPopup() {
         return "manager/jusoPopup";

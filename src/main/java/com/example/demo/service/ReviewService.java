@@ -35,6 +35,10 @@ public class ReviewService {
         return mapper.getRatings(uCode);
     }
 
+    public ReviewVO getReview(String riCode) {
+        return mapper.getReview(riCode);
+    }
+
     public List<Integer> getRatingsHotple(Long htId) {
         return mapper.getRatingsHotple(htId);
     }
@@ -48,7 +52,7 @@ public class ReviewService {
     }
 
     public List<ReviewVO> getCurrentFive(String uCode) {
-        return mapper.getCurrentFive();
+        return mapper.getCurrentFive(uCode);
     }
 
     public boolean updateReview(ReviewVO vo) {

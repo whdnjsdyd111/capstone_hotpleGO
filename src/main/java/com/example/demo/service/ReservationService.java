@@ -28,8 +28,6 @@ public class ReservationService {
             map.computeIfAbsent(l.getRiCode(),
                     k -> new ArrayList<>()).add(l);
         });
-
-        log.info(map);
         return map;
     }
 
@@ -41,7 +39,6 @@ public class ReservationService {
             map.computeIfAbsent(l.getRiCode(),
                     k -> new ArrayList<>()).add(l);
         });
-        log.info(map);
         return map;
     }
 
@@ -57,8 +54,6 @@ public class ReservationService {
                     k -> new ArrayList<>()).add(l);
             if (map.size() == 5) return;
         });
-
-        log.info(map);
         return map;
     }
 
@@ -72,8 +67,6 @@ public class ReservationService {
             map.computeIfAbsent(date,
                     k -> new ArrayList<>()).add(l);
         });
-
-        log.info(map);
         return map;
     }
 

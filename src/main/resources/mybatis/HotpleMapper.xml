@@ -97,7 +97,8 @@
 
     <update id="update">
         UPDATE hotple SET busnNum = #{busnNum}, busnName = #{busnName}, htAddr = #{htAddr},
-        htAddrDet = #{htAddrDet}, htZip = #{htZip}, htCont = #{htCont}, htTel = #{htTel}, category = #{category}
+        htAddrDet = #{htAddrDet}, htZip = #{htZip}, htCont = #{htCont}, htTel = #{htTel}, category = #{category},
+        htLng = #{htLng}, htLat = #{htLat}
         WHERE htId = #{htId}
     </update>
 

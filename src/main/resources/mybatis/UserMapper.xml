@@ -57,7 +57,7 @@
     </update>
 
     <update id="updateAccount">
-        UPDATE manager SET mAccount = #{mAccount}, mBank = #{mBank} WHERE uCode = #{code}
+        UPDATE manager SET mAccount = #{mAccount}, mBank = #{mBank} WHERE uCode = #{uCode}
     </update>
 
     <update id="updatePw">

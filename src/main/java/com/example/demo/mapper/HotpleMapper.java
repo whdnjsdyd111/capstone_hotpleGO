@@ -16,7 +16,7 @@ public interface HotpleMapper {
 
     public List<HotpleVO> readHotples(Set<Long> htIds);
 
-    public List<HotpleVO> selectByManager(String uCode);
+    public HotpleVO selectByManager(String uCode);
 
     public List<HotpleVO> searchHotple(String keyword);
 

@@ -32,7 +32,7 @@ public class HotpleService {
         return mapper.getAllHotples();
     }
 
-    public List<HotpleVO> getByUCode(String uCode) {
+    public HotpleVO getByUCode(String uCode) {
         return mapper.selectByManager(uCode);
     }
 

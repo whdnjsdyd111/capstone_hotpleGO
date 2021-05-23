@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c717a39f65d3427ed3e183b9c794bf8b&libraries=services"></script>
+    <script>
+        new daum.Postcode({
+            oncomplete: function(data) {
+                if(data.userSelectedType=="R"){
+                    // userSelectedType : 검색 결과에서 사용자가 선택한 주소의 타입
+
+                    // return type : R - roadAddress, J : jibunAddress
+
+                    // TestApp 은 안드로이드에서 등록한 이름
+
+                    Promise.resolve(data).then(o => {
+                        const { address } = data;
+
+                        return new Promise((resolve, reject) => {
+                            const geocoder = new daum.maps.services.Geocoder();
+
+                            geocoder.addressSearch(address, (result, status) =>{
+                                if(status === daum.maps.services.Status.OK){
+                                    const { x, y } = result[0];
+
+                                    resolve({ lat: y, lon: x })
+                                }else{
+                                    reject();
+                                }
+                            });
+                        })
+                    }).then(result => {
+                        // 위, 경도 결과 값
+                        window.TestApp.setAddress(data.zonecode, data.roadAddress, result.lat, result.lon);
+                    });
+
+                }
+                else{
+                    Promise.resolve(data).then(o => {
+                        const { address } = data;
+
+                        return new Promise((resolve, reject) => {
+                            const geocoder = new daum.maps.services.Geocoder();
+
+                            geocoder.addressSearch(address, (result, status) =>{
+                                if(status === daum.maps.services.Status.OK){
+                                    const { x, y } = result[0];
+
+                                    resolve({ lat: y, lon: x })
+                                }else{
+                                    reject();
+                                }
+                            });
+                        })
+                    }).then(result => {
+                        // 위, 경도 결과 값
+                        window.TestApp.setAddress(data.zonecode, data.roadAddress, result.lat, result.lon);
+                    });
+                }
+            }
+        }).open();
+    </script>
+</head>
+<body>
+</body>
+</html>
