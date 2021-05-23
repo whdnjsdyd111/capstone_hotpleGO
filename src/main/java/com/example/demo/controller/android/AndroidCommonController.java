@@ -154,7 +154,7 @@ public class AndroidCommonController {
         board.upView(bdCode);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("board", new Gson().toJson(board.getBoardDetail(bdCode)));
-        List<CommentVO> commentList = comment.commOdByReco(bdCode);
+        List<CommentVO> commentList = comment.commOdByRecoN(bdCode);
         Map<CommentVO, List<CommentVO>> map = new LinkedHashMap<>();
         List<CommentVO> temp = new ArrayList<>();
         commentList.forEach(i -> {
