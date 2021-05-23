@@ -18,6 +18,12 @@
         WHERE h.uCode = #{uCode}
     </select>
 
+    <select id="getAllHotples" resultType="HotpleVO">
+        SELECT htId, busnNum, goId, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, uploadPath, fileName, category
+        FROM hotple h JOIN image_attach i ON h.htImg = i.uuid
+        WHERE h.uCode IS NOT NULL
+    </select>
+
     <select id="searchHotple" resultType="HotpleVO">
         <![CDATA[
         SELECT * FROM hotple h FULL OUTER JOIN image_attach i ON h.htImg = i.uuid

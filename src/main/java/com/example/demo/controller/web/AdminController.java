@@ -1,10 +1,13 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
-import com.example.demo.domain.*;
+import com.example.demo.domain.Criteria;
+import com.example.demo.domain.EventVO;
+import com.example.demo.domain.PageVO;
+import com.example.demo.domain.GuideApplyVO;
 import com.example.demo.service.EventService;
 import com.example.demo.service.GuideService;
-import com.example.demo.service.ReportService;
+import com.example.demo.service.HotpleService;
 import com.example.demo.service.UserService;
 import com.example.demo.service.web.*;
 import com.example.demo.security.CustomUser;
@@ -35,7 +38,9 @@ public class AdminController {
     private final GuideService guide;
     private final BoardService board;
     private final CommentService comm;
-    private final ReportService report;
+    private final HotpleService hotple;
+
+
 
     @GetMapping("/main")
     public String index() {
@@ -68,6 +73,24 @@ public class AdminController {
         model.addAttribute("result", user.getList());
         return "admin/memberManagement";
     }
+    @GetMapping("/contents")
+    /*public String contentsManagement(Model model) {
+        model.getAttribute("board",board.getBoardList());
+        return "admin/contentManagement";*/
+        public String contentsManagement(Criteria cri,  Model model) {
+            //String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
+           // log.info(cri.toString());
+            model.addAttribute("result", board.getBoardList(cri));
+            //model.addAttribute("pageMaker", new PageVO(cri, board.getTotal(cri)));
+            //model.addAttribute("kind", str);
+            return "admin/contentManagement";
+    }
+
+    @GetMapping("/hotples")
+    public String companyModal(Model model ) {
+        model.addAttribute("hotples", hotple.getAllHotples());
+        return "admin/hotpleManagement";
+    }
 
     @GetMapping("/content_modal")
     public String contentModal(Model modal, @RequestParam(value = "uCode") String uCode) {
@@ -79,10 +102,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/contents")
-    public String contentsManagement() {
-        return "admin/contentManagement";
-    }
+
 
     @GetMapping("/chattingRoom")
     public String chattingRoom(Model model, @AuthenticationPrincipal CustomUser admin) {
@@ -165,10 +185,7 @@ public class AdminController {
     }
 
     @GetMapping("/reports")
-    public String reports(Model model) {
-        List<ReportVO> reportList = report.getReportList();
-        log.info(reportList);
-        model.addAttribute("reports", reportList);
+    public String reports() {
         return "admin/report";
     }
 

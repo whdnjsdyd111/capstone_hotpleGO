@@ -30,6 +30,5 @@ public class HotpleVO {
     private String uCode;
     private Long category;
     private String ttKind;
-
     private Timestamp pickTime;
 }

@@ -37,8 +37,8 @@ public interface CommentMapper {
 
     public List<CommRecoVO> getComReco(String bdCode, String uCode);
 
-    public List<String> commCodes(String uCode);
+    public List<CommentVO> commCodes(String uCode);
 
-    public List<String> replyCodes(String uCode);
+    public List<CommentVO> replyCodes(String uCode);
 
 }

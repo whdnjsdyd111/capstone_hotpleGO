@@ -47,7 +47,7 @@ public class ReviewService {
         return mapper.insertReview(vo) == 1;
     }
 
-    public List<ReviewVO> getCurrentFive() {
+    public List<ReviewVO> getCurrentFive(String uCode) {
         return mapper.getCurrentFive();
     }
 
