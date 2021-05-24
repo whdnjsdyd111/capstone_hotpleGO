@@ -3,100 +3,127 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
+    <link rel="stylesheet" type="text/css" href="/css/slicebox/css/demo.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/slicebox/css/slicebox.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/slicebox/css/custom.css"/>
+    <script type="text/javascript" src="/css/slicebox/js/modernizr.custom.46884.js"></script>
+
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <style>
-        .container{
+        .container {
             display: flex;
-            margin:15px;
+            margin: 15px;
         }
-        .jumbotron{
-            padding:3px;
+
+        .jumbotron {
+            padding: 3px;
             margin-top: 30px;
         }
-        .time{
+
+        .time {
             position: absolute;
-            right:40px;
+            right: 40px;
         }
-        .tab-content{
+
+        .tab-content {
             min-height: 600px;
         }
-        .swiper-container{
-            margin-left:0;
+
+        .swiper-container {
+            margin-left: 0;
         }
-        .set-center{
+
+        .set-center {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
         }
-        h3{
+
+        h3 {
             font-size: 25px;
         }
-        h5{
-            font-size:15px;
+
+        h5 {
+            font-size: 15px;
         }
-        h7{
-            font-size:14px;
+
+        h7 {
+            font-size: 14px;
         }
-        div>img{
+
+        div > img {
             width: 350px;
         }
-        .time>span{
+
+        .time > span {
             font-size: 10px;
         }
-        div>img{
-            width:240px;
+
+        div > img {
+            width: 240px;
         }
 
-        @media(max-width:990px){
-            div>img{
-                width:180px;
+        @media (max-width: 990px) {
+            div > img {
+                width: 180px;
 
             }
-            .swiper-slide{
-                height:130px;
+
+            .swiper-slide {
+                height: 130px;
             }
-            h3{
+
+            h3 {
                 font-size: 17px;
             }
-            h5{
-                font-size:15px;
+
+            h5 {
+                font-size: 15px;
             }
-            h7{
-                font-size:10px;
+
+            h7 {
+                font-size: 10px;
             }
+
             /*.swiper-container{
                 width: 300px;
             }*/
-            .time>span{
-                font-size:8px;
+            .time > span {
+                font-size: 8px;
             }
 
-            @media(max-width:630px){
-                div>img{
-                    width:100px;
+            @media (max-width: 630px) {
+                div > img {
+                    width: 100px;
 
                 }
-                .swiper-slide{
-                    height:100px;
+
+                .swiper-slide {
+                    height: 100px;
                 }
-                h3{
+
+                h3 {
                     font-size: 13px;
                 }
-                h5{
-                    font-size:11px;
+
+                h5 {
+                    font-size: 11px;
                 }
-                h7{
-                    font-size:10px;
+
+                h7 {
+                    font-size: 10px;
                 }
+
                 /*.swiper-container{
                     width: 300px;
                 }*/
-                .time>span{
-                    font-size:4px;
+                .time > span {
+                    font-size: 4px;
                 }
-                .time{
+
+                .time {
                     display: none !important;
                 }
             }
@@ -107,29 +134,95 @@
 <div layout:fragment="content">
     <div th:replace="user/courseNav :: course"></div>
     <!-- Tab panes -->
+    <div class="slide-wrapper">
+
+        <ul id="sb-slider" class="sb-slider">
+            <li>
+                <a href="#" target="_blank"><img src="/images/slideTest/1.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Creative Lifesaver</h3>
+                </div>
+            </li>
+            <li>
+                <a href="#" target="_blank"><img src="/images/slideTest/2.jpg" alt="image2"/></a>
+                <div class="sb-description">
+                    <h3>Honest Entertainer</h3>
+                </div>
+            </li>
+            <li>
+                <a href="#" target="_blank"><img src="/images/slideTest/3.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Brave Astronaut</h3>
+                </div>
+            </li>
+            <li>
+                <a href="#" target="_blank"><img src="/images/slideTest/4.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Affectionate Decision Maker</h3>
+                </div>
+            </li>
+            <li>
+                <a href="#" target="_blank"><img src="/images/slideTest/5.jpg" alt="image1"/></a>
+                <div class="sb-description">
+                    <h3>Faithful Investor</h3>
+                </div>
+            </li>
+
+        </ul>
+
+        <div id="shadow" class="shadow"></div>
+
+        <div id="nav-arrows" class="nav-arrows">
+            <a href="#">Next</a>
+            <a href="#">Previous</a>
+        </div>
+
+        <div id="nav-dots" class="nav-dots">
+            <span class="nav-dot-current"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div><!-- /wrapper -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="hotple-course">
+
             <!-- 찜코스 수만큼 반복 시작-->
-            <div th:each="course : ${courses}"  class="jumbotron mx-4 card" style="min-height: 150px;">
-                <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|"  class="stretched-link"></a>
+            <div th:each="course : ${courses}" class="jumbotron mx-4 card" style="min-height: 150px;">
+                <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" class="stretched-link"></a>
                 <div class="container">
+
                     <div class="swiper-container col-xl-10 col-md-10 col-sm-10">
                         <div class="swiper-wrapper">
                             <div th:each="courseInfo : ${courseInfos.get(course.csCode)}" class="swiper-slide">
                                 <div class="swiper-contents">
                                     <div class="d-flex justify-content-around">
                                         <div class="set-center">
+
                                             <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath, courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
                                                  alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
                                         </div>
                                         <div class="set-center">
-                                            <p><h7 th:text="${courseInfo.ciIndex}+ 번째">가게 순서</h7></p>
-                                            <p><h7 th:text="${courseInfo.htAddr}">가게 주소</h7></p>
+                                            <p>
+                                                <h7 th:text="${courseInfo.ciIndex}+ 번째">가게 순서</h7>
+                                            </p>
+                                            <p>
+                                                <h7 th:text="${courseInfo.htAddr}">가게 주소</h7>
+                                            </p>
                                         </div>
                                         <div class="set-center">
-                                            <p><h7 th:text="${courseInfo.busnName}">가게명</h7></p>
-                                            <p><h7 th:text="${courseInfo.htCont}">가게 설명</h7></p>
-                                            <p><h7 th:text="${#hotpleAPI.toTel(courseInfo.htTel)}">가게 전화번호</h7></p>
+                                            <p>
+                                                <h7 th:text="${courseInfo.busnName}">가게명</h7>
+                                            </p>
+                                            <p>
+                                                <h7 th:text="${courseInfo.htCont}">가게 설명</h7>
+                                            </p>
+                                            <p>
+                                                <h7 th:text="${#hotpleAPI.toTel(courseInfo.htTel)}">가게 전화번호</h7>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -201,5 +294,84 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/css/slicebox/js/jquery.slicebox.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var Page = (function () {
+
+                var $navArrows = $('#nav-arrows').hide(),
+                    $navDots = $('#nav-dots').hide(),
+                    $nav = $navDots.children('span'),
+                    $shadow = $('#shadow').hide(),
+                    slicebox = $('#sb-slider').slicebox({
+                        onReady: function () {
+
+                            $navArrows.show();
+                            $navDots.show();
+                            $shadow.show();
+
+                        },
+                        onBeforeChange: function (pos) {
+
+                            $nav.removeClass('nav-dot-current');
+                            $nav.eq(pos).addClass('nav-dot-current');
+
+                        }
+                    }),
+
+                    init = function () {
+
+                        initEvents();
+
+                    },
+                    initEvents = function () {
+
+                        // add navigation events
+                        $navArrows.children(':first').on('click', function () {
+
+                            slicebox.next();
+                            return false;
+
+                        });
+
+                        $navArrows.children(':last').on('click', function () {
+
+                            slicebox.previous();
+                            return false;
+
+                        });
+
+                        $nav.each(function (i) {
+
+                            $(this).on('click', function (event) {
+
+                                var $dot = $(this);
+
+                                if (!slicebox.isActive()) {
+
+                                    $nav.removeClass('nav-dot-current');
+                                    $dot.addClass('nav-dot-current');
+
+                                }
+
+                                slicebox.jump(i + 1);
+                                return false;
+
+                            });
+
+                        });
+
+                    };
+
+                return {init: init};
+
+            })();
+
+            Page.init();
+
+        });
+    </script>
 </div>
 </html>
