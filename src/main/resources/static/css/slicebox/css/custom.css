@@ -60,8 +60,8 @@
 
 .nav-dots span {
 	display: inline-block;
-	width: 16px;
-	height: 16px;
+	width: 24px;
+	height: 24px;
 	border-radius: 50%;
 	margin: 3px;
 	background: #cbbfae;
@@ -69,14 +69,15 @@
 	box-shadow: 
 		0 1px 1px rgba(255,255,255,0.6), 
 		inset 0 1px 1px rgba(0,0,0,0.1);
+	transform: translate(-50%,-50%);
 }
 
 .nav-dots span.nav-dot-current {
 	box-shadow: 
-		0 1px 1px rgba(255,255,255,0.6), 
-		inset 0 1px 1px rgba(0,0,0,0.1), 
+		0 1px 1px rgba(255,255,255,0.6),
+		inset 0 1px 1px rgba(0,0,0,0.1),
 		inset 0 0 0 3px #cbbfae,
-		inset 0 0 0 8px #fff;
+		inset 0 0 0 20px #fff;
 }
 
 .nav-options {
