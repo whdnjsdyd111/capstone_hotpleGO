@@ -39,6 +39,90 @@
             </div>
         </div>
 
+        <th:block th:if="${course != null}">
+            <div class="container">
+                <div class="d-flex flex-column my-3">
+                    <div class="my-3">
+                        <span class="font-weight-bold mx-5" th:text="|함께하는 사람 : *{course.csWith}|">함께하는 사람 : 친구</span>
+                        <span class="font-weight-bold mx-5" th:text="|인원 : *{course.csNum}|">인원 : 3명</span>
+                        <span id="total_distance"></span>
+                    </div>
+                    <ul id="sortable">
+                        <th:block th:each="num : ${#numbers.sequence(0, courseInfos.size() - 1)}">
+                            <li style="display: block;">
+                                <hr class="col"/>
+                                <div class="d-flex justify-content-around my-3">
+                                    <span class="my-auto c-index font-weight-bold" th:text="${num + 1}">1</span>
+                                    <img style="width: 300px; height: 300px;" alt="이미지 없음"
+                                         th:src="${#hotpleAPI.toImg(courseInfos.get(num).uploadPath, courseInfos.get(num).uuid,
+                                     courseInfos.get(num).fileName, #hotpleAPI.IMAGE)}">
+                                    <div class="d-flex flex-column my-auto" style="width:160px;">
+                                        <span th:text="|*{courseInfos.get(num).busnName}|">가게 이름 ( 대략 소요 시간 30분)</span>
+                                        <span th:text="|*{courseInfos.get(num).htAddr}|">도로명 주소</span>
+                                        <th:block th:if="${courseInfos.get(num).csCode.split('/')[2] == 'N'}">
+                                        </th:block>
+                                        <input type="hidden" th:value="${courseInfos.get(num).htId}">
+                                    </div>
+                                </div>
+                            </li>
+                        </th:block>
+                    </ul>
+                    <hr class="col"/>
+                </div>
+            </div>
+        </th:block>
+
+        <th:block th:if="${hotple != null}">
+            <input type="hidden" th:value="${hotple.htId}" id="htId">
+            <div>
+                <div class="l-contents l-contents--fixed">
+                    <div class="rd-header__headline rd-header__headline--award-badge">
+                        <h2 class="rd-header__rst-name">
+                            <a class="rd-header__rst-name-main" th:text="${hotple.busnName}">가게명</a>
+                            <small class="rd-header__rst-name-ja"
+                                   th:text="${#strings.arraySplit(hotple.htAddr, ' ')[0]}">(지역명)</small>
+                        </h2>
+                    </div>
+                    <div class="rd-header__contents">
+                        <div class="rd-header__info-wrapper d-flex justify-content-start">
+                            <p class="rd-header__rst-map">
+                                <a class="c-img-target">
+                                    <img class="c-img c-img--frame"
+                                         th:src="${#hotpleAPI.toImg(hotple.uploadPath, hotple.htImg, hotple.fileName, #hotpleAPI.IMAGE)}">
+                                </a>
+                            </p>
+                            <div class="rd-header__info-table p-3">
+                                <dl>
+                                    <dt><span>주소</span></dt>
+                                    <dd th:text="${hotple.htAddr}">
+                                        ~시 ~구 ~로 123142 층
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt><span>정기 휴무</span></dt>
+                                    <dd>
+                                        매주 월요일
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt><span>TEL</span></dt>
+                                    <dd th:text="${#hotpleAPI.toTel(hotple.htTel)}">
+                                        010-1234-5678
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt><span>설명</span></dt>
+                                    <dd th:text="${hotple.htCont}">
+                                        맛있습니다
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+
         <div class="jumbotron border border-muted rounded-0 border-bottom-0 mb-0 text-left" th:utext="${board.bdCont}">
         </div>
 

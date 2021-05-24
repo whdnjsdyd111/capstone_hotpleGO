@@ -90,7 +90,7 @@
                 <!-- 찜핫플 수만큼 반복 시작-->
                 <div th:each="vo : ${result}">
                     <article>
-                        <input type="hidden" id="htId" th:value="${vo.htId}">
+                        <input type="hidden" id="htId" class="htId" th:value="${vo.htId}">
                         <div class="jumbotron mx-4">
                             <div class="container">
                                 <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
@@ -101,7 +101,8 @@
                                 </div>
                                 <div class="time">
                                     <span th:text="'찜한 날짜 : ' + ${#hotpleAPI.timestampToStr(vo.pickTime)}"></span>
-                                    <button type="button" class="btn-warning float-right pickDelete">삭제하기</button>
+                                    <button type="button" class="btn-success hotple-share">공유하기</button>
+                                    <button type="button" class="btn-danger float-right pickDelete">삭제하기</button>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +116,7 @@
                 <!-- 찜코스 수만큼 반복 시작-->
                 <div th:each="course : ${result1}" class="jumbotron mx-4 card" style="min-height: 150px;">
                     <input type="hidden" id="csCode" th:value="${course.csCode}">
-                    <input type="hidden" id="csCode1" th:value="${course.csCode.replaceAll('/', '')}">
+                    <input type="hidden" id="csCode1" name="csCode1" th:value="${course.csCode.replaceAll('/', '')}">
 <!--                    <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" class="stretched-link"></a>-->
                     <div class="container pickCourse" >
                         <div class="swiper-container col-xl-10 col-md-10 col-sm-10">
@@ -159,7 +160,8 @@
                             <span th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</span>
                             <span th:text="|인원 : *{course.csNum}|">인원 : 2명</span>
                             <span th:text="|코스 제목 :  *{course.csTitle}|"></span>
-                            <button type="button" class="btn-warning pickCourseDelete" >삭제하기
+                            <button type="button" class="btn-success course-share">공유하기</button>
+                            <button type="button" class="btn-danger pickCourseDelete" >삭제하기
                             </button>
                         </div>
                     </div>

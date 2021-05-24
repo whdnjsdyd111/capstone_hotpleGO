@@ -189,6 +189,20 @@ $(function () {
         });
     });
 
+    // 핫플 공유
+    $(document).on('click', '.hotple-share', function(e) {
+        e.stopPropagation();
+        let htId = $(this).parent().parent().parent().parent().children('input[type=hidden]').val();
+        location.href = "/board/shareHotple/" + htId;
+    });
+
+    // 코스 공유
+    $(document).on('click', '.course-share', function (e) {
+        e.stopPropagation();
+        let csCode = $(this).parent().parent().parent().children('input[name=csCode1]').val();
+        location.href = "/board/shareCourse/" + csCode;
+    });
+
 
     // 핫플 정보 보기
     $(document).on('click','article',function (){
@@ -326,6 +340,8 @@ $(function () {
         }
 
     });
+
+
 });
 
 

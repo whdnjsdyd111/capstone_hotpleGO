@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     main.init();
 
     let isSearch = true;
@@ -24,7 +24,7 @@ $(function() {
         }
     });
 
-    $('.pagination-custom a').on('click', function(e) {
+    $('.pagination-custom a').on('click', function (e) {
         e.preventDefault();
         isSearch = false;
         let href = $(this).attr('href');
@@ -32,11 +32,11 @@ $(function() {
         form.submit();
     });
 
-    $('article').click(function() {
+    $('article').click(function () {
         location.href = '/board/view/' + $(this).children('input[type=hidden]').val();
     })
 
-    $('.img-thumbnail').attr('src', function() {
+    $('.img-thumbnail').attr('src', function () {
         let temp = '/hotpleImage/0000/00/00/';
         let src = $(this).next().val().match(/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/);
         if (src === null) return '/images/no_image.png';
@@ -83,11 +83,11 @@ var main = {
                 text: data,
                 icon: "success",
                 button: "확인"
-            }).then( v => window.location.href = '/board/list')
+            }).then(v => window.location.href = '/board/list')
         }).fail(function (error) {
             console.log(error.responseText);
         });
-    }, update : function () {
+    }, update: function () {
         let data = {
             bdTitle: $('#bdTitle').val(),
             bdCont: CKEDITOR.instances.bdCont.getData(),
@@ -97,9 +97,9 @@ var main = {
         $.ajax({
             type: 'POST',
             url: '/board/rest/update',
-            contentType:'application/json; charset=utf-8',
+            contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
-        }).done(function (data, status, xhr){
+        }).done(function (data, status, xhr) {
             swal({
                 title: "수정 완료!",
                 text: data,
@@ -117,8 +117,8 @@ var main = {
 
         $.ajax({
             type: 'DELETE',
-            url: '/board/delete/'+bdCode,
-            contentType:'application/json; charset=utf-8',
+            url: '/board/delete/' + bdCode,
+            contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function (data, status, xhr) {
             swal({
@@ -133,3 +133,4 @@ var main = {
         });
     }
 };
+

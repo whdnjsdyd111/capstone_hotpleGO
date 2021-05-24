@@ -13,6 +13,8 @@ public class BoardVO {
     private int bdRecn;
     private int commCnt;
     private String uCode;
+    private Long htId;
+    private String csCode;
 
     /*참조컬럼*/
     private String nick;

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{user/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/user/board_write.js"></script>
+    <link rel="stylesheet" href="/css/user/board_write.css">
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="board_wrap">
+        <form action="/board/write" method="post">
+            <div class="board_title">
+                <strong>게시판 글쓰기</strong>
+            </div>
+            <div class="board_write_wrap">
+                <div class="board_write">
+                    <div class="title">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text">제목</span>
+                            <input type="text" id="bdTitle" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-lg" placeholder="제목을 입력해주세요">
+                        </div>
+                        <div class="input-group input-group-lg">
+                            <input type="hidden" id="uCode" class="form-control" aria-label="Sizing example input"
+                                   aria-describedby="inputGroup-sizing-lg">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-floating">
+                        <input type="hidden" th:value="${course == null ? hotple.htId : course.csCode}" id="share"/>
+                        <textarea class="form-control" placeholder="내용을 입력해주세요" id="bdCont" name="editor" style="height: 300px"></textarea>
+                        <script>
+                            const ckeditor_config = {
+                                removePlugins: 'resize',
+                                language: 'ko',
+                                height: 400,
+                                filebrowserImageUploadUrl: "/board/rest/upload"
+                            };
+                            CKEDITOR.replace("editor", ckeditor_config);
+                            CKEDITOR.instances.content.setData($('#bdCont').val());
+                        </script>
+                    </div>
+                    <div class="col-sm-3 text-center" style="margin-left: 80%; margin-top: 10px; display: flex">
+                        <button type="button" class="btn btn-primary btn-sm" th:id="${course != null ? 'btn-cs-share' : 'btn-ht-share'}">등록</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="location.href='/dibs'">취소</button>
+                        <script>
+                            $(function () {
+                                $('#btn-ht-share').click(function () {
+                                    let htId = $('#share').val();
+                                    requestBody({
+                                        bdTitle: $('#bdTitle').val(),
+                                        bdArea: $('#bdArea').val(),
+                                        bdCont: CKEDITOR.instances.bdCont.getData(),
+                                        htId: htId
+                                    }, "/board/rest/shareHotple", function (data) {
+                                        swal({
+                                            title: "등록 완료!",
+                                            text: data,
+                                            icon: "success",
+                                            button: "확인"
+                                        }).then(v => {
+                                            location.href= "/board/list"
+                                        })
+                                    }, basicErrorFunc);
+                                });
+
+                                $('#btn-cs-share').click(function () {
+                                    let csCode = $('#share').val();
+                                    requestBody({
+                                        bdTitle: $('#bdTitle').val(),
+                                        bdArea: $('#bdArea').val(),
+                                        bdCont: CKEDITOR.instances.bdCont.getData(),
+                                        csCode: csCode
+                                    }, "/board/rest/shareCourse", function (data) {
+                                        swal({
+                                            title: "등록 완료!",
+                                            text: data,
+                                            icon: "success",
+                                            button: "확인"
+                                        }).then(v => {
+                                            location.href= "/board/list"
+                                        })
+                                    }, basicErrorFunc);
+                                });
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</html>
