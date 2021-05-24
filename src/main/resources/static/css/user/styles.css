@@ -489,24 +489,3 @@ form.user .btn-user {
 .plus-course:hover {
     cursor: pointer;
 }
-
-@media(max-width: 720px) {
-    svg {
-        width: 366px;
-    }
-}
-
-@keyframes line-anim {
-    to {
-        stroke-dashoffset: 0;
-    }
-}
-
-@keyframes fill {
-    from {
-        fill: white;
-    }
-    to {
-        fill: #383838;
-    }
-}
