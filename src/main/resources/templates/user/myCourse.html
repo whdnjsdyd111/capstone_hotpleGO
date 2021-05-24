@@ -134,62 +134,33 @@
 <div layout:fragment="content">
     <div th:replace="user/courseNav :: course"></div>
     <!-- Tab panes -->
-    <div class="slide-wrapper">
-
+    <div th:each="course : ${courses}" class="slide-wrapper">
         <ul id="sb-slider" class="sb-slider">
-            <li>
-                <a href="#" target="_blank"><img src="/images/slideTest/1.jpg" alt="image1"/></a>
+            <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" target="_blank"></a>
+            <li th:each="courseInfo : ${courseInfos.get(course.csCode)}">
+                <img src="/images/slideTest/1.jpg" alt="image1"/>
+
                 <div class="sb-description">
                     <h3>Creative Lifesaver</h3>
                 </div>
             </li>
-            <li>
-                <a href="#" target="_blank"><img src="/images/slideTest/2.jpg" alt="image2"/></a>
-                <div class="sb-description">
-                    <h3>Honest Entertainer</h3>
-                </div>
-            </li>
-            <li>
-                <a href="#" target="_blank"><img src="/images/slideTest/3.jpg" alt="image1"/></a>
-                <div class="sb-description">
-                    <h3>Brave Astronaut</h3>
-                </div>
-            </li>
-            <li>
-                <a href="#" target="_blank"><img src="/images/slideTest/4.jpg" alt="image1"/></a>
-                <div class="sb-description">
-                    <h3>Affectionate Decision Maker</h3>
-                </div>
-            </li>
-            <li>
-                <a href="#" target="_blank"><img src="/images/slideTest/5.jpg" alt="image1"/></a>
-                <div class="sb-description">
-                    <h3>Faithful Investor</h3>
-                </div>
-            </li>
 
         </ul>
-
         <div id="shadow" class="shadow"></div>
-
         <div id="nav-arrows" class="nav-arrows">
             <a href="#">Next</a>
             <a href="#">Previous</a>
         </div>
-
         <div id="nav-dots" class="nav-dots">
             <span class="nav-dot-current"></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+            <span ></span>
+            <span ></span>
+            <span ></span>
         </div>
     </div><!-- /wrapper -->
+
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="hotple-course">
-
             <!-- 찜코스 수만큼 반복 시작-->
             <div th:each="course : ${courses}" class="jumbotron mx-4 card" style="min-height: 150px;">
                 <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" class="stretched-link"></a>
@@ -297,80 +268,57 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="/css/slicebox/js/jquery.slicebox.js"></script>
     <script type="text/javascript">
-        $(function () {
+        $(function() {
 
-            var Page = (function () {
+            var Page = (function() {
 
-                var $navArrows = $('#nav-arrows').hide(),
-                    $navDots = $('#nav-dots').hide(),
-                    $nav = $navDots.children('span'),
-                    $shadow = $('#shadow').hide(),
-                    slicebox = $('#sb-slider').slicebox({
-                        onReady: function () {
+                var $navArrows = $( '#nav-arrows' ).hide(),
+                    $shadow = $( '#shadow' ).hide(),
+                    $navDots = $( '#nav-dots' ).hide(),
+                    $nav = $navDots.children( 'span' ),
+                    slicebox = $( '#sb-slider' ).slicebox( {
+                        onReady : function() {
 
                             $navArrows.show();
                             $navDots.show();
                             $shadow.show();
 
                         },
-                        onBeforeChange: function (pos) {
+                        onBeforeChange : function( pos ) {
+                            $nav.removeClass( 'nav-dot-current' );
+                            $nav.eq( pos ).addClass( 'nav-dot-current' );
+                        },
+                        orientation : 'r',
+                        cuboidsRandom : true,
+                        disperseFactor : 30
+                    } ),
 
-                            $nav.removeClass('nav-dot-current');
-                            $nav.eq(pos).addClass('nav-dot-current');
-
-                        }
-                    }),
-
-                    init = function () {
+                    init = function() {
 
                         initEvents();
 
                     },
-                    initEvents = function () {
+                    initEvents = function() {
 
                         // add navigation events
-                        $navArrows.children(':first').on('click', function () {
+                        $navArrows.children( ':first' ).on( 'click', function() {
 
                             slicebox.next();
                             return false;
 
-                        });
+                        } );
 
-                        $navArrows.children(':last').on('click', function () {
+                        $navArrows.children( ':last' ).on( 'click', function() {
 
                             slicebox.previous();
                             return false;
 
-                        });
-
-                        $nav.each(function (i) {
-
-                            $(this).on('click', function (event) {
-
-                                var $dot = $(this);
-
-                                if (!slicebox.isActive()) {
-
-                                    $nav.removeClass('nav-dot-current');
-                                    $dot.addClass('nav-dot-current');
-
-                                }
-
-                                slicebox.jump(i + 1);
-                                return false;
-
-                            });
-
-                        });
+                        } );
 
                     };
-
-                return {init: init};
-
+                return { init : init };
             })();
-
             Page.init();
-
         });
     </script>
 </div>
