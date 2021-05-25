@@ -3,153 +3,196 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
+    <link rel="stylesheet" type="text/css" href="/css/slicebox/css/demo.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/slicebox/css/slicebox.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/slicebox/css/custom.css"/>
+    <script type="text/javascript" src="/css/slicebox/js/modernizr.custom.46884.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <style>
-        .container{
-            display: flex;
-            margin:15px;
-        }
-        .jumbotron{
-            padding:3px;
-            margin-top: 30px;
-        }
-        .time{
-            position: absolute;
-            right:40px;
-        }
-        .tab-content{
-            min-height: 600px;
-        }
-        .swiper-container{
-            margin-left:0;
-        }
-        .set-center{
+        @import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
+        .card-container {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
+            max-width: 1200px;
+            flex-wrap: wrap;
+            z-index: 1;
         }
-        h3{
-            font-size: 25px;
+
+        .card-container .card {
+            position: relative;
+            width: 280px;
+            height: 400px;
+            margin: 30px;
+            box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-left: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
         }
-        h5{
-            font-size:15px;
+
+        .card-container .card .content {
+            padding: 20px;
+            text-align: center;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: 0.5s;
         }
-        h7{
-            font-size:14px;
+
+        .card-container .card:hover .content {
+            transform: translateY(0px);
+            opacity: 1;
         }
-        div>img{
+
+        .card-container .card .content h2 {
+            position: absolute;
+            top: -80px;
+            right: 30px;
+            font-size: 8em;
+            color: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+        }
+
+        .card-container .card .content h3 {
+            font-size: 1.8em;
+            color: #000;
+            z-index: 1;
+        }
+
+        .card-container .card .content p {
+            font-size: 1em;
+            color: #000;
+            font-weight: 300;
+        }
+
+        .card-container .card .content a {
+            position: relative;
+            display: inline-block;
+            padding: 8px 20px;
+            margin-top: 15px;
+            background: #fff;
+            color: #000;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+
+        div > img {
             width: 350px;
         }
-        .time>span{
+
+        .time > span {
             font-size: 10px;
         }
-        div>img{
-            width:240px;
+
+        div > img {
+            width: 240px;
         }
 
-        @media(max-width:990px){
-            div>img{
-                width:180px;
-
-            }
-            .swiper-slide{
-                height:130px;
-            }
-            h3{
-                font-size: 17px;
-            }
-            h5{
-                font-size:15px;
-            }
-            h7{
-                font-size:10px;
-            }
-            /*.swiper-container{
-                width: 300px;
-            }*/
-            .time>span{
-                font-size:8px;
-            }
-
-            @media(max-width:630px){
-                div>img{
-                    width:100px;
-
-                }
-                .swiper-slide{
-                    height:100px;
-                }
-                h3{
-                    font-size: 13px;
-                }
-                h5{
-                    font-size:11px;
-                }
-                h7{
-                    font-size:10px;
-                }
-                /*.swiper-container{
-                    width: 300px;
-                }*/
-                .time>span{
-                    font-size:4px;
-                }
-                .time{
-                    display: none !important;
-                }
-            }
-        }
     </style>
     <script src="/css/user/user_myCourse.js"></script>
 </th:block>
 <div layout:fragment="content">
     <div th:replace="user/courseNav :: course"></div>
     <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="hotple-course">
-            <!-- 찜코스 수만큼 반복 시작-->
-            <div th:each="course : ${courses}"  class="jumbotron mx-4 card" style="min-height: 150px;">
-                <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|"  class="stretched-link"></a>
-                <div class="container">
-                    <div class="swiper-container col-xl-10 col-md-10 col-sm-10">
-                        <div class="swiper-wrapper">
-                            <div th:each="courseInfo : ${courseInfos.get(course.csCode)}" class="swiper-slide">
-                                <div class="swiper-contents">
-                                    <div class="d-flex justify-content-around">
-                                        <div class="set-center">
-                                            <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath, courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
-                                                 alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
-                                        </div>
-                                        <div class="set-center">
-                                            <p><h7 th:text="${courseInfo.ciIndex}+ 번째">가게 순서</h7></p>
-                                            <p><h7 th:text="${courseInfo.htAddr}">가게 주소</h7></p>
-                                        </div>
-                                        <div class="set-center">
-                                            <p><h7 th:text="${courseInfo.busnName}">가게명</h7></p>
-                                            <p><h7 th:text="${courseInfo.htCont}">가게 설명</h7></p>
-                                            <p><h7 th:text="${#hotpleAPI.toTel(courseInfo.htTel)}">가게 전화번호</h7></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+    <div th:each="course : ${courses}" class="card-container">
+        <div class="slide-wrapper">
+            <ul th:id="${'sb-slider'+courseStat.index}" class="sb-slider">
+                <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" target="_blank"></a>
+                <li th:each="courseInfo : ${courseInfos.get(course.csCode)}">
+                    <img src="/images/slideTest/1.jpg" alt="image1"/>
+
+                    <div class="sb-description">
+                        <h3 >th:text="${courseInfo.busnName}" 가게명</h3>
+                        <h4 > th:text="${courseInfo.htAddr}"</h4>
                     </div>
-                    <div class="time d-flex flex-column">
-                        <span th:text="'만든 날짜 : ' + ${#hotpleAPI.toDateStr(course.csCode)}">만든 날짜 : 2021-04-02</span>
-                        <span th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</span>
-                        <span th:text="|인원 : *{course.csNum}|">인원 : 2명</span>
-                        <span th:text="|코스 제목 :  *{course.csTitle}|"></span>
-                    </div>
-                </div>
+                </li>
+            </ul>
+            <div th:id="${'shadow'+courseStat.index}" class="shadow"></div>
+            <div th:id="${'nav-arrows'+courseStat.index}" class="nav-arrows">
+                <a href="#">Next</a>
+                <a href="#">Previous</a>
             </div>
-            <!-- 찜코스 수만큼 반복 끝-->
+            <div th:id="${'nav-dots'+courseStat.index}" class="nav-dots">
+                <span class="nav-dot-current">1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+            </div>
+        </div><!-- /wrapper -->
+        <div class="card">
+            <div class="content">
+                <h3>Card One</h3>
+                <p >th:text="${courseInfo.htCont}"</p>
+                <p >전화번호</p> <!--th:text="${#hotpleAPI.toTel(courseInfo.htTel)}"-->
+            </div>
         </div>
     </div>
+
+    <!-- <div class="tab-content">
+         <div role="tabpanel" class="tab-pane active" id="hotple-course">
+             &lt;!&ndash; 찜코스 수만큼 반복 시작&ndash;&gt;
+             <div th:each="course : ${courses}" class="jumbotron mx-4 card" style="min-height: 150px;">
+                 <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" class="stretched-link"></a>
+                 <div class="container">
+
+                     <div class="swiper-container col-xl-10 col-md-10 col-sm-10">
+                         <div class="swiper-wrapper">
+                             <div th:each="courseInfo : ${courseInfos.get(course.csCode)}" class="swiper-slide">
+                                 <div class="swiper-contents">
+                                     <div class="d-flex justify-content-around">
+                                         <div class="set-center">
+
+                                             <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath, courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
+                                                  alt="메뉴 이미지를 추가해주세요." class="img-fluid">&lt;!&ndash; 디폴트 사진 &ndash;&gt;
+                                         </div>
+                                         <div class="set-center">
+                                             <p>
+                                                 <h7 th:text="${courseInfo.ciIndex}+ 번째">가게 순서</h7>
+                                             </p>
+                                             <p>
+                                                 <h7 th:text="${courseInfo.htAddr}">가게 주소</h7>
+                                             </p>
+                                         </div>
+                                         <div class="set-center">
+                                             <p>
+                                                 <h7 th:text="${courseInfo.busnName}">가게명</h7>
+                                             </p>
+                                             <p>
+                                                 <h7 th:text="${courseInfo.htCont}">가게 설명</h7>
+                                             </p>
+                                             <p>
+                                                 <h7 th:text="${#hotpleAPI.toTel(courseInfo.htTel)}">가게 전화번호</h7>
+                                             </p>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="swiper-pagination"></div>
+                         <div class="swiper-button-prev"></div>
+                         <div class="swiper-button-next"></div>
+                     </div>
+                     <div class="time d-flex flex-column">
+                         <span th:text="'만든 날짜 : ' + ${#hotpleAPI.toDateStr(course.csCode)}">만든 날짜 : 2021-04-02</span>
+                         <span th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</span>
+                         <span th:text="|인원 : *{course.csNum}|">인원 : 2명</span>
+                         <span th:text="|코스 제목 :  *{course.csTitle}|"></span>
+                     </div>
+                 </div>
+             </div>
+             &lt;!&ndash; 찜코스 수만큼 반복 끝&ndash;&gt;
+         </div>
+     </div>-->
+
     <script>
         var mySwiper = new Swiper('.swiper-container', {
             // direction: 'horizontal',
@@ -201,5 +244,81 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/css/slicebox/js/jquery.slicebox.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            for (let i = 0; i < 3; i++) {
+                var Page = (function () {
+                    var $navArrows = $('#nav-arrows' + i).hide(),
+                        $shadow = $('#shadow' + i).hide(),
+                        $navDots = $('#nav-dots' + i).hide(),
+                        $nav = $navDots.children('span'),
+                        slicebox = $('#sb-slider' + i).slicebox({
+                            onReady: function () {
+                                $navArrows.show();
+                                $navDots.show();
+                                $shadow.show();
+                            },
+                            onBeforeChange: function (pos) {
+                                $nav.removeClass('nav-dot-current');
+                                $nav.eq(pos).addClass('nav-dot-current');
+                            },
+                            orientation: 'r',
+                            cuboidsRandom: true,
+                            disperseFactor: 30
+                        }),
+
+                        init = function () {
+                            initEvents();
+                        },
+                        initEvents = function () {
+
+                            // add navigation events
+                            $navArrows.children(':first').on('click', function () {
+
+                                slicebox.next();
+                                return false;
+
+                            });
+
+                            $navArrows.children(':last').on('click', function () {
+
+                                slicebox.previous();
+                                return false;
+
+                            });
+                            $nav.each(function (i) {
+
+                                $(this).on('click', function (event) {
+
+                                    var $dot = $(this);
+
+                                    if (!slicebox.isActive()) {
+
+                                        $nav.removeClass('nav-dot-current');
+                                        $dot.addClass('nav-dot-current');
+
+                                    }
+                                    slicebox.jump(i + 1);
+                                    return false;
+                                });
+                            });
+                        };
+                    return {init: init};
+                })();
+                Page.init();
+            }
+        });
+    </script>
+    <script type="text/javascript" src="/css/slicebox/js/vanilla-tilt/vanilla-tilt.js"></script>
+    <script>
+        VanillaTilt.init(document.querySelectorAll('.card'), {
+            max: 25,
+            speed: 400,
+            glare: true,
+            "max-glare": 1
+        })
+    </script>
 </div>
 </html>
