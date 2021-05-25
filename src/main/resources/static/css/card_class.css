@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
+
 .card_class {
     position: relative;
     width: 280px;
@@ -12,6 +14,7 @@
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     border-left: 1px solid rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(5px);
+    margin:0 auto;
 }
 
 .card_class .card_content {
@@ -27,12 +30,12 @@
     opacity: 1;
 }
 
-.card_class .card_content h2 {
+.card_class h2 {
     position: absolute;
-    top: -80px;
+    top: 20px;
     right: 30px;
-    font-size: 8em;
-    color: rgba(255, 255, 255, 0.05);
+    font-size: 4em;
+    color: rgba(255, 255, 255, 0.5);
     pointer-events: none;
 }
 

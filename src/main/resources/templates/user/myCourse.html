@@ -6,85 +6,11 @@
     <link rel="stylesheet" type="text/css" href="/css/slicebox/css/demo.css"/>
     <link rel="stylesheet" type="text/css" href="/css/slicebox/css/slicebox.css"/>
     <link rel="stylesheet" type="text/css" href="/css/slicebox/css/custom.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/card_class.css"/>
     <script type="text/javascript" src="/css/slicebox/js/modernizr.custom.46884.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <style>
-        @import url("https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap");
-
-        .card-container {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            max-width: 1200px;
-            flex-wrap: wrap;
-            z-index: 1;
-        }
-
-        .card-container .card {
-            position: relative;
-            width: 280px;
-            height: 400px;
-            margin: 30px;
-            box-shadow: 20px 20px 50px rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.5);
-            border-left: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(5px);
-        }
-
-        .card-container .card .content {
-            padding: 20px;
-            text-align: center;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: 0.5s;
-        }
-
-        .card-container .card:hover .content {
-            transform: translateY(0px);
-            opacity: 1;
-        }
-
-        .card-container .card .content h2 {
-            position: absolute;
-            top: -80px;
-            right: 30px;
-            font-size: 8em;
-            color: rgba(255, 255, 255, 0.05);
-            pointer-events: none;
-        }
-
-        .card-container .card .content h3 {
-            font-size: 1.8em;
-            color: #000;
-            z-index: 1;
-        }
-
-        .card-container .card .content p {
-            font-size: 1em;
-            color: #000;
-            font-weight: 300;
-        }
-
-        .card-container .card .content a {
-            position: relative;
-            display: inline-block;
-            padding: 8px 20px;
-            margin-top: 15px;
-            background: #fff;
-            color: #000;
-            border-radius: 20px;
-            text-decoration: none;
-            font-weight: 500;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-
-
         div > img {
             width: 350px;
         }
@@ -96,23 +22,31 @@
         div > img {
             width: 240px;
         }
-
+        .course-container{
+            display: flex;
+        }
+        @media (max-width:960px) {
+            .course-container{
+                flex-direction: column;
+            }
+        }
     </style>
     <script src="/css/user/user_myCourse.js"></script>
 </th:block>
-<div layout:fragment="content">
+<div layout:fragment="content" style="background: #161623">
     <div th:replace="user/courseNav :: course"></div>
     <!-- Tab panes -->
-    <div th:each="course : ${courses}" class="card-container">
+    <div th:each="course : ${courses}" class="course-container">
         <div class="slide-wrapper">
             <ul th:id="${'sb-slider'+courseStat.index}" class="sb-slider">
                 <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" target="_blank"></a>
                 <li th:each="courseInfo : ${courseInfos.get(course.csCode)}">
-                    <img src="/images/slideTest/1.jpg" alt="image1"/>
+                    <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath, courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
+                         alt="메뉴 이미지를 추가해주세요." class="img-fluid">
 
                     <div class="sb-description">
-                        <h3 >th:text="${courseInfo.busnName}" 가게명</h3>
-                        <h4 > th:text="${courseInfo.htAddr}"</h4>
+                        <h3 th:text="${courseInfo.busnName}">가게명</h3>
+                        <h4 th:text="${courseInfo.htAddr}"></h4>
                     </div>
                 </li>
             </ul>
@@ -128,11 +62,15 @@
                 <span>4</span>
             </div>
         </div><!-- /wrapper -->
-        <div class="card">
-            <div class="content">
-                <h3>Card One</h3>
-                <p >th:text="${courseInfo.htCont}"</p>
-                <p >전화번호</p> <!--th:text="${#hotpleAPI.toTel(courseInfo.htTel)}"-->
+        <div class="card_class">
+            <h2 th:text="${course.csTitle}"></h2>
+            <div class="card_content">
+                <h3 th:text="'만든 날짜 : ' + ${#hotpleAPI.toDateStr(course.csCode)}">만든 날짜 : 2021-04-02</h3>
+                <p th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</p>
+                <p th:text="|인원 : *{course.csNum}|">인원 : 2명</p>
+                <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|">
+                    Read More
+                </a>
             </div>
         </div>
     </div>
@@ -201,7 +139,7 @@
             navigation: {nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',},
         });
     </script>
-    <button class="btn-warning" data-toggle="modal" data-target="#course_add">코스 추가하기</button>
+    <button class="mb-5 wonyong-btn-neon2 btn-warning" data-toggle="modal" data-target="#course_add">코스 추가하기</button>
     <div class="modal" tabindex="-1" id="course_add">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -213,9 +151,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="d-flex justify-content-around">
-                        <button class="btn-dark" id="custom">직접 커스텀</button>
-                        <button class="btn-dark" onclick="location.href = '/aiCourse'">빅데이터 <br/>추천</button>
-                        <button class="btn-dark" id="mbti">MBTI 유형<br/>추천</button>
+                        <button class="w-btn-gray wonyong-btn btn-dark" id="custom">직접 커스텀</button>
+                        <button class="w-btn-gray wonyong-btn btn-dark" onclick="location.href = '/aiCourse'">빅데이터 <br/>추천</button>
+                        <button class="w-btn-gray wonyong-btn btn-dark" id="mbti">MBTI 유형<br/>추천</button>
                     </div>
                     <form id="setting" style="display: none;">
                         <div class="form-group">
@@ -235,7 +173,7 @@
                             <label for="person">인원수</label>
                             <input type="text" id="person" class="form-control">
                         </div>
-                        <button type="button" id="custom_submit" class="btn-info">확인</button>
+                        <button type=" button" id="custom_submit" class="wonyong-btn-neon2 btn-info">확인</button>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -313,7 +251,7 @@
     </script>
     <script type="text/javascript" src="/css/slicebox/js/vanilla-tilt/vanilla-tilt.js"></script>
     <script>
-        VanillaTilt.init(document.querySelectorAll('.card'), {
+        VanillaTilt.init(document.querySelectorAll('.card_class'), {
             max: 25,
             speed: 400,
             glare: true,

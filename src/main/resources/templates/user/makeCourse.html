@@ -8,7 +8,7 @@
 <div layout:fragment="content">
     <div th:replace="user/courseNav :: course"></div>
     <div class="container">
-        <button class="btn-info w-btn-pink wonyong-btn" type=" button" data-toggle="collapse" data-target="#collapseMap" aria-expanded="true">
+        <button class=" my-3 btn-info w-btn-pink wonyong-btn" type=" button" data-toggle="collapse" data-target="#collapseMap" aria-expanded="true">
             위치 설정
         </button>
         <span></span>
@@ -155,7 +155,7 @@
             <i class="fa fa-plus-square fa-5x my-auto mx-5 plus-course" aria-hidden="true"></i>
         </div>
         <div>
-            <button class="w-btn-brown wonyong-btn btn-success" id="recommend">추천 받기</button>
+            <button class="w-btn-brown wonyong-btn my-3" id="recommend">추천 받기</button>
             <form action="/python/ai_course" method="post" id="form" style="visibility: hidden">
                 <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}" />
                 <input type="hidden" name="lat">
