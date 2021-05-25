@@ -26,4 +26,12 @@
     <select id="yourGuide" resultType="GuideVO">
         SELECT * FROM guide WHERE uCode = #{uCode}
     </select>
+
+    <select id="getGuideList" resultType="GuideVO">
+        SELECT * FROM guide ORDER BY gRegDate DESC
+    </select>
+
+    <delete id="deleteGuide">
+        DELETE FROM guide WHERE uCode = #{uCode}
+    </delete>
 </mapper>

@@ -6,9 +6,20 @@
 <th:block layout:fragment="styles">
     <script src="/css/user/user_userSetting.js"></script>
 </th:block>
+<style>
+    li:hover{
+        cursor: pointer;
+    }
+</style>
 <div layout:fragment="content">
     <div class="container">
-        <h1 class="text-center text-dark font-weight-bold my-3">개인 정보 관리</h1>
+        <h1 class="text-center text-dark font-weight-bold my-3">마이페이지</h1>
+        <div class="d-flex">
+            <h3 class="text-left text-dark font-weight-bold my-3 ">개인 정보 관리</h3> &nbsp;&nbsp;
+            <h7 class="d-flex" style="margin-top: 27px" th:text="'로그인 계정: ' + ${user.UCode.split('/')[0]}"></h7>
+        </div>
+
+        <div class="info_main"></div>
 
         <table class="table my-3">
             <tr>

@@ -165,6 +165,21 @@ public class AdminRestController {
         return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
     }
 
+    @PostMapping("/deleteGuide")
+    public ResponseEntity<String> deleteGuide(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        boolean isDeleted = guide.deleteGuide(uCode);
+        log.info(uCode);
+        try {
+            if (isDeleted == true) {
+                log.info("삭제 완료");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return new ResponseEntity<>("삭제 완료", HttpStatus.OK);
+    }
+
     @PostMapping("/deleteContent")
     public ResponseEntity<String> deleteContent(HttpServletRequest request) {
         String bdCode = request.getParameter("bdCode");

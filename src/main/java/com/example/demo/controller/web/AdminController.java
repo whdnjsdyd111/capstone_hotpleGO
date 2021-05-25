@@ -204,6 +204,8 @@ public class AdminController {
         List<GuideApplyVO> guideApplyList = guide.getGuideList();
         log.info(guideApplyList);
         model.addAttribute("result", guideApplyList);
+        List<GuideVO> guideList = guide.guideList();
+        model.addAttribute("guide", guideList);
         return "admin/guideApply";
     }
 }
