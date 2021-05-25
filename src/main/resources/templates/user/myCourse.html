@@ -36,14 +36,12 @@
 <div layout:fragment="content" style="background: #161623">
     <div th:replace="user/courseNav :: course"></div>
     <!-- Tab panes -->
-    <div th:each="course : ${courses}" class="course-container">
+    <div th:each="course : ${courses}" class="my-5 course-container">
         <div class="slide-wrapper">
             <ul th:id="${'sb-slider'+courseStat.index}" class="sb-slider">
-                <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|" target="_blank"></a>
                 <li th:each="courseInfo : ${courseInfos.get(course.csCode)}">
                     <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath, courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
                          alt="메뉴 이미지를 추가해주세요." class="img-fluid">
-
                     <div class="sb-description">
                         <h3 th:text="${courseInfo.busnName}">가게명</h3>
                         <h4 th:text="${courseInfo.htAddr}"></h4>
@@ -59,7 +57,7 @@
                 <span class="nav-dot-current">1</span>
                 <span>2</span>
                 <span>3</span>
-                <span>4</span>
+                <span>4</span>기
             </div>
         </div><!-- /wrapper -->
         <div class="card_class">
@@ -69,7 +67,7 @@
                 <p th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</p>
                 <p th:text="|인원 : *{course.csNum}|">인원 : 2명</p>
                 <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|">
-                    Read More
+                    상세보기
                 </a>
             </div>
         </div>
@@ -131,14 +129,6 @@
          </div>
      </div>-->
 
-    <script>
-        var mySwiper = new Swiper('.swiper-container', {
-            // direction: 'horizontal',
-            loop: true,
-            pagination: {el: '.swiper-pagination',},
-            navigation: {nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',},
-        });
-    </script>
     <button class="mb-5 wonyong-btn-neon2 btn-warning" data-toggle="modal" data-target="#course_add">코스 추가하기</button>
     <div class="modal" tabindex="-1" id="course_add">
         <div class="modal-dialog">
