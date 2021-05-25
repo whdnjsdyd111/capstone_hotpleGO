@@ -141,7 +141,7 @@
                                     <span th:text="|*{courseInfos.get(num).busnName}|">가게 이름 ( 대략 소요 시간 30분)</span>
                                     <span th:text="|*{courseInfos.get(num).htAddr}|">도로명 주소</span>
                                     <th:block th:if="${courseInfos.get(num).csCode.split('/')[2] == 'N'}">
-                                        <button type="button" class="btn-outline-danger mx-auto delete-hotple">삭제</button>
+                                        <button type="button" class="wonyong-btn w-btn-red btn-outline-danger mx-auto delete-hotple">삭제</button>
                                     </th:block>
                                     <input type="hidden" th:value="${courseInfos.get(num).htId}">
                                 </div>
@@ -154,9 +154,9 @@
         </div>
         <th:block th:if="${courseInfos.get(0).csCode.split('/')[2] == 'N'}">
             <div class="d-flex justify-content-center">
-                <button type="button" class="btn-outline-info" id="pickBtn">찜하기</button>
-                <button type="button" class="btn-outline-dark" id="course_use">코스 이용</button>
-                <button type="button" class="btn-outline-danger" id="course_delete">코스 삭제</button>
+                <button type="button" class="w-btn-blue mx-2 mb-1 wonyong-btn" id="pickBtn">찜하기</button>
+                <button type="button" class="w-btn-gray mx-2 mb-1 wonyong-btn" id="course_use">코스 이용</button>
+                <button type="button" class="w-btn-red mx-2 mb-1 wonyong-btn" id="course_delete">코스 삭제</button>
             </div>
         </th:block>
     </th:block>
@@ -167,7 +167,7 @@
     </th:block>
     <th:block th:if="${courseInfos.size() == 0}">
         <div class="d-flex justify-content-around">
-            <button type="button" class="btn-warning" id="course_delete">코스 삭제</button>
+            <button type="button" class="w-btn-red wonyong-btn" id="course_delete">코스 삭제</button>
             <input type="hidden" th:value="${course.csCode}">
         </div>
     </th:block>
