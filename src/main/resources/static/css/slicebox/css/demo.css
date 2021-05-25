@@ -34,16 +34,6 @@ a {
 	text-decoration: none;
 }
 
-h1, h2, h5 {
-	margin: 20px 20px 30px 20px;
-	font-size: 56px;
-	color: #fff;
-	font-family: "Volkhov", serif;
-	text-align: center;
-	font-weight: 700;
-	text-shadow: 1px 1px 3px #e0d1bc;
-}
-
 h1 span, h5 {
 	font-size: 18px;
 	display: block;

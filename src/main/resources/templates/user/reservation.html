@@ -15,8 +15,8 @@
     </script>
     <div class="bottom-container">
         <div>
-            <button type="button" class="btn btn-primary doing-hotple">진행중인 장소<br>2건</button>
-            <button type="button" class="btn btn-outline-success done-hotple">완료된 장소<br>0건</button>
+            <button type="button" class="w-btn-indigo wonyong-btn my-3  doing-hotple">진행중인 장소<br>2건</button>
+            <button type="button" class="w-btn-skin wonyong-btn my-3 done-hotple">완료된 장소<br>0건</button>
         </div>
         <th:block th:each="hotple : ${hotples}">
             <th:block th:if="${#hotpleAPI.reservBol(hotple.riTime)}">
@@ -38,11 +38,11 @@
                                 <span th:text="${hotple.htAddrDet}">업체 상세주소</span>
                             </div>
                             <div class="btn-container">
-                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"
+                                <button type="button" class="w-btn-blue wonyong-btn modal-menu m-3" data-toggle="modal"
                                         data-target="#reservation-detail">상세 보기
                                 </button>
                                 <input type="hidden" th:value="${hotple.riCode}">
-                                <button type="button" class="btn btn-secondary cancel-reservation">예약 취소</button>
+                                <button type="button" class="w-btn-red wonyong-btn  m-3 cancel-reservation">예약 취소</button>
                             </div>
                         </div>
                     </div>
@@ -67,11 +67,11 @@
                                 <span th:text="${hotple.htAddrDet}">업체 상세주소</span>
                             </div>
                             <div class="btn-container">
-                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"
+                                <button type="button" class="w-btn-blue m-3 wonyong-btn  modal-menu" data-toggle="modal"
                                         data-target="#reservation-detail">상세 보기
                                 </button>
                                 <input type="hidden" th:value="${hotple.riCode}">
-                                <button type="button" class="btn btn-success " data-toggle="modal"
+                                <button type="button" class="w-btn-green  wonyong-btn m-3" data-toggle="modal"
                                         th:data-target="'#review' + ${hotple.riCode.replaceAll('/', '')}">리뷰 보기
                                 </button>
                             </div>
@@ -129,12 +129,13 @@
                                         </th:block>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                        <button type="button" class="w-btn-gray wonyong-btn" data-dismiss="modal">취소</button>
                                         <th:block th:if="${reviews.get(hotple.riCode) == null}">
-                                            <button type="button" class="btn btn-primary submit-review">저장</button>
+                                            <button type="button" class="wonyong-btn-neon2
+                                             submit-review">저장</button>
                                         </th:block>
                                         <th:block th:if="${reviews.get(hotple.riCode) != null}">
-                                            <button type="button" class="btn btn-primary update-review">수정</button>
+                                            <button type="button" class="w-btn-brown wonyong-btn update-review">수정</button>
                                         </th:block>
                                         <input type="hidden" th:value="${hotple.riCode.replaceAll('/', '')}"/>
                                     </div>
@@ -182,7 +183,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">닫기</button>
+                            <button type="button" class="w-btn-gray wonyong-btn" data-dismiss="modal">닫기</button>
                         </div>
                     </div>
                 </div>
