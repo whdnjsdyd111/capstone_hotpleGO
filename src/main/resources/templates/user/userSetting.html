@@ -17,21 +17,21 @@
         <hr/>
 
         <div class="d-flex justify-content-around">
-            <button class="btn-outline-info" onclick="location.href = '/dibs'">찜 목록</button>
-            <button class="btn-outline-info" onclick="location.href = '/board/bookmark'">북마크</button>
-            <button class="btn-outline-info" onclick="location.href = '/taste'">취향 설정</button>
-            <button class="btn-outline-info" onclick="location.href = '/mbti'">MBTI</button>
+            <button class="wonyong-btn w-btn-pink" style="color: whitesmoke" onclick="location.href = '/dibs'">찜 목록</button>
+            <button class="wonyong-btn w-btn-pink" style="color: whitesmoke" onclick="location.href = '/board/bookmark'">북마크</button>
+            <button class="wonyong-btn w-btn-pink" style="color: whitesmoke" onclick="location.href = '/taste'">취향 설정</button>
+            <button class="wonyong-btn w-btn-pink" style="color: whitesmoke" onclick="location.href = '/mbti'">MBTI</button>
 
             <th:block th:if="${guide == null}">
                 <th:block th:if="${yourGuide == null}">
-                    <button class="btn-outline-info" data-toggle="modal" data-target="#guide">가이드신청</button>
+                    <button class="wonyong-btn w-btn-pink" style="color: whitesmoke" data-toggle="modal" data-target="#guide">가이드신청</button>
                 </th:block>
             </th:block>
             <th:block th:if="${guide != null}">
-                <button class="btn-outline-info" id="guiding">가이드신청중</button>
+                <button class="wonyong-btn w-btn-pink" style="color: whitesmoke" id="guiding">가이드신청중</button>
             </th:block>
             <th:block th:if="${yourGuide != null}">
-                <button class="btn-outline-info" onclick="location.href='#'">가이드내역</button>
+                <button class="wonyong-btn w-btn-pink" style="color: whitesmoke" onclick="location.href='#'">가이드내역</button>
             </th:block>
         </div>
         <div class="info_main"></div>
@@ -43,7 +43,7 @@
                     <div class="d-flex flex-column">
                         <div class="d-flex flex-column">
                             <input id="nickname" class="form-control w-50 mx-auto" th:value="${user.nick}"/>
-                            <button id="updateNick" class="btn-outline-success mx-auto" disabled="disabled">수정하기</button>
+                            <button id="updateNick" class="wonyong-btn w-btn-green" style="color: whitesmoke;width: 130px;place-self: center; margin-top: 10px; font-size: 14px;" disabled="disabled">수정하기</button>
                         </div>
                         <small id="check_nick" class="form-text text-danger "></small>
                     </div>
@@ -73,7 +73,7 @@
                             <input type="password" class="form-control w-50 mx-auto" id="new_re_passwd" name="password">
                         </div>
                         <small id="new_re_check_pw" class="form-text text-danger mb-3"></small>
-                        <button type="submit" id="submit_new_pw" class="btn-outline-success w-50 btn-lg mx-auto" disabled="disabled">비밀번호 재설정</button>
+                        <button type="submit" id="submit_new_pw" class="wonyong-btn w-btn-green" style="color: whitesmoke;width: 200px;place-self: center;font-size: 14px;" disabled="disabled">비밀번호 재설정</button>
                     </div>
                 </td>
             </tr>
