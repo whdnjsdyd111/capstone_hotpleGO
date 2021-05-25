@@ -101,14 +101,14 @@
                     <div th:utext="${comm.comCont}">댓글 내용</div>
                 </div>
                 <div class="mt-2">
-                    <button class="open-replies btn btn-dark" data-toggle="collapse"
+                    <button class="open-replies wonyong-btn w-btn-gray btn-sm m-2" data-toggle="collapse"
                             th:data-target="'#' +|collapse*{comm.comCode.replaceAll('/', '')}|">답글보기
                     </button>
                     <th:block sec:authorize-expr="isAuthenticated()">
-                        <button class="write_reply btn btn-dark">답글쓰기</button>
+                        <button class="write_reply wonyong-btn btn-sm m-2 w-btn-indigo">답글쓰기</button>
                     </th:block>
                     <th:block sec:authorize-expr="!isAuthenticated()">
-                        <button class="go_login btn btn-dark">답글쓰기</button>
+                        <button class="go_login wonyong-btn btn-sm m-2 w-btn-indigo">답글쓰기</button>
                     </th:block>
                     <input type="hidden" class="comCode1" th:value="${comm.comCode}"/>
                     <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
@@ -138,10 +138,10 @@
                     <textarea class="form-control" th:value="${comm.comCont}"> [[${comm.comCont}]]</textarea>
                 </div>
                 <div class="mt-2">
-                    <button class="modify-cancel btn btn-dark">취소</button>
+                    <button class="modify-cancel  wonyong-btn w-btn-red">취소</button>
                     <input type="hidden" th:value="${comm.comCode.replaceAll('/', '')}"/>
                     <input type="hidden" th:value="comm"/>
-                    <button class="write_reply btn btn-dark">저장</button>
+                    <button class="write_reply  wonyong-btn w-btn-blue">저장</button>
                     <input type="hidden" class="comCode1" th:value="${comm.comCode}"/>
                     <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
                     <input type="hidden" th:value="${comm.UCode}"/>
@@ -220,7 +220,7 @@
                             <div th:utext="${reply.comCont}">댓글 내용</div>
                         </div>
                         <div class="mt-2">
-                            <button class="write_re_reply btn btn-dark">답글쓰기</button>
+                            <button class="write_re_reply wonyong-btn btn-sm m-2 w-btn-indigo">답글쓰기</button>
                             <input type="hidden" th:value="${comm.comCode}"/>
                         </div>
                     </div>
@@ -251,10 +251,10 @@
                             <textarea > [[${reply.comCont}]]</textarea>
                         </div>
                         <div class="mt-2">
-                            <button class="modify-cancel btn btn-dark">취소</button>
+                            <button class="modify-cancel  wonyong-btn w-btn-gray">취소</button>
                             <input type="hidden" th:value="|reply*{replyStat.index}*{comm.comCode.replaceAll('/', '')}|">
                             <input type="hidden" th:value="reply">
-                            <button class="modify-save btn btn-dark">저장</button>
+                            <button class="modify-save  wonyong-btn w-btn-blue">저장</button>
                             <input type="hidden" th:value="${comm.comCode}"/>
                         </div>
                     </div>

@@ -131,26 +131,26 @@
                 <div class="container">
                     <div class="mx-auto">
                         <th:block th:if="${reco == null}">
-                            <button class="btn btn-lg btn-outline-secondary mx-2 reco_n" style="background: ; border: ;" id="reco">
+                            <button class="btn btn-lg btn-outline-secondary mx-2 reco_n" id="reco">
                                 <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
                             </button>
-                            <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_n" style="background: ; border: ;" id="nonReco">
+                            <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_n" id="nonReco">
                                 <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i class="fa fa-level-down ml-2"></i></span>
                             </button>
                         </th:block>
                         <th:block th:if="${reco == 'Y'}">
-                            <button class="btn btn-lg btn-outline-secondary mx-2 reco_y" style="background:#BEF53D; border: 3px solid #BEF53D;" id="reco">
+                            <button class="btn btn-lg btn-outline-secondary mx-2 reco_y" id="reco">
                                 <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
                             </button>
-                            <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_n" style="background:; border: ;" id="nonReco">
+                            <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_n" id="nonReco">
                                 <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i class="fa fa-level-down ml-2"></i></span>
                             </button>
                         </th:block>
                         <th:block th:if="${reco == 'N'}">
-                            <button class="btn btn-lg btn-outline-secondary mx-2 reco_n" style="background: ; border: ;" id="reco">
+                            <button class="btn btn-lg btn-outline-secondary mx-2 reco_n" id="reco">
                                 <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
                             </button>
-                            <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_y" style="background:#F47070; border: 3px solid #F47070;" id="nonReco">
+                            <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_y" id="nonReco">
                                 <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i class="fa fa-level-down ml-2"></i></span>
                             </button>
                         </th:block>
@@ -303,20 +303,20 @@
         </th:block>
         <div class="board-btn-box d-flex justify-content-between">
             <div>
-                <button class="btn btn-outline-warning ml-5" onclick="history.go(-1)">목록</button>
+                <button class="wonyong-btn btn-lg ml-3 w-btn-gra2 w-btn-gra-anim" onclick="history.go(-1)">목록</button>
             </div>
             <div>
                 <th:block th:if="${board.UCode.split('/')[0] == #authentication.name} or ${#authentication.authorities[0].authority == 'A'}">
-                    <button class="btn btn-outline-warning ml-5" id="update">수정</button>
-                    <button class="btn btn-outline-warning ml-5" id="delete"><i class="fa fa-trash-o mr-2"></i>삭제
+                    <button class="wonyong-btn btn-lg mx-2 w-btn-yellow" id="update">수정</button>
+                    <button class="wonyong-btn btn-lg mx-2 w-btn-red" id="delete"><i class="fa fa-trash-o mr-2"></i>삭제
                     </button>
                 </th:block>
                 <th:block sec:authorize-expr="!isAuthenticated()">
-                    <button class="btn btn-outline-warning ml-5 go_login" id="report">신고</button>
+                    <button class="wonyong-btn btn-lg w-btn-indigo ml-5 mr-3 go_login" id="report">신고</button>
                 </th:block>
                 <th:block sec:authorize-expr="isAuthenticated()">
                     <input type="hidden" th:value="${board.bdCode}">
-                    <button class="btn btn-outline-warning ml-5" id="report" data-toggle="modal"
+                    <button class="wonyong-btn btn-lg w-btn-indigo ml-5 mr-3" id="report" data-toggle="modal"
                             data-target="#boardReportModal">
                         신고
                     </button>
@@ -375,7 +375,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" th:value="${board.bdCode}">
-                    <button type="button" class="btn btn-danger" id="modal_board_report">신고하기</button>
+                    <button type="button" class="wonyong-btn w-btn-red" id="modal_board_report">신고하기</button>
                 </div>
             </div>
         </div>

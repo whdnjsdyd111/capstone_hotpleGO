@@ -42,11 +42,6 @@
     color: #d4dfe6;
 }
 
-.w-btn-skin {
-    background-color: #F8E6E0;
-    color: #6e6e6e;
-}
-
 .w-btn-gray {
     background-color: #a3a1a1;
     color: #e3dede;
@@ -55,6 +50,16 @@
 .w-btn-red {
     background-color: #ff5f2e;
     color: #e1eef6;
+}
+
+.w-btn-skin {
+    background-color: #f8e6e0;
+    color: #6e6e6e;
+}
+
+.w-btn-yellow {
+    background-color: #fce205;
+    color: #6e6e6e;
 }
 
 .wonyong-btn:hover {
