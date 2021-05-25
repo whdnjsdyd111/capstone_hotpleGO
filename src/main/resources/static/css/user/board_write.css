@@ -203,11 +203,6 @@ a{
 
 }
 
-button{
-    height: 30px;
-    width: 70px;
-}
-
 .board_view .info dl dd{
     margin-left: 10px;
     counter-reset: #777;

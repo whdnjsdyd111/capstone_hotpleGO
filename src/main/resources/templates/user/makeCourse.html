@@ -8,7 +8,7 @@
 <div layout:fragment="content">
     <div th:replace="user/courseNav :: course"></div>
     <div class="container">
-        <button class="btn-info" type="button" data-toggle="collapse" data-target="#collapseMap" aria-expanded="true">
+        <button class="btn-info w-btn-pink wonyong-btn" type=" button" data-toggle="collapse" data-target="#collapseMap" aria-expanded="true">
             위치 설정
         </button>
         <span></span>
@@ -70,8 +70,8 @@
                 }
             </script>
             <div class="d-flex justify-content-around">
-                <button class="btn-primary" type="button" onclick="myGeo()">내 위치 보기</button>
-                <button class="btn-primary" type="button" onclick="setGeo()">현위치로 설정</button>
+                <button class="w-btn-blue wonyong-btn btn-primary" type="button" onclick="myGeo()">내 위치 보기</button>
+                <button class="w-btn-blue wonyong-btn btn-primary" type="button" onclick="setGeo()">현위치로 설정</button>
             </div>
         </div>
         <div class="d-flex flex-column my-5">
@@ -155,7 +155,7 @@
             <i class="fa fa-plus-square fa-5x my-auto mx-5 plus-course" aria-hidden="true"></i>
         </div>
         <div>
-            <button class="btn-success" id="recommend">추천 받기</button>
+            <button class="w-btn-brown wonyong-btn btn-success" id="recommend">추천 받기</button>
             <form action="/python/ai_course" method="post" id="form" style="visibility: hidden">
                 <input type="hidden" th:value="${_csrf.token}" th:name="${_csrf.parameterName}" />
                 <input type="hidden" name="lat">

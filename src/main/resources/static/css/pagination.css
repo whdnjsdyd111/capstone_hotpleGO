@@ -19,6 +19,7 @@
     }
 }
 .page-numbers {
+    text-decoration: none;
     display: block;
     padding: 0 25px;
     float: left;
