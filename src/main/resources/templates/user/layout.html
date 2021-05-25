@@ -25,6 +25,7 @@
     <!-- CSS -->
     <style>
         @import "/css/user/styles.css";
+        @import "/css/wonyong_btn.css"
     </style>
 
     <link
@@ -97,6 +98,9 @@
 
 <th:block th:fragment="footer">
     <div class="footer">
+        <canvas id="bubble"></canvas>
+        <canvas id="bubbleBg"></canvas>
+        <script src="/css/canvas.js"></script>
         <div class="d-flex justify-content-between mx-auto col-lg-6 col-md-8 col-sm-12 pt-3">
             <button type="button" style="color: #6e6e6e; background-color: #F8E6E0;" onclick="location.href='/company'">회사소개</button>
             <button type="button" style="color: #6e6e6e; background-color: #F8E6E0;" onclick="location.href='#'">이용약관</button>
