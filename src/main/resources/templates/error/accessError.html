@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>접근에러</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            text-align: center;
+            background-color: lavenderblush;
+        }
+
+        #container {
+            position: relative;
+            top: 50vh;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        object {
+            width: 50%;
+        }
+
+        @media screen and (max-width: 1248px) {
+            object {
+                width: 75%;
+            }
+        }
+
+        #typing {
+            position: relative;
+        }
+
+        #typing > p:nth-child(2) {
+            animation: typing 0s 2.25s forwards;
+        }
+
+        #typing > p:nth-child(3) {
+            animation: typing 0s 2.5s forwards;
+        }
+
+        #typing > p:nth-child(4) {
+            animation: typing 0s 2.75s forwards;
+        }
+
+        #typing > p:nth-child(5) {
+            animation: typing 0s 3s forwards;
+        }
+
+        #typing > p:nth-child(1),
+        p:nth-child(6) {
+            opacity: 1;
+        }
+
+        p {
+            color: rgb(53, 53, 53);
+            font-size: 76px;
+            display: inline-block;
+            font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+            opacity: 0;
+        }
+
+        @keyframes typing {
+            100% {
+                opacity: 1;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div id="container">
+    <object id="warning" type="image/svg+xml" data="/css/svg/warning.svg" ></object>
+    <div id="typing">
+        <p>"</p>
+        <p>권</p>
+        <p>한</p>
+        <p>없</p>
+        <p>음</p>
+        <p>"</p>
+    </div>
+</div>
+</body>
+</html>

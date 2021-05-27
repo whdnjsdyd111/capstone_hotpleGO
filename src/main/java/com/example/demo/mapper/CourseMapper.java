@@ -18,6 +18,8 @@ public interface CourseMapper {
 
     public List<CourseInfoVO> getCourseInfoY(String uCode);
 
+    public List<CourseInfoVO> getCourseInfoDibs(String uCode);
+
     public List<CourseVO> getCourseNC(String uCode);
 
     public List<CourseInfoVO> getCourseInfoNC(String uCode);

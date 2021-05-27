@@ -2,20 +2,34 @@ $(function(){
     $(document).on('click','.doing-hotple',function (){
         $('.doing-reservation').show();
         $('.done-reservation').hide();
-        $(this).removeClass('btn-outline-primary');
-        $(this).addClass('btn-primary');
         let done = $('.done-hotple');
-        done.addClass('btn-outline-success');
-        done.removeClass('btn-success');
+        $(this).removeClass('wonyong-btn-outline');
+        $(this).addClass('wonyong-btn');
+
+        done.removeClass('wonyong-btn');
+        done.addClass('wonyong-btn-outline');
+
+        $(this).removeClass('w-btn-indigo-outline');
+        $(this).addClass('w-btn-indigo');
+
+        done.removeClass('w-btn-skin');
+        done.addClass('w-btn-skin-outline');
     });
     $(document).on('click','.done-hotple',function (){
         $('.doing-reservation').hide();
         $('.done-reservation').show();
-        $(this).removeClass('btn-outline-success');
-        $(this).addClass('btn-success');
         let doing = $('.doing-hotple');
-        doing.addClass('btn-outline-primary');
-        doing.removeClass('btn-primary');
+        $(this).removeClass('wonyong-btn-outline');
+        $(this).addClass('wonyong-btn');
+
+        doing.removeClass('wonyong-btn');
+        doing.addClass('wonyong-btn-outline');
+
+        $(this).removeClass('w-btn-skin-outline');
+        $(this).addClass('w-btn-skin');
+
+        doing.removeClass('w-btn-indigo');
+        doing.addClass('w-btn-indigo-outline');
     });
 
     $('.doing-hotple').html("진행중인 장소<br>" + $('.doing-reservation').length + "건");

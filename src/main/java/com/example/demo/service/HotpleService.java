@@ -67,4 +67,5 @@ public class HotpleService {
     public boolean remove(HotpleVO vo) {
         return mapper.delete(vo) == 1;
     }
+
 }

@@ -7,6 +7,13 @@
     <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <script src="/css/user/user_reservation.js"></script>
+    <style>
+        .reservation-div {
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);
+            border-radius: 25px;
+        }
+    </style>
 </th:block>
 <div layout:fragment="content">
     <script th:inline="javascript">
@@ -15,13 +22,13 @@
     </script>
     <div class="bottom-container">
         <div>
-            <button type="button" class="w-btn-indigo wonyong-btn my-3  doing-hotple">진행중인 장소<br>2건</button>
-            <button type="button" class="w-btn-skin wonyong-btn my-3 done-hotple">완료된 장소<br>0건</button>
+            <button type="button" class="w-btn-indigo wonyong-btn my-3 mr-3 doing-hotple">진행중인 장소<br>2건</button>
+            <button type="button" class="w-btn-skin-outline wonyong-btn-outline my-3 done-hotple">완료된 장소<br>0건</button>
         </div>
         <th:block th:each="hotple : ${hotples}">
             <th:block th:if="${#hotpleAPI.reservBol(hotple.riTime)}">
                 <div class="doing-reservation">
-                    <div class="reservation-div p-2 border-dark border rounded mb-5">
+                    <div class="reservation-div p-2 mb-5">
                         <p class="time">2021-04-05</p>
                         <div class="reservation-container">
                             <th:block th:if="${hotple.uuid == null}">
@@ -50,7 +57,7 @@
             </th:block>
             <th:block th:if="${!#hotpleAPI.reservBol(hotple.riTime)}">
                 <div class="done-reservation" style="display: none;">
-                    <div class="reservation-div p-2 border-dark border rounded mb-5">
+                    <div class="reservation-div p-2 mb-5">
                         <p class="time" th:text="${#hotpleAPI.toDateStr(hotple.riCode)}">2021-04-04</p>
                         <div class="reservation-container">
                             <th:block th:if="${hotple.uuid == null}">

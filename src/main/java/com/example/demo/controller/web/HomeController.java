@@ -111,7 +111,7 @@ public class HomeController {
         List<CourseVO> pickCourseList = users.getPickCourseList(uCode);
         model.addAttribute("result", pickHotpleList);
         model.addAttribute("result1", pickCourseList);
-        model.addAttribute("courseInfos", course.getMakingCourseInfo(uCode));
+        model.addAttribute("courseInfos", course.getDibsCourseInfo(uCode));
         return "user/dibs";
     }
 

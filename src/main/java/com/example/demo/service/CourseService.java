@@ -42,6 +42,13 @@ public class CourseService {
         return map;
     }
 
+    public Map<String, List<CourseInfoVO>> getDibsCourseInfo(String uCode) {
+        List<CourseInfoVO> list = mapper.getCourseInfoDibs(uCode);
+        Map<String, List<CourseInfoVO>> map = new LinkedHashMap<>();
+        list.forEach(l -> map.computeIfAbsent(l.getCsCode(), k -> new ArrayList<>()).add(l));
+        return map;
+    }
+
     public List<CourseVO> getAllCourse(String uCode) {
         return mapper.getCourseNC(uCode);
     }

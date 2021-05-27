@@ -1,3 +1,8 @@
+.wonyong-btn:focus, .wonyong-btn-outline:focus {
+    border: none;
+    outline: none;
+}
+
 .wonyong-btn {
     position: relative;
     border: none;
@@ -9,12 +14,32 @@
     text-decoration: none;
     font-weight: 600;
     transition: 0.25s;
-    word-break: keep-all;
+}
+
+.wonyong-btn-outline {
+    position: relative;
+    padding: 15px 30px;
+    border-radius: 15px;
+    font-family: "paybooc-Light", sans-serif;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.25s;
 }
 
 .w-btn-indigo {
     background-color: aliceblue;
     color: #1e6b7b;
+}
+
+.w-btn-indigo-outline {
+    border: 3px solid aliceblue;
+    color: #1e6b7b;
+}
+
+.w-btn-indigo-outline:hover {
+    color: #1e6b7b;
+    background: aliceblue;
 }
 
 .w-btn-green {
@@ -27,7 +52,37 @@
     color: #9dc8c8;
 }
 
+.w-btn-green-outline {
+    border: 3px solid #77af9c;
+    color: darkgray;
+}
+
+.w-btn-green2-outline {
+    border: 3px solid #519d9e;
+    color: darkgray;
+}
+
+.w-btn-green-outline:hover {
+    background-color: #77af9c;
+    color: #d7fff1;
+}
+
+.w-btn-green2-outline:hover {
+    background-color: #519d9e;
+    color: #9dc8c8;
+}
+
 .w-btn-brown {
+    background-color: #ce6d39;
+    color: #ffeee4;
+}
+
+.w-btn-brown-outline {
+    border: 3px solid #ce6d39;
+    color: #b8b8b8;
+}
+
+.w-btn-brown-outline:hover {
     background-color: #ce6d39;
     color: #ffeee4;
 }
@@ -62,13 +117,83 @@
     color: #6e6e6e;
 }
 
+.w-btn-blue-outline {
+    border: 3px solid #6aafe6;
+    color: #6e6e6e;
+}
+
+.w-btn-pink-outline {
+    border: 3px solid #f199bc;
+    color: #6e6e6e;
+}
+
+.w-btn-gray-outline {
+    border: 3px solid #a3a1a1;
+    color: #6e6e6e;
+}
+
+.w-btn-red-outline {
+    border: 3px solid #ff5f2e;
+    color: #6e6e6e;
+}
+
+.w-btn-skin-outline {
+    border: 3px solid #f8e6e0;
+    color: #6e6e6e;
+}
+
+.w-btn-yellow-outline {
+    border: 3px solid #fce205;
+    color: #6e6e6e;
+}
+
+.w-btn-blue-outline:hover {
+    background-color: #6aafe6;
+    color: #d4dfe6;
+}
+
+.w-btn-pink-outline:hover {
+    background-color: #f199bc;
+    color: #d4dfe6;
+}
+
+.w-btn-gray-outline:hover {
+    background-color: #a3a1a1;
+    color: #e3dede;
+}
+
+.w-btn-red-outline:hover {
+    background-color: #ff5f2e;
+    color: #e1eef6;
+}
+
+.w-btn-skin-outline:hover {
+    background-color: #f8e6e0;
+    color: #6e6e6e;
+}
+
+.w-btn-yellow-outline:hover {
+    background-color: #fce205;
+    color: #6e6e6e;
+}
+
 .wonyong-btn:hover {
     letter-spacing: 2px;
     transform: scale(1.2);
     cursor: pointer;
 }
 
+.wonyong-btn-outline:hover {
+    letter-spacing: 2px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
 .wonyong-btn:active {
+    transform: scale(1.5);
+}
+
+.wonyong-btn-outline:active {
     transform: scale(1.5);
 }
 
@@ -150,7 +275,7 @@
     letter-spacing: 1px;
 }
 
-.wonyong-btn-neon:active {
+.wonyong-btn-neon:focus {
     transform: scale(1.2);
 }
 

@@ -164,55 +164,63 @@
             <div class="col-xl-6 col-md-12 mb-3">
                 <canvas id="reservationCanvas"></canvas>
                 <script>
-                    var reservationChartData = {
-                        labels: dates,
+                    var ctx = document.getElementById('reservationCanvas');
+                    var data = {
+                        labels: ['혼자','커플','친구','가족'],
                         datasets: [{
-                            label: '방문자 수',
-                            fill: false,
-                            backgroundColor: 'rgba(255, 99, 132)',
-                            borderColor: 'rgba(255, 99, 132)',
-                            data: visits
-                        }, {
-                            label: '페이지 뷰',
-                            backgroundColor: 'rgba(54, 162, 235)',
-                            borderColor: 'rgba(54, 162, 235)',
-                            fill: false,
-                            data: page_views
-                        },
-                            {
-                                label: '페이지 뷰',
-                                backgroundColor: 'rgba(54, 162, 235)',
-                                borderColor: 'rgba(54, 162, 235)',
-                                fill: false,
-                                data: page_views
+                            label: '# of household',
+                            data: [30,30,30,10],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+
+                            ],
+                            borderWidth: 1
+                        }]
+                    };
+
+                    var myChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: data,
+                        options: {
+                            title: {
+                                display: true,
+                                text: '예약 이용률',
+
+                            },
+                            plugins: {
+                                labels: [
+                                    {
+                                        /*render: function (options) {
+                                            var value = options.value;
+                                            return value + "세대";
+                                        },*/
+                                        fontSize: 30,
+                                        fontStyle: 'bold',
+                                        fontColor: '#000',
+                                        position: 'outside',
+                                        outsidePadding: 40,
+                                        textMargin: 10
+                                    },
+                                    {
+                                        render: 'label',
+                                        fontSize: 30,
+                                        fontStyle: 'bold',
+                                        fontColor: '#000'
+                                    }
+                                ]
                             }
-                        ]
-                    };
-
-                    var reservationChartOpt = {
-                        responsive: true,
-                        hoverMode: 'index',
-                        stacked: false,
-                        title: {
-                            display: true,
-                            text: '예약 현황'
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
                         }
-                    };
-
-                    var res_ctx = document.getElementById('reservationCanvas').getContext('2d');
-                    window.myLine2 = Chart.Line(res_ctx, {
-                        type: 'line',
-                        data: reservationChartData,
-                        options: reservationChartOpt
                     });
-
                 </script>
             </div>
 
@@ -220,60 +228,63 @@
             <div class="col-xl-6 col-md-12 mb-3">
                 <canvas id="courseUtilizationCanvas"></canvas>
                 <script>
-                    var courseData = {
-                        labels: dates,
+                    var ctx = document.getElementById('courseUtilizationCanvas');
+                    var data = {
+                        labels: ['혼자','커플','친구','가족'],
                         datasets: [{
-                            label: '혼자',
-                            fill: false,
-                            backgroundColor: 'rgba(255, 99, 132)',
-                            borderColor: 'rgba(255, 99, 132)',
-                            data: visits
-                        }, {
-                            label: '커플',
-                            backgroundColor: 'rgba(54, 162, 235)',
-                            borderColor: 'rgba(54, 162, 235)',
-                            fill: false,
-                            data: page_views
-                        },
-                            {
-                                label: '친구',
-                                backgroundColor: 'rgba(32, 45, 63)',
-                                borderColor: 'rgba(32, 45, 63)',
-                                fill: false,
-                                data: page_views
+                            label: '# of household',
+                            data: [30,30,30,10],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+
+                            ],
+                            borderWidth: 1
+                        }]
+                    };
+
+                    var myChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: data,
+                        options: {
+                            title: {
+                                display: true,
+                                text: '코스 이용률',
+
                             },
-                            {
-                                label: '가족',
-                                backgroundColor: 'rgba(54, 98, 76)',
-                                borderColor: 'rgba(54, 98, 76)',
-                                fill: false,
-                                data: page_views
+                            plugins: {
+                                labels: [
+                                    {
+                                        /*render: function (options) {
+                                            var value = options.value;
+                                            return value + "세대";
+                                        },*/
+                                        fontSize: 30,
+                                        fontStyle: 'bold',
+                                        fontColor: '#000',
+                                        position: 'outside',
+                                        outsidePadding: 40,
+                                        textMargin: 10
+                                    },
+                                    {
+                                        render: 'label',
+                                        fontSize: 30,
+                                        fontStyle: 'bold',
+                                        fontColor: '#000'
+                                    }
+                                ]
                             }
-                        ]
-                    };
-
-                    var courseOpt = {
-                        responsive: true,
-                        hoverMode: 'index',
-                        stacked: false,
-                        title: {
-                            display: true,
-                            text: '이용률'
-                        },
-
-                        legend: {
-                            position: 'top',
                         }
-
-                    };
-
-                    var course_ctx = document.getElementById('courseUtilizationCanvas').getContext('2d');
-                    window.myPie = new Chart(course_ctx, {
-                        type: 'pie',
-                        data: courseData,
-                        options: courseOpt
                     });
-
                 </script>
             </div>
         </div>

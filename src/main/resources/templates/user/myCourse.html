@@ -33,7 +33,7 @@
     </style>
     <script src="/css/user/user_myCourse.js"></script>
 </th:block>
-<div layout:fragment="content" style="background: #161623">
+<div layout:fragment="content">
     <div th:replace="user/courseNav :: course"></div>
     <!-- Tab panes -->
     <div th:each="course : ${courses}" class="my-5 course-container">
@@ -174,9 +174,9 @@
     </div>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script type="text/javascript" src="/css/slicebox/js/jquery.slicebox.js"></script>
-    <script type="text/javascript">
+    <script type="text/javascript" th:inline="javascript">
         $(function () {
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < /*[[${courses.size()}]]*/; i++) {
                 var Page = (function () {
                     var $navArrows = $('#nav-arrows' + i).hide(),
                         $shadow = $('#shadow' + i).hide(),

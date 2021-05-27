@@ -53,6 +53,12 @@
         WHERE csCode = #{csCode} ORDER BY cscode DESC, ciIndex
     </select>
 
+    <select id="getCourseInfoDibs" resultType="CourseInfoVO">
+        SELECT * FROM course_info NATURAL JOIN hotple FULL OUTER JOIN image_attach ON (hotple.htImg = image_attach.uuid)
+        WHERE csCode IN (SELECT csCode FROM pick_list WHERE uCode = #{uCode})
+        ORDER BY cscode DESC, ciIndex
+    </select>
+
     <insert id="insert">
         <selectKey keyProperty="csCode" resultType="String" order="BEFORE">
             SELECT TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_cs.NEXTVAL, 2, '0') || '/N' FROM DUAL

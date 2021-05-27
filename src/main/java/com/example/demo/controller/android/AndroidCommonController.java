@@ -132,6 +132,10 @@ public class AndroidCommonController {
                 jsonObject.put("courses", course.getHistoryCourse(uCode));
                 jsonObject.put("courseInfos", course.getHistoryCourseInfo(uCode));
                 break;
+            case "dibs":
+                jsonObject.put("courses", users.getPickCourseList(uCode));
+                jsonObject.put("courseInfos", course.getDibsCourseInfo(uCode));
+                break;
         }
         return jsonObject.toString();
     }
