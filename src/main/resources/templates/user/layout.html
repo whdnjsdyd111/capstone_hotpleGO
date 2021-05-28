@@ -25,7 +25,7 @@
     <!-- CSS -->
     <style>
         @import "/css/user/styles.css";
-        @import "/css/wonyong_btn.css"
+        @import "/css/wonyong_btn.css";
     </style>
 
     <link
@@ -37,7 +37,7 @@
 </head>
 <body>
 <div class="top-div" th:fragment="nav">
-    <nav class="navbar navbar-expand-lg navbar-light navbar-light fixed-top d-flex" style="background-color: #FBEFF5;">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-light fixed-top d-flex" style="background-color: #FBEFF5; ">
         <a class="navbar-brand" href="/">
             <img src="/images/logo.jpg" class="logo-design" alt="LOGO"/>
         </a>
@@ -47,10 +47,10 @@
         <div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
             <form class="form-inline col" action="/search" method="get">
                 <div class="input-group mx-auto col">
-                    <input class="form-control" type="search" placeholder="지역, 식당, 음식, 해시태그로 검색" name="keyword"
+                    <input class="form-control search-link" type="search" placeholder="지역, 식당, 음식, 해시태그로 검색" name="keyword"
                         style="background-color: #F2F2F2; color: white;">
                     <div class="input-group-append">
-                        <button class="btn btn-secondary form-control m-0" type="submit" style="color:darkgray; ">
+                        <button class="btn btn-secondary form-control m-0" type="submit" style="color:darkgray;opacity: 0.5;">
                             <i class="fa fa-search mr-3"></i>Search
                         </button>
                     </div>
