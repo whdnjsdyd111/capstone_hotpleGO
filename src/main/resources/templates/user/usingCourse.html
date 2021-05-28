@@ -10,32 +10,15 @@
             width: 50px;
             font-size: xx-large;
         }
-
-        .m-index {
-            border-radius: 25px;
-            height: 25px;
-            width: 25px;
+        *{
+            color : white;
         }
+
 
         span {
             word-break: keep-all;
         }
 
-        .itemBoxHighlight {
-            border: solid 1px black;
-            background-color: #6f6a6c;
-            width: 1040px;
-            height: 300px;
-        }
-
-        @media(max-width: 1200px) {
-            .itemBoxHighlight {
-                border: solid 1px black;
-                background-color: #6f6a6c;
-                width: 860px;
-                height: 300px;
-            }
-        }
 
         @media(max-width:992px) {
 
@@ -46,12 +29,6 @@
                 font-size:18px
             }
 
-            .itemBoxHighlight {
-                border: solid 1px black;
-                background-color: #6f6a6c;
-                width: 620px;
-                height: 300px;
-            }
         }
 
         @media(max-width:767px){
@@ -77,12 +54,6 @@
                 font-size: 15px;
             }
 
-            .itemBoxHighlight {
-                border: solid 1px black;
-                background-color: #6f6a6c;
-                width: 470px;
-                height: 150px;
-            }
         }
     </style>
     <th:block th:if="${usingCourseInfos.size() > 0}">
@@ -90,7 +61,7 @@
         <script src="/css/vendor/jq/jquery-ui.min.js"></script>
     </th:block>
 </th:block>
-<div layout:fragment="content">
+<div layout:fragment="content" style="background: #161623">
     <div th:replace="user/courseNav :: course"></div>
     <th:block th:if="${usingCourseInfos.size() > 0}">
         <input type="hidden" th:value="${kind}" id="kind">

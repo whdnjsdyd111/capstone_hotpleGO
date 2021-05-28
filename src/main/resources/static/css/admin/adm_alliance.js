@@ -3,8 +3,8 @@ $(function() {
     const header = $("meta[name='_csrf_header']").attr("content");
 
     $('.watch_content').click(function() {
-        $('#alc_content').html($(this).next().html());
-        $('#alc_phone').html("제휴자 휴대번호 : " + $(this).next().next().html())
+        $('#alc_content').html($(this).prev().prev().val());
+        $('#alc_phone').html("제휴자 휴대번호 : " + $(this).prev().val())
         $('.modal').modal('show');
     });
 
@@ -17,7 +17,7 @@ $(function() {
                 },
                 contentType: "application/json;charset=UTF-8",
                 data: JSON.stringify({
-                    alcCode: $(this).next().val()
+                    alcCode: $(this).prev().val()
                 }),
                 async: true, //동기, 비동기 여부
                 cache :false, // 캐시 여부

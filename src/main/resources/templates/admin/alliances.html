@@ -6,6 +6,96 @@
     <script src="/css/admin/adm_alliance.js"></script>
 </th:block>
 <div layout:fragment="content">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="mb-3"
+                style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">
+                가이드 관리</h2>
+            <!-- 미처리, 처리 전환 미구현 상태 -->
+            <button class="btn btn-outline-dark" id="clickBoard" onclick="location.href='/admin/contents'">가이드 승인</button>
+            <button class="btn btn-outline-dark" id="clickComment" onclick="location.href='/admin/contents?sort=comNonProcessed'">가이드 리스트</button>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>이메일</th>
+                    <th>날짜</th>
+                    <th>내용보기</th>
+                    <th>수락</th>
+                    <th>거절</th>
+                </tr>
+                </thead>
+                <th:block th:if="${NAlliances != null}">
+                    <tbody>
+                    <tr th:each="alc : ${NAlliances}">
+                        <td th:text="${alc.email}">이메일</td>
+                        <td th:text="${#hotpleAPI.toDateStr(alc.alcCode)}">날짜</td>
+                        <td>
+                            <input type="hidden" th:value="${alc.content}">
+                            <button class="btn btn-outline-info member-action-btn watch_content">내용 보기
+                            </button>
+                        </td>
+                        <td>
+                            <input type="hidden" th:value="${alc.alcCode}" />
+                            <button class="btn btn-outline-warning member-action-btn process">처리하기
+                            </button>
+
+                        </td>
+                        <td>
+                            <input type="hidden" th:value="${alc.alcCode}" />
+                            <button class="btn btn-outline-danger delete">지우기</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </th:block>
+                <th:block th:if="${YAlliances != null}">
+                    <tbody>
+                    <tr th:each="alc : ${YAlliances}">
+                        <td th:text="${alc.email}">이메일</td>
+                        <td th:text="${#hotpleAPI.toDateStr(alc.alcCode)}">날짜</td>
+                        <td>
+                            <input type="hidden" th:value="${alc.content}">
+                            <input type="hidden" th:value="${alc.phone}">
+                            <button class="btn btn-outline-info member-action-btn watch_content">내용 보기
+                            </button>
+                        </td>
+                        <td>
+                            <input type="hidden" th:value="${alc.alcCode}" />
+                            <button class="btn btn-outline-warning process">처리하기</button>
+                        </td>
+                        <td>
+                            <input type="hidden" th:value="${alc.alcCode}" />
+                            <button class="btn btn-outline-danger delete">지우기</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </th:block>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">제휴 내용</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alc_phone"></div>
+                    <hr/>
+                    <div id="alc_content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div layout:fragment="content">
     <h2 class="mb-3">제휴 처리</h2>
     <div class="container pl-0">
         <div class="input-group">
@@ -65,5 +155,5 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->
 </html>
