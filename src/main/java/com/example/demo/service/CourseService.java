@@ -128,4 +128,12 @@ public class CourseService {
         }
         return num > 0;
     }
+
+    public List<CourseVO> getCourses() {
+        return mapper.getCourses();
+    }
+
+    public List<CourseInfoVO> getCourseInfos() {
+        return mapper.getCourseInfos();
+    }
 }

@@ -10,6 +10,10 @@ import java.util.List;
 
 @Mapper
 public interface CourseMapper {
+    public List<CourseVO> getCourses();
+
+    public List<CourseInfoVO> getCourseInfos();
+
     public List<CourseVO> getCourseN(String uCode);
 
     public List<CourseInfoVO> getCourseInfoN(String uCode);

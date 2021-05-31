@@ -88,7 +88,7 @@ public class PythonController {
 //        bw.write(mbti_json);
 //        bw.newLine();
 //        bw.write(hotples_json);
-        //bw.write(mbti_json + hotples_json);
+//        bw.write(mbti_json + hotples_json);
         bw.flush();
         bw.close();
 
@@ -136,7 +136,10 @@ public class PythonController {
         List<HotpleVO> hotples = hotple.getByGeoAndArea(lat, lng, area);
         int[] tastes = taste.getTasteList(user.user.getUCode()).stream().mapToInt(Integer::valueOf).toArray();
         int[] selected = Arrays.stream(request.getParameter("index").split("")).mapToInt(Integer::parseInt).toArray();
-
+        log.info(area);
+        log.info(lat);
+        log.info(lng);
+        log.info(hotples);
         String htId[] = null;   // 파이썬으로부터 받을 ht 아이디들
         CourseVO vo = new CourseVO();
         vo.setCsTitle("aiCourse");
@@ -145,7 +148,7 @@ public class PythonController {
         vo.setUCode(user.user.getUCode());
 
         HttpURLConnection conn = null;
-        URL url = new URL("http://127.0.0.1:5000/mbti"); // 액세스 토큰 받을 주소 입력
+        URL url = new URL("http://127.0.0.1:5000/course"); // 액세스 토큰 받을 주소 입력
 
         conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");  // post 방식으로 요청
@@ -162,7 +165,7 @@ public class PythonController {
 
         // JSON 화한 키 값들 전달하기
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-        bw.write("{" + hotples_json + "," + tastes_json + "," + selected_json + "}");   //json 객체로 1차적으로 다듬어서 보냄.
+        bw.write("{" + hotples_json + "," + tastes_json + "," +selected_json + "}");   //json 객체로 1차적으로 다듬어서 보냄.
         bw.flush();
         bw.close();
 
