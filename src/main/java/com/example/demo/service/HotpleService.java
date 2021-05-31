@@ -28,8 +28,11 @@ public class HotpleService {
     public List<HotpleVO> getHotples(Set<Long> htIds) {
         return mapper.readHotples(htIds);
     }
+    public List<HotpleVO> getAllHotples(){
+        return mapper.getAllHotples();
+    }
 
-    public List<HotpleVO> getByUCode(String uCode) {
+    public HotpleVO getByUCode(String uCode) {
         return mapper.selectByManager(uCode);
     }
 
@@ -64,4 +67,5 @@ public class HotpleService {
     public boolean remove(HotpleVO vo) {
         return mapper.delete(vo) == 1;
     }
+
 }

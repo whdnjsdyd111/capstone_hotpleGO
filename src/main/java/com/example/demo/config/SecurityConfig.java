@@ -163,6 +163,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userService(customOAuth2UserService);
 
             http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+
+            http.headers().frameOptions().sameOrigin();
         }
 
         @Override

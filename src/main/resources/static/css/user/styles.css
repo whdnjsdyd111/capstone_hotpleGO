@@ -92,8 +92,6 @@ p.a {
 p.b {
     font-size: 17px;
     line-height: 5px;
-
-
 }
 
 p {
@@ -102,28 +100,6 @@ p {
 
 .download {
     padding: 70px;
-}
-
-button {
-    width : 120px;
-    height: 50px;
-    background-color: rgba(255, 255, 255, 0.952);
-    color: rgb(0, 0, 0);
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 25px;
-    margin: 10px;
-    border: none;
-    font-family: 'paybooc-Light';
-    cursor: pointer
-
-
-}
-
-button:hover {
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 3px
-    16px rgba(3, 34, 100, 0.404);
 }
 
 .info__office{
@@ -154,7 +130,7 @@ button:hover {
 }
 
 .top-div {
-    height: 79.36px;
+    height: 78px;
 }
 
 .Idbxz {
@@ -233,8 +209,9 @@ input {
 }
 
 .footer {
+    position: relative;
     align-items: center;
-    background-color: gainsboro;
+    background-color: #FBEFF5;
     bottom: 0;
     color: #D8D8D8;
     font-size: 1em;
@@ -488,4 +465,22 @@ form.user .btn-user {
 
 .plus-course:hover {
     cursor: pointer;
+}
+
+#bubble {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+#bubbleBg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
 }

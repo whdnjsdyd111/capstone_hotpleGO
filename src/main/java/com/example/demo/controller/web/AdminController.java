@@ -2,8 +2,6 @@ package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.*;
-import com.example.demo.domain.web.BoardVO;
-import com.example.demo.domain.web.CommentVO;
 import com.example.demo.service.*;
 import com.example.demo.service.web.*;
 import com.example.demo.security.CustomUser;
@@ -36,6 +34,7 @@ public class AdminController {
     private final CommentService comm;
     private final ReportService report;
     private final AdminService adminService;
+    private final HotpleService hotple;
 
     @GetMapping("/main")
     public String index(Model model, String count) {
@@ -98,6 +97,12 @@ public class AdminController {
         model.addAttribute("admin", user.getAdmin(admin.getUsername() + "/"
                 + admin.getAuthorities().toArray()[0] + "/"));
         return "admin/chattingRoom";
+    }
+
+    @GetMapping("/hotples")
+    public String companyModal(Model model ) {
+        model.addAttribute("hotples", hotple.getAllHotples());
+        return "admin/hotpleManagement";
     }
 
     @GetMapping("/alliances")
@@ -204,6 +209,8 @@ public class AdminController {
         List<GuideApplyVO> guideApplyList = guide.getGuideList();
         log.info(guideApplyList);
         model.addAttribute("result", guideApplyList);
+        List<GuideVO> guideList = guide.guideList();
+        model.addAttribute("guide", guideList);
         return "admin/guideApply";
     }
 }

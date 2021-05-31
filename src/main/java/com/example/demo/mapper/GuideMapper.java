@@ -14,9 +14,13 @@ public interface GuideMapper {
 
     public List<GuideApplyVO> getGuideApplyList();
 
+    public List<GuideVO> getGuideList();
+
     public int confirmGuide(GuideVO guideVO);
 
     public int removeGuideApply(String uCode);
 
     public GuideVO yourGuide(String uCode);
+
+    public int deleteGuide(String uCode);
 }

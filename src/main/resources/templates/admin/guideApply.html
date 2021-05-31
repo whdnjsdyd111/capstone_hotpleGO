@@ -19,10 +19,26 @@
                 <button class="btn btn-outline-dark" data-toggle="modal" data-target="#guide_modal">내용 보기</button>
                 <div class="d-none" th:text="${result.GCont}">내용</div>
                 <button class="btn btn-primary process confirmBtn">수락</button>
-                <button id="removeBtn" class="btn btn-danger delete" >거절</button>
+                <button id="removeBtn" class="btn btn-danger deleteBtn" >거절</button>
             </div>
         </th:block>
     </div>
+
+    <div class="container my-5">
+        <h2 class="mb-2" style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">가이드 리스트</h2>
+    </div> <!--여기!!!!!-->
+    <div class="container border border-dark rounded overflow-auto" style="height: 350px;">
+        <th:block th:if="${guide != null}">
+            <div class="row d-flex justify-content-around my-3" th:each="gd : ${guide}">3
+                <div class="col-lg-6 col-sx-4 d-flex justify-content-around mb-2 mt-1">
+                    <span class="col-lg-6 thisGuide" th:text="${gd.UCode}">가이드</span>
+                    <span class="col-lg-6 text-right" th:text="${#hotpleAPI.timestampToStr(gd.GRegDate)}">날짜</span>
+                </div>
+                <button class="btn btn-danger deleteGuide">가이드삭제</button>
+            </div>
+        </th:block>
+    </div>
+
     <div class="modal fade" id="guide_modal" tabindex="-1" aria-labelledby="guide_modal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

@@ -39,6 +39,8 @@ $(function() {
         formData.append("fileName", $('#fileName' + htId).val());
         formData.append("upload", $('#upload' + htId)[0].files[0]);
         formData.append("category", $('#kindD' + htId).val());
+        formData.append("htLng", $('#lng').val());
+        formData.append("htLat", $('#lat').val());
         $.ajax({
             type: "post",
             processData: false,
@@ -81,6 +83,8 @@ function jusoCallBack(roadFullAddr, roadAddrPart1, addrDetail, roadAddrPart2, en
     $('#roadAddrPart1' + cur_btn).val(roadAddrPart1);
     $('#addrDetail' + cur_btn).val(addrDetail);
     $('#zipNo' + cur_btn).val(zipNo);
+    $('#lng').val(lng)
+    $('#lat').val(lat)
 }
 
 function changeText (btn) {
@@ -117,7 +121,7 @@ function kindChange(obj) {
     } else if ($(obj).val() === "watch") {
         d = watch;
         i += 40;
-    } else if (obj.val() === "walk") {
+    } else if ($(obj).val() === "walk") {
         d = walk;
         i += 50;
     }

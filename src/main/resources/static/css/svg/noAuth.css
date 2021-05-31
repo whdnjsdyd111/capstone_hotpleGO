@@ -1,0 +1,28 @@
+#window {
+    transform: scale(0);
+    animation: window 1s ease forwards;
+    transform-origin: 25%;
+}
+
+#warning_bar {
+    transform: translateY(100%);
+    animation: 1s warning 1s ease forwards;
+}
+
+@keyframes window {
+    from {
+        trnasform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes warning {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translate(0%);
+    }
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{admin/default}">
+<th:block layout:fragment="styles">
+    <script src="/css/admin/adm_member.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="mb-3"
+                style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">
+                회원 관리</h2>
+            <div class="mb-3 pull-right">
+                <form method="post" class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" id="member-type">
+                            <option value="all">모두</option>
+                            <option value="normal">일반</option>
+                            <option value="guide">가이드</option>
+                            <option value="manager">매니저</option>
+                        </select>
+                    </div>
+                    <div class="form-group" >
+                        <select class="form-control" id="order">
+                            <option value="newest">최신순</option>
+                            <option value="oldest">오래된순</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="사용자명" id="svalue" name="svalue">
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>업체로고</th>
+                    <th>업체명</th>
+                    <th>카테고리</th>
+                    <th>위치</th>
+                    <th>상세보기</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="hotple : ${hotples}">
+                    <td>
+                        <div class="d-flex justify-content-center">
+                            <img th:src="${#hotpleAPI.toImg(hotple.uploadPath, hotple.htImg, hotple.fileName, #hotpleAPI.IMAGE)}"
+                                 alt="이미지가 없습니다." class="img-fluid rounded">
+                        </div>
+                    </td>
+
+                    <td th:text="${hotple.busnName}"></td>
+                    <td th:text="${hotple.category}"></td>
+                    <td th:text="${hotple.htAddr}"></td>
+                    <td>
+                        <button class="btn btn-outline-info detail-btn" data-toggle="modal" data-target="#hotple-detail">상세보기</button>
+                        <input type="hidden"  th:value="${hotple.busnName}" />
+                        <input type="hidden"  th:value="${hotple.busnNum}" />
+                        <input type="hidden"  th:value="${hotple.uCode}" />
+                        <input type="hidden"  th:value="${hotple.htAddr}" />
+                        <input type="hidden"  th:value="${hotple.htZip}" />
+                        <input type="hidden"  th:value="${hotple.htTel}" />
+                        <input type="hidden"  th:value="${hotple.htCont}" />
+
+                        <input type="hidden"  th:value="${hotple.category}" />
+                        <input type="hidden"  th:value="${hotple.ttKind}" />
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 상세보기 모달 -->
+    <div class="modal fade" id="hotple-detail" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> 업체 상세 </h5>
+                </div>
+                <div class="modal-body">
+                    <!-- 업체 로고 들어갈 곳 -->
+                    <!--<div class="d-flex justify-content-center">
+                        <img th:src="${#hotpleAPI.toImg(hotple.uploadPath, hotple.htImg, hotple.fileName, #hotpleAPI.IMAGE)}"
+                             alt="이미지가 없습니다." class="img-fluid rounded">
+                    </div>-->
+                    <!-- 업체 로고 들어갈 곳 -->
+                    <label for="busn-name">업체명</label>
+                    <input type="text" class="form-control mb-1" id="busn-name" readonly>
+
+                    <label for="busn-num">사업자등록번호</label>
+                    <input type="text" class="form-control mb-1" id="busn-num" readonly>
+
+                    <label for="uCode">사업자</label>
+                    <input type="text" class="form-control mb-1" id="uCode"  readonly>
+
+                    <label for="roadAddrPart1">도로명 주소</label>
+                    <input type="text" class="form-control mb-1" id="roadAddrPart1" readonly>
+
+                    <label for="zipNo">우편번호</label>
+                    <input type="text" class="form-control mb-1" id="zipNo" readonly>
+
+                    <label for="intro">소개글</label>
+                    <textarea type="text" class="form-control mb-1" id="intro" readonly></textarea>
+
+                    <label for="busn-phone">업체 연락처</label>
+                    <input type="text" class="form-control mb-1" id="busn-phone" readonly>
+
+                    <label for="category">카테고리</label>
+                    <div id="category" class="form-inline">
+                        <div class="form-group col-6 pr-1 p-0">
+                            <input type="text" id="cate1" class="form-control mb-1" readonly>
+                        </div>
+                        <div class="form-group col-6 pl-1 p-0">
+                            <input type="text" id="cate2" class="form-control mb-1" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modal-close" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).on('click','.detail-btn',function (){
+            const food = ["한식", "일식", "중식", "양식", "분식", "패스트푸드", "뷔페"];
+            const dessert = ["커피", "차/음료", "베이커리", "빙수"];
+            const play = ["게임", "방탈출", "VR", "노래방", "스포츠", "쇼핑", "만들기", "놀이공원"];
+            const drink = ["맥주", "소주", "막걸리", "칵테일/와인"];
+            const watch = ["영화", "전시회", "책", "공연", "스포츠"];
+            const walk = ["테마", "문화재", "풍경", "시장", "공원"];
+            let arrVal = $(this).nextAll();
+            let arrTarget = $('.modal-body').children('input');
+            for(let i=0; i<arrTarget.length+1; i++){
+                if(i==6) continue;
+                $(arrTarget[i]).val($(arrVal[i]).val());
+                console.log($(arrVal[i]).val());
+            }
+            $('#intro').text($(arrVal[6]).val());
+            if(+$(arrVal[7]).val()<10){
+                $('#cate1').val('먹거리');
+                $('#cate2').val(food[$(arrVal[7]).val()]);
+            }else if(+$(arrVal[7]).val()<20){
+                $('#cate1').val('디저트');
+                $('#cate2').val(dessert[$(arrVal[7]).val()/10]);
+            }else if(+$(arrVal[7]).val()<30){
+                $('#cate1').val('놀이/취미');
+                $('#cate2').val(play[$(arrVal[7]).val()/20]);
+            }else if(+$(arrVal[7]).val()<40){
+                $('#cate1').val('음주');
+                $('#cate2').val(drink[$(arrVal[7]).val()/30]);
+            }else if(+$(arrVal[7]).val()<50){
+                $('#cate1').val('보기');
+                $('#cate2').val(watch[$(arrVal[7]).val()/40]);
+            }else if(+$(arrVal[7]).val()<60){
+                $('#cate1').val('디저트');
+                $('#cate2').val(walk[$(arrVal[7]).val()/50]);
+            }
+        });
+    </script>
+</div>
+</html>

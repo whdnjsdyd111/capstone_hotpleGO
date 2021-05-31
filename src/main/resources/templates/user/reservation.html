@@ -7,6 +7,13 @@
     <script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <script src="/css/user/user_reservation.js"></script>
+    <style>
+        .reservation-div {
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);
+            border-radius: 25px;
+        }
+    </style>
 </th:block>
 <div layout:fragment="content">
     <script th:inline="javascript">
@@ -15,13 +22,13 @@
     </script>
     <div class="bottom-container">
         <div>
-            <button type="button" class="btn btn-primary doing-hotple">진행중인 장소<br>2건</button>
-            <button type="button" class="btn btn-outline-success done-hotple">완료된 장소<br>0건</button>
+            <button type="button" class="w-btn-indigo wonyong-btn my-3 mr-3 doing-hotple">진행중인 장소<br>2건</button>
+            <button type="button" class="w-btn-skin-outline wonyong-btn-outline my-3 done-hotple">완료된 장소<br>0건</button>
         </div>
         <th:block th:each="hotple : ${hotples}">
             <th:block th:if="${#hotpleAPI.reservBol(hotple.riTime)}">
                 <div class="doing-reservation">
-                    <div class="reservation-div p-2 border-dark border rounded mb-5">
+                    <div class="reservation-div p-2 mb-5">
                         <p class="time">2021-04-05</p>
                         <div class="reservation-container">
                             <th:block th:if="${hotple.uuid == null}">
@@ -38,11 +45,11 @@
                                 <span th:text="${hotple.htAddrDet}">업체 상세주소</span>
                             </div>
                             <div class="btn-container">
-                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"
+                                <button type="button" class="w-btn-blue wonyong-btn modal-menu m-3" data-toggle="modal"
                                         data-target="#reservation-detail">상세 보기
                                 </button>
                                 <input type="hidden" th:value="${hotple.riCode}">
-                                <button type="button" class="btn btn-secondary cancel-reservation">예약 취소</button>
+                                <button type="button" class="w-btn-red wonyong-btn  m-3 cancel-reservation">예약 취소</button>
                             </div>
                         </div>
                     </div>
@@ -50,7 +57,7 @@
             </th:block>
             <th:block th:if="${!#hotpleAPI.reservBol(hotple.riTime)}">
                 <div class="done-reservation" style="display: none;">
-                    <div class="reservation-div p-2 border-dark border rounded mb-5">
+                    <div class="reservation-div p-2 mb-5">
                         <p class="time" th:text="${#hotpleAPI.toDateStr(hotple.riCode)}">2021-04-04</p>
                         <div class="reservation-container">
                             <th:block th:if="${hotple.uuid == null}">
@@ -67,11 +74,11 @@
                                 <span th:text="${hotple.htAddrDet}">업체 상세주소</span>
                             </div>
                             <div class="btn-container">
-                                <button type="button" class="btn btn-info modal-menu" data-toggle="modal"
+                                <button type="button" class="w-btn-blue m-3 wonyong-btn  modal-menu" data-toggle="modal"
                                         data-target="#reservation-detail">상세 보기
                                 </button>
                                 <input type="hidden" th:value="${hotple.riCode}">
-                                <button type="button" class="btn btn-success " data-toggle="modal"
+                                <button type="button" class="w-btn-green  wonyong-btn m-3" data-toggle="modal"
                                         th:data-target="'#review' + ${hotple.riCode.replaceAll('/', '')}">리뷰 보기
                                 </button>
                             </div>
@@ -129,12 +136,13 @@
                                         </th:block>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">취소</button>
+                                        <button type="button" class="w-btn-gray wonyong-btn" data-dismiss="modal">취소</button>
                                         <th:block th:if="${reviews.get(hotple.riCode) == null}">
-                                            <button type="button" class="btn btn-primary submit-review">저장</button>
+                                            <button type="button" class="wonyong-btn-neon2
+                                             submit-review">저장</button>
                                         </th:block>
                                         <th:block th:if="${reviews.get(hotple.riCode) != null}">
-                                            <button type="button" class="btn btn-primary update-review">수정</button>
+                                            <button type="button" class="w-btn-brown wonyong-btn update-review">수정</button>
                                         </th:block>
                                         <input type="hidden" th:value="${hotple.riCode.replaceAll('/', '')}"/>
                                     </div>
@@ -149,7 +157,6 @@
             <div class="modal fade" id="reservation-detail" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
-
                         <div class="modal-body">
                             <table class="table">
                                 <thead>
@@ -183,7 +190,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">닫기</button>
+                            <button type="button" class="w-btn-gray wonyong-btn" data-dismiss="modal">닫기</button>
                         </div>
                     </div>
                 </div>

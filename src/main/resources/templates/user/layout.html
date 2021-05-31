@@ -25,6 +25,7 @@
     <!-- CSS -->
     <style>
         @import "/css/user/styles.css";
+        @import "/css/wonyong_btn.css";
     </style>
 
     <link
@@ -36,19 +37,20 @@
 </head>
 <body>
 <div class="top-div" th:fragment="nav">
-    <nav class="navbar navbar-expand-lg navbar-light navbar-light fixed-top nav-tabs d-flex" style="background: linear-gradient(to right, rgb(194, 229, 156), rgb(100, 179, 244));">
+    <nav class="navbar navbar-expand-lg navbar-light navbar-light fixed-top d-flex" style="background-color: #FBEFF5; ">
         <a class="navbar-brand" href="/">
             <img src="/images/logo.jpg" class="logo-design" alt="LOGO"/>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <button class=" navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="collapsibleNavbar">
             <form class="form-inline col" action="/search" method="get">
                 <div class="input-group mx-auto col">
-                    <input class="form-control" type="search" placeholder="지역, 식당, 음식, 해시태그로 검색" name="keyword">
+                    <input class="form-control search-link" type="search" placeholder="지역, 식당, 음식, 해시태그로 검색" name="keyword"
+                        style="background-color: #F2F2F2; color: white;">
                     <div class="input-group-append">
-                        <button class="btn btn-success form-control m-0" type="submit">
+                        <button class="btn btn-secondary form-control m-0" type="submit" style="color:darkgray;opacity: 0.5;">
                             <i class="fa fa-search mr-3"></i>Search
                         </button>
                     </div>
@@ -56,16 +58,16 @@
             </form>
             <ul class="navbar-nav">
                 <th:block sec:authorize-expr="isAuthenticated()">
-                    <li class="nav-item"><a class="nav-link" href="/reservation">핫플 예약</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/myCourse">핫플 코스</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reservation" style="color: #A4A4A4; background-color: #FBEFF5;">핫플 예약</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/myCourse" style="color: #A4A4A4; background-color: #FBEFF5;">핫플 코스</a></li>
                 </th:block>
-                <li class="nav-item"><a class="nav-link" href="/board/list">핫플 공유</a></li>
+                <li class="nav-item"><a class="nav-link" href="/board/list" style="color: #A4A4A4; background-color: #FBEFF5;">핫플 공유</a></li>
                 <th:block sec:authorize-expr="isAuthenticated()">
-                    <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/setting">마이페이지</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/logout" style="color: #A4A4A4; background-color: #FBEFF5;">로그아웃</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/setting" style="color: #A4A4A4; background-color: #FBEFF5;">마이페이지</a></li>
                 </th:block>
                 <th:block sec:authorize-expr="!isAuthenticated()">
-                    <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login" style="color: #A4A4A4; background-color: #FBEFF5;">로그인</a></li>
                 </th:block>
             </ul>
         </div>
@@ -96,13 +98,16 @@
 
 <th:block th:fragment="footer">
     <div class="footer">
+        <canvas id="bubble"></canvas>
+        <canvas id="bubbleBg"></canvas>
+        <script src="/css/canvas.js"></script>
         <div class="d-flex justify-content-between mx-auto col-lg-6 col-md-8 col-sm-12 pt-3">
-            <a href="/company" class="btn btn-dark text-light">회사소개</a>
-            <a href="" class="btn btn-dark text-light">이용약관</a>
-            <a href="" class="btn btn-dark text-light">개인정보처리방침</a>
-            <a href="/alliance" class="btn btn-dark text-light">제휴문의</a>
+            <button type="button" class="wonyong-btn w-btn-skin" onclick="location.href='/company'">회사소개</button>
+            <button type="button" class="wonyong-btn w-btn-skin" onclick="location.href='#'">이용약관</button>
+            <button type="button" class="wonyong-btn w-btn-skin" onclick="location.href='#'">개인정보처리방침</button>
+            <button type="button" class="wonyong-btn w-btn-skin" onclick="location.href='/alliance'">제휴문의</button>
         </div>
-        <div class="info__office">
+        <div class="info__office" style="color: #A4A4A4;">
             <p class= "c__T">Make Wda Great Again <br></p>
             <p> 조원용 강을찬 김경한 김진환 박호용 이승환 이주영 <br>
                 소속: 영진전문대학교 컴퓨터정보계열 3WDA <br>

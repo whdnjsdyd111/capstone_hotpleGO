@@ -184,7 +184,7 @@
                                     </div>
                                 </li>
                                 <div sec:authorize-expr="isAuthenticated()">
-                                    <button id="reservation-btn" data-toggle="modal"  data-target="#reservation-modal" type="button" class="w-100 btn btn-primary" style="margin: 0;">예약</button>
+                                    <button id="reservation-btn" data-toggle="modal"  data-target="#reservation-modal" type="button" class="wonyong-btn w-btn-gray" style="margin-top: 10px; width: 300px">예약하기</button>
                                 </div>
                                 <div sec:authorize-expr="!isAuthenticated()">
                                     <button type="button" class="w-100 btn btn-warning" style="margin: 0;" onclick="location.href = '/login'">로그인</button>
@@ -193,8 +193,8 @@
                         </div>
                         <div sec:authorize-expr="isAuthenticated()">
                             <div class="d-flex justify-content-center">
-                                <button type="button" class="w-40 btn btn-info m-0" id="pickBtn">찜 하기</button>
-                                <button type="button" class="w-40 btn btn-warning m-0" data-toggle="modal" data-target="#course-modal">코스에 추가</button>
+                                <button type="button" class="wonyong-btn w-btn-green" style="color: whitesmoke" id="pickBtn">찜 하기</button>
+                                <button type="button" class="wonyong-btn w-btn-blue" data-toggle="modal" data-target="#course-modal">코스에 추가</button>
                             </div>
                         </div>
                         <!-- 카트 끝 -->

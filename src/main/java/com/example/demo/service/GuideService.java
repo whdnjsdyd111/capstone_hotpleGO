@@ -39,4 +39,12 @@ public class GuideService {
     public GuideVO yourGuide(String uCode){
         return guideMapper.yourGuide(uCode);
     }
+
+    public List<GuideVO> guideList(){
+        return guideMapper.getGuideList();
+    }
+
+    public boolean deleteGuide(String uCode) {
+        return guideMapper.deleteGuide(uCode) == 1;
+    }
 }

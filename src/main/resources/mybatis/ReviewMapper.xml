@@ -30,6 +30,10 @@
         SELECT * FROM review WHERE uCode = #{uCode}
     </select>
 
+    <select id="getReview" resultType="ReviewVO">
+        SELECT * FROM review WHERE riCode = #{riCode}
+    </select>
+
 
     <update id="insertReply">
         UPDATE review SET rvOwnCont = #{rvOwnCont, jdbcType=VARCHAR} WHERE riCode = #{riCode}
@@ -37,7 +41,9 @@
 
     <select id="getCurrentFive" resultType="ReviewVO">
         <![CDATA[
-        SELECT /*+ INDEX_DESC(review rv_ri_fk) */ * FROM review WHERE ROWNUM <= 5
+        SELECT /*+ INDEX_DESC(review rv_ri_pfk) */ * FROM review
+        WHERE riCode IN (SELECT riCode FROM res_info WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}))
+        AND ROWNUM <= 5
         ]]>
     </select>
 

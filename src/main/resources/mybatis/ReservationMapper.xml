@@ -17,7 +17,10 @@
     </select>
 
     <select id="getReservationByManager" resultType="ReservationAllVO">
-        SELECT * FROM res_info NATURAL JOIN res_status NATURAL JOIN menu WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
+        SELECT * FROM res_info NATURAL JOIN res_status
+        NATURAL JOIN menu m
+        FULL OUTER JOIN image_attach i
+        ON (m.uuid = i.uuid) WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
     </select>
 
     <select id="getReservationByUser" resultType="ReservationAllVO">
@@ -38,7 +41,9 @@
 
     <select id="getCurFive" resultType="ReservationInformationVO">
         <![CDATA[
-        SELECT * FROM res_info NATURAL JOIN users WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
+        SELECT riCode, riTime, riPerson, riNoShow, riOdNum, riCont, htId, u.uCode, u.nick, u.phone
+        FROM res_info r JOIN users u ON(r.uCode = u.uCode)
+        WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
         AND riTime >= CURRENT_TIMESTAMP AND ROWNUM <= 5
         ORDER BY riTime
         ]]>

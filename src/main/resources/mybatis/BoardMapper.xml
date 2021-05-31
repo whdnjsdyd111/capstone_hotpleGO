@@ -77,8 +77,8 @@
         bdCode IS NOT NULL )
     </select>
 
-    <select id="getBoardCodes" resultType="String">
-        SELECT bdCode FROM board WHERE uCode = #{uCode}
+    <select id="getBoardCodes" resultType="BoardVO">
+        SELECT bdCode,bdTitle FROM board WHERE uCode = #{uCode}
     </select>
 
 
@@ -101,16 +101,16 @@
 
     <insert id="insertBoard">
         INSERT INTO board (
-        bdCode, bdTitle, bdCont, uCode
+        bdCode, bdTitle, bdCont, uCode, htId, csCode
         ) VALUES(TO_CHAR(SYSTIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_bd.NEXTVAL, 2, '0') || '/N',
         #{bdTitle},
         #{bdCont},
-        <!--        #{bdRdCount},-->
-        <!--        #{bdRecy},-->
-        <!--        #{bdRecn},-->
-        #{uCode}
+        #{uCode},
+        #{htId},
+        #{csCode}
         )
     </insert>
+
 
     <update id="updateBoard">
         UPDATE board SET bdTitle = #{vo.bdTitle}, bdCont = #{vo.bdCont} WHERE bdCode = #{vo.bdCode} AND uCode = #{uCode}

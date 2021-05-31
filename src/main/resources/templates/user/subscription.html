@@ -55,32 +55,33 @@
                             <div class="form-group d-flex">
                                 <input type="text" class="form-control form-control-user" id="phoneInputEmail"
                                        th:value="${user.phone}" name="phone" placeholder="Phone Number Without '-'">
-                                <input type="button" class="btn btn-outline-dark my-auto ml-3" value="인증번호 받기" id="sendPhoneNumber">
+                                <input type="button" class="wonyong-btn w-btn-blue" style="margin-left: 10px" value="인증번호 받기" id="sendPhoneNumber">
                             </div>
                             <div class=" form-group d-flex">
                                 <input type="text" class="form-control form-control-user" id="inputCertifiedNumber"
                                        th:value="${user.phone}" placeholder="인증번호를 입력해주세요.">
 
-                                <input type="button" class="btn btn-outline-dark my-auto ml-3" value="인증번호 확인" id="checkBtn">
+                                <input type="button" class="wonyong-btn w-btn-blue" style="margin-left: 10px" value="인증번호 확인" id="checkBtn">
                             </div>
 
-
-                            <div class="form-group custom-control custom-radio">
-                                <input type="radio" name="gender" id="radio-1" class="custom-control-input"
-                                       checked="checked" value="M">
-                                <label class="custom-control-label" for="radio-1">Man</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input type="radio" name="gender" id="radio-2" class="custom-control-input"
-                                       value="W">
-                                <label class="custom-control-label" for="radio-2">Woman</label>
+                            <div class="d-flex" style="place-content: center;">
+                                <div class="form-group custom-control custom-radio">
+                                    <input type="radio" name="gender" id="radio-1" class="custom-control-input"
+                                           checked="checked" value="M">
+                                    <label class="custom-control-label" for="radio-1">Man</label>
+                                </div>
+                                <div class="custom-control custom-radio" style="margin-left: 10px;">
+                                    <input type="radio" name="gender" id="radio-2" class="custom-control-input"
+                                           value="W">
+                                    <label class="custom-control-label" for="radio-2">Woman</label>
+                                </div>
                             </div>
 
 
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <input type="hidden" th:value="${user.pw}" name="pw">
                             <input type="hidden" th:value="${user.profileImg}" name="profileImg"/>
-                            <button type="submit" class="ml-0 btn btn-primary btn-user btn-block"
+                            <button type="submit" class="wonyong-btn-neon2" style="margin-top: 10px"
                                     onclick="return pass()">
                                 Register Complete!
                             </button>

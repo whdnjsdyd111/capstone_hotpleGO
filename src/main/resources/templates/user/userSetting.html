@@ -5,27 +5,110 @@
       layout:decorator="~{user/default}">
 <th:block layout:fragment="styles">
     <script src="/css/user/user_userSetting.js"></script>
+    <style>
+        table {
+            border: 1px solid gray;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.7);
+        }
+
+        .tbody_glass {
+            backdrop-filter: blur(7px);
+        }
+
+        .wonyong-btn-hide {
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: none;
+            position: relative;
+            transform: translateY(60%);
+            font-weight: 700;
+            outline: none;
+        }
+
+        .wonyong-btn-hide:focus {
+            outline: none;
+            border: none;
+        }
+
+        @keyframes appear {
+            0% {
+                transform: translateY(60%);
+            }
+            50% {
+                transform: translateY(0%);
+            }
+            100% {
+                transform: translateY(60%);
+                z-index: 1000;
+            }
+        }
+
+        @keyframes hide {
+            0% {
+                transform: translateY(60%);
+                z-index: 1000;
+            }
+            50% {
+                transform: translateY(0%);
+            }
+            100% {
+                transform: translateY(60%);
+            }
+        }
+    </style>
+    <script>
+        $(function() {
+            let btn = document.querySelectorAll('.wonyong-btn-hide');
+            for (let i = 0; i < btn.length; i++) {
+                btn[i].addEventListener('mouseleave', function() {
+                    this.style.animation = "hide 1s ease forwards";
+                });
+                btn[i].addEventListener('mouseover', function() {
+                    this.style.animation = "appear 1s ease forwards";
+                });
+            }
+        })
+    </script>
 </th:block>
 <div layout:fragment="content">
     <div class="container">
-        <h1 class="text-center text-dark font-weight-bold my-3">개인 정보 관리</h1>
+        <h1 class="text-center font-weight-bold my-3" style="font-weight: bold; color: darkslategray; text-shadow: 1px 1px 1.2px midnightblue;">마이페이지</h1>
+        <div class="d-flex">
+            <h3 style="margin-left: 50px" class="text-center text-dark font-weight-bold my-3 ">개인 정보 관리</h3> &nbsp;&nbsp;
+            <h7 class="d-flex" style="margin-top: 30px; color: #848484; font-size: 15px;" th:text="'로그인 계정: ' + ${user.UCode.split('/')[0]} + '&emsp;/ ' "></h7>&emsp;
+            <h7 style="margin-top: 30px; color: #848484; font-size: 15px;" th:text="'계정 생성일: '+${#hotpleAPI.timestampToStr(user.regDate).split(' ')[0]}"></h7>
+        </div>
+        <hr/>
+
+        <div class="d-flex justify-content-around" style="position: relative">
+            <button class="wonyong-btn-hide w-btn-pink" onclick="location.href = '/dibs'">찜 목록</button>
+            <button class="wonyong-btn-hide w-btn-pink" onclick="location.href = '/board/bookmark'">북마크</button>
+            <button class="wonyong-btn-hide w-btn-pink" onclick="location.href = '/taste'">취향 설정</button>
+            <button class="wonyong-btn-hide w-btn-pink" onclick="location.href = '/mbti'">MBTI</button>
+
+            <th:block th:if="${guide == null}">
+                <th:block th:if="${yourGuide == null}">
+                    <button class="wonyong-btn-hide w-btn-pink" data-toggle="modal" data-target="#guide">가이드신청</button>
+                </th:block>
+            </th:block>
+            <th:block th:if="${guide != null}">
+                <button class="wonyong-btn-hide w-btn-pink" id="guiding">가이드신청중</button>
+            </th:block>
+            <th:block th:if="${yourGuide != null}">
+                <button class="wonyong-btn-hide w-btn-pink" onclick="location.href='#'">가이드내역</button>
+            </th:block>
+        </div>
+        <div class="info_main"></div>
 
         <table class="table my-3">
+            <tbody class="tbody_glass">
             <tr>
-                <th>이메일</th>
-                <td th:text="${user.UCode.split('/')[0]}">email</td>
-            </tr>
-            <tr>
-                <th>생성일자</th>
-                <td th:text="${#hotpleAPI.timestampToStr(user.regDate)}">가입일</td>
-            </tr>
-            <tr>
-                <th>닉네임</th>
-                <td>
+                <th style="padding-top: 50px;">닉네임</th>
+                <td style="padding-top: 50px;">
                     <div class="d-flex flex-column">
                         <div class="d-flex flex-column">
                             <input id="nickname" class="form-control w-50 mx-auto" th:value="${user.nick}"/>
-                            <button id="updateNick" class="btn btn-info mx-auto" disabled="disabled">수정하기</button>
+                            <button id="updateNick" class="wonyong-btn w-btn-green" style="color: whitesmoke;width: 130px;place-self: center; margin-top: 10px; font-size: 14px;" disabled="disabled">수정하기</button>
                         </div>
                         <small id="check_nick" class="form-text text-danger "></small>
                     </div>
@@ -55,27 +138,13 @@
                             <input type="password" class="form-control w-50 mx-auto" id="new_re_passwd" name="password">
                         </div>
                         <small id="new_re_check_pw" class="form-text text-danger mb-3"></small>
-                        <button type="submit" id="submit_new_pw" class="btn btn-success w-50 btn-lg mx-auto" disabled="disabled">비밀번호 재설정</button>
+                        <button type="submit" id="submit_new_pw" class="wonyong-btn w-btn-green" style="color: whitesmoke;width: 200px;place-self: center;font-size: 14px;" disabled="disabled">비밀번호 재설정</button>
                     </div>
                 </td>
             </tr>
+            </tbody>
         </table>
-        <div class="d-flex justify-content-around">
-            <button class="btn-info" onclick="location.href = '/dibs'">찜 목록</button>
-            <button class="btn-info" onclick="location.href = '/board/bookmark'">북마크</button>
-            <button class="btn-info" onclick="location.href = '/taste'">취향 설정</button>
-            <button class="btn-info" onclick="location.href = '/mbti'">MBTI</button>
 
-            <th:block th:if="${guide == null}">
-                <button class="btn-info" data-toggle="modal" data-target="#guide">가이드신청</button>
-            </th:block>
-            <th:block th:if="${guide != null}">
-                <button class="btn-info" id="guiding">가이드신청중</button>
-            </th:block>
-            <th:block th:if="${yourGuide != null}">
-                <button class="btn-info" onclick="location.href='#'">가이드내역</button>
-            </th:block>
-        </div>
     </div>
 
     <div class="modal fade" id="guide" role="dialog">

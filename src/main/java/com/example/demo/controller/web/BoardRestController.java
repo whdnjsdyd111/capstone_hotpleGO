@@ -6,14 +6,12 @@ import com.example.demo.domain.ReportVO;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
 import com.example.demo.security.CustomUser;
-import com.example.demo.service.GuideService;
 import com.example.demo.service.ImageAttachService;
 import com.example.demo.service.ReportService;
 import com.example.demo.service.web.BoardService;
 import com.example.demo.service.web.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import oracle.ucp.proxy.annotation.Post;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +50,42 @@ public class BoardRestController {
         }
 
         return new ResponseEntity<>("글 등록이 완료되었습니다.", HttpStatus.OK);
+    }
+
+    @PostMapping("/shareHotple")
+    public ResponseEntity<String> insertHotpleShared(@RequestBody BoardVO boardVO, @AuthenticationPrincipal CustomUser user) {
+        boardVO.setUCode(user.user.getUCode());
+        log.info(boardVO);
+
+        boolean isInserted = boardService.insertBoard(boardVO);
+        try {
+            if (isInserted == true) {
+                log.info("게시글 등록 성공");
+            }
+
+        } catch (DataAccessException e) {
+            log.warn("데이터 처리 실패");
+        } catch (Exception e) {
+            log.warn("시스템 에러");
+        }
+        return new ResponseEntity<>("등록 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/shareCourse")
+    public ResponseEntity<String> insertCourseShared(@RequestBody BoardVO boardVO, @AuthenticationPrincipal CustomUser user) {
+        boardVO.setUCode(user.user.getUCode());
+        boolean isInserted = boardService.insertBoard(boardVO);
+        try {
+            if (isInserted == true) {
+                log.info("게시글 등록 성공");
+            }
+
+        } catch (DataAccessException e) {
+            log.warn("데이터 처리 실패");
+        } catch (Exception e) {
+            log.warn("시스템 에러");
+        }
+        return new ResponseEntity<>("등록 완료", HttpStatus.OK);
     }
 
     @PostMapping("/view/{bdCode}")

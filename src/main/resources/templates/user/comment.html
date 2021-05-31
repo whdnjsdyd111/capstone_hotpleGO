@@ -1,3 +1,10 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<script src="/css/user/commentWon.js"></script>
+<link rel="stylesheet" href="/css/user/board_cmmt.css/">
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -28,9 +35,11 @@
 
 <div id="start_com">
     <div th:each="comm : ${commentList.keySet()}">
+
         <div class="row container p-3 comments " style="margin: 0 auto;">
             <!-- 입력된 댓글 상자 시작 -->
-            <div class="col mr-auto d-flex flex-column text-left border">
+            <div th:id="|comm*{comm.comCode.replaceAll('/', '')}|"
+                 class="col mr-auto flex-column text-left border" style="display: flex">
                 <div class="d-flex justify-content-between">
                     <div class="">
                         <a class="text-dark" style="text-decoration: none;"
@@ -42,22 +51,16 @@
                                     th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
                             </button>
                         </span>
-                        <th:block sec:authorize-expr="!isAuthenticated()">
-                            <button class="btn btn-report go_login" id="report">신고</button>
-                        </th:block>
-                        <th:block sec:authorize-expr="isAuthenticated()">
-                            <input type="hidden" th:value="${comm.comCode}">
-                            <button class="btn btn-report ml-5" id="report" data-toggle="modal"
-                                    data-target="#reportModal">
-                                신고
-                            </button>
-                        </th:block>
+                        <span class="btn btn-report" data-toggle="modal"
+                              data-target="#reportModal">신고</span>
                     </div>
                     <div class="next-to-cmmt-nick">
                         <th:block sec:authorize-expr="isAuthenticated()">
                             <th:block th:if="${#authentication.getName().equals(comm.UCode.split('/')[0])} or ${#authentication.authorities[0].authority == 'A'}">
                                 <div class="writer-visible-box">
                                     <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    <input type="hidden" th:value="${comm.comCode.replaceAll('/', '')}"/>
+                                    <input type="hidden" th:value="comm"/>
                                     <span class="btn comment-delete">삭제</span>
                                     <input type="hidden" th:value="${comm.comCode}"/>
                                     <!-- 댓글 삭제 (위 수정과 삭제는 본인이 아닐 시 숨기거나 거부하는 alert) -->
@@ -94,20 +97,18 @@
                         <input type="hidden" th:value="${comm.comCode}"/>
                     </div>
                 </div>
-
-
                 <div class="container my-2 writen_comment">
                     <div th:utext="${comm.comCont}">댓글 내용</div>
                 </div>
                 <div class="mt-2">
-                    <button class="open-replies btn btn-dark" data-toggle="collapse"
+                    <button class="open-replies wonyong-btn w-btn-gray btn-sm m-2" data-toggle="collapse"
                             th:data-target="'#' +|collapse*{comm.comCode.replaceAll('/', '')}|">답글보기
                     </button>
                     <th:block sec:authorize-expr="isAuthenticated()">
-                        <button class="write_reply btn btn-dark">답글쓰기</button>
+                        <button class="write_reply wonyong-btn btn-sm m-2 w-btn-indigo">답글쓰기</button>
                     </th:block>
                     <th:block sec:authorize-expr="!isAuthenticated()">
-                        <button class="go_login btn btn-dark">답글쓰기</button>
+                        <button class="go_login wonyong-btn btn-sm m-2 w-btn-indigo">답글쓰기</button>
                     </th:block>
                     <input type="hidden" class="comCode1" th:value="${comm.comCode}"/>
                     <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
@@ -117,12 +118,44 @@
                 </div>
             </div>
             <!-- 입력된 댓글 상자 끝-->
+            <!-- 댓글 수정 -->
+            <div th:id="|comm-modify*{comm.comCode.replaceAll('/', '')}|"
+                 class="col mr-auto  flex-column text-left border" style="display: none">
+                <div class="d-flex justify-content-between">
+                    <div class="">
+                        <a class="text-dark" style="text-decoration: none;"
+                           href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
+                            <span class="mr-2"><i class="fa fa-user-circle mr-2" th:text="${comm.nick}"></i></span>
+                        </a>
+                        <span tabindex="0" data-toggle="tooltip" th:title="${#hotpleAPI.beforeTime(comm.comCode)}">
+                            <button class="btn" style="pointer-events: none; vertical-align: inherit;" type="button"
+                                    th:text="${#hotpleAPI.beforeBigTime(comm.comCode)}">
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="container my-2 writen_comment">
+                    <textarea class="form-control" th:value="${comm.comCont}"> [[${comm.comCont}]]</textarea>
+                </div>
+                <div class="mt-2">
+                    <button class="modify-cancel  wonyong-btn w-btn-red">취소</button>
+                    <input type="hidden" th:value="${comm.comCode.replaceAll('/', '')}"/>
+                    <input type="hidden" th:value="comm"/>
+                    <button class="write_reply  wonyong-btn w-btn-blue">저장</button>
+                    <input type="hidden" class="comCode1" th:value="${comm.comCode}"/>
+                    <input type="hidden" id="comCode" th:value="${comm.comCode.replaceAll('/', '')}"/>
+                    <input type="hidden" th:value="${comm.UCode}"/>
+                    <input type="hidden" style="text-align: left" name="nickname"/>
+                </div>
+            </div>
+            <!-- 댓글 수정 끝 -->
         </div>
         <!-- 리댓 상자 시작 -->
         <div th:id="|collapse*{comm.comCode.replaceAll('/', '')}|" class="panel-collapse collapse in" role="tabpanel"
              aria-labelledby="headingOne"> <!-- id에 각 댓글 구분할 값 추가 -->
             <th:block th:each="reply : ${commentList.get(comm)}">
-                <div class="row container p-3 comments replies">
+                <!-- reply 시작 -->
+                <div th:id="|reply*{replyStat.index}*{comm.comCode.replaceAll('/', '')}|" class="row container p-3 comments replies">
                     <div class="col mr-auto d-flex flex-column text-left border reply-box">
                         <div class="d-flex justify-content-between">
                             <div class="">
@@ -137,21 +170,15 @@
                                             type="button" th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
                                     </button>
                                 </span>
-                                <th:block sec:authorize-expr="!isAuthenticated()">
-                                    <button class="btn btn-report go_login" id="report">신고</button>
-                                </th:block>
-                                <th:block sec:authorize-expr="isAuthenticated()">
-                                    <input type="hidden" th:value="${reply.comCode}">
-                                    <button class="btn btn-report ml-5" id="report" data-toggle="modal"
-                                            data-target="#reportModal">
-                                        신고
-                                    </button>
-                                </th:block>
+                                <span class="btn btn-report" data-toggle="modal"
+                                      data-target="#reportModal">신고</span>
                             </div>
                             <div class="next-to-cmmt-nick">
                                 <th:block th:if="${#authentication.getName().equals(reply.UCode.split('/')[0])} or ${#authentication.authorities[0].authority == 'A'}">
 
                                     <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    <input type="hidden" th:value="|{replyStat.index}*{comm.comCode.replaceAll('/', '')}|">
+                                    <input type="hidden" th:value="reply">
                                     <span class="btn comment-delete">삭제</span>
                                     <input type="hidden" th:value="${reply.comCode}"/>
 
@@ -193,69 +220,50 @@
                             <div th:utext="${reply.comCont}">댓글 내용</div>
                         </div>
                         <div class="mt-2">
-                            <button class="write_re_reply btn btn-dark">답글쓰기</button>
-                            <input type="hidden" th:value="${comm.comCode}" />
+                            <button class="write_re_reply wonyong-btn btn-sm m-2 w-btn-indigo">답글쓰기</button>
+                            <input type="hidden" th:value="${comm.comCode}"/>
                         </div>
                     </div>
                     <!------------------------------------------------------->
                 </div>
+                <!-- reply 끝 -->
+                <!-- reply 수정 시작 -->
+                <div th:id="|reply*modify*{replyStat.index}*{comm.comCode.replaceAll('/', '')}|" class="row container p-3 comments replies" style="display: none">
+                    <div class="col mr-auto d-flex flex-column text-left border reply-box">
+                        <div class="d-flex justify-content-between">
+                            <div class="">
+                                <a class="text-dark" style="text-decoration: none;"
+                                   href="mainBoard.do?kind=all&target=writer&search=${ `joinMemCom.com_mem_nickname` }">
+                                    <span class="mr-2"><i class="fa fa-user-circle mr-2"
+                                                          th:text="${reply.nick}"></i></span>
+                                </a>
+                                <span tabindex="0" data-toggle="tooltip"
+                                      th:title="${#hotpleAPI.beforeTime(reply.comCode)}">
+                                    <button class="btn" style="pointer-events: none; vertical-align: inherit;"
+                                            type="button" th:text="${#hotpleAPI.beforeBigTime(reply.comCode)}">
+                                    </button>
+                                </span>
+
+                            </div>
+
+                        </div>
+                        <div class="container my-2 writen_comment">
+                            <textarea > [[${reply.comCont}]]</textarea>
+                        </div>
+                        <div class="mt-2">
+                            <button class="modify-cancel  wonyong-btn w-btn-gray">취소</button>
+                            <input type="hidden" th:value="|reply*{replyStat.index}*{comm.comCode.replaceAll('/', '')}|">
+                            <input type="hidden" th:value="reply">
+                            <button class="modify-save  wonyong-btn w-btn-blue">저장</button>
+                            <input type="hidden" th:value="${comm.comCode}"/>
+                        </div>
+                    </div>
+                    <!------------------------------------------------------->
+                </div>
+                <!-- reply 수정 끝 -->
             </th:block>
         </div>
         <!-- 리댓 상자 끝 -->
-    </div>
-
-
-    <div class="modal" tabindex="-1" id="reportModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">콘텐츠 신고하기</h3>
-                    <button id="modal_close" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body bg-light">
-                    <h5>신고 사유</h5>
-                    <div id="radioGroup">
-                        <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline1" name="customRadioInline1"
-                                   class="custom-control-input" value="100">
-                            <label class="custom-control-label" for="customRadioInline1">회원을 향한 욕설 및 비방</label>
-                        </div>
-                        <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline2" name="customRadioInline1"
-                                   class="custom-control-input" value="200">
-                            <label class="custom-control-label" for="customRadioInline2">음란 및 성적인 콘텐츠</label>
-                        </div>
-                        <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline3" name="customRadioInline1"
-                                   class="custom-control-input" value="300">
-                            <label class="custom-control-label" for="customRadioInline3">정치와 관련된 콘텐츠</label>
-                        </div>
-                        <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline4" name="customRadioInline1"
-                                   class="custom-control-input" value="400">
-                            <label class="custom-control-label" for="customRadioInline4">홍보 및 불법 광고</label>
-                        </div>
-                        <div class="custom-control custom-radio mb-2">
-                            <input type="radio" id="customRadioInline5" name="customRadioInline1"
-                                   class="custom-control-input" value="500">
-                            <label class="custom-control-label" for="customRadioInline5">권리 침해</label>
-                        </div>
-                        <div class="custom-control custom-radio mb-4">
-                            <input type="radio" id="customRadioInline6" name="customRadioInline1"
-                                   class="custom-control-input" value="600">
-                            <label class="custom-control-label" for="customRadioInline6">기타</label>
-                        </div>
-                    </div>
-                    <h5>상세 내용</h5>
-                    <textarea maxlength="100" id="report_content" placeholder="상세한 내용을 백자 내로 입력하십시오. (선택)"></textarea>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="modal_report">신고하기</button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </html>

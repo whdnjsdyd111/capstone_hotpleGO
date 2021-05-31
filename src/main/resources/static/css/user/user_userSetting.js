@@ -163,7 +163,7 @@ $(function () {
 
     // 코스 삭제
     $(document).on('click', '.pickDelete', function(e) {
-        let htId = $(this).parent().parent().parent().parent().children('input[type=hidden]').val();
+        let htId = $(this).prev().prev().val();
         e.stopPropagation(); // 부모 무시
         swal("정말 삭제하시겠습니까?",
             {
@@ -189,6 +189,21 @@ $(function () {
         });
     });
 
+    // 핫플 공유
+    $(document).on('click', '.hotple-share', function(e) {
+        e.stopPropagation();
+        let htId = $(this).parent().parent().parent().parent().children('input[type=hidden]').val();
+        location.href = "/board/shareHotple/" + htId;
+    });
+
+    // 코스 공유
+    $(document).on('click', '.course-share', function (e) {
+        e.stopPropagation();
+        let csCode = $(this).next().next().val();
+        location.href = "/board/shareCourse/" + csCode;
+    });
+    /*<input type="hidden" id="csCode1" name="csCode1" th:value="${course.csCode.replaceAll('/', '')}">*/
+
 
     // 핫플 정보 보기
     $(document).on('click','article',function (){
@@ -207,7 +222,7 @@ $(function () {
 
     // 찜 코스 삭제
     $(document).on('click','.pickCourseDelete',function (e){
-
+        /*<input type="hidden" id="csCode" th:value="${course.csCode}">*/
         let csCode = $(this).parent().parent().parent().parent().find('#csCode').val();
         e.stopPropagation();
         swal("정말 삭제하시겠습니까?",
@@ -326,6 +341,8 @@ $(function () {
         }
 
     });
+
+
 });
 
 

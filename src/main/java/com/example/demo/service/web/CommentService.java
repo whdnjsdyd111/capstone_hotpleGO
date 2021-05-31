@@ -85,11 +85,11 @@ public class CommentService {
         return map;
     }
 
-    public List<String> getComCodes(String uCode) {
+    public List<CommentVO> getComCodes(String uCode) {
         return commentMapper.commCodes(uCode);
     }
 
-    public List<String> getReplyCodes(String uCode) {
+    public List<CommentVO> getReplyCodes(String uCode) {
         return commentMapper.replyCodes(uCode);
     }
 

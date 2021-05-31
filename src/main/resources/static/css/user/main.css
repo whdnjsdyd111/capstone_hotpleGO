@@ -1,0 +1,38 @@
+.top-img {
+    position: relative;
+    overflow: auto;
+}
+
+video {
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+video + div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes line-anim {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fill {
+    from {
+        fill: #383838;
+    }
+    to {
+        fill: white;
+    }
+}
+
+@media(max-width: 720px) {
+    svg {
+        width: 366px;
+    }
+}

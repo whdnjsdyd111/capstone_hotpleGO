@@ -24,13 +24,9 @@ public class CommonController {
     private final UserService user;
     private final HttpSession session;
 
-    @GetMapping("/accessError")
+    @GetMapping("/error/accessError")
     public String accessDenied(Authentication auth, Model model) {
-        log.info("access Denied: " + auth);
-
-        model.addAttribute("msg", "Access Denied : " + auth.getAuthorities().toArray()[0] + " 권한은 접근 불가");
-
-        return "accessError";
+        return "error/accessError";
     }
 
 

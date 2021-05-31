@@ -179,20 +179,28 @@ $(function() {
 
 
     $('#delete').click(function() {
-        let delete_check = confirm("글을 삭제하시겠습니까?");
+        swal("정말 삭제하시겠습니까?",{
+            buttons: {
+                cancel: "아니오!",
+                add: "네!"
+            }
+        }).then((v) =>{
+            if (v === "add") {
+                requestServlet({
+                    bdCode: bdCode
+                }, "/board/rest/delete", function (data) {
+                    swal({
+                        title: "삭제 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.href = "/board/list");
+                }, basicErrorFunc);
+            }
+        })
 
-        if (delete_check) {
-            requestServlet({
-                bdCode: bdCode
-            }, "/board/rest/delete", function (data) {
-                swal("삭제 완료!", data, "success").then(() => location.href = "/board/list");
-            });
-        }
+
     });
-
-    // $('#report').click(function (){
-    //     cur_bdCode = $(this).prev().val();
-    // });
 
     $('#modal_board_report').click(function () {
         let bdCode = $(this).prev().val();

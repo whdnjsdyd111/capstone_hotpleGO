@@ -29,12 +29,12 @@
         ORDER BY REPLYCODE DESC, inx desc
     </select>
 
-    <select id="commCodes" resultType="String">
-        SELECT comCode FROM comm WHERE uCode = #{uCode} AND replyCode IS NULL
+    <select id="commCodes" resultType="CommentVO">
+        SELECT comCont, bdCode FROM comm WHERE uCode = #{uCode} AND replyCode IS NULL
     </select>
 
-    <select id="replyCodes" resultType="String">
-        SELECT comCode FROM comm WHERE uCode = #{uCode} AND replyCode IS NOT NULL
+    <select id="replyCodes" resultType="CommentVO">
+        SELECT comCode, comCont, bdCode FROM comm WHERE uCode = #{uCode} AND replyCode IS NOT NULL
     </select>
 
     <insert id="commentInsert">
