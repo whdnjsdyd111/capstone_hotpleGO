@@ -31,6 +31,7 @@ $(function() {
             infoWindow = undefined;
         }
     });
+
     map.addListener("drag", onDrag); // 지도 드래그시, 이벤트 리스너 등록.
     ht_map.forEach((h, n) => {
         addMarker(h.category, h.htLng, h.htLat, null);
@@ -53,9 +54,10 @@ function addMarker(category, lon, lat, index) {
 function addInfoWindow(h) {
     let content=
         "<div class='d-flex flex-column rounded infoWindow' style='background: seashell; position: absolute; box-shadow: 5px 5px 5px #00000040;width : 250px;height:250px;top: -300px;left: -125px;align-items: center;'>";
-    h.htImg === null ? content += '<img src="/images/logo.jpg" style="width: 200px; height: 100px" class="shadow-sm bg-white rounded mt-1" alt="이미지가 없습니다.">'
-        : content += '<img src="/hotpleImage/'+ h.uploadPath.replaceAll('\\', '/') + '/' + h.htImg + '_' + h.fileName + '"' +
-        'style="width: 200px; height: 100px" class="shadow-sm bg-white rounded mt-1" alt="이미지가 없습니다.">';
+    (h.htImg === null && h.goImg === null) ? content += '<img src="/images/logo.jpg" style="width: 200px; height: 100px" class="shadow-sm bg-white rounded mt-1" alt="이미지가 없습니다.">'
+        : (h.htImg != null ? (content += '<img src="/hotpleImage/'+ h.uploadPath.replaceAll('\\', '/') + '/' + h.htImg + '_' + h.fileName + '"' +
+        ' style="width: 200px; height: 100px" class="shadow-sm bg-white rounded mt-1" alt="이미지가 없습니다.">')
+        : (content += '<img src="' + h.goImg + '" style="width: 200px; height: 100px" class="shadow-sm bg-white rounded mt-1" alt="이미지가 없습니다.">'));
     content +=
         "<div class='mt-2'>"+
         "<p class='m-1'>"+
@@ -144,9 +146,10 @@ function buildCards(h, n) {
         '<div class="col mb-4">' +
         '<div class="card h-100">';
 
-    h.htImg === null ? str += '<img src="/images/logo.jpg" class="ht-img m-3" alt="이미지가 없습니다.">'
-        : str += '<img src="/hotpleImage/'+ h.uploadPath.replaceAll('\\', '/') + '/' + h.htImg + '_' + h.fileName + '" class="ht-img m-3">';
-
+    (h.htImg === null && h.goImg === null) ? str += '<img src="/images/logo.jpg" class="ht-img m-3" alt="이미지가 없습니다.">'
+        : (h.htImg != null ? (str += '<img src="/hotpleImage/'+ h.uploadPath.replaceAll('\\', '/') + '/' + h.htImg + '_' + h.fileName + '"' +
+        ' class="ht-img m-3" alt="이미지가 없습니다.">')
+        : (str += '<img src="' + h.goImg + '" class="ht-img m-3" alt="이미지가 없습니다.">'));
     str +=
         '<div class="card-body">' +
         '<h5 class="card-title">' + h.busnName +'</h5>' +

@@ -23,6 +23,7 @@ public class HotpleVO {
     private Double goGrd;
     private String htTel;
     private String htImg;
+    private String goImg;
     private String uploadPath;
     private String fileName;
     private Double htLat;

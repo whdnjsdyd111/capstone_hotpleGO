@@ -49,13 +49,16 @@
                     <th:block th:if="${num * 4 + index < hotples.size()}">
                         <div class="col mb-4">
                             <div class="card h-100">
-                                <th:block th:if="${hotples.get(num * 4 + index).htImg == null}">
+                                <th:block th:if="${hotples.get(num * 4 + index).htImg == null && hotples.get(num * 4 + index).goImg == null}">
                                     <img src="/images/logo.jpg" class="ht-img m-3" alt="이미지가 없습니다.">
                                 </th:block>
                                 <th:block th:if="${hotples.get(num * 4 + index).htImg != null}">
                                     <img th:src="${#hotpleAPI.toImg(hotples.get(num * 4 + index).uploadPath,
                                     hotples.get(num * 4 + index).htImg, hotples.get(num * 4 + index).fileName, #hotpleAPI.IMAGE)}"
                                          alt="이미지가 없습니다." class="ht-img m-3">
+                                </th:block>
+                                <th:block th:if="${hotples.get(num * 4 + index).htImg == null && hotples.get(num * 4 + index).goImg != null}">
+                                    <img th:src="${hotples.get(num * 4 + index).goImg}" alt="이미지가 없습니다." class="ht-img m-3"/>
                                 </th:block>
                                 <div class="card-body">
                                     <h5 class="card-title" th:text="${hotples.get(num * 4 + index).busnName}">가게 이름</h5>

@@ -119,7 +119,17 @@
                         <input type="hidden" id="htId" class="htId" th:value="${vo.htId}">
                         <div class="jumbotron mx-4">
                             <div class="container">
-                                <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid"><!-- 디폴트 사진 -->
+                                <th:block th:if="${vo.htImg == null && vo.goImg == null}">
+                                    <img src="/images/logo.jpg" class="img-fluid" alt="이미지가 없습니다.">
+                                </th:block>
+                                <th:block th:if="${vo.htImg != null}">
+                                    <img th:src="${#hotpleAPI.toImg(vo.uploadPath,
+                                    vo.htImg, vo.fileName, #hotpleAPI.IMAGE)}"
+                                         alt="이미지가 없습니다." class="img-fluid">
+                                </th:block>
+                                <th:block th:if="${vo.htImg == null && vo.goImg != null}">
+                                    <img th:src="${vo.goImg}" alt="이미지가 없습니다." class="img-fluid"/>
+                                </th:block>
                                 <div style="margin-left:30px; ">
                                     <p>
                                     <h3 th:text="${vo.busnName}"></h3></p>
@@ -143,8 +153,17 @@
                     <div class="slide-wrapper">
                         <ul th:id="${'sb-slider'+courseStat.index}" class="sb-slider">
                             <li th:each="courseInfo : ${courseInfos.get(course.csCode)}">
-                                <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath, courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
-                                     alt="메뉴 이미지를 추가해주세요." class="img-fluid">
+                                <th:block th:if="${courseInfo.uuid == null && courseInfo.goImg == null}">
+                                    <img src="/images/logo.jpg" alt="이미지가 없습니다.">
+                                </th:block>
+                                <th:block th:if="${courseInfo.uuid != null}">
+                                    <img th:src="${#hotpleAPI.toImg(courseInfo.uploadPath,
+                                    courseInfo.uuid, courseInfo.fileName, #hotpleAPI.IMAGE)}"
+                                         alt="이미지가 없습니다.">
+                                </th:block>
+                                <th:block th:if="${courseInfo.uuid == null && courseInfo.goImg != null}">
+                                    <img th:src="${courseInfo.goImg}" alt="이미지가 없습니다."/>
+                                </th:block>
                                 <div class="sb-description">
                                     <h3 th:text="${courseInfo.busnName}">가게명</h3>
                                     <h4 th:text="${courseInfo.htAddr}"></h4>
@@ -157,10 +176,16 @@
                             <a href="#">Previous</a>
                         </div>
                         <div th:id="${'nav-dots'+courseStat.index}" class="nav-dots">
-                            <span class="nav-dot-current">1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
+                            <th:block th:each="courseInfo : ${courseInfos.get(course.csCode)}">
+                                <th:block th:switch="${courseInfoStat.index}">
+                                    <th:block th:case="0">
+                                        <span class="nav-dot-current">1</span>
+                                    </th:block>
+                                    <th:block th:case="*">
+                                        <span th:text="${courseInfoStat.index + 1}"></span>
+                                    </th:block>
+                                </th:block>
+                            </th:block>
                         </div>
                     </div><!-- /wrapper -->
                     <div class="card_class">
@@ -174,6 +199,9 @@
                             <input type="hidden" id="csCode1" name="csCode1" th:value="${course.csCode.replaceAll('/', '')}">
                             <button type="button" class="w-btn-red wonyong-btn my-1 pickCourseDelete" >삭제하기
                             </button>
+                            <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|">
+                                상세보기
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -19,6 +19,7 @@
 
         span {
             word-break: keep-all;
+            color: #b8b8b8;
         }
 
         .itemBoxHighlight {
@@ -90,7 +91,7 @@
         <script src="/css/vendor/jq/jquery-ui.min.js"></script>
     </th:block>
 </th:block>
-<div layout:fragment="content">
+<div layout:fragment="content" style="background: #161623; padding-bottom: 30px">
     <div th:replace="user/courseNav :: course"></div>
     <th:block th:if="${usingCourseInfos.size() > 0}">
         <input type="hidden" th:value="${kind}" id="kind">
@@ -114,9 +115,17 @@
                             <hr class="col"/>
                             <div class="d-flex justify-content-around my-3">
                                 <span class="my-auto c-index font-weight-bold" th:text="${num + 1}">1</span>
-                                <img  alt="이미지 없음" style="width: 300px; height: 300px;"
-                                      th:src="${#hotpleAPI.toImg(usingCourseInfos.get(num).uploadPath, usingCourseInfos.get(num).uuid,
-                                     usingCourseInfos.get(num).fileName, #hotpleAPI.IMAGE)}">
+                                <th:block th:if="${usingCourseInfos.get(num).uuid == null && usingCourseInfos.get(num).goImg == null}">
+                                    <img src="/images/logo.jpg" style="width: 300px; height: 300px;" alt="이미지가 없습니다.">
+                                </th:block>
+                                <th:block th:if="${usingCourseInfos.get(num).uuid != null}">
+                                    <img th:src="${#hotpleAPI.toImg(usingCourseInfos.get(num).uploadPath,
+                                    usingCourseInfos.get(num).uuid, usingCourseInfos.get(num).fileName, #hotpleAPI.IMAGE)}"
+                                         alt="이미지가 없습니다." style="width: 300px; height: 300px;">
+                                </th:block>
+                                <th:block th:if="${usingCourseInfos.get(num).uuid == null && usingCourseInfos.get(num).goImg != null}">
+                                    <img th:src="${usingCourseInfos.get(num).goImg}" alt="이미지가 없습니다." style="width: 300px; height: 300px;"/>
+                                </th:block>
                                 <div class="d-flex flex-column my-auto" style="width:160px;">
                                     <span th:text="|*{usingCourseInfos.get(num).busnName}|">가게 이름 ( 대략 소요 시간 30분)</span>
                                     <span th:text="|*{usingCourseInfos.get(num).htAddr}|">도로명 주소</span>

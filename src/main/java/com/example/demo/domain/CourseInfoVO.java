@@ -19,6 +19,7 @@ public class CourseInfoVO {
     private String htAddr;
     private String htCont;
     private String htTel;
+    private String goImg;
     private Double htLat;
     private Double htLng;
 
