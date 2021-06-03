@@ -6,9 +6,11 @@ import com.example.demo.domain.web.AllianceVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
 import com.example.demo.service.web.AllianceService;
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.catalina.User;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.http.HttpStatus;
@@ -27,10 +29,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @RestController
 @RequestMapping("/*")
@@ -46,6 +45,109 @@ public class HomeRestController {
     private final ReservationService reservation;
     private final PasswordEncoder passwordEncoder;
     private final GuideService guideService;
+
+    @PostMapping("/around")
+    public ResponseEntity<String> around(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        String urlOnOff = user == null ? "off" : "on";
+        List<HotpleVO> filteredHotple = new ArrayList<>();
+        Map<String, List<HotpleVO>> filteredCourse = new HashMap<>();
+
+        try {
+            HttpURLConnection conn = null;
+            URL url = new URL("http://127.0.0.1:5000/" + urlOnOff); // 액세스 토큰 받을 주소 입력
+
+            String mbti = "[{mbti: ";
+            if (user != null) {
+                mbti = this.user.getMbti(user.user.getUCode());
+                if (mbti == null) return new ResponseEntity<>("no-mbti", HttpStatus.BAD_GATEWAY);
+            }
+            mbti += "}]";
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");  // post 방식으로 요청
+
+            // 헤더 설정
+            conn.setRequestProperty("Content-Type", "application/json");    // 서버에서 받을 Data 방식 설정
+            conn.setRequestProperty("Accept", "application/json");
+
+            conn.setDoOutput(true); // OutputStream 으로 POST 데이터를 넘겨주겠다는 설정
+
+            List<HotpleVO> hotples = hotple.getByGeoAndArea(35.8992601, 128.6215081, 3);
+            List<CourseVO> courses = course.getCourses();
+            List<CourseInfoVO> courseInfos = course.getCourseInfos();
+
+            // 키 설정
+            String hotples_json = new Gson().toJson(hotples);
+            String courses_json = new Gson().toJson(courses);
+            String courseInfos_json = new Gson().toJson(courseInfos);
+
+            // JSON 화한 키 값들 전달하기
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            bw.write("{" + hotples_json + "," + courses_json + "pp," + courseInfos_json + ",oo" + mbti + "}");   //json 객체로 1차적으로 다듬어서 보냄.
+            bw.flush();
+            bw.close();
+
+            int responseCode = conn.getResponseCode();
+            log.info("응답 코드 : " + responseCode);
+
+            if (responseCode == 200) {  // 성공
+                log.info("메인 받기 성공");
+                // 버퍼 리더로 반환 값 얻기
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                StringBuilder sb = new StringBuilder();
+                // 차례로 읽기
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                }
+                br.close();
+                log.info("" + sb.toString());
+
+                String str = sb.toString();
+                log.info(str);
+
+                JSONArray array = new JSONArray(str);
+
+                JSONArray hotpleArr = array.getJSONArray(0);
+                int arr[] = new int[hotpleArr.length()];
+                for (int i = 0; i < hotpleArr.length(); i++) {
+                    arr[i] = hotpleArr.getInt(i);
+                }
+                hotples.stream().filter(n -> isMatch(n, arr)).forEach(filteredHotple::add);
+                log.info(filteredHotple);
+
+                org.json.JSONObject courseObj = array.getJSONObject(1);
+                for (String obj : courseObj.keySet()) {
+                    CourseVO vo = courses.stream().filter(n -> n.getCsCode().equals(obj)).findFirst().get();
+                    List<HotpleVO> infos = new ArrayList<>();
+                    hotpleArr = courseObj.getJSONArray(obj);
+                    int arrs[] = new int[hotpleArr.length()];
+                    for (int i = 0; i < hotpleArr.length(); i++) {
+                        arrs[i] = hotpleArr.getInt(i);
+                    }
+                    hotples.stream().filter(n -> isMatch(n, arrs)).forEach(infos::add);
+                    filteredCourse.put(vo.getCsCode(), infos);
+                }
+                log.info(filteredCourse);
+            } else {
+                log.info(conn.getResponseMessage());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        org.json.JSONObject obj = new org.json.JSONObject();
+        obj.put("hotples", filteredHotple);
+        obj.put("courses", filteredCourse);
+        return new ResponseEntity<>(obj.toString(), HttpStatus.OK);
+    }
+
+    public boolean isMatch(HotpleVO vo, int arr[]) {
+        for (int a : arr) {
+            if (vo.getHtId() == a) return true;
+        }
+        return false;
+    }
 
     @PostMapping("/alliance")
     public ResponseEntity<String> allianceRegister(@RequestBody AllianceVO vo) {

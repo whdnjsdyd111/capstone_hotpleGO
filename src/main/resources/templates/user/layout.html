@@ -73,8 +73,8 @@
         </div>
     </nav>
     <script>
-        let userLat;
-        let userLong;
+        var userLat;
+        var userLong;
         function getLocation() {
             if (navigator.geolocation) { // GPS를 지원하면
                 navigator.geolocation.getCurrentPosition(function(position) {
@@ -82,6 +82,8 @@
                     userLong = position.coords.longitude;
                     console.log(userLat, userLong);
                 }, function(error) {
+                    userLat = 35.8992601;
+                    userLong = 128.6215081;
                     console.error(error);
                 }, {
                     enableHighAccuracy: false,

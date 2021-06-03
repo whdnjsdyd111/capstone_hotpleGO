@@ -83,7 +83,6 @@
         }
 
         .top-img {
-            height: 350px;
             padding: 100px;
         }
 
@@ -95,8 +94,12 @@
             text-align: left;
         }
 
+        strong {
+            display: block;
+        }
+
         .title {
-            color: white;
+            word-break: keep-all;
         }
     </style>
 </th:block>
@@ -119,153 +122,58 @@
     </div>
     <section class="p-5 mx-3">
         <div class="section-title-wrap"><h2 class="section-title">주변 핫코스</h2></div>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="swiper-contents">
-                        <figure class="figure mx-5">
-                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
-                            <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
-                        </figure>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <figure class="figure mx-5 ">
-                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                             class="figure-img img-fluid rounded fig">
-                        <figcaption class="figure-caption text-right ">
-                            <div class="info-wrap">
-                                    <span>
-                                        A caption for the above image.
-                                    </span>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </div>
-                <div class="swiper-slide">
-                    <figure class="figure mx-5">
-                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                             class="figure-img img-fluid rounded">
-                        <figcaption class="figure-caption text-right">A caption for the above image.</figcaption>
-                    </figure>
-                </div>
-            </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-button-next"></div>
-        </div>
+<!--        <div class="swiper-container">-->
+<!--            <div class="swiper-wrapper">-->
+<!--                <div class="swiper-slide">-->
+<!--                    <div class="swiper-contents">-->
+<!--                        <figure class="figure mx-5">-->
+<!--                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"-->
+<!--                                 class="figure-img img-fluid rounded">-->
+<!--                            <figcaption class="figure-caption text-right">-->
+<!--                                A caption for the above image.-->
+<!--                            </figcaption>-->
+<!--                        </figure>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="swiper-slide">-->
+<!--                    <figure class="figure mx-5 ">-->
+<!--                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"-->
+<!--                             class="figure-img img-fluid rounded fig">-->
+<!--                        <figcaption class="figure-caption text-right ">-->
+<!--                            A caption for the above image.-->
+<!--                        </figcaption>-->
+<!--                    </figure>-->
+<!--                </div>-->
+<!--                <div class="swiper-slide">-->
+<!--                    <figure class="figure mx-5">-->
+<!--                        <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"-->
+<!--                             class="figure-img img-fluid rounded">-->
+<!--                        <figcaption class="figure-caption text-right">-->
+<!--                            A caption for the above image.-->
+<!--                        </figcaption>-->
+<!--                    </figure>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="swiper-pagination"></div>-->
+<!--            <div class="swiper-button-prev"></div>-->
+<!--            <div class="swiper-button-next"></div>-->
+<!--        </div>-->
     </section>
     <section class="p-5 mx-3">
         <div class="section-title-wrap"><h2 class="section-title">주변 핫플</h2></div>
         <ul class="restaurant-ul">
             <li class="restaurant-item">
-                <div class="popular_restaurant_inner_wrap">
+                <div class="popular_restaurant_inner_wrap card">
+                    <a class="stretched-link hotples" href="#"></a>
                     <figure class="restaurant-item">
                         <div class="thumb">
                             <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
-                        </div>
-                        <figcaption>
-                            <div class="info">
-                                <span class="title">김씨육면</span>
-                                <strong class="point search_point ">4.0</strong>
-                                <p class="etc">
-                                    국수 / 면 요리
-                                </p>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </div>
-            </li>
-            <li class="restaurant-item">
-                <div class="popular_restaurant_inner_wrap">
-                    <figure class="restaurant-item">
-                        <div class="thumb">
-                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
+                                 class="figure-img img-fluid rounded hotple_img">
                         </div>
                         <figcaption>
                             <div class="info">
                                 <span class="title">식당명</span>
-                                <strong class="point search_point expected"></strong>
-                                <p class="etc">
-                                    기타 한식
-                                </p>
-                            </div>
-                        </figcaption>
-                    </figure>
-                    </a>
-                </div>
-            </li>
-            <li class="restaurant-item">
-                <div class="popular_restaurant_inner_wrap">
-                    <figure class="restaurant-item">
-                        <div class="thumb">
-                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
-                        </div>
-                        <figcaption>
-                            <div class="info">
-                                <span class="title">식당명</span>
-                                <strong class="point search_point "></strong>
-                                <p class="etc">
-                                    까스 요리
-                                </p>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </div>
-            </li>
-            <li class="restaurant-item">
-                <div class="popular_restaurant_inner_wrap">
-                    <figure class="restaurant-item">
-                        <div class="thumb">
-                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
-                        </div>
-                        <figcaption>
-                            <div class="info">
-                                <span class="title">식당명</span>
-                                <strong class="point search_point ">3.8</strong>
-                                <p class="etc">
-                                    기타 중식
-                                </p>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </div>
-            </li>
-            <li class="restaurant-item">
-                <div class="popular_restaurant_inner_wrap">
-                    <figure class="restaurant-item">
-                        <div class="thumb">
-                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
-                        </div>
-                        <figcaption>
-                            <div class="info">
-                                <span class="title">식당명</span>
-                                <strong class="point search_point expected"></strong>
-                                <p class="etc">
-                                    카페 / 디저트
-                                </p>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </div>
-            </li>
-            <li class="restaurant-item">
-                <div class="popular_restaurant_inner_wrap">
-                    <figure class="restaurant-item">
-                        <div class="thumb">
-                            <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
-                        </div>
-                        <figcaption>
-                            <div class="info">
-                                <span class="title">식당명</span>
-                                <strong class="point search_point expected"></strong>
+                                <strong class="point search_point"></strong>
                                 <p class="etc">
                                     회 / 스시
                                 </p>
@@ -275,11 +183,12 @@
                 </div>
             </li>
             <li class="restaurant-item">
-                <div class="popular_restaurant_inner_wrap">
+                <div class="popular_restaurant_inner_wrap card">
+                    <a class="stretched-link hotples" href="#"></a>
                     <figure class="restaurant-item">
                         <div class="thumb">
                             <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
+                                 class="figure-img img-fluid rounded hotple_img">
                         </div>
                         <figcaption>
                             <div class="info">
@@ -294,11 +203,12 @@
                 </div>
             </li>
             <li class="restaurant-item">
-                <div class="popular_restaurant_inner_wrap">
+                <div class="popular_restaurant_inner_wrap card">
+                    <a class="stretched-link hotples" href="#"></a>
                     <figure class="restaurant-item">
                         <div class="thumb">
                             <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
-                                 class="figure-img img-fluid rounded">
+                                 class="figure-img img-fluid rounded hotple_img">
                         </div>
                         <figcaption>
                             <div class="info">
@@ -315,26 +225,6 @@
         </ul>
     </section>
     <script>
-        let mySwiper = new Swiper
-        ('.swiper-container', {
-            slidesPerView: '3',
-            direction: 'horizontal',
-            loop: true,
-            pagination: {el: '.swiper-pagination',},
-            navigation: {
-                nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',
-            },
-            breakpoints: {
-                720: {
-                    slidesPerView: 3,
-                    slidesPerGroup: 3,
-                },
-                1: {
-                    slidesPerView: 1,
-                    slidesPerGroup: 1,
-                },
-            }
-        });
         $('.top-div').height(0);
         window.scrollTo(0, 0);
         const nb = $('.navbar');
@@ -346,6 +236,7 @@
         sl.css('opacity', '0.7');
         nb.removeClass('fix')
         nb.css('position', 'absolute');
+
         $(window).scroll(function () {
             if ($(window).scrollTop() > $('.top-img').height()) {
                 nb.addClass('fix')
@@ -365,7 +256,6 @@
                 });
             }
         });
-
 
         document.addEventListener(
             "DOMContentLoaded",
@@ -392,6 +282,125 @@
             },
             false
         );
+
+        let tastes = {
+            0 : '한식',
+            1 : '분식',
+            2 : '일식',
+            3 : '양식',
+            4 : '중식',
+            5 : '패스트푸트',
+            6 : '뷔페',
+            7 : '양식',
+            10 : '커피',
+            11 : '차/음료',
+            12 : '베이커리',
+            13 : '빙수',
+            20 : '게임',
+            21 : '방탈출',
+            22 : 'VR',
+            23 : '노래방',
+            24 : '스포츠',
+            25 : '쇼핑',
+            26 : '공방',
+            27 : '놀이공원',
+            30 : '맥주',
+            31 : '소주',
+            32 : '막걸리',
+            33 : '칵테일/와인',
+            40 : '영화',
+            41 : '전시회',
+            42 : '도서관',
+            43 : '공연',
+            44 : '스포츠 관람',
+            50 : '테마',
+            51 : '문화재',
+            52 : '시장',
+            53 : '공원',
+        }
+
+        $(function() {
+            requestServlet({
+                    lat: userLat,
+                    lng: userLong
+                }, '/around',
+                function(data) {
+                    data = JSON.parse(data);
+                    datas = data;
+
+                    datas.hotples.forEach((v, i) => {
+                        $($('.title')[i]).text(v.busnName);
+                        $($('.hotple_img')[i]).attr('src', v.goImg === undefined ? '/images/logo2.png' : v.goImg);
+                        $($('.point')[i]).text(v.goGrd);
+                        $($('.etc')[i]).text(tastes[v.category]);
+                        $($('.hotples')[i]).attr('href', '/hotple/' + v.htId);
+                    });
+
+                    for (let key in datas.courses) {
+                        $('.section-title-wrap').after(makeCourse(datas.courses[key]));
+                    }
+
+                    let mySwiper = new Swiper
+                    ('.swiper-container', {
+                        slidesPerView: '3',
+                        direction: 'horizontal',
+                        loop: true,
+                        pagination: {el: '.swiper-pagination',},
+                        navigation: {
+                            nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev',
+                        },
+                        breakpoints: {
+                            720: {
+                                slidesPerView: 3,
+                                slidesPerGroup: 3,
+                            },
+                            1: {
+                                slidesPerView: 1,
+                                slidesPerGroup: 1,
+                            },
+                        }
+                    });
+                },
+                basicErrorFunc);
+        });
+
+        var datas;
+
+        function makeCourse(cs) {
+            let c =
+                '<div className="swiper-container">' +
+                '<div className="swiper-wrapper">';
+
+            for (let index in cs) {
+                c += makeHotple(cs[index]);
+            }
+
+            c +=
+                '</div>' +
+                '<div className="swiper-pagination"></div>' +
+                '<div className="swiper-button-prev"></div>' +
+                '<div className="swiper-button-next"></div>' +
+                '</div>';
+
+            return c;
+        }
+
+        function makeHotple(c) {
+            let content = '<div class="swiper-slide">' +
+                '<div class="swiper-contents">' +
+                '<figure class="figure mx-5">';
+            let img = c.goImg === undefined ? '/images/logo2.png' : c.goImg;
+            content += '<img src="' + img + '" class="figure-img img-fluid rounded">' +
+                '<figcaption class="figure-caption text-right">' +
+                '<div><span class="title">' + c.busnName + '</span>' +
+                '<strong class="point search_point">' + c.goGrd + '</strong>' +
+                '<p class="etc">' + tastes[c.category] + '</p></div>' +
+                '</figcaption>' +
+                '</figure>' +
+                '</div>' +
+                '</div>';
+            return content;
+        }
     </script>
 </div>
 </html>
