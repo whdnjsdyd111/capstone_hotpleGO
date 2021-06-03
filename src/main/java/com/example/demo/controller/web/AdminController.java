@@ -137,18 +137,18 @@ public class AdminController {
         return "admin/contentManagement";
     }
 
-    @GetMapping("/feedback")
-    public String feedback(@RequestParam(value = "sort", defaultValue = "nonProcessed") String sort, Model model) {
-        if (sort.equals("nonProcessed")) {
-            model.addAttribute("NFeedback", feedback.getListN());
-        } else if (sort.equals("processed")) {
-            model.addAttribute("YFeedback", feedback.getListY());
-        } else {
-            return "redirect:/admin/feedback";
-        }
-
-        return "admin/feedback";
-    }
+//    @GetMapping("/feedback")
+//    public String feedback(@RequestParam(value = "sort", defaultValue = "nonProcessed") String sort, Model model) {
+//        if (sort.equals("nonProcessed")) {
+//            model.addAttribute("NFeedback", feedback.getListN());
+//        } else if (sort.equals("processed")) {
+//            model.addAttribute("YFeedback", feedback.getListY());
+//        } else {
+//            return "redirect:/admin/feedback";
+//        }
+//
+//        return "admin/feedback";
+//    }
 
     @GetMapping("/announceWrite")
     public String announce() {

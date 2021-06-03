@@ -325,6 +325,9 @@
                     lng: userLong
                 }, '/around',
                 function(data) {
+                    if(data === "no-mbti") {
+                        location.href = "/mbti";
+                    }
                     data = JSON.parse(data);
                     datas = data;
 
