@@ -7,6 +7,10 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="/css/user/main.css">
     <style>
+        .swiper-container {
+            margin-bottom: 15px;
+        }
+
         .swiper-button-next, .swiper-button-prev {
             color: #9d9d9d;
         }
@@ -38,9 +42,7 @@
         }
 
         .restaurant-ul {
-            columns: 4;
-            -webkit-columns: 4;
-            -moz-columns: 4;
+            display: inline-flex;
         }
 
         .fix {
@@ -61,11 +63,25 @@
             }
         }
 
-        @media (max-width: 720px) {
+        @media (min-width: 720px) {
             .restaurant-ul {
-                columns: 2;
-                -webkit-columns: 2;
-                -moz-columns: 2;
+                display: block;
+            }
+
+            .figure > img {
+                height: 150px;
+            }
+        }
+
+        @media(min-width: 1024px) {
+            .figure > img {
+                height: 300px;
+            }
+        }
+
+        @media(min-width: 1600px) {
+            .figure > img {
+                height: 500px;
             }
         }
 
@@ -104,7 +120,7 @@
     </style>
 </th:block>
 <div layout:fragment="content">
-    <div class="top-img" >
+    <div class="top-img">
         <video id="video" autoplay loop muted>
             <source src="/images/video.mp4" type="video/mp4">
         </video>
@@ -121,7 +137,7 @@
         </div>
     </div>
     <section class="p-5 mx-3">
-        <div class="section-title-wrap"><h2 class="section-title">주변 핫코스</h2></div>
+        <div class="section-title-wrap courses"><h2 class="section-title">주변 핫코스</h2></div>
 <!--        <div class="swiper-container">-->
 <!--            <div class="swiper-wrapper">-->
 <!--                <div class="swiper-slide">-->
@@ -340,12 +356,12 @@
                     });
 
                     for (let key in datas.courses) {
-                        $('.section-title-wrap').after(makeCourse(datas.courses[key]));
+                        $('.courses').after(makeCourse(datas.courses[key]));
                     }
 
                     let mySwiper = new Swiper
                     ('.swiper-container', {
-                        slidesPerView: '3',
+                        slidesPerView: '2',
                         direction: 'horizontal',
                         loop: true,
                         pagination: {el: '.swiper-pagination',},
@@ -354,8 +370,8 @@
                         },
                         breakpoints: {
                             720: {
-                                slidesPerView: 3,
-                                slidesPerGroup: 3,
+                                slidesPerView: 2,
+                                slidesPerGroup: 2,
                             },
                             1: {
                                 slidesPerView: 1,
@@ -371,8 +387,8 @@
 
         function makeCourse(cs) {
             let c =
-                '<div className="swiper-container">' +
-                '<div className="swiper-wrapper">';
+                '<div class="swiper-container">' +
+                '<div class="swiper-wrapper">';
 
             for (let index in cs) {
                 c += makeHotple(cs[index]);
@@ -380,9 +396,9 @@
 
             c +=
                 '</div>' +
-                '<div className="swiper-pagination"></div>' +
-                '<div className="swiper-button-prev"></div>' +
-                '<div className="swiper-button-next"></div>' +
+                '<div class="swiper-pagination"></div>' +
+                '<div class="swiper-button-prev"></div>' +
+                '<div class="swiper-button-next"></div>' +
                 '</div>';
 
             return c;
@@ -393,7 +409,7 @@
                 '<div class="swiper-contents">' +
                 '<figure class="figure mx-5">';
             let img = c.goImg === undefined ? '/images/logo2.png' : c.goImg;
-            content += '<img src="' + img + '" class="figure-img img-fluid rounded">' +
+            content += '<img src="' + img + '" class="figure-img rounded">' +
                 '<figcaption class="figure-caption text-right">' +
                 '<div><span class="title">' + c.busnName + '</span>' +
                 '<strong class="point search_point">' + c.goGrd + '</strong>' +
