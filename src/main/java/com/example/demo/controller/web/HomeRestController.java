@@ -445,6 +445,12 @@ public class HomeRestController {
         return new ResponseEntity<>("코스를 내렸습니다.", HttpStatus.OK);
     }
 
+    @PostMapping("/complete-course")
+    public ResponseEntity<String> completeCourse(HttpServletRequest request) {
+        course.completeCourse(request.getParameter("csCode"));
+        return new ResponseEntity<>("코스를 완료하였습니다.", HttpStatus.OK);
+    }
+
     @PostMapping("/reorder-hotple")
     public ResponseEntity<String> reorder(@RequestParam("htId[]") Long[] htId,
                                           @RequestParam("ciIndex[]") Byte[] ciIndex,
@@ -459,6 +465,7 @@ public class HomeRestController {
         course.updateOrder(list, csCode);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
 
     @PostMapping("/setting-guide")
     @ResponseBody

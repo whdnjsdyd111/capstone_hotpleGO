@@ -116,6 +116,8 @@ public class CourseService {
         mapper.updateReturnCourse(csCode);
     }
 
+    public void completeCourse(String csCode) { mapper.updateCompleteCourse(csCode); }
+
     public List<CourseWithMbtiVO> getByMbti(String mbti) {
         return mapper.getByMbti(mbti);
     }

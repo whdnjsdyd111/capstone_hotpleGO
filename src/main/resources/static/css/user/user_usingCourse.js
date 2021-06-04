@@ -304,8 +304,23 @@ $(function() {
             }, "/return-course", function(data) {
                 swal("이용 취소!", "해당 코스를 내렸습니다.", "success").then(() => { location.href = "/myCourse?kind=myCourse" });
             }, basicErrorFunc);
-        })
+        });
     });
+
+    $('#course_complete').click(function() {
+        swal("코스 완료", "해당 코스를 이용 완료하였습니까?", "info", {
+            buttons: {
+                cancel : "취소",
+                yes : "네"
+            }
+        }).then(v => {
+            if (v === "yes") requestServlet({
+                csCode: htList[0].csCode
+            }, "/complete-course", function(data) {
+                swal("이용 완료!", "서비스를 이용해주셔서 감사합니다.", "success").then(() => { location.href = "/myCourse?kind=usingCourse" })
+            })
+        })
+    })
 
     $("#sortable").sortable({
         placeholder: "itemBoxHighlight",

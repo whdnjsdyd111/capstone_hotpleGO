@@ -153,6 +153,22 @@
         }
     </update>
 
+    <update id="updateCompleteCourse">
+        {
+            CALL
+                DECLARE
+                BEGIN
+
+                UPDATE course SET csCode = SUBSTR(#{csCode}, 0, 16) || 'Y'
+                WHERE csCode = #{csCode};
+
+                UPDATE course_info SET csCode = SUBSTR(#{csCode}, 0, 16) || 'Y'
+                WHERE csCode = #{csCode};
+
+            END
+        }
+    </update>
+
     <update id="updateOrder">
         <foreach collection="list" index="index" item="vo" separator=";" open="DECLARE BEGIN" close="; END;">
             UPDATE course_info SET ciIndex = #{vo.ciIndex} WHERE htId = #{vo.htId} AND csCode = #{csCode}
