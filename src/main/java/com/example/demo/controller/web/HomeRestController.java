@@ -451,6 +451,28 @@ public class HomeRestController {
         return new ResponseEntity<>("코스를 완료하였습니다.", HttpStatus.OK);
     }
 
+    @Transactional
+    @PostMapping("/course-copy")
+    public ResponseEntity<String> copyCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+        String csCode = request.getParameter("csCode");
+        String csWith = request.getParameter("csWith");
+        String csNum = request.getParameter("csNum");
+        String csTitle = request.getParameter("csTitle");
+
+        CourseVO vo = new CourseVO();
+        vo.setCsWith(csWith);
+        vo.setCsNum(Byte.valueOf(csNum));
+        vo.setCsTitle(csTitle);
+        vo.setUCode(user.user.getUCode());
+
+        if (course.register(vo)) {
+            if (course.copyCourse(vo.getCsCode(), csCode) > 0) {
+                return new ResponseEntity<>(vo.getCsCode(), HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>("다시 시도해주십시오", HttpStatus.BAD_REQUEST);
+    }
+
     @PostMapping("/reorder-hotple")
     public ResponseEntity<String> reorder(@RequestParam("htId[]") Long[] htId,
                                           @RequestParam("ciIndex[]") Byte[] ciIndex,

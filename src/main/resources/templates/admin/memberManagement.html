@@ -56,7 +56,7 @@
                     <td>
                         <button class="btn btn-outline-info member-action-btn">활동 보기</button>
                         <input type="hidden"  th:value="${member.UCode}" />
-
+                        <a th:href="${member.UCode.split('/')[0]}"></a>
                     </td>
                     <td>
                         <button class="btn btn-warning warn-authority-btn" data-toggle="modal"

@@ -543,4 +543,14 @@ public class AndroidCommonController {
         }
         return "{message: true}";
     }
+
+    @PostMapping("/sales")
+    public String sales(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        Map<String, List<ReservationAllVO>> map =
+                reservation.getSales(uCode);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("sales", new JSONObject(map));
+        return jsonObject.toString();
+    }
 }

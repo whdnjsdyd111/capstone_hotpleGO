@@ -178,4 +178,10 @@
     <select id="getByMbti" resultType="CourseWithMbtiVO">
         select csCode, htId, ciIndex from course NATURAL JOIN course_info NATURAL JOIN users WHERE mbti = #{mbti}
     </select>
+
+    <update id="copyCourse">
+        INSERT INTO course_info (csCode, htId, ciIndex, ciartime, ciscore)
+        SELECT #{new} as csCode, htID, ciIndex, ciartime, ciscore
+        FROM course_info WHERE csCode = #{old}
+    </update>
 </mapper>

@@ -110,55 +110,36 @@
             </div>
         </div>
     </div>
-    <script>
-        let dates = [];
+    <script th:inline="javascript">
+        let dateBoard = [[${boardDates}]];
+        let dateComm = [[${commDates}]];
 
-/*        <c:forEach var="date" items="${ dates }">
-            dates.push('<c:out value="${ date }" />');
-        </c:forEach>*/
+        dates = [];
 
+        let now = new Date();
+        dates.push(now.format('yyMMdd'));
         for (let i = 0; i < 6; i++) {
-            dates.push(i);
-        }
-
-        let visits = [];
-
-/*        <c:forEach begin="0" end="6" step="1" var="i">
-            visits.push('<c:out value="${ chart_visit_rs.rowsByIndex[i][0] }" />');
-        </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            visits.push(6 - i);
-        }
-
-        let page_views = [];
-
-/*        <c:forEach begin="0" end="6" step="1" var="i">
-            page_views.push('<c:out value="${ chart_page_view_rs.rowsByIndex[i][0] }" />');
-        </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            page_views.push(i);
+            dates.push(new Date(now.setDate(now.getDate() - 1)).format('yyMMdd'));
         }
 
         let boards = [];
 
-/*        <c:forEach begin="0" end="6" step="1" var="i">
-            boards.push('<c:out value="${ chart_boards_rs.rowsByIndex[i][0] }" />');
-        </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            boards.push(i + 5);
+        for (let i = 0; i < 7; i++) {
+            let count = 0;
+            for (let k in dateBoard) {
+                if (dateBoard[k].keyword === dates[i]) count = dateBoard[k].count;
+            }
+            boards.push(count);
         }
 
         let comments = [];
 
-/*        <c:forEach begin="0" end="6" step="1" var="i">
-            comments.push('<c:out value="${ chart_comments_rs.rowsByIndex[i][0] }" />');
-        </c:forEach>*/
-
-        for (let i = 0; i < 6; i++) {
-            comments.push(i);
+        for (let i = 0; i < 7; i++) {
+            let count = 0;
+            for (let k in dateComm) {
+                if (dateComm[k].keyword === dates[i]) count = dateComm[k].count;
+            }
+            comments.push(count);
         }
     </script>
     <div class="row">
@@ -212,12 +193,6 @@
             <canvas id="contentsCanvas"></canvas>
             <script>
                 let contents_ctx = document.getElementById('contentsCanvas').getContext('2d');
-
-                let purple_trans = [];
-                let purple = [];
-
-                let orange_trans = [];
-                let orange = [];
 
                 let barChartData = {
                     labels: dates,
@@ -276,11 +251,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">번째</th>
-                            <th>회원 이메일</th>
-                            <th>닉네임</th>
-                        </tr>
+                        <th:block th:each="u : ${todayUser}">
+                            <tr th:onclick="|location.href = 'members#'${u.UCode.split('/')[0]} |" class="hov">
+                                <th scope="row" th:text="${uStat.index}"></th>
+                                <th th:text="${u.UCode.split('/')[0]}">회원 이메일</th>
+                                <th th:text="${u.nick}">닉네임</th>
+                            </tr>
+                        </th:block>
                         </tbody>
                     </table>
                 </div>

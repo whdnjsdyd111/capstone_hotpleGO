@@ -1,6 +1,10 @@
 package com.example.demo.mapper;
 
+import com.example.demo.domain.StatisticVO;
+import com.example.demo.domain.UserVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface AdminMapper {
@@ -17,4 +21,10 @@ public interface AdminMapper {
     public String countAlc(String count);
 
     public int deleteContent(String bdCode);
+
+    public List<StatisticVO> datesBoard();
+
+    public List<StatisticVO> datesComm();
+
+    public List<UserVO> todayUser();
 }

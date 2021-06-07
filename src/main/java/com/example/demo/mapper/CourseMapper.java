@@ -64,4 +64,6 @@ public interface CourseMapper {
 
     public List<CourseWithMbtiVO> getByMbti(String mbti);
 
+    public int copyCourse(@Param("new") String newCs, @Param("old") String old);
+
 }

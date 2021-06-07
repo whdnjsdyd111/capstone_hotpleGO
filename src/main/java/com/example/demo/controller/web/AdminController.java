@@ -50,6 +50,9 @@ public class AdminController {
         model.addAttribute("courseCount", course);
         model.addAttribute("reportCount", report);
         model.addAttribute("alcCount", alc);
+        model.addAttribute("boardDates", adminService.getContentStatistic(AdminService.BOARD));
+        model.addAttribute("commDates", adminService.getContentStatistic(AdminService.COMM));
+        model.addAttribute("todayUser", adminService.getTodayUser());
         return "admin/index";
     }
 

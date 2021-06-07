@@ -145,4 +145,8 @@ public class CourseService {
     public List<CourseInfoVO> getCourseInfos() {
         return mapper.getCourseInfos();
     }
+
+    public int copyCourse(String newCs, String oldCs) {
+        return mapper.copyCourse(newCs, oldCs);
+    }
 }

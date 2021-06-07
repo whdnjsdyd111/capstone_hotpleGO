@@ -15,7 +15,7 @@ $(function() {
             csTitle: csTitle
         }, '/custom-course', function(data) {
             swal({
-                title : "코스를 생성했습니다.",
+                title : "코스를 복사했습니다.",
                 text : "원하는 장소들을 검색하여 추가하여 보세요!",
                 icon : "success",
                 button: "핫플 GO!"

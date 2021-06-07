@@ -30,4 +30,16 @@
     <delete id="deleteContent">
         DELETE FROM board WHERE bdCode = #{bdCode}
     </delete>
+
+    <select id="datesBoard" resultType="StatisticVO">
+        SELECT keyword, COUNT(*) count FROM (SELECT SUBSTR(bdCode, 0, 6) AS keyword FROM board) GROUP BY keyword
+    </select>
+
+    <select id="datesComm" resultType="StatisticVO">
+        SELECT keyword, COUNT(*) count FROM (SELECT SUBSTR(comCode, 0, 6) AS keyword FROM comm) GROUP BY keyword
+    </select>
+
+    <select id="todayUser" resultType="UserVO">
+        SELECT * FROM users WHERE TO_CHAR(regdate, 'RRMMDD') = TO_CHAR(CURRENT_DATE, 'RRMMDD') ORDER BY regdate DESC
+    </select>
 </mapper>
