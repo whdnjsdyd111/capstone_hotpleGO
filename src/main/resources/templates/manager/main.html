@@ -4,8 +4,8 @@
       layout:decorator="~{manager/default}">
 <th:block layout:fragment="styles">
     <link rel="stylesheet" href="/css/manager/mg_main_login.css">
-    <link href="/css/vendor/calendar/core/main.css" rel="stylesheet" />
-    <link href="/css/vendor/calendar/daygrid/main.css" rel="stylesheet" />
+    <link href="/css/vendor/calendar/core/main.css" rel="stylesheet"/>
+    <link href="/css/vendor/calendar/daygrid/main.css" rel="stylesheet"/>
     <script src="/css/vendor/calendar/core/main.js"></script>
     <script src="/css/vendor/calendar/daygrid/main.js"></script>
     <script src="/css/vendor/calendar/core/locales/ko.js"></script>
@@ -20,7 +20,7 @@
         let events = [];
         reservations.forEach(i => {
             let e = {
-                title : '예약 코드 : ' + i[0].riCode + "\n",
+                title: '예약 코드 : ' + i[0].riCode + "\n",
                 start: new Date(i[0].riTime)
             }
             i.forEach(j => {
@@ -45,7 +45,7 @@
             else return date;
         }
 
-        function dateToStr (date) {
+        function dateToStr(date) {
             return date.getFullYear().toString().substring(2, 4) +
                 addZerobar(date.getMonth() + 1) + addZerobar(date.getDate());
         }
@@ -54,7 +54,7 @@
         console.log(events);
     </script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -73,7 +73,7 @@
 
                     // any other event sources...
                 ],
-                eventClick: function(info) {
+                eventClick: function (info) {
                     console.log(info);
                     swal("예약 현황", info.event.title + '\n' + dateToTime(info.event.start));
                     return false;
@@ -223,7 +223,8 @@
                         <div class="list-group">
                             <th:block th:each="event : ${events}">
                                 <a th:href="|/manager/announce/*{event.eveCode.replaceAll('/', '')}|">
-                                    <span class="text-dark span-right" th:text="${#hotpleAPI.toDateStr(event.eveCode)}"></span>
+                                    <span class="text-dark span-right"
+                                          th:text="${#hotpleAPI.toDateStr(event.eveCode)}"></span>
                                     <pre th:text="${event.eveTitle}"></pre>
                                 </a>
                             </th:block>
@@ -261,7 +262,8 @@
                                         <th:block th:if="${review.rvOwnCont != null}">
                                             <div class="spinner-grow text-success" role="status"></div>
                                         </th:block>
-                                        <span class="badge my-auto" th:text="${#hotpleAPI.toDateStr(review.riCode)}"></span>
+                                        <span class="badge my-auto"
+                                              th:text="${#hotpleAPI.toDateStr(review.riCode)}"></span>
                                     </div>
                                     <pre th:text="|*{#hotpleAPI.contSubstring(review.rvCont)}   *{review.rvRating}점|"></pre>
                                 </a>
@@ -300,35 +302,35 @@
                                 </tbody>
                             </table>
                             <div class="text-right">
-                                    <a href="#">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
+                                <a href="#">더 보기 <i class="fa fa-arrow-circle-right"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- 예약현황 시작  -->
-<div class="container">
-    <div class="row col-12">
-        <div class="col-12">
-            <div class="card">
-                <h5 class="card-header bg-transparent">예약현황</h5>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="bg-light">
-                            <tr>
-                                <th>예약 코드</th>
-                                <th>메뉴이름</th>
-                                <th>메뉴코드</th>t('/')[0]}"></td>
+    <!-- 예약현황 시작  -->
+    <div class="container">
+        <div class="row col-12">
+            <div class="col-12">
+                <div class="card">
+                    <h5 class="card-header bg-transparent">예약현황</h5>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class="bg-light">
+                                <tr>
+                                    <th>예약 코드</th>
+                                    <th>메뉴이름</th>
+                                    <th>메뉴코드</th>
                                 </tr>
-                                    <th>메뉴수량</th>
-                                    <th>메뉴가격</th>
-                                    <th>총 가격</th>
-                                    <th>예약시간</th>
-                                    <th>회원코드</th>
-                                    <th>예약상태</th>
+                                <th>메뉴수량</th>
+                                <th>메뉴가격</th>
+                                <th>총 가격</th>
+                                <th>예약시간</th>
+                                <th>회원코드</th>
+                                <th>예약상태</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -355,13 +357,16 @@
                                         </th:block>
                                     </td>
                                     <td th:text="${#hotpleAPI.sumMenuPrice(reservationAll.get(rs))}">총 가격</td>
-                                    <td th:text="${#hotpleAPI.timestampToStr(reservationAll.get(rs).get(0).riTime)}">예약시간</td>
+                                    <td th:text="${#hotpleAPI.timestampToStr(reservationAll.get(rs).get(0).riTime)}">
+                                        예약시간
+                                    </td>
                                     <td th:text="${reservationAll.get(rs).get(0).UCode}">회원코드</td>
                                     <td>Y</td>
                                 </tr>
                                 </tr>
                                 <tr>
-                                    <td colspan="9"><a href="/manager/orders" class="btn btn-outline-success float-right">자세히 보기</a></td>
+                                    <td colspan="9"><a href="/manager/orders"
+                                                       class="btn btn-outline-success float-right">자세히 보기</a></td>
                                 </tr>
                                 </tbody>
                             </table>
