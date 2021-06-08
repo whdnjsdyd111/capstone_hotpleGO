@@ -274,6 +274,18 @@ public class ManagerRestController {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("/manager/rest/save-holiday")
+    public ResponseEntity<String> saveHoliday(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String uCode = manager.user.getUCode();
+        String whatWeek = request.getParameter("whatWeek");
+        String whatDay = request.getParameter("whatDay");
+        if (openInfo.mergeOpen(whatWeek, uCode, OpenInfoService.SUNDAY) && openInfo.mergeBreak(whatDay, uCode, OpenInfoService.SUNDAY)) { // <- 현재 줄 수정 필요
+            return new ResponseEntity<>("저장 완료하였습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @PostMapping("/save-reviewReply")
     @ResponseBody
