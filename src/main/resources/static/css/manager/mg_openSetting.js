@@ -1,7 +1,3 @@
-const token = $("meta[name='_csrf']").attr("content");
-const header = $("meta[name='_csrf_header']").attr("content");
-$(document).ajaxSend(function(e, xhr, options) { xhr.setRequestHeader(header, token); });
-
 $(function () {
     $('.selector').change(function (){
         let str = $(this).val();
@@ -94,6 +90,24 @@ $(function () {
                     woet : $('#weekend-sun-end-time').val(),
                     wbst : $('#weekend-sun-break-start-time').val(),
                     wbet : $('#weekend-sun-break-end-time').val()
+                },
+                success: function(data) {
+                    alert(data);
+                },
+                error: function (xhr, status, err) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+    });
+    $('#submit-holiday').click(function() {
+        if (confirm("저장하시겠습니까?")) {
+            $.ajax({
+                type: "POST",
+                url: "/manager/rest/save-holiday",
+                data: {
+                    whatWeek : $('#holiday-week').val(),
+                    whatDay : $('#holiday-day').val(),
                 },
                 success: function(data) {
                     alert(data);
