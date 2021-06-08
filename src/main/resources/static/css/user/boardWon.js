@@ -231,6 +231,16 @@ $(function() {
         })
     });
 
+    $('#moveCourse').click(function () {
+        let csCode = $(this).prev().prev().prev().val();
+        location.href = "/courseDetail/" + csCode;
+    });
+
+    $('#moveHotple').click(function () {
+        let htId = $(this).prev().val();
+        location.href = "/hotple/" + htId;
+    });
+
 
     $('[data-toggle="tooltip"]').tooltip();
 });
