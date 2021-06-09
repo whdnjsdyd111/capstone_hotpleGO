@@ -356,9 +356,6 @@
                     lng: userLong
                 }, '/around',
                 function(data) {
-                    if(data === "no-mbti") {
-                        location.href = "/mbti";
-                    }
                     data = JSON.parse(data);
                     datas = data;
 
@@ -398,7 +395,11 @@
                         }
                     });
                 },
-                basicErrorFunc);
+                function(xhr, status, err) {
+                    if(xhr.responseText === "no-mbti") {
+                        swal("MBTI 를 설정해주십시오.").then(() => { location.href = "/mbti"; })
+                    }
+                });
         });
 
         var datas;

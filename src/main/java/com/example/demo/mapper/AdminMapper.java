@@ -1,5 +1,6 @@
 package com.example.demo.mapper;
 
+import com.example.demo.domain.ResStatisticsVO;
 import com.example.demo.domain.StatisticVO;
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.BoardVO;
@@ -35,6 +36,10 @@ public interface AdminMapper {
     public List<StatisticVO> staBoardCount();
 
     public List<StatisticVO> staCommCount();
+
+    public List<Integer> statistics();
+
+    public List<ResStatisticsVO> res_statistics();
 
     public List<BoardVO> todayBoard();
 
