@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.ResStatisticsVO;
 import com.example.demo.domain.StatisticVO;
 import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.BoardVO;
@@ -91,4 +92,11 @@ public class AdminService {
 //        return mapper.staBoardCount();
 //    }
 
+    public List<Integer> statistics() {
+        return mapper.statistics();
+    }
+
+    public List<ResStatisticsVO> resstatistics() {
+        return mapper.res_statistics();
+    }
 }

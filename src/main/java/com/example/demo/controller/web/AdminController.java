@@ -76,12 +76,10 @@ public class AdminController {
 
     @GetMapping("/statistics")
     public String statistics(Model model) {
-        model.addAttribute("utilAlone", Integer.parseInt(adminService.utilAlone()));
-        model.addAttribute("utilCouple", adminService.utilCouple());
-        model.addAttribute("utilFamily", adminService.utilFamily());
-        model.addAttribute("utilFriend", adminService.utilFriend());
         model.addAttribute("staBoardCount", adminService.staCount(1));
         model.addAttribute("staCommCount", adminService.staCount(0));
+        model.addAttribute("courses", adminService.statistics());
+        model.addAttribute("resStatics", adminService.resstatistics());
 
         return "admin/statistics";
     }

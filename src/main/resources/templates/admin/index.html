@@ -323,43 +323,12 @@
                                 <th:block th:if="${c.comCont.length() >= 4}">
                                     <th th:text="${c.comCont.substring(0, 3)} + '...'">컨텐츠</th>
                                 </th:block>
-
-
                             </tr>
                         </th:block>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
-            <div class="bg-dark d-flex flex-column text-center text-light">
-                <i class="fa fa-id-badge fa-5x mt-2"></i>
-                <span>관리자 이름</span>
-                <span class="mb-2">관리자 이메일</span>
-                <hr>
-                <table class="table table-borderless text-white table-sm">
-                    <tr>
-                        <th scope="col">위임일</th>
-                        <td>관리자 위임일</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">사용 닉네임</th>
-                        <td>사용 닉네임</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="col-md-4 col-sm-6 col-xs-12 mb-3">
-            <h3 class="font-weight-bold p-3">접속중인 관리자</h3>
-            <div id="visitors">
-                <!--<jsp:include page="visitor.jsp" />-->
-            </div>
-        </div>
-        <div id="memo_div" class="col-xl-4 col-xs-12 mb-3">
-            <!--<jsp:include page="memo.jsp" />-->
         </div>
     </div>
 </div>

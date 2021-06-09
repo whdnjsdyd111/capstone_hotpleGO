@@ -7,10 +7,6 @@
         <script th:inline="javascript">
             let dates = [];
 
-            /*        <c:forEach var="date" items="${ dates }">
-                        dates.push('<c:out value="${ date }" />');
-                    </c:forEach>*/
-
             let now = new Date();
             now.setMonth(now.getMonth() - 5);
             dates.push(now.format('yyMM'));
@@ -18,32 +14,8 @@
                 dates.push(new Date(now.setMonth(now.getMonth() + 1)).format('yyMM'));
             }
 
-            let visits = [];
-
-            /*        <c:forEach begin="0" end="6" step="1" var="i">
-                        visits.push('<c:out value="${ chart_visit_rs.rowsByIndex[i][0] }" />');
-                    </c:forEach>*/
-
-            for (let i = 0; i < 6; i++) {
-                visits.push(6 - i);
-            }
-
-            let page_views = [];
-
-            /*        <c:forEach begin="0" end="6" step="1" var="i">
-                        page_views.push('<c:out value="${ chart_page_view_rs.rowsByIndex[i][0] }" />');
-                    </c:forEach>*/
-
-            for (let i = 0; i < 6; i++) {
-                page_views.push(i);
-            }
-
             let boards = [];
             let dateBoard = [[${staBoardCount}]];
-
-            /*        <c:forEach begin="0" end="6" step="1" var="i">
-                        boards.push('<c:out value="${ chart_boards_rs.rowsByIndex[i][0] }" />');
-                    </c:forEach>*/
 
             for (let i = 0; i < 6; i++) {
                 let count = 0;
@@ -57,10 +29,6 @@
             let comments = [];
             let dateComm = [[${staCommCount}]];
 
-            /*        <c:forEach begin="0" end="6" step="1" var="i">
-                        comments.push('<c:out value="${ chart_comments_rs.rowsByIndex[i][0] }" />');
-                    </c:forEach>*/
-
             for (let i = 0; i < 6; i++) {
                 let count = 0;
                 for (let k in dateComm) {
@@ -68,8 +36,21 @@
                 }
                 comments.push(count);
             }
-        </script>
 
+            let courses = [[${courses}]];
+            let csWith = [];
+
+            for (let key in courses) {
+                csWith.push(courses[key])
+            }
+
+            let resStatisc = [[${resStatics}]];
+            let res = [0, 0, 0, 0, 0, 0];
+
+            resStatisc.forEach(v => {
+                res[v.category] = v.num;
+            })
+        </script>
         <div class="row">
             <!-- 최근 컨텐츠 현황 -->
             <div class="col-xl-8  mb-3" style="margin: 0 auto;">
@@ -126,15 +107,15 @@
                 </script>
             </div>
             <!-- 예약 현황 -->
-            <div class="col-xl-6 mb-3 mt-5">
+            <div class="col-xl-6 mb-3">
                 <canvas id="reservationCanvas"></canvas>
                 <script>
                     var ctx = document.getElementById('reservationCanvas');
                     var data = {
-                        labels: ['혼자','커플','친구','가족'],
+                        labels: ['가족','친구','커플','혼자'],
                         datasets: [{
                             label: '# of household',
-                            data: [30,30,30,10],
+                            data: csWith,
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
@@ -159,7 +140,7 @@
                         options: {
                             title: {
                                 display: true,
-                                text: '예약 이용률',
+                                text: '코스 이용자 통계',
 
                             },
                             plugins: {
@@ -190,12 +171,8 @@
             </div>
 
             <!-- 이용률 현황 -->
-            <div class="col-xl-6  mb-3 mt-5">
+            <div class="col-xl-6  mb-3">
                 <canvas id="courseUtilizationCanvas"></canvas>
-                <input type="hidden" th:value="${utilAlone}" id="utilAlone">
-                <input type="hidden" th:value="${utilCouple}" id="utilCouple">
-                <input type="hidden" th:value="${utilFamily}" id="utilFamily">
-                <input type="hidden" th:value="${utilFriend}" id="utilFriend">
                 <script>
                     var ctx = document.getElementById('courseUtilizationCanvas');
                     let alone = $('#utilAlone').val();
@@ -203,10 +180,10 @@
                     let family = $('#utilFamily').val();
                     let friend = $('#utilFriend').val();
                     var data = {
-                        labels: ['혼자','커플','친구','가족'],
+                        labels: ['먹거리','디저트','놀거리','음주', '볼거리', '산책'],
                         datasets: [{
                             label: '# of household',
-                            data: [alone,couple,friend,family],
+                            data: res,
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',

@@ -63,4 +63,13 @@
         SELECT keyword, COUNT(*) count FROM (SELECT SUBSTR(comCode, 0, 4) AS keyword FROM comm) GROUP BY keyword
     </select>
 
+    <select id="statistics" resultType="Integer">
+        SELECT COUNT(*) FROM course GROUP BY csWith ORDER BY csWith
+    </select>
+
+    <select id="res_statistics" resultType="ResStatisticsVO">
+        SELECT cate category, COUNT(*) num
+        FROM (SELECT  h.category / 10 as cate FROM res_info r JOIN hotple h ON(r.htId = h.htId)) GROUP BY cate ORDER BY cate
+    </select>
+
 </mapper>
