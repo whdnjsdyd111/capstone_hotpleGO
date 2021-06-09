@@ -210,7 +210,7 @@ function list_append(menuCode, menuTitle, menuPrice) {
 var test = function test() {
     let riTime = $('#reservation-time').val();
     let riPerson = +$('#riPerson').text();
-    if (menu.length === 0 || $('#roadAddr').length === 0 || $('#zipNo').length === 0 || riPerson < 1
+    if (menu.length === 0 || riPerson < 1
         || riTime === "" || odNum === undefined) {
         return;
     }
