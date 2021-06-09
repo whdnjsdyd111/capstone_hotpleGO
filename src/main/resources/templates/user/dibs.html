@@ -139,6 +139,7 @@
                                     <span th:text="'찜한 날짜 : ' + ${#hotpleAPI.timestampToStr(vo.pickTime)}"></span>
                                     <button type="button" class="w-btn-green wonyong-btn my-1 hotple-share">공유하기</button>
                                     <button type="button" class="w-btn-red wonyong-btn my-1 loat-right pickDelete">삭제하기</button>
+                                    <input type="hidden" th:value="${vo.htId}">
                                 </div>
                             </div>
                         </div>
