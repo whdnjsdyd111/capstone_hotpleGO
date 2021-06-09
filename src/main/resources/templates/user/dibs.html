@@ -94,6 +94,15 @@
         b:hover{
             cursor: pointer;
         }
+
+        .nav-link{
+            color: white;
+        }
+
+        .active{
+            color: black;
+        }
+
     </style>
 </th:block>
 <div layout:fragment="content" style="background: #161623">
@@ -101,11 +110,11 @@
         <div style="margin-top: 15px;"></div>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="nav-item">
+            <li role="presentation" class="nav-item roleCourse">
                 <a href="#hotple-course" class="nav-link active" aria-controls="hotple-course" role="tab"
                    data-toggle="tab" onclick="mySwiper.update();">핫코스</a>
             </li>
-            <li role="presentation" class="nav-item">
+            <li role="presentation" class="nav-item roleHotple">
                 <a href="#hotple" class="nav-link " aria-controls="hotple" role="tab" data-toggle="tab">핫플</a>
             </li>
         </ul>

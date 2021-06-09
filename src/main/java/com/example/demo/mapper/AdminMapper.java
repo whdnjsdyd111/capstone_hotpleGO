@@ -27,4 +27,10 @@ public interface AdminMapper {
     public List<StatisticVO> datesComm();
 
     public List<UserVO> todayUser();
+
+    public String utilCsWith(String csWith);
+
+    public List<StatisticVO> staBoardCount();
+
+    public List<StatisticVO> staCommCount();
 }

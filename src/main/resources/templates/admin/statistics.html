@@ -4,15 +4,18 @@
       layout:decorator="~{admin/default}">
 <div layout:fragment="content">
     <div class="row d-flex flex-column">
-        <script>
+        <script th:inline="javascript">
             let dates = [];
 
             /*        <c:forEach var="date" items="${ dates }">
                         dates.push('<c:out value="${ date }" />');
                     </c:forEach>*/
 
-            for (let i = 0; i < 6; i++) {
-                dates.push(i);
+            let now = new Date();
+            now.setMonth(now.getMonth() - 5);
+            dates.push(now.format('yyMM'));
+            for (let i = 0; i < 5 ; i++) {
+                dates.push(new Date(now.setMonth(now.getMonth() + 1)).format('yyMM'));
             }
 
             let visits = [];
@@ -36,75 +39,88 @@
             }
 
             let boards = [];
+            let dateBoard = [[${staBoardCount}]];
 
             /*        <c:forEach begin="0" end="6" step="1" var="i">
                         boards.push('<c:out value="${ chart_boards_rs.rowsByIndex[i][0] }" />');
                     </c:forEach>*/
 
             for (let i = 0; i < 6; i++) {
-                boards.push(i + 5);
+                let count = 0;
+                for (let k in dateBoard) {
+                    if (dateBoard[k].keyword === dates[i]) count = dateBoard[k].count;
+                }
+                boards.push(count);
             }
 
+
             let comments = [];
+            let dateComm = [[${staCommCount}]];
 
             /*        <c:forEach begin="0" end="6" step="1" var="i">
                         comments.push('<c:out value="${ chart_comments_rs.rowsByIndex[i][0] }" />');
                     </c:forEach>*/
 
             for (let i = 0; i < 6; i++) {
-                comments.push(i);
+                let count = 0;
+                for (let k in dateComm) {
+                    if (dateComm[k].keyword === dates[i]) count = dateComm[k].count;
+                }
+                comments.push(count);
             }
         </script>
+<!--        <div class="row">-->
+<!--            &lt;!&ndash; 방문자 수 현황 &ndash;&gt;-->
+<!--            <div class="col-xl-6 col-md-12 mb-3">-->
+<!--                <canvas id="memCanvas"></canvas>-->
+<!--                <script>-->
+<!--                    var lineChartData = {-->
+<!--                        labels: dates,-->
+<!--                        datasets: [{-->
+<!--                            label: '방문자 수',-->
+<!--                            fill: false,-->
+<!--                            backgroundColor: 'rgba(255, 99, 132)',-->
+<!--                            borderColor: 'rgba(255, 99, 132)',-->
+<!--                            data: visits-->
+<!--                        }, {-->
+<!--                            label: '페이지 뷰',-->
+<!--                            backgroundColor: 'rgba(54, 162, 235)',-->
+<!--                            borderColor: 'rgba(54, 162, 235)',-->
+<!--                            fill: false,-->
+<!--                            data: page_views-->
+<!--                        }]-->
+<!--                    };-->
+
+<!--                    var lineChartOpt = {-->
+<!--                        responsive: true,-->
+<!--                        hoverMode: 'index',-->
+<!--                        stacked: false,-->
+<!--                        title: {-->
+<!--                            display: true,-->
+<!--                            text: '최근 방문자 현황'-->
+<!--                        },-->
+<!--                        scales: {-->
+<!--                            yAxes: [{-->
+<!--                                ticks: {-->
+<!--                                    beginAtZero: true-->
+<!--                                }-->
+<!--                            }]-->
+<!--                        }-->
+<!--                    };-->
+
+<!--                    var mem_ctx = document.getElementById('memCanvas').getContext('2d');-->
+<!--                    window.myLine = Chart.Line(mem_ctx, {-->
+<!--                        type: 'line',-->
+<!--                        data: lineChartData,-->
+<!--                        options: lineChartOpt-->
+<!--                    });-->
+
+<!--                </script>-->
+<!--            </div>-->
+
         <div class="row">
-            <!-- 방문자 수 현황 -->
-            <div class="col-xl-6 col-md-12 mb-3">
-                <canvas id="memCanvas"></canvas>
-                <script>
-                    var lineChartData = {
-                        labels: dates,
-                        datasets: [{
-                            label: '방문자 수',
-                            fill: false,
-                            backgroundColor: 'rgba(255, 99, 132)',
-                            borderColor: 'rgba(255, 99, 132)',
-                            data: visits
-                        }, {
-                            label: '페이지 뷰',
-                            backgroundColor: 'rgba(54, 162, 235)',
-                            borderColor: 'rgba(54, 162, 235)',
-                            fill: false,
-                            data: page_views
-                        }]
-                    };
-
-                    var lineChartOpt = {
-                        responsive: true,
-                        hoverMode: 'index',
-                        stacked: false,
-                        title: {
-                            display: true,
-                            text: '최근 방문자 현황'
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    beginAtZero: true
-                                }
-                            }]
-                        }
-                    };
-
-                    var mem_ctx = document.getElementById('memCanvas').getContext('2d');
-                    window.myLine = Chart.Line(mem_ctx, {
-                        type: 'line',
-                        data: lineChartData,
-                        options: lineChartOpt
-                    });
-
-                </script>
-            </div>
             <!-- 최근 컨텐츠 현황 -->
-            <div class="col-xl-6 col-md-12 mb-3">
+            <div class="col-xl-8  mb-3" style="margin: 0 auto;">
                 <canvas id="contentsCanvas"></canvas>
                 <script>
                     let contents_ctx = document.getElementById('contentsCanvas').getContext('2d');
@@ -157,11 +173,8 @@
                     });
                 </script>
             </div>
-
-        </div>
-        <div class="row">
             <!-- 예약 현황 -->
-            <div class="col-xl-6 col-md-12 mb-3">
+            <div class="col-xl-6 mb-3">
                 <canvas id="reservationCanvas"></canvas>
                 <script>
                     var ctx = document.getElementById('reservationCanvas');
@@ -225,15 +238,23 @@
             </div>
 
             <!-- 이용률 현황 -->
-            <div class="col-xl-6 col-md-12 mb-3">
+            <div class="col-xl-6  mb-3">
                 <canvas id="courseUtilizationCanvas"></canvas>
+                <input type="hidden" th:value="${utilAlone}" id="utilAlone">
+                <input type="hidden" th:value="${utilCouple}" id="utilCouple">
+                <input type="hidden" th:value="${utilFamily}" id="utilFamily">
+                <input type="hidden" th:value="${utilFriend}" id="utilFriend">
                 <script>
                     var ctx = document.getElementById('courseUtilizationCanvas');
+                    let alone = $('#utilAlone').val();
+                    let couple = $('#utilCouple').val();
+                    let family = $('#utilFamily').val();
+                    let friend = $('#utilFriend').val();
                     var data = {
                         labels: ['혼자','커플','친구','가족'],
                         datasets: [{
                             label: '# of household',
-                            data: [30,30,30,10],
+                            data: [alone,couple,friend,family],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
@@ -287,6 +308,9 @@
                     });
                 </script>
             </div>
+
+
+        </div>
         </div>
 
     </div>
