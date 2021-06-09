@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Log4j2
 @Component
 public class PageViewAdvice {
-    @After("execution(* com.example.demo.controller.web.*(..))")
+    /*@After("execution(* com.example.demo.controller.web.*(..))")
     public void addPageView() {
         log.info("aop!");
-    }
+    }*/
 }
