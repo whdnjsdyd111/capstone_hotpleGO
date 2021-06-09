@@ -42,4 +42,17 @@
     <select id="todayUser" resultType="UserVO">
         SELECT * FROM users WHERE TO_CHAR(regdate, 'RRMMDD') = TO_CHAR(CURRENT_DATE, 'RRMMDD') ORDER BY regdate DESC
     </select>
+
+    <select id="utilCsWith" resultType="String">
+        SELECT count(*) FROM course WHERE csWith = #{csWith}
+    </select>
+
+    <select id="staBoardCount" resultType="StatisticVO">
+        SELECT keyword, COUNT(*) count FROM (SELECT SUBSTR(bdCode, 0, 4) AS keyword FROM board) GROUP BY keyword
+    </select>
+
+    <select id="staCommCount" resultType="StatisticVO">
+        SELECT keyword, COUNT(*) count FROM (SELECT SUBSTR(comCode, 0, 4) AS keyword FROM comm) GROUP BY keyword
+    </select>
+
 </mapper>

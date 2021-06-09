@@ -220,6 +220,30 @@ $(function () {
         e.stopPropagation();
     });
 
+    $(document).on('click', '.pickDelete', function (e) {
+        let htId = $(this).next().val();
+        swal("정말 삭제하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니요!",
+                    add: "네!"
+                },
+            }).then((v) => {
+            if (v === "add") {
+                requestServlet({
+                    htId: htId
+                }, "/pick-delete", function (data) {
+                    swal({
+                        title: "삭제 완료!",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => location.reload())
+                }, basicErrorFunc);
+            }
+        });
+    })
+
     // 찜 코스 삭제
     $(document).on('click','.pickCourseDelete',function (e){
         /*<input type="hidden" id="csCode" th:value="${course.csCode}">*/

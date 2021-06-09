@@ -9,6 +9,11 @@
     border-bottom: 1px solid #eeece4;
     background-color: #faf8f5;
 }
+.c-img-target>img{
+    margin-top: 20px;
+    height:300px;
+    width:600px;
+}
 .rd-header:before {
     position: absolute;
     top: 0;

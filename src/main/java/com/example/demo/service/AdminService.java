@@ -53,7 +53,32 @@ public class AdminService {
             return mapper.datesBoard();
     }
 
+    public List<StatisticVO> staCount(int kind){
+        if (kind == COMM)
+            return mapper.staCommCount();
+        else
+            return mapper.staBoardCount();
+    }
+
     public List<UserVO> getTodayUser() {
         return mapper.todayUser();
     }
+
+    public String utilAlone() {
+        return mapper.utilCsWith("혼자");
+    }
+    public String utilCouple() {
+        return mapper.utilCsWith("커플");
+    }
+    public String utilFamily() {
+        return mapper.utilCsWith("가족");
+    }
+    public String utilFriend() {
+        return mapper.utilCsWith("친구");
+    }
+
+//    public String staBoardCount(){
+//        return mapper.staBoardCount();
+//    }
+
 }
