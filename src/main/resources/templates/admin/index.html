@@ -189,7 +189,7 @@
 
             </script>
         </div>
-        <div class="col-xl-6 col-md-12 mb-3">
+        <div class="col-xl-8  mb-3" style="margin: 0 auto;">
             <canvas id="contentsCanvas"></canvas>
             <script>
                 let contents_ctx = document.getElementById('contentsCanvas').getContext('2d');
@@ -252,7 +252,7 @@
                         </thead>
                         <tbody>
                         <th:block th:each="u : ${todayUser}">
-                            <tr th:onclick="|location.href = 'members#'${u.UCode.split('/')[0]} |" class="hov">
+                            <tr>
                                 <th scope="row" th:text="${uStat.index}"></th>
                                 <th th:text="${u.UCode.split('/')[0]}">회원 이메일</th>
                                 <th th:text="${u.nick}">닉네임</th>
@@ -270,17 +270,31 @@
                         <caption class="text-warning"><i class="fa fa-list fa-2x ml-2"></i> 새 게시글</caption>
                         <thead>
                         <tr>
-                            <th scope="col">번호</th>
+                            <th scope="col">등록시간</th>
                             <th scope="col">제목</th>
                             <th scope="col">내용</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr onclick="location.href = '#'" class="hov">
-                            <th scope="row">번째</th>
-                            <th>게시글 제목</th>
-                            <th><span class="new_bds">게시글 요약 내용</span></th>
-                        </tr>
+                        <th:block th:each="b : ${todayBoard}">
+                            <tr>
+                                <th th:text="${#hotpleAPI.toDateStr(b.bdCode)}">게시글 번호</th>
+                                <th:block th:if="${b.bdTitle.length() < 4}">
+                                    <th th:text="${b.bdTitle}">타이틀</th>
+                                </th:block>
+                                <th:block th:if="${b.bdTitle.length() >= 4}">
+                                    <th th:text="${b.bdTitle.substring(0, 3)} + '...'">타이틀</th>
+                                </th:block>
+                                <th:block th:if="${b.bdCont.length() < 4}">
+                                    <th th:text="${b.bdCont}">컨텐츠</th>
+                                </th:block>
+                                <th:block th:if="${b.bdCont.length() >= 4}">
+                                    <th th:text="${b.bdCont.substring(3, 6)} + '...'">컨텐츠</th>
+                                </th:block>
+
+
+                            </tr>
+                        </th:block>
                         </tbody>
                     </table>
                 </div>
@@ -293,17 +307,26 @@
                         <caption class="text-warning"><i class="fa fa-comment fa-2x ml-2"></i> 새 댓글</caption>
                         <thead>
                         <tr>
-                            <th scope="col">번호</th>
+                            <th scope="col">등록시간</th>
                             <th scope="col">닉네임</th>
                             <th scope="col">내용</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr onclick="location.href = '#'" class="hov">
-                            <th scope="row">번째</th>
-                            <th>댓글 작성자 닉네임</th>
-                            <th><span class="new_bds">댓글 요약 내용</span></th>
-                        </tr>
+                        <th:block th:each="c : ${todayComm}">
+                            <tr>
+                                <th th:text="${#hotpleAPI.toDateStr(c.comCode)}">게시글 번호</th>
+                                <th th:text="${c.UCode.split('/')[0]}"></th>
+                                <th:block th:if="${c.comCont.length() < 4}">
+                                    <th th:text="${c.comCont}">컨텐츠</th>
+                                </th:block>
+                                <th:block th:if="${c.comCont.length() >= 4}">
+                                    <th th:text="${c.comCont.substring(0, 3)} + '...'">컨텐츠</th>
+                                </th:block>
+
+
+                            </tr>
+                        </th:block>
                         </tbody>
                     </table>
                 </div>

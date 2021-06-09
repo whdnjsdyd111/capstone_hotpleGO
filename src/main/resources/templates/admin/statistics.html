@@ -69,54 +69,6 @@
                 comments.push(count);
             }
         </script>
-<!--        <div class="row">-->
-<!--            &lt;!&ndash; 방문자 수 현황 &ndash;&gt;-->
-<!--            <div class="col-xl-6 col-md-12 mb-3">-->
-<!--                <canvas id="memCanvas"></canvas>-->
-<!--                <script>-->
-<!--                    var lineChartData = {-->
-<!--                        labels: dates,-->
-<!--                        datasets: [{-->
-<!--                            label: '방문자 수',-->
-<!--                            fill: false,-->
-<!--                            backgroundColor: 'rgba(255, 99, 132)',-->
-<!--                            borderColor: 'rgba(255, 99, 132)',-->
-<!--                            data: visits-->
-<!--                        }, {-->
-<!--                            label: '페이지 뷰',-->
-<!--                            backgroundColor: 'rgba(54, 162, 235)',-->
-<!--                            borderColor: 'rgba(54, 162, 235)',-->
-<!--                            fill: false,-->
-<!--                            data: page_views-->
-<!--                        }]-->
-<!--                    };-->
-
-<!--                    var lineChartOpt = {-->
-<!--                        responsive: true,-->
-<!--                        hoverMode: 'index',-->
-<!--                        stacked: false,-->
-<!--                        title: {-->
-<!--                            display: true,-->
-<!--                            text: '최근 방문자 현황'-->
-<!--                        },-->
-<!--                        scales: {-->
-<!--                            yAxes: [{-->
-<!--                                ticks: {-->
-<!--                                    beginAtZero: true-->
-<!--                                }-->
-<!--                            }]-->
-<!--                        }-->
-<!--                    };-->
-
-<!--                    var mem_ctx = document.getElementById('memCanvas').getContext('2d');-->
-<!--                    window.myLine = Chart.Line(mem_ctx, {-->
-<!--                        type: 'line',-->
-<!--                        data: lineChartData,-->
-<!--                        options: lineChartOpt-->
-<!--                    });-->
-
-<!--                </script>-->
-<!--            </div>-->
 
         <div class="row">
             <!-- 최근 컨텐츠 현황 -->
@@ -174,7 +126,7 @@
                 </script>
             </div>
             <!-- 예약 현황 -->
-            <div class="col-xl-6 mb-3">
+            <div class="col-xl-6 mb-3 mt-5">
                 <canvas id="reservationCanvas"></canvas>
                 <script>
                     var ctx = document.getElementById('reservationCanvas');
@@ -238,7 +190,7 @@
             </div>
 
             <!-- 이용률 현황 -->
-            <div class="col-xl-6  mb-3">
+            <div class="col-xl-6  mb-3 mt-5">
                 <canvas id="courseUtilizationCanvas"></canvas>
                 <input type="hidden" th:value="${utilAlone}" id="utilAlone">
                 <input type="hidden" th:value="${utilCouple}" id="utilCouple">

@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.domain.StatisticVO;
 import com.example.demo.domain.UserVO;
+import com.example.demo.domain.web.BoardVO;
+import com.example.demo.domain.web.CommentVO;
 import com.example.demo.mapper.AdminMapper;
 import com.example.demo.mapper.web.BoardMapper;
 import lombok.Setter;
@@ -62,6 +64,14 @@ public class AdminService {
 
     public List<UserVO> getTodayUser() {
         return mapper.todayUser();
+    }
+
+    public List<BoardVO> getTodayBoard(){
+        return mapper.todayBoard();
+    }
+
+    public List<CommentVO> getTodayComm(){
+        return mapper.todayComm();
     }
 
     public String utilAlone() {

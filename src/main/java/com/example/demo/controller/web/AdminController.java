@@ -53,6 +53,8 @@ public class AdminController {
         model.addAttribute("boardDates", adminService.getContentStatistic(AdminService.BOARD));
         model.addAttribute("commDates", adminService.getContentStatistic(AdminService.COMM));
         model.addAttribute("todayUser", adminService.getTodayUser());
+        model.addAttribute("todayBoard", adminService.getTodayBoard());
+        model.addAttribute("todayComm", adminService.getTodayComm());
         return "admin/index";
     }
 
