@@ -10,32 +10,21 @@
             width: 50px;
             font-size: xx-large;
         }
-
-        .m-index {
-            border-radius: 25px;
-            height: 25px;
-            width: 25px;
+        body{
+            color:white;
         }
+
 
         span {
             word-break: keep-all;
         }
-
-        .itemBoxHighlight {
-            border: solid 1px black;
-            background-color: #6f6a6c;
-            width: 1040px;
-            height: 300px;
+        .courseBox{
+            border: 1px solid;
+            border-radius: 10px;
         }
 
-        @media(max-width: 1200px) {
-            .itemBoxHighlight {
-                border: solid 1px black;
-                background-color: #6f6a6c;
-                width: 860px;
-                height: 300px;
-            }
-        }
+
+
 
         @media(max-width:992px) {
 
@@ -122,7 +111,7 @@
             let htList = [[${courseInfos}]];
         </script>
         <div class="container">
-            <div class="d-flex flex-column my-3">
+            <div class="d-flex flex-column my-3 ">
                 <div class="my-3">
                     <span class="font-weight-bold mx-5" th:text="|함께하는 사람 : *{course.csWith}|">함께하는 사람 : 친구</span>
                     <span class="font-weight-bold mx-5" th:text="|인원 : *{course.csNum}|">인원 : 3명</span>
@@ -132,7 +121,7 @@
                     <th:block th:each="num : ${#numbers.sequence(0, courseInfos.size() - 1)}">
                         <li style="display: block;">
                             <hr class="col"/>
-                            <div class="d-flex justify-content-around my-3">
+                            <div class="d-flex justify-content-around my-3 p-3 courseBox">
                                 <span class="my-auto c-index font-weight-bold" th:text="${num + 1}">1</span>
                                 <th:block th:if="${courseInfos.get(num).uuid == null && courseInfos.get(num).goImg == null}">
                                     <img src="/images/logo.jpg" style="width: 300px; height: 300px;" alt="이미지가 없습니다.">
