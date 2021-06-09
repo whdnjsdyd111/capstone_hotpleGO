@@ -112,6 +112,8 @@ public class ManagerController {
         String uCode = manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/";
         model.addAttribute("reviews", review.getListByManager(uCode));
         model.addAttribute("ratings", review.getRatings(uCode));
+        model.addAttribute("countRv", review.countReview());
+        model.addAttribute("countOwnRv", review.countOwnReview());
         return "manager/reviews";
     }
 

@@ -55,4 +55,12 @@
     <update id="updateReview">
         UPDATE review SET rvCont = #{rvCont}, rvRating = #{rvRating} WHERE riCode = #{riCode}
     </update>
+
+    <select id="countReview" resultType="String">
+        SELECT COUNT(*) FROM review
+    </select>
+
+    <select id="countOwnReview" resultType="String">
+        SELECT COUNT(*) FROM (SELECT * FROM review WHERE review.rvOwnCont IS NOT NULL)
+    </select>
 </mapper>
