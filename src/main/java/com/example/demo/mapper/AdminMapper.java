@@ -2,6 +2,8 @@ package com.example.demo.mapper;
 
 import com.example.demo.domain.StatisticVO;
 import com.example.demo.domain.UserVO;
+import com.example.demo.domain.web.BoardVO;
+import com.example.demo.domain.web.CommentVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -33,4 +35,8 @@ public interface AdminMapper {
     public List<StatisticVO> staBoardCount();
 
     public List<StatisticVO> staCommCount();
+
+    public List<BoardVO> todayBoard();
+
+    public List<CommentVO> todayComm();
 }
