@@ -25,4 +25,8 @@ main         { color:#6e6e6e; background:white; }
 #tmp-stop>input{
     margin-bottom: 15px;
 }
+.image-fluid{
+    width:260px;
+    height:200px;
+}
 
