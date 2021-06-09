@@ -54,4 +54,16 @@ public class OpenInfoService {
         list.forEach(l -> map.computeIfAbsent(l.getHtOb(), k -> l.getTCode().split("/")));
         return map;
     }
+
+    public boolean insertHoliday(String week, String day, String uCode) {
+        return mapper.insertHoliday(week, day, uCode) > 0;
+    }
+
+    public boolean deleteHoliday(String code, String uCode) {
+        return mapper.deleteHoliday(code, uCode) > 0;
+    }
+
+    public List<String> getHoliday(String uCode) {
+        return mapper.getHoliday(uCode);
+    }
 }

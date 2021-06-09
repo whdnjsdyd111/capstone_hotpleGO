@@ -23,4 +23,10 @@ public interface OpenInfoMapper {
     public List<OpenInfoVO> select(long htId);
 
     public List<OpenInfoVO> selectByManager(String uCode);
+
+    public int insertHoliday(@Param("week") String week, @Param("day") String day, @Param("uCode") String uCode);
+
+    public int deleteHoliday(@Param("code") String code, @Param("uCode") String uCode);
+
+    public List<String> getHoliday(String uCode);
 }

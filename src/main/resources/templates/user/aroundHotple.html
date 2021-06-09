@@ -11,6 +11,13 @@
             margin-bottom: 15px;
         }
 
+        .card_course {
+            border: 2px solid #3f3f3f;
+            border-radius: 30px;
+            padding-top: 15px;
+            box-shadow: 5px 5px 3px rgba(48, 48, 48, 0.5);
+        }
+
         .swiper-button-next, .swiper-button-prev {
             color: #9d9d9d;
         }
@@ -70,18 +77,21 @@
 
             .figure > img {
                 height: 150px;
+                width: 150px;
             }
         }
 
         @media(min-width: 1024px) {
             .figure > img {
                 height: 300px;
+                width: 300px;
             }
         }
 
         @media(min-width: 1600px) {
             .figure > img {
                 height: 500px;
+                width: 500px;
             }
         }
 
@@ -361,7 +371,7 @@
                     });
 
                     for (let key in datas.courses) {
-                        $('.courses').after(makeCourse(datas.courses[key]));
+                        $('.courses').after(makeCourse(datas.courses[key], key));
                     }
 
                     let mySwiper = new Swiper
@@ -393,19 +403,19 @@
 
         var datas;
 
-        function makeCourse(cs) {
+        function makeCourse(cs, code) {
             let c =
-                '<div class="swiper-container">' +
+                '<div class="swiper-container card_course">' +
                 '<div class="swiper-wrapper">';
 
             for (let index in cs) {
                 c += makeHotple(cs[index]);
             }
-
+            console.log(code)
             c +=
                 '</div>' +
-                '<div class="swiper-pagination"></div>' +
-                '</div>';
+                '<div class="swiper-pagination"></div><a class="stretched-link" href="/courseDetail/' +
+                code.replaceAll('/', '') + '"></a></div>';
 
             return c;
         }

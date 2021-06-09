@@ -87,6 +87,7 @@ public class ManagerController {
     @GetMapping("/open")
     public String openSetting(Model model, @AuthenticationPrincipal CustomUser manager) {
         model.addAttribute("opens", openInfo.getListByManager(manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/"));
+        model.addAttribute("holiday", openInfo.getHoliday(manager.user.getUCode()));
         return "manager/open";
     }
 

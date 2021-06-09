@@ -100,6 +100,9 @@ $(function () {
             });
         }
     });
+
+    let holi = $('#holidays')
+
     $('#submit-holiday').click(function() {
         if (confirm("저장하시겠습니까?")) {
             $.ajax({
@@ -111,6 +114,9 @@ $(function () {
                 },
                 success: function(data) {
                     alert(data);
+                    holi.append("<tr><td>" + week($('#holiday-week').val()) + "</td><td>" + day($('#holiday-day').val()) + "</td>" +
+                        "<td><button type='button' class='btn btn-danger dh'>삭제</button><input type='hidden' value='" +
+                        ($('#holiday-week').val() + "/" + $('#holiday-day').val()) +"' /></td></tr>")
                 },
                 error: function (xhr, status, err) {
                     alert(xhr.responseText);
@@ -118,6 +124,57 @@ $(function () {
             });
         }
     });
+
+    for (let key in holiday) {
+        let d = holiday[key].split('/');
+
+        holi.append("<tr><td>" + week(d[0]) + "</td><td>" + day(d[1]) + "</td>" +
+            "<td><button type='button' class='btn btn-danger dh'>" +
+            "삭제</button><input type='hidden' value='" + holiday[key] +"' /></td></tr>")
+    }
+
+    $(document).on('click', '.dh', function() {
+        let code = $(this).next().val();
+        let ele = $(this);
+        requestServlet({
+            code: code
+        }, "/manager/rest/delete-holiday", function(data) {
+            alert(data)
+            ele.parents('tr')[0].remove();
+        }, basicErrorFunc)
+    })
 });
 
+function week(w) {
+    switch (w) {
+        case "1":
+            return "첫째 주"
+        case "2":
+            return "둘째 주"
+        case "3":
+            return "셋째 주"
+        case "4":
+            return "넷째 주"
+        case "0":
+            return "매주"
+    }
+}
 
+function day(d) {
+    switch (d) {
+        case "0":
+            return "일"
+        case "1":
+            return "월"
+        case "2":
+            return "화"
+        case "3":
+            return "수"
+        case "4":
+            return "목"
+        case "5":
+            return "금"
+        case "6":
+            return "토"
+    }
+}

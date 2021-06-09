@@ -179,7 +179,7 @@
             <input type="hidden" th:value="${course.csCode}">
         </div>
     </th:block>
-    <th:block th:if="${course.UCode.split('/')[0] != #authentication.name}">
+    <th:block th:if="${#authentication.name != 'anonymousUser' && course.UCode.split('/')[0] != #authentication.name}">
         <button type="button" class="wonyong-btn w-btn-green" data-toggle="modal" data-target="#course_add">코스 복사</button>
     </th:block>
     <div class="modal" tabindex="-1" id="course_add">

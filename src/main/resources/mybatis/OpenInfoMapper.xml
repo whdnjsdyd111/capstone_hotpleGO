@@ -67,7 +67,7 @@
             UPDATE SET tCode = #{wb}
         WHEN NOT MATCHED THEN
             INSERT (htOb, htId, tCode)
-            VALUES ('S/B', #{htId}, #{wb})
+            VALUES ('S/B', (SELECT htId FROM hotple WHERE uCode = #{uCode}), #{wo})
     </update>
 
     <select id="select" resultType="OpenInfoVO">
@@ -75,7 +75,18 @@
     </select>
 
     <select id="selectByManager" resultType="OpenInfoVO">
-        SELECT * FROM open_info WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
+        SELECT * FROM open_info WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}) AND tCode IS NOT NULL
     </select>
 
+    <update id="insertHoliday">
+        INSERT INTO open_info VALUES(#{week} || '/' || #{day}, (SELECT htId FROM hotple WHERE uCode = #{uCode}), null)
+    </update>
+
+    <delete id="deleteHoliday">
+        DELETE FROM open_info WHERE htob = #{code} AND htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
+    </delete>
+
+    <select id="getHoliday" resultType="String">
+        SELECT htob FROM open_info WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode}) AND tCode IS NULL
+    </select>
 </mapper>
