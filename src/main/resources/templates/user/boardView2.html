@@ -45,8 +45,10 @@
             <div class="container">
                 <div class="d-flex flex-column my-3">
                     <div class="my-3">
-                        <span class="font-weight-bold mx-5" th:text="|함께하는 사람 : *{course.csWith}|">함께하는 사람 : 친구</span>
-                        <span class="font-weight-bold mx-5" th:text="|인원 : *{course.csNum}|">인원 : 3명</span>
+                        <input type="hidden" th:value="${course.csCode.replaceAll('/', '')}">
+                        <span class="font-weight-bold mx-5" th:text="|함께하는 사람 : *{course.csWith}|" style="color: #7E57C2"></span>
+                        <span class="font-weight-bold mx-5" th:text="|인원 : *{course.csNum}|" style="color: #7E57C2"></span>
+                        <button type="button" class="ml-5 wonyong-btn-neon2" id="moveCourse">코스 이용하기</button>
                         <span id="total_distance"></span>
                     </div>
                     <ul id="sortable">
@@ -75,14 +77,15 @@
         </th:block>
 
         <th:block th:if="${hotple != null}">
-            <input type="hidden" th:value="${hotple.htId}" id="htId">
             <div class="mb-5" style="width: 90%; border-radius: 20px; margin: 0 auto;">
                 <div class="l-contents l-contents--fixed">
                     <div class="rd-header__headline rd-header__headline--award-badge">
                         <h2 class="rd-header__rst-name mt-3">
-                            <a class="rd-header__rst-name-main " th:text="${hotple.busnName}" style="font-weight: bold;">가게명</a>
+                            <a class="rd-header__rst-name-main " th:text="${hotple.busnName}"
+                               style="font-weight: bold;">가게명</a>
                             <small class="rd-header__rst-name-ja"
-                                   th:text="${#strings.arraySplit(hotple.htAddr, ' ')[0]}" style="color: gray;">(지역명)</small>
+                                   th:text="${#strings.arraySplit(hotple.htAddr, ' ')[0]}"
+                                   style="color: gray;">(지역명)</small>
                         </h2>
                     </div>
                     <div class="rd-header__contents">
@@ -119,6 +122,8 @@
                                         맛있습니다
                                     </dd>
                                 </dl>
+                                <input type="hidden" th:value="${hotple.htId}" id="htId">
+                                <button type="button" class="wonyong-btn-neon2 mt-4" id="moveHotple">핫플 보러가기</button>
                             </div>
                         </div>
                     </div>
@@ -126,7 +131,8 @@
             </div>
         </th:block>
 
-        <div class="jumbotron border border-muted rounded-0 border-bottom-0 mb-0 text-left" th:utext="${board.bdCont}"></div>
+        <div class="jumbotron border border-muted rounded-0 border-bottom-0 mb-0 text-left"
+             th:utext="${board.bdCont}"></div>
 
         <th:block sec:authorize-expr="isAuthenticated()">
             <div class="col-12 px-0 py-2 border border-muted border-bottom-0">
@@ -134,26 +140,32 @@
                     <div class="mx-auto">
                         <th:block th:if="${reco == null}">
                             <button class="btn btn-lg btn-outline-secondary mx-2 reco_n" id="reco">
-                                <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
+                                <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}"
+                                                                            style="font-size: 15px"></b></span>
                             </button>
                             <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_n" id="nonReco">
-                                <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i class="fa fa-level-down ml-2"></i></span>
+                                <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i
+                                        class="fa fa-level-down ml-2"></i></span>
                             </button>
                         </th:block>
                         <th:block th:if="${reco == 'Y'}">
                             <button class="btn btn-lg btn-outline-secondary mx-2 reco_y" id="reco">
-                                <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
+                                <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}"
+                                                                            style="font-size: 15px"></b></span>
                             </button>
                             <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_n" id="nonReco">
-                                <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i class="fa fa-level-down ml-2"></i></span>
+                                <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i
+                                        class="fa fa-level-down ml-2"></i></span>
                             </button>
                         </th:block>
                         <th:block th:if="${reco == 'N'}">
                             <button class="btn btn-lg btn-outline-secondary mx-2 reco_n" id="reco">
-                                <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
+                                <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}"
+                                                                            style="font-size: 15px"></b></span>
                             </button>
                             <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_y" id="nonReco">
-                                <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i class="fa fa-level-down ml-2"></i></span>
+                                <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i
+                                        class="fa fa-level-down ml-2"></i></span>
                             </button>
                         </th:block>
                         <th:block th:if="${bookmark == false}">
@@ -251,8 +263,7 @@
             <div class="container">
                 <div class="mx-auto">
                     <button class="btn btn-lg btn-outline-secondary mx-2 go_login">
-                    <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}"
-                                                                style="font-size: 15px"></b></span>
+                    <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
                     </button>
                     <button class="btn btn-lg btn-outline-secondary mx-2 go_login">
                         <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i
@@ -308,13 +319,19 @@
                 <button class="wonyong-btn ml-3 w-btn-gra2 w-btn-gra-anim" onclick="history.go(-1)">목록</button>
             </div>
             <div>
-                <th:block th:if="${board.UCode.split('/')[0] == #authentication.name} or ${#authentication.authorities[0].authority == 'A'}">
-                    <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-blue" id="update"><i class="fa fa-wrench mr-2"></i>수정</button>
-                    <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-indigo" id="delete"><i class="fa fa-trash-o mr-2"></i>삭제
+                <th:block
+                        th:if="${board.UCode.split('/')[0] == #authentication.name} or ${#authentication.authorities[0].authority == 'A'}">
+                    <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-blue" id="update"><i
+                            class="fa fa-wrench mr-2"></i>수정
+                    </button>
+                    <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-indigo" id="delete"><i
+                            class="fa fa-trash-o mr-2"></i>삭제
                     </button>
                 </th:block>
                 <th:block sec:authorize-expr="!isAuthenticated()">
-                    <button class="wonyong-btn w-btn-moreRed mb-3 ml-5 mr-3 go_login" id="report"><i class="fa fa-flag mr-2"></i>신고</button>
+                    <button class="wonyong-btn w-btn-moreRed mb-3 ml-5 mr-3 go_login" id="report"><i
+                            class="fa fa-flag mr-2"></i>신고
+                    </button>
                 </th:block>
                 <th:block sec:authorize-expr="isAuthenticated()">
                     <input type="hidden" th:value="${board.bdCode}">
