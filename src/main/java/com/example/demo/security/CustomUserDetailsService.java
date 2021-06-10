@@ -14,11 +14,12 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 
 @Service
-@RequiredArgsConstructor
 @Log4j2
 public class CustomUserDetailsService implements UserDetailsService {
-    private UserService user;
-    private HttpSession session;
+    @Autowired
+    UserService user;
+    @Autowired
+    HttpSession session;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

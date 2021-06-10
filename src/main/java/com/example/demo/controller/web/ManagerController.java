@@ -104,6 +104,7 @@ public class ManagerController {
     @GetMapping("/myShop")
     public String myShop(Model model, @AuthenticationPrincipal CustomUser manager) {
         HotpleVO vo = hotple.getByUCode(manager.user.getUCode());
+        log.info(vo);
         model.addAttribute("hotple", vo);
         return "manager/myShop";
     }
