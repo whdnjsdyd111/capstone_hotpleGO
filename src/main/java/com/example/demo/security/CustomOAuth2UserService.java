@@ -54,6 +54,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
             if (vo.getUCode().equals(attributes.getEmail() + "/U/" + socialType)) {
                 match = true;
+                session.setAttribute("users", vo);
             }
         }
 

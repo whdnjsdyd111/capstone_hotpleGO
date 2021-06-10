@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -51,10 +52,11 @@ public class HomeController {
     }
 
     @GetMapping("/setting")
-    public String setting(Model model, @AuthenticationPrincipal CustomUser user) {
-        GuideApplyVO guideApplyVO = guide.checkGuide(user.user.getUCode());
-        GuideVO guideVO = guide.yourGuide(user.user.getUCode());
-        model.addAttribute("user", user.user);
+    public String setting(Model model, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        GuideApplyVO guideApplyVO = guide.checkGuide(vo.getUCode());
+        GuideVO guideVO = guide.yourGuide(vo.getUCode());
+        model.addAttribute("user", vo);
         model.addAttribute("guide", guideApplyVO);
         model.addAttribute("yourGuide", guideVO);
         return "user/userSetting";
