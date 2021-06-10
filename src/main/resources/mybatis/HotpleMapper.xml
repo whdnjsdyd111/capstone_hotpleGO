@@ -5,7 +5,9 @@
 <mapper namespace="com.example.demo.mapper.HotpleMapper">
 
     <select id="readId" resultType="HotpleVO">
-        SELECT * FROM hotple WHERE htId = #{htId}
+        SELECT htId, busnNum, goId, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, goImg, uploadPath, fileName, category
+        FROM hotple h JOIN image_attach i ON h.htImg = i.uuid
+        WHERE htId = #{htId}
     </select>
 
     <select id="readAddr" resultType="HotpleVO">

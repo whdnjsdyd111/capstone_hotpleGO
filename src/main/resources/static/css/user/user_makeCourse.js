@@ -57,4 +57,34 @@ $(function() {
         form.find('input[name=withNum]').val(withNum);
         form.submit();
     });
+
+    const slideValue = document.querySelector(".span1");
+    const inputSlider = document.querySelector(".input1");
+
+    // 사용자 필드 있을 때 이벤트 발생
+    inputSlider.oninput = (() => {
+        let value = inputSlider.value;
+        slideValue.textContent = value;
+        slideValue.style.left = ((value - 1) * (100 / 10)) + "%";
+        slideValue.classList.add("show");
+    });
+    // 사용자 필드 떠날 때 자바스크립트 이벤트 발생
+    inputSlider.onblur = (() => {
+        slideValue.classList.remove("show");
+    });
+
+    const slideValue1 = document.querySelector(".span2");
+    const inputSlider1 = document.querySelector(".input2");
+
+    // 사용자 필드 있을 때 이벤트 발생
+    inputSlider1.oninput = (() => {
+        let value = inputSlider1.value;
+        slideValue1.textContent = value;
+        slideValue1.style.left = ((value - 1) * (100 / 11)) + "%";
+        slideValue1.classList.add("show");
+    });
+    // 사용자 필드 떠날 때 자바스크립트 이벤트 발생
+    inputSlider1.onblur = (() => {
+        slideValue1.classList.remove("show");
+    });
 });
