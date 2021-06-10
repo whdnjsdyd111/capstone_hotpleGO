@@ -27,12 +27,12 @@ $(function() {
         let htId = $(this).prev().val();
         let formData = new FormData();
         formData.append("htId", $(this).prev().val());
-        formData.append("busnNum", $('#busn-num' + htId).val());
-        formData.append("busnName", $('#busn-name' + htId).val());
+        formData.append("busnNum", $('#busn-num').val());
+        formData.append("busnName", $('#busn-name').val());
         formData.append("htAddr", $('#roadAddrPart1' + htId).val());
         formData.append("htAddrDet", $('#addrDetail' + htId).val());
         formData.append("htZip", $('#zipNo' + htId).val());
-        formData.append("htCont", $('#introduction' + htId).text());
+        formData.append("htCont", $('#introduction').val());
         formData.append("htTel", $('#phone' + htId).val());
         formData.append("htImg", $('#htImg' + htId).val());
         formData.append("uploadPath", $('#uploadPath' + htId).val());

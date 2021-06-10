@@ -13,7 +13,7 @@
     </select>
 
     <select id="selectByManager" resultType="HotpleVO">
-        SELECT htId, busnNum, goId, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, goImg, uploadPath, fileName, category
+        SELECT htId, busnNum, goId, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, goImg, uploadPath, fileName, htLat, htLng, uCode, category
         FROM hotple h JOIN image_attach i ON h.htImg = i.uuid
         WHERE h.uCode = #{uCode}
     </select>

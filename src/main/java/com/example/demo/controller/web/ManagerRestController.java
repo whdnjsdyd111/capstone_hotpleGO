@@ -67,7 +67,7 @@ public class ManagerRestController {
     @PostMapping("/comp-update")
     @ResponseBody
     public ResponseEntity<String> companyUpdate(HotpleVO vo, MultipartFile upload) {
-        log.info(upload);
+        log.info(vo);
         ImageAttachVO imageAttachVO = new ImageAttachVO();
         if (upload != null) {
             imageAttachVO.upload(upload);

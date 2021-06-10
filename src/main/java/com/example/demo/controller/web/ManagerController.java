@@ -103,7 +103,8 @@ public class ManagerController {
 
     @GetMapping("/myShop")
     public String myShop(Model model, @AuthenticationPrincipal CustomUser manager) {
-        model.addAttribute("hotple", hotple.getByUCode(manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/"));
+        HotpleVO vo = hotple.getByUCode(manager.user.getUCode());
+        model.addAttribute("hotple", vo);
         return "manager/myShop";
     }
 

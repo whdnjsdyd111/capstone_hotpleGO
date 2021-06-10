@@ -98,6 +98,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/manager/register").permitAll()
                     .antMatchers("/manager/").permitAll()
                     .antMatchers("/manager/announce").permitAll()
+                    .antMatchers("/manager/announce/*").permitAll()
                     .antMatchers("/manager/login").permitAll()
                     .antMatchers("/manager/main").permitAll()
                     .antMatchers("/manager/**").access("hasAuthority('M')");

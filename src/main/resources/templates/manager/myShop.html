@@ -16,13 +16,13 @@
             <input type="hidden" th:value="${hotple.uploadPath}" th:id="|uploadPath*{hotple.htId}|">
             <input type="hidden" th:value="${hotple.fileName}" th:id="|fileName*{hotple.htId}|">
             <br/>
-            <label th:for="|busn-name*{hotple.htId}|">업체명</label>
-            <input type="text" th:id="|busn-name*{hotple.htId}|" class="form-control" th:value="${hotple.busnName}">
+            <label for="busn-name">업체명</label>
+            <input type="text" id="busn-name" class="form-control" th:value="${hotple.busnName}">
             <button type="button" class="btn btn-dark collapsed mt-3 mb-3 col" data-toggle="collapse"
                     th:data-target="'#hotple' + ${hotple.htId}" aria-expanded="false" onclick="changeText(this)">펼치기</button>
             <div class="collapse" th:id="|hotple*{hotple.htId}|">
-                <label th:for="|busn-num*{hotple.htId}|">사업자등록번호</label>
-                <input type="text" th:id=|busn-num*{hotple.htId}| class="form-control" th:value="${hotple.busnNum}" maxlength="10">
+                <label for="busn-num">사업자등록번호</label>
+                <input type="text" id="busn-num" class="form-control" th:value="${hotple.busnNum}" maxlength="10">
                 <label th:for="|roadAddrPart1*{hotple.htId}|" class="mt-2">도로명 주소</label>
                 <input type="text" th:id="|roadAddrPart1*{hotple.htId}|" class="form-control" th:value="${hotple.htAddr}" readonly>
                 <button type="button" class="btn btn-dark mt-2" th:onclick="'goPopup(' + ${hotple.htId} + ')'">주소 검색</button><br>
@@ -32,8 +32,8 @@
                 <input type="text" th:id="|zipNo*{hotple.htId}|" class="form-control" th:value="${hotple.htZip}" readonly>
                 <input type="hidden" th:value="${hotple.htLng}" id="lng" />
                 <input type="hidden" th:value="${hotple.htLat}" id="lat" />
-                <label th:for="|introduction*{hotple.htId}|" class="mt-2">소개 글</label>
-                <textarea th:id="|introduction*{hotple.htId}|" class="form-control" style="resize: none" th:text="${hotple.htCont}"></textarea>
+                <label for="introduction" class="mt-2">소개 글</label>
+                <textarea id="introduction" class="form-control" style="resize: none" th:text="${hotple.htCont}"></textarea>
                 <label th:for="|phone*{hotple.htId}|" class="mt-2">업체 연락처</label>
                 <input type="text" th:id="|phone*{hotple.htId}|" class="form-control" th:value="${hotple.htTel}">
                 <label class="mt-2">카테고리</label>
