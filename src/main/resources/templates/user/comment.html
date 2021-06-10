@@ -14,7 +14,7 @@
 <th:block sec:authorize-expr="isAuthenticated()">
     <div class="my-2">
         <div class="border border-dark write_comment_top mx-3 text-left cmmt-box">
-            <div class="ml-3 write_comment_member cmmt-nick" th:text="${#authentication.getName()}"></div>
+            <div class="ml-3 write_comment_member cmmt-nick" th:text="${#session.getAttribute('users').nick}"></div>
             <div class=" write_comment_middle cmmt-text-edit">
                 <div id="comCont" class="px-3" contentEditable="true"></div>
                 <input type="hidden" id="bdCode"/>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="next-to-cmmt-nick">
                         <th:block sec:authorize-expr="isAuthenticated()">
-                            <th:block th:if="${#authentication.getName().equals(comm.UCode.split('/')[0])} or ${#authentication.authorities[0].authority == 'A'}">
+                            <th:block th:if="${comm.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
                                 <div class="writer-visible-box">
                                     <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
                                     <input type="hidden" th:value="${comm.comCode.replaceAll('/', '')}"/>
@@ -174,7 +174,7 @@
                                       data-target="#reportModal">신고</span>
                             </div>
                             <div class="next-to-cmmt-nick">
-                                <th:block th:if="${#authentication.getName().equals(reply.UCode.split('/')[0])} or ${#authentication.authorities[0].authority == 'A'}">
+                                <th:block th:if="${reply.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
 
                                     <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
                                     <input type="hidden" th:value="|{replyStat.index}*{comm.comCode.replaceAll('/', '')}|">

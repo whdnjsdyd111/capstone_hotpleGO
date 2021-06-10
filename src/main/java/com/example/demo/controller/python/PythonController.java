@@ -4,6 +4,7 @@ import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.CourseVO;
 import com.example.demo.domain.CourseWithMbtiVO;
 import com.example.demo.domain.HotpleVO;
+import com.example.demo.domain.UserVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.CourseService;
 import com.example.demo.service.HotpleService;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -45,8 +47,9 @@ public class PythonController {
 
     @Transactional
     @GetMapping("/mbti_course")
-    public String mbti(@AuthenticationPrincipal CustomUser user) throws Exception {
-        String mbti = this.user.getMbti(user.user.getUCode());
+    public String mbti(HttpSession session) throws Exception {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
+        String mbti = this.user.getMbti(vo1.getUCode());
         if (mbti == null) return "redirect:/mbti";  // mbti 없으면 mbti 설정 페이지로 리다이렉트
 
         log.info(mbti);
@@ -64,8 +67,8 @@ public class PythonController {
         CourseVO vo = new CourseVO();
         vo.setCsTitle(mbti);
         vo.setCsWith("혼자");
-        vo.setCsNum((byte)1);
-        vo.setUCode(user.user.getUCode());
+        vo.setCsNum((byte) 1);
+        vo.setUCode(vo1.getUCode());
 
         HttpURLConnection conn = null;
         URL url = new URL("http://127.0.0.1:5000/mbti"); // 액세스 토큰 받을 주소 입력
@@ -84,14 +87,13 @@ public class PythonController {
 
         // JSON 화한 키 값들 전달하기
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-        bw.write("{"+mbti_json+","+hotples_json+"}");   //json 객체로 1차적으로 다듬어서 보냄.
+        bw.write("{" + mbti_json + "," + hotples_json + "}");   //json 객체로 1차적으로 다듬어서 보냄.
 //        bw.write(mbti_json);
 //        bw.newLine();
 //        bw.write(hotples_json);
 //        bw.write(mbti_json + hotples_json);
         bw.flush();
         bw.close();
-
 
 
         int responseCode = conn.getResponseCode();
@@ -127,14 +129,16 @@ public class PythonController {
 
     @Transactional
     @PostMapping("/ai_course")
-    public String aiCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) throws Exception {
+    public String aiCourse(HttpServletRequest request, HttpSession session) throws Exception {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
+
         double lat = Double.parseDouble(request.getParameter("lat"));
         double lng = Double.parseDouble(request.getParameter("lng"));
         int area = Integer.parseInt(request.getParameter("area"));
 
 
         List<HotpleVO> hotples = hotple.getByGeoAndArea(lat, lng, area);
-        int[] tastes = taste.getTasteList(user.user.getUCode()).stream().mapToInt(Integer::valueOf).toArray();
+        int[] tastes = taste.getTasteList(vo1.getUCode()).stream().mapToInt(Integer::valueOf).toArray();
         int[] selected = Arrays.stream(request.getParameter("index").split("")).mapToInt(Integer::parseInt).toArray();
         log.info(area);
         log.info(lat);
@@ -145,7 +149,7 @@ public class PythonController {
         vo.setCsTitle("aiCourse");
         vo.setCsWith(request.getParameter("with"));
         vo.setCsNum(Byte.parseByte(request.getParameter("withNum")));
-        vo.setUCode(user.user.getUCode());
+        vo.setUCode(vo1.getUCode());
 
         HttpURLConnection conn = null;
         URL url = new URL("http://127.0.0.1:5000/course"); // 액세스 토큰 받을 주소 입력
@@ -165,7 +169,7 @@ public class PythonController {
 
         // JSON 화한 키 값들 전달하기
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-        bw.write("{" + hotples_json + "," + tastes_json + "," +selected_json + "}");   //json 객체로 1차적으로 다듬어서 보냄.
+        bw.write("{" + hotples_json + "," + tastes_json + "," + selected_json + "}");   //json 객체로 1차적으로 다듬어서 보냄.
         bw.flush();
         bw.close();
 
