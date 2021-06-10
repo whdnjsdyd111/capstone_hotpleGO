@@ -88,10 +88,6 @@ public class AdminService {
         return mapper.utilCsWith("친구");
     }
 
-//    public String staBoardCount(){
-//        return mapper.staBoardCount();
-//    }
-
     public List<Integer> statistics() {
         return mapper.statistics();
     }

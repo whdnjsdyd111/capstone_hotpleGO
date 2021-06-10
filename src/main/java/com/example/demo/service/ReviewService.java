@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.ReviewVO;
-import com.example.demo.mapper.HotpleMapper;
 import com.example.demo.mapper.ReviewMapper;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +56,13 @@ public class ReviewService {
 
     public boolean updateReview(ReviewVO vo) {
         return mapper.updateReview(vo) == 1;
+    }
+
+    public String countReview() {
+        return mapper.countReview();
+    }
+
+    public String countOwnReview(){
+        return mapper.countOwnReview();
     }
 }

@@ -27,4 +27,8 @@ public interface ReviewMapper {
 
     public int updateReview(ReviewVO vo);
 
+    public String countReview();
+
+    public String countOwnReview();
+
 }
