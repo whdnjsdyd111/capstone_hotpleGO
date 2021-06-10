@@ -385,7 +385,7 @@ $(function () {
                         text: data,
                         icon: "success",
                         button: "확인"
-                    }).then(v => location.reload())
+                    }).then(v=> location.reload())
                 }, basicErrorFunc);
             }
         })
@@ -416,7 +416,7 @@ function reply_submit() {
             icon: "success",
             button: "확인"
         })
-        reload(written);
+        reload(recent);
     }).fail(function (error) {
         console.log(error.responseText);
     });

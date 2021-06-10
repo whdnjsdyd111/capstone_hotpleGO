@@ -123,11 +123,10 @@ public class BoardController {
     }
 
     @GetMapping("/comment/{bdCode}")
-    public String commentList(@PathVariable(value = "bdCode") String bdCode, @RequestParam(value = "sort", defaultValue = "reco") String sort, Model model, HttpSession session) {
+    public String commentList(@PathVariable(value = "bdCode") String bdCode, @RequestParam(value = "sort", defaultValue = "reco") String sort, Model model, HttpSession session, String comCode) {
         UserVO vo1 = (UserVO) session.getAttribute("users");
         log.info(bdCode);
         String bdcode = HotpleAPI.strToCode(bdCode);
-
         List<CommentVO> commentList = null;
         Map<CommentVO, List<CommentVO>> map = new LinkedHashMap<>();
         log.info(sort);
@@ -136,7 +135,7 @@ public class BoardController {
         } else if (sort.equals("recent")) {
             commentList = commentService.commOdByRecent(bdcode);
         } else if (sort.equals("writen")) {
-            commentList = commentService.commOdByWritenReply(bdcode);
+            commentList = commentService.commOdByWritenReply(comCode);
         } else {
             return "redirect:/board/comment/" + bdCode;
         }
