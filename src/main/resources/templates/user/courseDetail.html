@@ -149,7 +149,7 @@
                 <hr class="col"/>
             </div>
         </div>
-        <th:block th:if="${courseInfos.get(0).csCode.split('/')[2] == 'N' && course.UCode.split('/')[0] == #authentication.name}">
+        <th:block th:if="${courseInfos.get(0).csCode.split('/')[2] == 'N' && course.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]}">
             <div class="d-flex justify-content-center">
                 <button type="button" class="w-btn-blue mx-2 mb-1 wonyong-btn" id="pickBtn">찜하기</button>
                 <button type="button" class="w-btn-gray mx-2 mb-1 wonyong-btn" id="course_use">코스 이용</button>
@@ -157,18 +157,18 @@
             </div>
         </th:block>
     </th:block>
-    <th:block th:if="${courseInfos.size() == 0 && course.UCode.split('/')[0] == #authentication.name}">
+    <th:block th:if="${courseInfos.size() == 0 && course.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]}">
         <div class="jumbotron">
             <a href="/" class="h1">코스에 핫플들을 추가해주세요!</a>
         </div>
     </th:block>
-    <th:block th:if="${courseInfos.size() == 0 && course.UCode.split('/')[0] == #authentication.name}">
+    <th:block th:if="${courseInfos.size() == 0 && course.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]}">
         <div class="d-flex justify-content-around">
             <button type="button" class="w-btn-red wonyong-btn" id="course_delete">코스 삭제</button>
             <input type="hidden" th:value="${course.csCode}">
         </div>
     </th:block>
-    <th:block th:if="${#authentication.name != 'anonymousUser' && course.UCode.split('/')[0] != #authentication.name}">
+    <th:block th:if="${#authentication.name != 'anonymousUser' && course.UCode.split('/')[0] != #session.getAttribute('users').UCode.split('/')[0]}">
         <button type="button" class="wonyong-btn w-btn-green" data-toggle="modal" data-target="#course_add">코스 복사</button>
     </th:block>
     <div class="modal" tabindex="-1" id="course_add">

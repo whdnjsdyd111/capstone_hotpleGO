@@ -1,10 +1,7 @@
 package com.example.demo.controller.web;
 
 import com.example.demo.api.HotpleAPI;
-import com.example.demo.domain.CourseVO;
-import com.example.demo.domain.Criteria;
-import com.example.demo.domain.HotpleVO;
-import com.example.demo.domain.PageVO;
+import com.example.demo.domain.*;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
 import com.example.demo.security.CustomUser;
@@ -21,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -39,10 +37,11 @@ public class BoardController {
     }
 
     @GetMapping("/update/{bdCode}")
-    public String updateBoard(@PathVariable(value = "bdCode") String bdCode, Model model, @AuthenticationPrincipal CustomUser user) {
-        if (user == null) return "redirect:/board/list";
+    public String updateBoard(@PathVariable(value = "bdCode") String bdCode, Model model, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
+        if (vo1 == null) return "redirect:/board/list";
         String bd_code = HotpleAPI.strToCode(bdCode);
-        if (bdCode == null || boardService.getCheck(bd_code, user.user.getUCode())) {
+        if (bdCode == null || boardService.getCheck(bd_code, vo1.getUCode())) {
             return "redirect:/board/list";
         } else {
             BoardVO vo = boardService.getBoardDetail(bd_code);
@@ -65,9 +64,10 @@ public class BoardController {
     }
 
     @GetMapping("/bookmark")
-    public String bookmarkList(@ModelAttribute("BoardVO") BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user, @RequestParam(value = "kind", defaultValue = "B") String kind) {
+    public String bookmarkList(@ModelAttribute("BoardVO") BoardVO boardVO, Model model, HttpSession session, @RequestParam(value = "kind", defaultValue = "B") String kind) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         String str = kind.equals("B") ? ("게시판") : (kind.equals("H") ? "핫플" : "코스");
-        boardVO.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
+        boardVO.setUCode(vo.getUCode());
         List<BoardVO> bookmarkList = boardService.getBookmarkList(boardVO);
         log.info(boardVO);
         model.addAttribute("result", bookmarkList);
@@ -77,7 +77,8 @@ public class BoardController {
 
 
     @GetMapping("/view/{bdCode}")
-    public String view(@PathVariable("bdCode") String bdCode, Model model, @AuthenticationPrincipal CustomUser user) {
+    public String view(@PathVariable("bdCode") String bdCode, Model model, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
         log.info("read request");
         boardService.upView(HotpleAPI.strToCode(bdCode));
         BoardVO vo = boardService.getBoardDetail(HotpleAPI.strToCode(bdCode));
@@ -94,8 +95,8 @@ public class BoardController {
             model.addAttribute("course", courseVO);
             model.addAttribute("courseInfos", courseService.getCourseInfoDetail(vo.getCsCode()));
         }
-        if (user != null) {
-            String uCode = user.user.getUCode();
+        if (vo1 != null) {
+            String uCode = vo1.getUCode();
             model.addAttribute("reco", boardService.getReco(vo.getBdCode(), uCode));
             model.addAttribute("bookmark", boardService.getBookmark(vo.getBdCode(), uCode));
         }
@@ -105,26 +106,27 @@ public class BoardController {
 
     /*핫플공유 글쓰기*/
     @GetMapping("/shareHotple/{htId}")
-    public String sharedHotpleWrite(@PathVariable("htId") String htId, Model model, @AuthenticationPrincipal CustomUser user) {
+    public String sharedHotpleWrite(@PathVariable("htId") String htId, Model model, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         HotpleVO hotple = this.hotpleService.getId(htId);
-        hotple.setUCode(user.user.getUCode());
+        hotple.setUCode(vo.getUCode());
         model.addAttribute("hotple", hotple);
         return "user/shareWrite";
     }
 
     /*코스공유 글쓰기*/
     @GetMapping("/shareCourse/{csCode}")
-    public String sharedCourseWrite(@PathVariable("csCode") String csCode, Model model, @AuthenticationPrincipal CustomUser user) {
+    public String sharedCourseWrite(@PathVariable("csCode") String csCode, Model model) {
         CourseVO course = this.courseService.getCourseDetail(HotpleAPI.strToCode(csCode));
         model.addAttribute("course", course);
         return "user/shareWrite";
     }
 
     @GetMapping("/comment/{bdCode}")
-    public String commentList(@PathVariable(value = "bdCode") String bdCode, @RequestParam(value = "sort", defaultValue = "reco") String sort, Model model, @AuthenticationPrincipal CustomUser user) {
+    public String commentList(@PathVariable(value = "bdCode") String bdCode, @RequestParam(value = "sort", defaultValue = "reco") String sort, Model model, HttpSession session, String comCode) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
         log.info(bdCode);
         String bdcode = HotpleAPI.strToCode(bdCode);
-
         List<CommentVO> commentList = null;
         Map<CommentVO, List<CommentVO>> map = new LinkedHashMap<>();
         log.info(sort);
@@ -133,7 +135,7 @@ public class BoardController {
         } else if (sort.equals("recent")) {
             commentList = commentService.commOdByRecent(bdcode);
         } else if (sort.equals("writen")) {
-            commentList = commentService.commOdByWritenReply(bdcode);
+            commentList = commentService.commOdByWritenReply(comCode);
         } else {
             return "redirect:/board/comment/" + bdCode;
         }
@@ -154,7 +156,7 @@ public class BoardController {
         log.info(map);
 
         model.addAttribute("commentList", map);
-        if (user != null) model.addAttribute("commReco", commentService.getComReco(bdcode, user.user.getUCode()));
+        if (vo1 != null) model.addAttribute("commReco", commentService.getComReco(bdcode, vo1.getUCode()));
         return "user/comment";
     }
 

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -47,7 +48,8 @@ public class HomeRestController {
     private final GuideService guideService;
 
     @PostMapping("/around")
-    public ResponseEntity<String> around(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> around(HttpServletRequest request, HttpSession session) {
+        UserVO userVO = (UserVO) session.getAttribute("users");
         String urlOnOff = user == null ? "off" : "on";
         List<HotpleVO> filteredHotple = new ArrayList<>();
         Map<String, List<HotpleVO>> filteredCourse = new HashMap<>();
@@ -58,7 +60,7 @@ public class HomeRestController {
 
             String mbti = "[{mbti: ";
             if (user != null) {
-                mbti = this.user.getMbti(user.user.getUCode());
+                mbti = this.user.getMbti(userVO.getUCode());
                 if (mbti == null) return new ResponseEntity<>("no-mbti", HttpStatus.BAD_GATEWAY);
             }
             mbti += "}]";
@@ -160,8 +162,9 @@ public class HomeRestController {
 
 
     @PostMapping("/setting-nick")
-    public ResponseEntity<String> settingNick(@RequestBody UserVO vo, @AuthenticationPrincipal CustomUser user) {
-        if (this.user.updateNick(vo.getNick(), user.user.getUCode())) {
+    public ResponseEntity<String> settingNick(@RequestBody UserVO vo, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
+        if (this.user.updateNick(vo.getNick(), vo1.getUCode())) {
             return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
@@ -185,9 +188,10 @@ public class HomeRestController {
     }
 
     @PostMapping("/save-mbti")
-    public ResponseEntity<String> saveMBTI(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> saveMBTI(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         log.info(request.getParameter("mbti"));
-        if (this.user.updateMbti(request.getParameter("mbti"), user.user.getUCode())) {
+        if (this.user.updateMbti(request.getParameter("mbti"), vo.getUCode())) {
             return new ResponseEntity<>("저장되었습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
@@ -197,8 +201,9 @@ public class HomeRestController {
     @PostMapping("/save-taste")
     @ResponseBody
     public ResponseEntity<String> saveTaste(@RequestParam(value = "tastes[]") List<Integer> tastes,
-                                            @AuthenticationPrincipal CustomUser user) {
-        String code = user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/";
+                                            HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        String code = vo.getUCode();
         taste.reset(code);
         if (taste.registerAll(code, tastes)) {
             return new ResponseEntity<>("저장되었습니다.", HttpStatus.OK);
@@ -215,8 +220,9 @@ public class HomeRestController {
     }
 
     @PostMapping("/submit-review")
-    public ResponseEntity<String> submitReview(@RequestBody ReviewVO vo, @AuthenticationPrincipal CustomUser user) {
-        vo.setUCode(user.user.getUCode());
+    public ResponseEntity<String> submitReview(@RequestBody ReviewVO vo, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
+        vo.setUCode(vo1.getUCode());
         vo.setRiCode(HotpleAPI.strToCode(vo.getRiCode()));
         if (review.registerReview(vo)) {
             return new ResponseEntity<>("리뷰 작성 완료하였습니다.", HttpStatus.OK);
@@ -236,8 +242,9 @@ public class HomeRestController {
     }
 
     @PostMapping("/custom-course")
-    public ResponseEntity<String> customCourse(@RequestBody CourseVO vo, @AuthenticationPrincipal CustomUser user) {
-        vo.setUCode(user.user.getUCode());
+    public ResponseEntity<String> customCourse(@RequestBody CourseVO vo, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
+        vo.setUCode(vo1.getUCode());
         log.info(vo.getCsTitle());
         if (course.register(vo)) {
             return new ResponseEntity<>(vo.getCsCode(), HttpStatus.OK);
@@ -267,9 +274,10 @@ public class HomeRestController {
     public ResponseEntity<String> resComplete(@RequestParam("meCode[]") List<String> meCode,
                                               @RequestParam("rsMeNum[]") List<Integer> rsMeNum, @RequestParam("riTime") String riTime,
                                               @RequestParam("riPerson") short riPerson, @RequestParam("riOdNum") String riOdNum,
-                                              @RequestParam("riCont") String riCont, @AuthenticationPrincipal CustomUser user) {
+                                              @RequestParam("riCont") String riCont, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         ReservationInfoVO ri = ReservationInfoVO.builder().riPerson(riPerson)
-                .riOdNum(riOdNum).riCont(riCont).uCode(user.user.getUCode())
+                .riOdNum(riOdNum).riCont(riCont).uCode(vo.getUCode())
                 .riTime(Timestamp.valueOf(riTime)).htId(Long.parseLong(meCode.get(0).split("/")[0])).build();
         log.info(ri);
         if (reservation.registerRes(ri)) {
@@ -277,7 +285,7 @@ public class HomeRestController {
             List<ReservationStatusVO> list = new ArrayList<>();
             for (int i = 0; i < meCode.size(); i++) {
                 list.add(ReservationStatusVO.builder().riCode(ri.getRiCode()).meCode(meCode.get(i))
-                        .rsMeNum(rsMeNum.get(i)).uCode(user.user.getUCode()).build());
+                        .rsMeNum(rsMeNum.get(i)).uCode(vo.getUCode()).build());
             }
             if (reservation.registerResStatus(list)) {
                 return new ResponseEntity<>("예약을 완료하였습니다.", HttpStatus.OK);
@@ -289,10 +297,10 @@ public class HomeRestController {
 
     @PostMapping("/refund")
     @Transactional(rollbackFor = {Exception.class})
-    public ResponseEntity<String> refund(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) throws Exception {
-
+    public ResponseEntity<String> refund(HttpServletRequest request, HttpSession session) throws Exception {
+        UserVO vo = (UserVO) session.getAttribute("users");
         ReservationInfoVO ri = reservation.getByCode(request.getParameter("riCode"));
-        if (!ri.getUCode().equals(user.user.getUCode()))
+        if (!ri.getUCode().equals(vo.getUCode()))
             return new ResponseEntity<>("본인의 예약이 아닙니다.", HttpStatus.BAD_REQUEST);
 
         HttpURLConnection conn = null;
@@ -419,8 +427,9 @@ public class HomeRestController {
     }
 
     @PostMapping("/check-course")
-    public ResponseEntity<String> checkCourse(@AuthenticationPrincipal CustomUser user) {
-        if (course.checkUsing(user.user.getUCode())) {
+    public ResponseEntity<String> checkCourse(HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        if (course.checkUsing(vo.getUCode())) {
             return new ResponseEntity<>("Y", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("N", HttpStatus.OK);
@@ -428,8 +437,9 @@ public class HomeRestController {
     }
 
     @PostMapping("/change-course")
-    public ResponseEntity<String> changeCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
-        course.changeCourse(user.user.getUCode(), request.getParameter("csCode"));
+    public ResponseEntity<String> changeCourse(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        course.changeCourse(vo.getUCode(), request.getParameter("csCode"));
         return new ResponseEntity<>("해당 코스로 교체하였습니다.", HttpStatus.OK);
     }
 
@@ -453,7 +463,8 @@ public class HomeRestController {
 
     @Transactional
     @PostMapping("/course-copy")
-    public ResponseEntity<String> copyCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> copyCourse(HttpServletRequest request, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
         String csCode = request.getParameter("csCode");
         String csWith = request.getParameter("csWith");
         String csNum = request.getParameter("csNum");
@@ -463,7 +474,7 @@ public class HomeRestController {
         vo.setCsWith(csWith);
         vo.setCsNum(Byte.valueOf(csNum));
         vo.setCsTitle(csTitle);
-        vo.setUCode(user.user.getUCode());
+        vo.setUCode(vo1.getUCode());
 
         if (course.register(vo)) {
             if (course.copyCourse(vo.getCsCode(), csCode) > 0) {
@@ -491,9 +502,10 @@ public class HomeRestController {
 
     @PostMapping("/setting-guide")
     @ResponseBody
-    public ResponseEntity<String> insertGuide(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> insertGuide(HttpServletRequest request, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
         GuideApplyVO vo = new GuideApplyVO();
-        vo.setUCode(user.user.getUCode());
+        vo.setUCode(vo1.getUCode());
         vo.setGCont(request.getParameter("gCont"));
         log.info(vo);
         boolean isInserted = guideService.insertGuide(vo);
@@ -508,9 +520,10 @@ public class HomeRestController {
     }
 
     @PostMapping("/pick-hotple")
-    public ResponseEntity<String> pickHotple(HttpServletRequest request, @AuthenticationPrincipal CustomUser users) {
+    public ResponseEntity<String> pickHotple(HttpServletRequest request, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
         PickListVO vo = new PickListVO();
-        vo.setUCode(users.user.getUCode());
+        vo.setUCode(vo1.getUCode());
         vo.setHtId(request.getParameter("htId"));
         log.info(vo);
         boolean isInserted = user.pickHotple(vo);
@@ -525,9 +538,10 @@ public class HomeRestController {
     }
 
     @PostMapping("/pick-course")
-    public ResponseEntity<String> pickCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser users) {
+    public ResponseEntity<String> pickCourse(HttpServletRequest request, HttpSession session) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
         PickListVO vo = new PickListVO();
-        vo.setUCode(users.user.getUCode());
+        vo.setUCode(vo1.getUCode());
         vo.setCsCode(request.getParameter("csCode"));
         log.info(vo);
         boolean isInserted = user.pickCourse(vo);
@@ -542,9 +556,9 @@ public class HomeRestController {
     }
 
     @PostMapping("/pick-delete")
-    public ResponseEntity<String> deletePickHotple(HttpServletRequest request, @AuthenticationPrincipal CustomUser users) {
-
-        String uCode = users.user.getUCode();
+    public ResponseEntity<String> deletePickHotple(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        String uCode = vo.getUCode();
         String htId = request.getParameter("htId");
 
         boolean isDeleted = user.deletePickHotple(htId, uCode);
@@ -559,8 +573,9 @@ public class HomeRestController {
     }
 
     @PostMapping("pickCourse-delete")
-    public ResponseEntity<String> deletePickCourse(HttpServletRequest request, @AuthenticationPrincipal CustomUser users) {
-        String uCode = users.user.getUCode();
+    public ResponseEntity<String> deletePickCourse(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        String uCode = vo.getUCode();
         String csCode = request.getParameter("csCode");
 
         boolean isDeleted = user.deletePickCourse(csCode, uCode);

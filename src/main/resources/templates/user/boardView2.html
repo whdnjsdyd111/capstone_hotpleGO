@@ -320,7 +320,7 @@
             </div>
             <div>
                 <th:block
-                        th:if="${board.UCode.split('/')[0] == #authentication.name} or ${#authentication.authorities[0].authority == 'A'}">
+                        th:if="${board.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
                     <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-blue" id="update"><i
                             class="fa fa-wrench mr-2"></i>수정
                     </button>

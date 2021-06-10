@@ -63,27 +63,30 @@ public class HomeController {
     }
 
     @GetMapping("/mbti")
-    public String mbti(Model model, @AuthenticationPrincipal CustomUser user) {
-        model.addAttribute("mbti", this.user.getMbti(user.user.getUCode()));
+    public String mbti(Model model, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        model.addAttribute("mbti", this.user.getMbti(vo.getUCode()));
         return "user/mbti";
     }
 
 
     @GetMapping("/taste")
     public String taste(@RequestParam(value = "required", required = false) String required, Model model,
-                        @AuthenticationPrincipal CustomUser user) {
+                        HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         if (required != null) {
             model.addAttribute("msg", "취향 선택 후 코스를 이용해 주십시오.");
         }
-        model.addAttribute("tastes", taste.getTasteList(user.user.getUCode()));
+        model.addAttribute("tastes", taste.getTasteList(vo.getUCode()));
         return "user/taste";
     }
 
     @GetMapping("/myCourse")
     public String myCourse(@RequestParam(value = "kind", defaultValue = "usingCourse") String kind, Model model,
-                           @AuthenticationPrincipal CustomUser user) {
+                           HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         // TODO 오어스 계정에 대한 코딩
-        String uCode = user.user.getUCode();
+        String uCode = vo.getUCode();
         if (taste.getTasteList(uCode).size() == 0) return "redirect:/taste?required";
         model.addAttribute("kind", kind);
         if (kind.equals("usingCourse")) {
@@ -113,9 +116,9 @@ public class HomeController {
     }
 
     @GetMapping("/dibs")
-    public String dibs(@AuthenticationPrincipal CustomUser user, Model model) {
-        String uCode = user.user.getUCode();
-
+    public String dibs(HttpSession session, Model model) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        String uCode = vo.getUCode();
         List<HotpleVO> pickHotpleList = users.getPickHotpleList(uCode);
         List<CourseVO> pickCourseList = users.getPickCourseList(uCode);
         model.addAttribute("result", pickHotpleList);
@@ -125,7 +128,8 @@ public class HomeController {
     }
 
     @GetMapping("/hotple/{htId}")
-    public String hotple(@PathVariable("htId") String htId, Model model, @AuthenticationPrincipal CustomUser user) {
+    public String hotple(@PathVariable("htId") String htId, Model model, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         HotpleVO hotple = this.hotple.getId(htId);
         model.addAttribute("hotple", hotple);
         List<MenuVO> list = menu.getList(htId);
@@ -140,7 +144,7 @@ public class HomeController {
         model.addAttribute("openInfos", openInfo.getList(hotple.getHtId()));
 
         if (user != null) {
-            String uCode = user.user.getUCode();
+            String uCode = vo.getUCode();
             model.addAttribute("courses", course.getAllCourse(uCode));
             model.addAttribute("courseInfos", course.getAllInfo(uCode));
         }
@@ -161,8 +165,9 @@ public class HomeController {
     }
 
     @GetMapping("/reservation")
-    public String reservation(Model model, @AuthenticationPrincipal CustomUser user) {
-        String uCode = user.user.getUCode();
+    public String reservation(Model model, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        String uCode = vo.getUCode();
         Map<String, List<ReservationAllVO>> map = reservation.getList(uCode);
         log.info(map);
         model.addAttribute("hotples", reservation.getHotples(uCode));
@@ -177,9 +182,10 @@ public class HomeController {
     }
 
     @GetMapping("/payments")
-    public String pay(Model model, @AuthenticationPrincipal CustomUser user) {
-        model.addAttribute("email", user.user.getUCode().split("/")[0]);
-        model.addAttribute("phone", user.user.getPhone());
+    public String pay(Model model, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        model.addAttribute("email", vo.getUCode().split("/")[0]);
+        model.addAttribute("phone",  vo.getPhone());
         return "user/payment";
     }
 

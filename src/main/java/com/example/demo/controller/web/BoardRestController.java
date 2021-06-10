@@ -3,6 +3,7 @@ package com.example.demo.controller.web;
 import com.example.demo.api.HotpleAPI;
 import com.example.demo.domain.ImageAttachVO;
 import com.example.demo.domain.ReportVO;
+import com.example.demo.domain.UserVO;
 import com.example.demo.domain.web.BoardVO;
 import com.example.demo.domain.web.CommentVO;
 import com.example.demo.security.CustomUser;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 @RestController
@@ -35,8 +37,9 @@ public class BoardRestController {
     private final ReportService report;
 
     @PostMapping("/write")
-    public ResponseEntity<String> insertBoard(@RequestBody BoardVO boardVO, @AuthenticationPrincipal CustomUser user) {
-        boardVO.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
+    public ResponseEntity<String> insertBoard(@RequestBody BoardVO boardVO, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        boardVO.setUCode(vo.getUCode());
         boolean isInserted = boardService.insertBoard(boardVO);
         try {
             if (isInserted == true) {
@@ -53,8 +56,9 @@ public class BoardRestController {
     }
 
     @PostMapping("/shareHotple")
-    public ResponseEntity<String> insertHotpleShared(@RequestBody BoardVO boardVO, @AuthenticationPrincipal CustomUser user) {
-        boardVO.setUCode(user.user.getUCode());
+    public ResponseEntity<String> insertHotpleShared(@RequestBody BoardVO boardVO, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        boardVO.setUCode(vo.getUCode());
         log.info(boardVO);
 
         boolean isInserted = boardService.insertBoard(boardVO);
@@ -72,8 +76,9 @@ public class BoardRestController {
     }
 
     @PostMapping("/shareCourse")
-    public ResponseEntity<String> insertCourseShared(@RequestBody BoardVO boardVO, @AuthenticationPrincipal CustomUser user) {
-        boardVO.setUCode(user.user.getUCode());
+    public ResponseEntity<String> insertCourseShared(@RequestBody BoardVO boardVO, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        boardVO.setUCode(vo.getUCode());
         boolean isInserted = boardService.insertBoard(boardVO);
         try {
             if (isInserted == true) {
@@ -89,8 +94,9 @@ public class BoardRestController {
     }
 
     @PostMapping("/view/{bdCode}")
-    public ResponseEntity<String> insertComment(@RequestBody CommentVO commentVO, @PathVariable(value = "bdCode") String bdCode, @AuthenticationPrincipal CustomUser user) {
-        commentVO.setUCode(user.getUsername() + "/" + user.getAuthorities().toArray()[0] + "/");
+    public ResponseEntity<String> insertComment(@RequestBody CommentVO commentVO, @PathVariable(value = "bdCode") String bdCode, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        commentVO.setUCode(vo.getUCode());
         commentVO.setBdCode(HotpleAPI.strToCode(bdCode));
         commentVO.setReplyCode(commentVO.getReplyCode());
         log.info(commentVO);
@@ -109,8 +115,9 @@ public class BoardRestController {
 
 
     @PostMapping("/view/update/{bdCode}")
-    public ResponseEntity<String> updateComment(HttpServletRequest request, @PathVariable(value = "bdCode") String bdCode, @AuthenticationPrincipal CustomUser user, @RequestBody CommentVO commentVO) {
-        String uCode = user.user.getUCode();
+    public ResponseEntity<String> updateComment(HttpServletRequest request, @PathVariable(value = "bdCode") String bdCode, HttpSession session, @RequestBody CommentVO commentVO) {
+        UserVO vo = (UserVO) session.getAttribute("users");
+        String uCode = vo.getUCode();
         String comCode = request.getParameter("comCode");
         commentVO.setBdCode(HotpleAPI.strToCode(bdCode));
         commentVO.setReplyCode(commentVO.getReplyCode());
@@ -128,9 +135,10 @@ public class BoardRestController {
     }
 
     @PostMapping(value = "/update")
-    public ResponseEntity<String> updateBoard(@RequestBody BoardVO boardVO, Model model, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> updateBoard(@RequestBody BoardVO boardVO, Model model, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         log.info(boardVO);
-        boolean data = boardService.updateBoard(boardVO, user.user.getUCode());
+        boolean data = boardService.updateBoard(boardVO, vo.getUCode());
         model.addAttribute("data", data);
         return new ResponseEntity<>("수정이 완료되었습니다.", HttpStatus.OK);
     }
@@ -157,7 +165,8 @@ public class BoardRestController {
     }
 
     @PostMapping("/comLike")
-    public ResponseEntity<String> comLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> comLikeAdd(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));
         boolean com_non_reco = Boolean.parseBoolean(request.getParameter("check_com_nonReco"));
         String comCode = request.getParameter("comCode");
@@ -165,14 +174,14 @@ public class BoardRestController {
         log.info(com_non_reco);
         log.info(comCode);
         if (com_reco) {
-            commentService.deleteComReco(comCode, user.user.getUCode());
+            commentService.deleteComReco(comCode, vo.getUCode());
             commentService.comRecoDown(comCode);
         } else {
             if (com_non_reco) {
-                commentService.updateComReco(comCode, user.user.getUCode(), 'Y');
+                commentService.updateComReco(comCode, vo.getUCode(), 'Y');
                 commentService.unComRecoDown(comCode);
             } else {
-                commentService.insertComReco(comCode, user.user.getUCode(), 'Y');
+                commentService.insertComReco(comCode, vo.getUCode(), 'Y');
             }
             commentService.comRecoUp(comCode);
         }
@@ -180,20 +189,21 @@ public class BoardRestController {
     }
 
     @PostMapping("/unComLike")
-    public ResponseEntity<String> unComLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> unComLikeAdd(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         boolean com_reco = Boolean.parseBoolean(request.getParameter("check_com_reco"));
         boolean com_non_reco = Boolean.parseBoolean(request.getParameter("check_com_nonReco"));
         String comCode = request.getParameter("comCode");
 
         if (com_non_reco) {
-            commentService.deleteComReco(comCode, user.user.getUCode());
+            commentService.deleteComReco(comCode, vo.getUCode());
             commentService.unComRecoDown(comCode);
         } else {
             if (com_reco) {
-                commentService.updateComReco(comCode, user.user.getUCode(), 'N');
+                commentService.updateComReco(comCode, vo.getUCode(), 'N');
                 commentService.comRecoDown(comCode);
             } else {
-                commentService.insertComReco(comCode, user.user.getUCode(), 'N');
+                commentService.insertComReco(comCode, vo.getUCode(), 'N');
             }
             commentService.unComRecoUp(comCode);
         }
@@ -201,20 +211,21 @@ public class BoardRestController {
     }
 
     @PostMapping("/like")
-    public ResponseEntity<String> likeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> likeAdd(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         boolean reco = Boolean.parseBoolean(request.getParameter("check_reco"));
         boolean non_reco = Boolean.parseBoolean(request.getParameter("check_nonReco"));
         String bdCode = HotpleAPI.strToCode(request.getParameter("bdCode"));
 
         if (reco) {
-            boardService.deleteReco(bdCode, user.user.getUCode());
+            boardService.deleteReco(bdCode, vo.getUCode());
             boardService.recoDown(bdCode);
         } else {
             if (non_reco) {
-                boardService.updateReco(bdCode, user.user.getUCode(), 'Y');
+                boardService.updateReco(bdCode, vo.getUCode(), 'Y');
                 boardService.unRecoDownd(bdCode);
             } else {
-                boardService.insertReco(bdCode, user.user.getUCode(), 'Y');
+                boardService.insertReco(bdCode, vo.getUCode(), 'Y');
             }
             boardService.recoUp(bdCode);
         }
@@ -222,20 +233,21 @@ public class BoardRestController {
     }
 
     @PostMapping("/unLike")
-    public ResponseEntity<String> unLikeAdd(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> unLikeAdd(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         boolean reco = Boolean.parseBoolean(request.getParameter("check_reco"));
         boolean non_reco = Boolean.parseBoolean(request.getParameter("check_nonReco"));
         String bdCode = HotpleAPI.strToCode(request.getParameter("bdCode"));
 
         if (non_reco) {
-            boardService.deleteReco(bdCode, user.user.getUCode());
+            boardService.deleteReco(bdCode, vo.getUCode());
             boardService.unRecoDownd(bdCode);
         } else {
             if (reco) {
-                boardService.updateReco(bdCode, user.user.getUCode(), 'N');
+                boardService.updateReco(bdCode, vo.getUCode(), 'N');
                 boardService.recoDown(bdCode);
             } else {
-                boardService.insertReco(bdCode, user.user.getUCode(), 'N');
+                boardService.insertReco(bdCode, vo.getUCode(), 'N');
             }
             boardService.unRecoUp(bdCode);
         }
@@ -243,14 +255,15 @@ public class BoardRestController {
     }
 
     @PostMapping("/bookmark")
-    public ResponseEntity<String> addBookmark(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> addBookmark(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         String str = request.getParameter("bookmark");
         String bdCode = HotpleAPI.strToCode(request.getParameter("bdCode"));
 
         if (str.equals("Y")) {
-            boardService.insertBookmark(bdCode, user.user.getUCode());
+            boardService.insertBookmark(bdCode, vo.getUCode());
         } else {
-            boardService.removeBookmark(bdCode, user.user.getUCode());
+            boardService.removeBookmark(bdCode, vo.getUCode());
         }
 
         return new ResponseEntity<>("success", HttpStatus.OK);
@@ -258,13 +271,14 @@ public class BoardRestController {
 
 
     @PostMapping("/delete")
-    public ResponseEntity<String> deleteBoard(HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> deleteBoard(HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         String bdCode = HotpleAPI.strToCode(request.getParameter("bdCode"));
-        String uCode = user.user.getUCode();
+        String uCode = vo.getUCode();
         log.info(bdCode);
 
-        log.info(user.getAuthorities().toArray()[0].toString().equals("A"));
-        if (user.getAuthorities().toArray()[0].toString().equals("A")) {
+        log.info(uCode.split("/")[1].equals("A"));
+        if (uCode.split("/")[1].equals("A")) {
             boolean isUpdate = boardService.boardType(bdCode);
             try {
                 if (isUpdate == true) {
@@ -293,11 +307,12 @@ public class BoardRestController {
     }
 
     @PostMapping("/delete/comment/{comCode}")
-    public ResponseEntity<String> deleteComment(@PathVariable("comCode") String comCode, HttpServletRequest request, @AuthenticationPrincipal CustomUser user) {
+    public ResponseEntity<String> deleteComment(@PathVariable("comCode") String comCode, HttpServletRequest request, HttpSession session) {
+        UserVO vo = (UserVO) session.getAttribute("users");
         String comcode = HotpleAPI.strToCode(comCode);
         boolean isDeleted = commentService.commentDelete(comcode);
 
-        if (user.getAuthorities().toArray()[0].toString().equals("A")) {
+        if (vo.getUCode().split("/")[1].equals("A")) {
             boolean isUpdate = commentService.commentType(comCode);
             try {
                 if (isUpdate == true) {
@@ -320,8 +335,9 @@ public class BoardRestController {
     }
 
     @PostMapping("/report")
-    public ResponseEntity<String> reportBoard(HttpServletRequest request, @AuthenticationPrincipal CustomUser user, ReportVO vo) {
-        vo.setUCode(user.user.getUCode());
+    public ResponseEntity<String> reportBoard(HttpServletRequest request, HttpSession session, ReportVO vo) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
+        vo.setUCode(vo1.getUCode());
         vo.setRepCont(request.getParameter("repCont"));
         vo.setRepKind(request.getParameter("repKind"));
         vo.setBdCode(request.getParameter("bdCode"));
@@ -338,8 +354,9 @@ public class BoardRestController {
     }
 
     @PostMapping("/comment/report")
-    public ResponseEntity<String> reportComment(HttpServletRequest request, @AuthenticationPrincipal CustomUser user, ReportVO vo) {
-        vo.setUCode(user.user.getUCode());
+    public ResponseEntity<String> reportComment(HttpServletRequest request, HttpSession session, ReportVO vo) {
+        UserVO vo1 = (UserVO) session.getAttribute("users");
+        vo.setUCode(vo1.getUCode());
         vo.setComCode(request.getParameter("comCode"));
         vo.setRepKind(request.getParameter("repKind"));
         vo.setRepCont(request.getParameter("repCont"));
