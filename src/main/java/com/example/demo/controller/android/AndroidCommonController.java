@@ -13,6 +13,8 @@ import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +42,7 @@ public class AndroidCommonController {
     private final ReviewService review;
     private final MenuService menu;
     private final HotpleService hotple;
+    private final OpenInfoService openInfo;
 
     // 유저 정보
 
@@ -551,6 +554,50 @@ public class AndroidCommonController {
                 reservation.getSales(uCode);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("sales", new JSONObject(map));
+        return jsonObject.toString();
+    }
+
+    @PostMapping("/manager_management")
+    public String managerManagement(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        Map<String, String[]> map = openInfo.getListByManager(uCode);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("openInfo", new org.json.simple.JSONObject(map));
+        return jsonObject.toString();
+    }
+
+    @PostMapping("/manger_management_update")
+    public String managerManagementUpdate(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        String wo = request.getParameter("wost").replace(":", "") + "/" + request.getParameter("woet").replace(":", "");
+        String wb = request.getParameter("wbst").replace(":", "") + "/" + request.getParameter("wbet").replace(":", "");
+        int kind = 0;
+        switch (request.getParameter("kind")) {
+            case "평일":
+                kind = OpenInfoService.WEEKDAY;
+                break;
+            case "토요일":
+                kind = OpenInfoService.SATURDAY;
+                break;
+            case "일요일":
+                kind = OpenInfoService.SUNDAY;
+                break;
+        }
+
+        if (openInfo.mergeOpen(wo, uCode, kind) && openInfo.mergeBreak(wb, uCode, kind)) {
+            return "{message: true}";
+        } else {
+            return "{message: false}";
+        }
+    }
+
+    @PostMapping("/search_hotple")
+    public String searchHotple(HttpServletRequest request) {
+        double lat = Double.parseDouble(request.getParameter("lat"));
+        double lng = Double.parseDouble(request.getParameter("lng"));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("hotples", hotple.getByKeywordGeo(request.getParameter("keyword"),
+                lat, lng));
         return jsonObject.toString();
     }
 }

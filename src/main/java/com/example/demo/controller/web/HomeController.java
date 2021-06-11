@@ -209,4 +209,14 @@ public class HomeController {
             return "user/checkPw";
         }
     }
+
+    @GetMapping("/termOfSertice")
+    public String termOfSertice() {
+        return "user/termOfSertice";
+    }
+
+    @GetMapping("/privacyPolicy")
+    public String privacyPolicy() {
+        return "user/privacyPolicy";
+    }
 }
