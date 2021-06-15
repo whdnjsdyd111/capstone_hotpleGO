@@ -140,10 +140,10 @@ public class HomeController {
         model.addAttribute("min", list.stream().mapToLong(MenuVO::getMePrice).min().orElse(0));
         model.addAttribute("avg", list.stream().mapToLong(MenuVO::getMePrice).average().orElse(0));
         model.addAttribute("reviews", review.getList(hotple.getHtId()));
-        model.addAttribute("ratings", review.getRatingsHotple(Long.parseLong(htId)));
+        model.addAttribute("ratings", review.getRatingsHotple(hotple.getHtId()));
         model.addAttribute("openInfos", openInfo.getList(hotple.getHtId()));
 
-        if (user != null) {
+        if (vo != null) {
             String uCode = vo.getUCode();
             model.addAttribute("courses", course.getAllCourse(uCode));
             model.addAttribute("courseInfos", course.getAllInfo(uCode));

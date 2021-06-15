@@ -600,4 +600,11 @@ public class AndroidCommonController {
                 lat, lng));
         return jsonObject.toString();
     }
+    
+    @PostMapping("/hotpleMenus")
+    public String hotpleMenu(HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("menus", menu.getList(request.getParameter("htId")));
+        return jsonObject.toString();
+    }
 }

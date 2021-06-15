@@ -6,7 +6,7 @@
 
     <select id="readId" resultType="HotpleVO">
         SELECT htId, busnNum, goId, busnName, htAddr, htAddrDet, htZip, htCont, htTel, htImg, goImg, uploadPath, fileName, category
-        FROM hotple h JOIN image_attach i ON h.htImg = i.uuid
+        FROM hotple h LEFT OUTER JOIN image_attach i ON h.htImg = i.uuid
         WHERE htId = #{htId}
     </select>
 
