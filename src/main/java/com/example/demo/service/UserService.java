@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public boolean register(UserVO vo) {
-        if (!vo.getPw().isEmpty()) {
+        if (vo.getPw() != null && !vo.getPw().isEmpty()) {
             vo.setPw(new BCryptPasswordEncoder().encode(vo.getPw()));
         }
         return userMapper.insert(vo) == 1;

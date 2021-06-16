@@ -102,6 +102,7 @@ public class AndroidCommonController {
 
     @PostMapping("/socialRegister")
     public String socialJoin(UserVO vo, HttpServletRequest request) {
+        log.info(vo);
         Date birth = null;
         try {
             birth = new SimpleDateFormat("yyMMdd").parse(request.getParameter("birth_str"));
@@ -110,7 +111,7 @@ public class AndroidCommonController {
         }
         log.info(vo);
 
-        vo.setUCode(vo.getUCode() + "/U/" + request.getParameter("socialType"));
+        vo.setUCode(request.getParameter("email") + "/U/" + request.getParameter("socialType"));
         vo.setBirth(birth);
         if (users.register(vo)) {
             return "{message: true}";
@@ -122,8 +123,10 @@ public class AndroidCommonController {
     @PostMapping("/socialLogin")
     public String socialEmailCheck(HttpServletRequest request) {
         String uCode = request.getParameter("email") + "/U/" + request.getParameter("socialType");
+        UserVO vo = users.get(uCode);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("user", hotple.getByUCode(uCode));
+        jsonObject.put("user", vo);
+        jsonObject.put("message", vo == null ? "false" : "true");
         return jsonObject.toString();
     }
 
