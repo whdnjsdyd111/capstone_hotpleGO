@@ -11,7 +11,7 @@
             <div class="form-group bg-info pt-5 pr-5 pl-5 pb-3 mt-5 col-xl-6 col-lg-9 col-md-12 text-white" style="border-radius: 25px">
                 <div class="d-flex justify-content-center">
                     <img th:src="${#hotpleAPI.toImg(hotple.uploadPath, hotple.htImg, hotple.fileName, #hotpleAPI.IMAGE)}"
-                         alt="이미지가 없습니다." class="img-fluid rounded">
+                         alt="이미지가 없습니다." class="img-fluid rounded" style="width:300px; height: 200px;">
                 </div>
                 <input type="hidden" th:value="${hotple.htImg}" th:id="|htImg*{hotple.htId}|">
                 <input type="hidden" th:value="${hotple.uploadPath}" th:id="|uploadPath*{hotple.htId}|">

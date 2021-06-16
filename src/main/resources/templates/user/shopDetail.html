@@ -29,7 +29,7 @@
                             <th:block th:if="${hotple.htImg != null}">
                                 <img th:src="${#hotpleAPI.toImg(hotple.uploadPath,
                                     hotple.htImg, hotple.fileName, #hotpleAPI.IMAGE)}"
-                                     alt="이미지가 없습니다." class="c-img c-img--frame">
+                                     alt="이미지가 없습니다." class="c-img c-img--frame" style="height: 300px; width:400px">
                             </th:block>
                             <th:block th:if="${hotple.htImg == null && hotple.goImg != null}">
                                 <img th:src="${hotple.goImg}" alt="이미지가 없습니다." class="c-img c-img--frame"/>
