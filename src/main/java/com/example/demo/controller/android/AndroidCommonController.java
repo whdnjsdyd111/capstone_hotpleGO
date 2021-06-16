@@ -17,11 +17,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -56,7 +58,8 @@ public class AndroidCommonController {
             return "{message: '아이디 또는 비밀번호가 틀렸습니다.'}";
         } else if (new BCryptPasswordEncoder().matches(pw, vo.getPw())) {
             JSONObject obj = new JSONObject();
-            if (vo.getUCode().split("/")[1].equals("M")) obj.put("hotple", new JSONObject(hotple.getByUCode(vo.getUCode())));
+            if (vo.getUCode().split("/")[1].equals("M"))
+                obj.put("hotple", new JSONObject(hotple.getByUCode(vo.getUCode())));
             obj.put("user", new JSONObject(vo));
             obj.put("message", true);
             return obj.toString();
@@ -180,7 +183,7 @@ public class AndroidCommonController {
                 }
             }
         });
-        map.forEach((k ,v) -> {
+        map.forEach((k, v) -> {
             temp.add(k);
             v.forEach(vo -> temp.add(vo));
         });
@@ -336,7 +339,7 @@ public class AndroidCommonController {
 
     // 사용자 정보 관련 메소드
 
-        // 사용자 취향 관련 메소드
+    // 사용자 취향 관련 메소드
     @PostMapping("/getTaste")
     public String getTaste(HttpServletRequest request) {
         String uCode = request.getParameter("uCode");
@@ -365,7 +368,7 @@ public class AndroidCommonController {
         }
     }
 
-        // 사용자 MBTI 선택
+    // 사용자 MBTI 선택
     @PostMapping("/getMbti")
     public String getMbti(HttpServletRequest request) {
         String uCode = request.getParameter("uCode");
@@ -420,7 +423,7 @@ public class AndroidCommonController {
         return new JSONObject().put("file", url).toString();
     }
 
-        // 업체 운영자
+    // 업체 운영자
     // 메뉴
     @PostMapping("/get_menus")
     public String getMenus(HttpServletRequest request) {
@@ -616,7 +619,7 @@ public class AndroidCommonController {
         return jsonObject.toString();
     }
 
-    
+
     @PostMapping("/hotpleMenus")
     public String hotpleMenu(HttpServletRequest request) {
         JSONObject jsonObject = new JSONObject();
@@ -636,5 +639,159 @@ public class AndroidCommonController {
         jsonObject.put("avg", list.stream().mapToLong(MenuVO::getMePrice).average().orElse(0));
         jsonObject.put("hotple", openInfo.getList(htId));
         return jsonObject.toString();
+    }
+
+    @PostMapping("/pick-delete")
+    public String deletePickHotple(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        String htId = request.getParameter("htId");
+
+        boolean isDeleted = users.deletePickHotple(htId, uCode);
+        try {
+            if (isDeleted == true) {
+                log.info("삭제 완료");
+            }
+        } catch (Exception e) {
+            log.info("에러 발생");
+        }
+        return "{message: true}";
+    }
+
+    @PostMapping("/pickCourse-delete")
+    public String deletePickCourse(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        String csCode = request.getParameter("csCode");
+
+        boolean isDeleted = users.deletePickCourse(csCode, uCode);
+        try {
+            if (isDeleted == true) {
+                log.info("삭제 완료");
+            }
+        } catch (Exception e) {
+            log.info("에러 발생");
+        }
+        return "{message: true}";
+    }
+
+    @PostMapping("/pick-hotple")
+    public String pickHotple(HttpServletRequest request) {
+        PickListVO vo = new PickListVO();
+        vo.setUCode(request.getParameter("uCode"));
+        vo.setHtId(request.getParameter("htId"));
+
+        boolean isInserted = users.pickHotple(vo);
+        try {
+            if (isInserted == true) {
+                log.info("성공");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return "{message: true}";
+    }
+
+    @PostMapping("/pick-course")
+    public String pickCourse(HttpServletRequest request) {
+        PickListVO vo = new PickListVO();
+        vo.setUCode(request.getParameter("uCode"));
+        vo.setCsCode(request.getParameter("csCode"));
+
+        boolean isInserted = users.pickCourse(vo);
+
+        try {
+            if (isInserted == true) {
+                log.info("성공");
+            }
+        } catch (Exception e) {
+            log.warn("에러 발생");
+        }
+        return "{message: true}";
+    }
+
+    @Transactional
+    @PostMapping("/course-copy")
+    public String copyCourse(HttpServletRequest request) {
+        String csCode = request.getParameter("csCode");
+        String csWith = request.getParameter("csWith");
+        String csNum = request.getParameter("csNum");
+        String csTitle = request.getParameter("csTitle");
+
+        CourseVO vo = new CourseVO();
+        vo.setCsWith(csWith);
+        vo.setCsNum(Byte.valueOf(csNum));
+        vo.setCsTitle(csTitle);
+        vo.setUCode(request.getParameter("uCode"));
+
+        if (course.register(vo)) {
+            if (course.copyCourse(vo.getCsCode(), csCode) > 0) {
+                return "{message: true}";
+            }
+        }
+        return "{message: false}";
+    }
+
+    @PostMapping("/check-course")
+    public String checkCourse(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        if (course.checkUsing(uCode)) {
+            return "{message: true}";
+        } else {
+            return "{message: true}";
+        }
+    }
+
+    @PostMapping("/change-course")
+    public String changeCourse(HttpServletRequest request) {
+        String uCode = request.getParameter("uCode");
+        course.changeCourse(uCode, request.getParameter("csCode"));
+        return "{message: true}";
+    }
+
+    @PostMapping("/use-course")
+    public String useCourse(HttpServletRequest request) {
+        course.changeUseCourse(request.getParameter("csCode"));
+        return "{message: true}";
+    }
+
+    @PostMapping("/return-course")
+    public String returnCourse(HttpServletRequest request) {
+        course.returnCourse(request.getParameter("csCode"));
+        return "{message: true}";
+    }
+
+    @PostMapping("/complete-course")
+    public String completeCourse(HttpServletRequest request) {
+        course.completeCourse(request.getParameter("csCode"));
+        return "{message: true}";
+    }
+
+    @PostMapping("/delete-course")
+    public String deleteCourse(HttpServletRequest request) {
+        if (course.removeCourse(request.getParameter("csCode"))) {
+            return "{message: true}";
+        } else {
+            return "{message: false}";
+        }
+    }
+
+    @PostMapping("/delete-hotple-in-course")
+    public String deleteHotpleInCourse(HttpServletRequest request) {
+        course.removeHtInCs(request.getParameter("csCode"), request.getParameter("htId"));
+        return "{message: true}";
+    }
+
+    @PostMapping("/add-in-course")
+    public String addInCourse(HttpServletRequest request) {
+        String csCode = request.getParameter("csCode");
+        String htId = request.getParameter("htId");
+        if (!course.alreadyAdded(csCode, htId)) {
+            if (course.addCourse(csCode, htId)) {
+                return "{message: true}";
+            } else {
+                return "{message: false}";
+            }
+        } else {
+            return "{message: false}";
+        }
     }
 }
