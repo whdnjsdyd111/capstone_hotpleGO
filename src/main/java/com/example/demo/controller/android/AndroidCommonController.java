@@ -100,6 +100,25 @@ public class AndroidCommonController {
         }
     }
 
+    @PostMapping("/socialRegister")
+    public String socialJoin(UserVO vo, HttpServletRequest request) {
+        Date birth = null;
+        try {
+            birth = new SimpleDateFormat("yyMMdd").parse(request.getParameter("birth_str"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        log.info(vo);
+
+        vo.setUCode(vo.getUCode() + "/U/" + request.getParameter("socialType"));
+        vo.setBirth(birth);
+        if (users.register(vo)) {
+            return "{message: true}";
+        } else {
+            return "{message: false}";
+        }
+    }
+
     @PostMapping("/socialLogin")
     public String socialEmailCheck(HttpServletRequest request) {
         String uCode = request.getParameter("email") + "/U/" + request.getParameter("socialType");
