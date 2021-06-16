@@ -600,11 +600,33 @@ public class AndroidCommonController {
                 lat, lng));
         return jsonObject.toString();
     }
+
+    @PostMapping("/hotpleReviews")
+    public String hotpleReviews(HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("reviews", review.getList(Long.parseLong(request.getParameter("htId"))));
+        return jsonObject.toString();
+    }
+
     
     @PostMapping("/hotpleMenus")
     public String hotpleMenu(HttpServletRequest request) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("menus", menu.getList(request.getParameter("htId")));
+        return jsonObject.toString();
+    }
+
+    @PostMapping("/hotpleInfos")
+    public String hotpleInfos(HttpServletRequest request) {
+        long htId = Long.parseLong(request.getParameter("htId"));
+        List<MenuVO> list = menu.getList(String.valueOf(htId));
+        Map<String, List<MenuVO>> map = new HashMap<>();
+        list.forEach(l -> map.computeIfAbsent(l.getMeCate(), k -> new ArrayList<>()).add(l));
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("max", list.stream().mapToLong(MenuVO::getMePrice).max().orElse(0));
+        jsonObject.put("min", list.stream().mapToLong(MenuVO::getMePrice).min().orElse(0));
+        jsonObject.put("avg", list.stream().mapToLong(MenuVO::getMePrice).average().orElse(0));
+        jsonObject.put("hotple", openInfo.getList(htId));
         return jsonObject.toString();
     }
 }
