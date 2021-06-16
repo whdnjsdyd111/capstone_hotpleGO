@@ -97,6 +97,14 @@ public class AndroidCommonController {
         }
     }
 
+    @PostMapping("/socialLogin")
+    public String socialEmailCheck(HttpServletRequest request) {
+        String uCode = request.getParameter("email") + "/U/" + request.getParameter("socialType");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("user", hotple.getByUCode(uCode));
+        return jsonObject.toString();
+    }
+
     @PostMapping("/managerJoin")
     public String managerJoin(ManagerVO vo) {
         log.info(vo);

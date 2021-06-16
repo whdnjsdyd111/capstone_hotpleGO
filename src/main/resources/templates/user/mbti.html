@@ -167,6 +167,32 @@
             </div>
         </div>
         <button type="button" class="w-btn-blue wonyong-btn btn-info my-3" id="save_mbti">저장하기</button>
+        <button type="button" class="w-btn-red wonyong-btn my-3 ml-5" id="check_mbti">MBTI 검사하기</button>
+        <script>
+            $(function () {
+                $('#check_mbti').click(function () {
+                    swal("검사하시겠습니까?",
+                        {
+                            buttons: {
+                                cancel: "아니요!",
+                                add: "네!"
+                            },
+                        }).then((v) => {
+                        if (v === "add") {
+                            swal({
+                                title: "검사 하기!",
+                                text: "검사 후 다시 사이트로 접속해주세요!",
+                                icon: "success",
+                                button: "확인"
+                            }).then((v) => {
+                                location.href = "https://www.16personalities.com/ko";
+                            })
+                        }
+                    });
+                });
+
+            })
+        </script>
     </div>
 </div>
 </html>
