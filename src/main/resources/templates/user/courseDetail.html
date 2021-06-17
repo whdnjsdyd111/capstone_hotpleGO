@@ -156,6 +156,11 @@
                 <button type="button" class="w-btn-red mx-2 mb-1 wonyong-btn" id="course_delete">코스 삭제</button>
             </div>
         </th:block>
+        <th:block th:if="${courseInfos.get(0).csCode.split('/')[2] == 'Y' && course.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]}">
+            <div class="d-flex justify-content-center">
+                <button type="button" class="w-btn-blue mx-2 mb-1 wonyong-btn" id="pickBtn">찜하기</button>
+            </div>
+        </th:block>
     </th:block>
     <th:block th:if="${courseInfos.size() == 0 && course.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]}">
         <div class="jumbotron">

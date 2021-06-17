@@ -141,7 +141,7 @@ public class HotpleAPI {
             Date writtenTime = sdf.parse(code.split("/")[0]);
             Date cur = new Date();
             long before = cur.getTime() - writtenTime.getTime();
-            long month = before / 1000 / 60 / 60 / 24 / 24 % 30;
+            long day = before / 1000 / 60 / 60 / 24 / 24 % 30;
             long hour = before / 1000 / 60 / 60 % 24;
             long minute = before / 1000/ 60 % 60;
             long second = before / 1000 % 60;
