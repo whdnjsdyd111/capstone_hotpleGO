@@ -65,6 +65,10 @@ $(function () {
         location.href = "/board/view/" + bdCode;
     });
 
+    $(document).on('click', '.member-action-btn', function () {
+        let bdCode
+    });
+
     $(document).on('click', '.deleteContent', function (){
         let bdCode = $(this).prev().val();
 

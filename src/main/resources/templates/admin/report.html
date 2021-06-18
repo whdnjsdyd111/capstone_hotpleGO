@@ -34,6 +34,7 @@
           </td>
           <td th:text="${report.uCode.split('/')[0]}"></td>
           <td>
+            <input type="hidden" th:value="${report.bdCode.replaceAll('/', '')}">
             <button class="btn btn-outline-info member-action-btn">활동 보기</button>
             <th:block th:if="report.bdCode != null">
               <input type="hidden" value="B" />
@@ -42,7 +43,7 @@
             <th:block th:if="report.comCode != null">
               <input type="hidden" value="C" />
               <input type="hidden" th:value="${report.comCode}">
-            </th:block>
+            </th:block>0
           </td>
           <td>
             <input type="hidden" th:value="${report.repCode}">

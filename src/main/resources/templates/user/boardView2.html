@@ -149,9 +149,9 @@
                             </button>
                         </th:block>
                         <th:block th:if="${reco == 'Y'}">
-                            <button class="btn btn-lg btn-outline-secondary mx-2 reco_y" id="reco">
+                            <button class="btn btn-lg btn-outline-secondary mx-2 reco_y" id="reco" style="background-color: #BEF53D">
                                 <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}"
-                                                                            style="font-size: 15px"></b></span>
+                                                                            style="font-size: 15px;"></b></span>
                             </button>
                             <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_n" id="nonReco">
                                 <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i
@@ -163,8 +163,8 @@
                                 <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}"
                                                                             style="font-size: 15px"></b></span>
                             </button>
-                            <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_y" id="nonReco">
-                                <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i
+                            <button class="btn btn-lg btn-outline-secondary mx-2 nonReco_y" id="nonReco" style="background-color: #F47070;">
+                                <span><b th:text="${board.bdRecn}" style="font-size: 15px;"></b><i
                                         class="fa fa-level-down ml-2"></i></span>
                             </button>
                         </th:block>
@@ -263,7 +263,7 @@
             <div class="container">
                 <div class="mx-auto">
                     <button class="btn btn-lg btn-outline-secondary mx-2 go_login">
-                    <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
+                        <span><i class="fa fa-level-up mr-2"></i><b th:text="${board.bdRecy}" style="font-size: 15px"></b></span>
                     </button>
                     <button class="btn btn-lg btn-outline-secondary mx-2 go_login">
                         <span><b th:text="${board.bdRecn}" style="font-size: 15px"></b><i
@@ -319,8 +319,7 @@
                 <button class="wonyong-btn ml-3 w-btn-gra2 w-btn-gra-anim" onclick="history.go(-1)">목록</button>
             </div>
             <div>
-                <th:block
-                        th:if="${board.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
+                <th:block th:if="${board.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
                     <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-blue" id="update"><i
                             class="fa fa-wrench mr-2"></i>수정
                     </button>
