@@ -152,7 +152,7 @@ $(function () {
 
     $('#name').on('properties change paste input', function () {
         payName = $(this).val();
-        if (payName === "" || $('#roadAddr').length === 0 || $('#zipNo').length === 0) {
+        if (payName === "") {
             $('#submit_reservation').prop('disabled', 'true');
         } else {
             $('#submit_reservation').prop('disabled', '');

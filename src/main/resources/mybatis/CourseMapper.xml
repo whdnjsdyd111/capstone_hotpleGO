@@ -121,10 +121,16 @@
                 DECLARE
                 BEGIN
 
+                UPDATE course SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
+                WHERE csCode = #{csCode};
+
                 UPDATE course_info SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
                 WHERE csCode = #{csCode};
 
-                UPDATE course SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
+                UPDATE pick_list SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
+                WHERE csCode = #{csCode};
+
+                UPDATE board SET csCode = SUBSTR(#{csCode}, 0, 16) || 'C'
                 WHERE csCode = #{csCode};
 
             END
@@ -149,6 +155,12 @@
                 UPDATE course_info SET csCode = SUBSTR(#{csCode}, 0, 16) || 'N'
                 WHERE csCode = #{csCode};
 
+                UPDATE pick_list SET csCode = SUBSTR(#{csCode}, 0, 16) || 'N'
+                WHERE csCode = #{csCode};
+
+                UPDATE board SET csCode = SUBSTR(#{csCode}, 0, 16) || 'N'
+                WHERE csCode = #{csCode};
+
             END
         }
     </update>
@@ -163,6 +175,12 @@
                 WHERE csCode = #{csCode};
 
                 UPDATE course_info SET csCode = SUBSTR(#{csCode}, 0, 16) || 'Y'
+                WHERE csCode = #{csCode};
+
+                UPDATE pick_list SET csCode = SUBSTR(#{csCode}, 0, 16) || 'Y'
+                WHERE csCode = #{csCode};
+
+                UPDATE board SET csCode = SUBSTR(#{csCode}, 0, 16) || 'Y'
                 WHERE csCode = #{csCode};
 
             END

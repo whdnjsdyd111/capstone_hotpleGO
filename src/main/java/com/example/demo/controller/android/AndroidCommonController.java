@@ -8,6 +8,7 @@ import com.example.demo.service.web.BoardService;
 import com.example.demo.service.web.CommentService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -154,7 +156,8 @@ public class AndroidCommonController {
 
         switch (kind) {
             case "usingCourse":
-                jsonObject.put("courses", new JSONObject(course.getUsingCourse(uCode)));
+                CourseVO vo = course.getUsingCourse(uCode);
+                jsonObject.put("courses", vo == null ? null : new JSONObject(vo));
                 jsonObject.put("coursesInfos", course.getUsingCourseInfo(uCode));
                 break;
             case "myCourse":
@@ -663,6 +666,35 @@ public class AndroidCommonController {
         return jsonObject.toString();
     }
 
+    @Transactional
+    @PostMapping("/res_order")
+    public String resOrder(HttpServletRequest request) {
+        List<MenuOrder> orders = new Gson().fromJson(request.getParameter("menuOrders"),
+                new TypeToken<List<MenuOrder>>() {}.getType());
+        String riTime = request.getParameter("riTime");
+        String riPerson = request.getParameter("riPerson");
+        String riOdNum = request.getParameter("riOdNum");
+        String riCont = request.getParameter("riCont");
+        String uCode = request.getParameter("uCode");
+
+        ReservationInfoVO info = ReservationInfoVO.builder().riTime(Timestamp.valueOf(riTime))
+                .riPerson(Short.valueOf(riPerson)).riOdNum(riOdNum).riCont(riCont).uCode(uCode)
+                .htId(Long.parseLong(orders.get(0).getMenu().getMeCode().split("/")[0])).build();
+        if (reservation.registerRes(info)) {
+            List<ReservationStatusVO> list = new ArrayList<>();
+            for (int i = 0; i < orders.size(); i++) {
+                list.add(ReservationStatusVO.builder().riCode(info.getRiCode())
+                        .meCode(orders.get(i).getMenu().getMeCode())
+                        .rsMeNum(orders.get(i).getNum())
+                        .uCode(uCode).build());
+            }
+            if (reservation.registerResStatus(list)) {
+                return "{message: true}";
+            }
+        }
+        return "{message: false}";
+    }
+
     @PostMapping("/pick-delete")
     public String deletePickHotple(HttpServletRequest request) {
         String uCode = request.getParameter("uCode");
@@ -752,26 +784,16 @@ public class AndroidCommonController {
         return "{message: false}";
     }
 
-    @PostMapping("/check-course")
-    public String checkCourse(HttpServletRequest request) {
-        String uCode = request.getParameter("uCode");
-        if (course.checkUsing(uCode)) {
-            return "{message: true}";
-        } else {
-            return "{message: true}";
-        }
-    }
-
-    @PostMapping("/change-course")
-    public String changeCourse(HttpServletRequest request) {
-        String uCode = request.getParameter("uCode");
-        course.changeCourse(uCode, request.getParameter("csCode"));
-        return "{message: true}";
-    }
-
     @PostMapping("/use-course")
     public String useCourse(HttpServletRequest request) {
-        course.changeUseCourse(request.getParameter("csCode"));
+        String csCode = request.getParameter("csCode");
+        String uCode = request.getParameter("uCode");
+        CourseVO vo = course.getUsingCourse(uCode);
+        if (vo == null) {
+            course.changeUseCourse(csCode);
+        } else {
+            course.changeCourse(uCode, csCode);
+        }
         return "{message: true}";
     }
 
