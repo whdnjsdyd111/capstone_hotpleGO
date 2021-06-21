@@ -220,6 +220,8 @@ public class HomeRestController {
         List<HotpleVO> list = hotple.getByKeywordGeo(keyword, lat, lng);
 
         if (list.size() < 5) {
+            long category = hotple.searchGoogle(keyword);
+            log.info(category);
             try {
                 HttpURLConnection conn = null;
                 URL url = new URL("http://127.0.0.1:5000/select"); // 액세스 토큰 받을 주소 입력
@@ -235,7 +237,12 @@ public class HomeRestController {
 
                 // JSON 화한 키 값들 전달하기
                 BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-                bw.write("{" + "latitude" + ":" + lat + "," + "longitude" + ":" + lng + "," + "keyword" + ":" + keyword + "}");   //json 객체로 1차적으로 다듬어서 보냄.
+                org.json.JSONObject object = new org.json.JSONObject();
+                object.put("latitude", String.valueOf(lat));
+                object.put("longitude", String.valueOf(lng));
+                object.put("keyword", keyword);
+                bw.write(object.toString());   //json 객체로 1차적으로 다듬어서 보냄.
+
                 bw.flush();
                 bw.close();
 
@@ -266,18 +273,21 @@ public class HomeRestController {
                     for (int i = 0; i < arr.length(); i++) {
                         org.json.JSONObject obj = arr.getJSONObject(i);
                         HotpleVO vo = new HotpleVO();
-                        vo.setGoId(obj.getString("GOID"));
-                        vo.setBusnName(obj.getString("BUSNNAME"));
-                        vo.setGoGrd(obj.getDouble("GOGRD"));
-                        vo.setGoImg(obj.getString("GOING"));
-                        vo.setHtAddr(obj.getString("HTADDR"));
-                        vo.setHtLng(obj.getDouble("HTLNG"));
-                        vo.setHtLat(obj.getDouble("HTLAT"));
-                        vo.setHtTel(obj.getString("HTTEL"));
-                        newList.add(vo);
-                        System.out.println(vo);
-
-
+                        if (hotple.readGoId(obj.getString("GOID")) == null) {
+                            vo.setGoId(obj.getString("GOID"));
+                            vo.setBusnName(obj.getString("BUSNNAME"));
+                            vo.setGoGrd(obj.getDouble("GOGRD"));
+                            vo.setGoImg(obj.getString("GOING"));
+                            vo.setHtAddr(obj.getString("HTADDR"));
+                            vo.setHtLng(obj.getDouble("HTLNG"));
+                            vo.setHtLat(obj.getDouble("HTLAT"));
+                            vo.setHtTel(obj.getString("HTTEL"));
+                            vo.setCategory(category);
+                            newList.add(vo);
+                            System.out.println(vo);
+                        } else {
+                            continue;
+                        }
                     }
                     list.addAll(newList);
 

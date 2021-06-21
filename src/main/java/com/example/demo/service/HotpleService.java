@@ -72,4 +72,12 @@ public class HotpleService {
         return mapper.insertGoogle(vo) == 1;
     }
 
+    public int searchGoogle(String keyword) {
+        return mapper.searchGoogle(keyword);
+    }
+
+    public String readGoId(String goId) {
+        return mapper.readGoId(goId);
+    }
+
 }

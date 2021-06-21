@@ -10,6 +10,10 @@
         WHERE htId = #{htId}
     </select>
 
+    <select id="readGoId" resultType="String">
+        SELECT goId FROM hotple where goId = #{goId}
+    </select>
+
     <select id="readAddr" resultType="HotpleVO">
         SELECT * FROM hotple WHERE htAddr = #{str}
     </select>
@@ -39,6 +43,14 @@
         ]]>
         <!-- 복현동 35.8992601, 128.6215081
              반월당 35.8668621, 128.5902276 -->
+    </select>
+
+    <select id="searchGoogle" resultType="Integer">
+        SELECT category, ROWNUM FROM hotple h
+        WHERE (busnname LIKE '%' || #{keyword} || '%' OR htaddr LIKE '%' || #{keyword} || '%' OR htId IN (
+        SELECT SUBSTR(meCode, 1, INSTR(meCode, '/', 1, 1) - 1)
+        FROM menu
+        WHERE mecate LIKE '%' || #{keyword} || '%' OR mename LIKE '%' || #{keyword} || '%' OR mehashtag LIKE '%' || #{keyword} || '%')) AND ROWNUM = 1
     </select>
 
     <select id="searchHotpleByGeo" resultType="HotpleVO">

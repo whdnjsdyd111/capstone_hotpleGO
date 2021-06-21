@@ -36,5 +36,9 @@ public interface HotpleMapper {
 
     public int insertGoogle(List<HotpleVO> vo);
 
+    public int searchGoogle(String keyword);
+
+    public String readGoId(String goId);
+
     List<HotpleVO> getAllHotples();
 }
