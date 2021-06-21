@@ -102,6 +102,11 @@
         uCode = #{uCode}, category = #{category} WHERE htId = #{htId}
     </insert>
 
+    <select id="getHtId" resultType="Long">
+        SELECT --+ INDEX_DESC(hotple ht_pk)
+        htId FROM hotple WHERE ROWNUM = 1
+    </select>
+
     <update id="updateWithImage">
         {
             CALL

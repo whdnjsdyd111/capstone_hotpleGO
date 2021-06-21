@@ -269,15 +269,18 @@ public class HomeRestController {
 
                     // newList 디비에 삽입
 
+                    long htId = hotple.getHtId();
+
                     JSONArray arr = new JSONArray(str);
                     for (int i = 0; i < arr.length(); i++) {
                         org.json.JSONObject obj = arr.getJSONObject(i);
                         HotpleVO vo = new HotpleVO();
                         if (hotple.readGoId(obj.getString("GOID")) == null) {
+                            vo.setHtId(htId + 1);
                             vo.setGoId(obj.getString("GOID"));
                             vo.setBusnName(obj.getString("BUSNNAME"));
                             vo.setGoGrd(obj.getDouble("GOGRD"));
-                            vo.setGoImg(obj.getString("GOING"));
+                            vo.setGoImg(obj.getString("GOIMG"));
                             vo.setHtAddr(obj.getString("HTADDR"));
                             vo.setHtLng(obj.getDouble("HTLNG"));
                             vo.setHtLat(obj.getDouble("HTLAT"));
@@ -285,8 +288,6 @@ public class HomeRestController {
                             vo.setCategory(category);
                             newList.add(vo);
                             System.out.println(vo);
-                        } else {
-                            continue;
                         }
                     }
                     list.addAll(newList);

@@ -41,4 +41,6 @@ public interface HotpleMapper {
     public String readGoId(String goId);
 
     List<HotpleVO> getAllHotples();
+
+    public long getHtId();
 }

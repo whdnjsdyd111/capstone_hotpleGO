@@ -80,4 +80,7 @@ public class HotpleService {
         return mapper.readGoId(goId);
     }
 
+    public long getHtId() {
+        return mapper.getHtId();
+    }
 }
