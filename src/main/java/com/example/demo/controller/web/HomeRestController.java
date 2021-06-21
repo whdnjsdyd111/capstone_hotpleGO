@@ -216,7 +216,81 @@ public class HomeRestController {
     public ResponseEntity<List<HotpleVO>> setGeo(HttpServletRequest request) {
         double lat = Double.parseDouble(request.getParameter("lat"));
         double lng = Double.parseDouble(request.getParameter("lng"));
-        return new ResponseEntity<>(hotple.getByKeywordGeo(request.getParameter("keyword"), lat, lng), HttpStatus.OK);
+        String keyword = request.getParameter("keyword");
+        List<HotpleVO> list = hotple.getByKeywordGeo(keyword, lat, lng);
+
+        if (list.size() < 5) {
+            try {
+                HttpURLConnection conn = null;
+                URL url = new URL("http://127.0.0.1:5000/select"); // 액세스 토큰 받을 주소 입력
+
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("POST");  // post 방식으로 요청
+
+                // 헤더 설정
+                conn.setRequestProperty("Content-Type", "application/json");    // 서버에서 받을 Data 방식 설정
+                conn.setRequestProperty("Accept", "application/json");
+
+                conn.setDoOutput(true); // OutputStream 으로 POST 데이터를 넘겨주겠다는 설정
+
+                // JSON 화한 키 값들 전달하기
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+                bw.write("{" + "latitude" + ":" + lat + "," + "longitude" + ":" + lng + "," + "keyword" + ":" + keyword + "}");   //json 객체로 1차적으로 다듬어서 보냄.
+                bw.flush();
+                bw.close();
+
+                int responseCode = conn.getResponseCode();
+                log.info("응답 코드 : " + responseCode);
+
+                if (responseCode == 200) {  // 성공
+                    log.info("메인 받기 성공");
+                    // 버퍼 리더로 반환 값 얻기
+                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    // 차례로 읽기
+                    String line = null;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line);
+                    }
+                    br.close();
+                    log.info("" + sb.toString());
+
+                    String str = sb.toString();
+                    log.info(str);
+
+                    List<HotpleVO> newList = new ArrayList<>();
+
+                    // newList 디비에 삽입
+
+                    JSONArray arr = new JSONArray(str);
+                    for (int i = 0; i < arr.length(); i++) {
+                        org.json.JSONObject obj = arr.getJSONObject(i);
+                        HotpleVO vo = new HotpleVO();
+                        vo.setGoId(obj.getString("GOID"));
+                        vo.setBusnName(obj.getString("BUSNNAME"));
+                        vo.setGoGrd(obj.getDouble("GOGRD"));
+                        vo.setGoImg(obj.getString("GOING"));
+                        vo.setHtAddr(obj.getString("HTADDR"));
+                        vo.setHtLng(obj.getDouble("HTLNG"));
+                        vo.setHtLat(obj.getDouble("HTLAT"));
+                        vo.setHtTel(obj.getString("HTTEL"));
+                        newList.add(vo);
+                        System.out.println(vo);
+
+
+                    }
+                    list.addAll(newList);
+
+                    hotple.insertGoogle(newList);
+                } else {
+                    log.info(conn.getResponseMessage());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PostMapping("/submit-review")

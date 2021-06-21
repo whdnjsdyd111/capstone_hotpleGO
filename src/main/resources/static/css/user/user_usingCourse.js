@@ -320,7 +320,7 @@ $(function() {
                 swal("이용 완료!", "서비스를 이용해주셔서 감사합니다.", "success").then(() => { location.href = "/myCourse?kind=usingCourse" })
             })
         })
-    })
+    });
 
     $("#sortable").sortable({
         placeholder: "itemBoxHighlight",
@@ -414,7 +414,11 @@ $(function() {
                 icon: "success",
                 button: "확인"
             })
-        }, basicErrorFunc);
+        }, swal({
+            title: "이미 추가 된 코스입니다.",
+            icon: "warning",
+            button: "확인"
+        }));
     });
 
     $('#course_copy').click(function() {

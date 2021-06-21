@@ -68,4 +68,8 @@ public class HotpleService {
         return mapper.delete(vo) == 1;
     }
 
+    public boolean insertGoogle(List<HotpleVO> vo) {
+        return mapper.insertGoogle(vo) == 1;
+    }
+
 }

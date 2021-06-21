@@ -66,7 +66,8 @@ $(function () {
     });
 
     $(document).on('click', '.member-action-btn', function () {
-        let bdCode
+        let bdCode = $(this).prev().val();
+        location.href = "/board/view/" + bdCode;
     });
 
     $(document).on('click', '.deleteContent', function (){

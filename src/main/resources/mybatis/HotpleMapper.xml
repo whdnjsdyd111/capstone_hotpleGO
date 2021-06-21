@@ -76,6 +76,15 @@
         #{htImg}, #{htLat}, #{htLng}, #{uCode}, #{category})
     </insert>
 
+    <insert id="insertGoogle"> <!--collection:전달받은 인자 / item:전달받은인자 alias / open:구문시작 삽입문자 / close:구문종료 삽입문자 / index:반복되는 구문번호  -->
+        <foreach collection="vo" index="index" item="vo" open="INSERT ALL" close="SELECT * FROM DUAL">
+            INTO hotple (htId,goId, busnName, htAddr, htTel, htImg, htLat, htLng)
+            values(
+            seq_hot.NEXTVAL, #{vo.goId}, #{vo.busnName}, #{vo.htAddr}, #{vo.htTel}, #{vo.htImg}, #{htLat}, #{htLng}
+            )
+        </foreach>
+    </insert>
+
     <insert id="insertBusnGo">
         UPDATE hotple SET busnNum = #{busnNum}, htAddrDet = #{htAddrDet}, htCont = #{htCont}, htImg = #{htCont},
         uCode = #{uCode}, category = #{category} WHERE htId = #{htId}

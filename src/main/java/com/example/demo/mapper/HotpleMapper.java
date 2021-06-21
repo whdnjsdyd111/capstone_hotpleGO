@@ -34,5 +34,7 @@ public interface HotpleMapper {
 
     public int delete(HotpleVO vo);
 
+    public int insertGoogle(List<HotpleVO> vo);
+
     List<HotpleVO> getAllHotples();
 }

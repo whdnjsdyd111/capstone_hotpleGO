@@ -170,7 +170,11 @@ $(function () {
                 icon: "success",
                 button: "확인"
             })
-        }, basicErrorFunc);
+        }, swal({
+            title: "이미 추가 된 장소입니다.",
+            icon: "warning",
+            button: "확인"
+        }));
     });
 });
 
