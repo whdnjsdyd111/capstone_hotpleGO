@@ -1,48 +1,27 @@
-
-$(function (){
+$(function () {
 
     /******************** 날씨 정보 가져오기 **************************/
 
-    var url = ' http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst'; /*URL*/
-    var queryParams = '?' + encodeURIComponent('ServiceKey') + '='+'q9bGH%2Bb6Tm1UUbZ9K0EBIllJ64HC2RlamBoq%2FbTXAYTyG06JFGhTBgwtkPNhlZV9bOkOREd5l073KipQPKD0Nw%3D%3D'; /*Service Key*/
-    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
-    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('10'); /**/
-    queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON'); /**/
-    queryParams += '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent('20210617'); /**/
-    queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('0500'); /**/
-    queryParams += '&' + encodeURIComponent('nx') + '=' + encodeURIComponent('89'); /**/
-    queryParams += '&' + encodeURIComponent('ny') + '=' + encodeURIComponent('91'); /**/
-    /*var xhr = new XMLHttpRequest();
-    xhr.open('GET', url + queryParams);
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4) {
-            alert('Status: '+this.status+'nHeaders: '+JSON.stringify(this.getAllResponseHeaders())+'nBody: '+this.responseText);
-        }
-    };
-    xhr.send('');*/
-    /*let todayWeather;*/
-    /*$.ajaxPrefilter('json', function(options, orig, jqXHR) {  return 'jsonp' });*/
+    let currentWeather;
 
 
     $.ajax({
-        url: url  + queryParams ,
+        url: "/getWeather",
         type: "GET",
-        crossDomain:true,
+        crossDomain: true,
         async: false, // ture: 비동기, false: 동기
         dataType: "json",
-        /*jsonpCallback: "myCallback",*/
-        success: function callback(data, status, xhr) {
-            alert(data);
+        success: function (data, status, xhr) {
+            currentWeather = (data);
+            //console.log(JSON.stringify(data));
         },
         error: function (xhr, status, err) {
             alert(status + '' + err);
         }
     });
-
-
-
-
-
+    console.log(currentWeather);
+    const currentSky = currentWeather.response.body.items.item[0].obsrValue;
+    console.log(currentSky);
 
 
     var container = $('.container');
@@ -96,11 +75,11 @@ $(function (){
 // set weather types ☁️ 🌬 🌧 ⛈ ☀️
 
     var weather = [
-        { type: 'snow', name: 'Snow'},
-        { type: 'wind', name: 'Windy'},
-        { type: 'rain', name: 'Rain'},
-        { type: 'thunder', name: 'Storms'},
-        { type: 'sun', name: 'Sunny'}
+        {type: 'snow', name: 'Snow'},
+        {type: 'wind', name: 'Windy'},
+        {type: 'rain', name: 'Rain'},
+        {type: 'thunder', name: 'Storms'},
+        {type: 'sun', name: 'Sunny'}
     ];
 
 // 🛠 app settings
@@ -135,14 +114,12 @@ $(function (){
 
     requestAnimationFrame(tick);
 
-    function init()
-    {
+    function init() {
         onResize();
 
         // 🖱 bind weather menu buttons
 
-        for(var i = 0; i < weather.length; i++)
-        {
+        for (var i = 0; i < weather.length; i++) {
             var w = weather[i];
             var b = $('#button-' + w.type);
             w.button = b;
@@ -160,11 +137,32 @@ $(function (){
         // ☀️ set initial weather
 
         TweenMax.set(sunburst.node, {opacity: 0})
-        changeWeather(weather[0]);
+
+        switch (+currentSky) {
+            case 0 :
+                changeWeather(weather[4]);
+                console.log('맑음');
+                break;
+            case 1 :
+            case 2 :
+            case 5 :
+                changeWeather(weather[2]);
+                console.log('비');
+                break;
+            case 4 :
+                changeWeather(weather[3]);
+                console.log('폭우');
+                break;
+            case 3 :
+            case 6 :
+            case 7 :
+                changeWeather(weather[0]);
+                console.log('눈');
+                break;
+        }
     }
 
-    function onResize()
-    {
+    function onResize() {
         // 📏 grab window and card sizes
 
         sizes.container.width = container.width();
@@ -190,13 +188,22 @@ $(function (){
             height: sizes.container.height
         })
 
-        TweenMax.set(sunburst.node, {transformOrigin:"50% 50%", x: sizes.container.width / 2, y: (sizes.card.height/2) + sizes.card.offset.top});
+        TweenMax.set(sunburst.node, {
+            transformOrigin: "50% 50%",
+            x: sizes.container.width / 2,
+            y: (sizes.card.height / 2) + sizes.card.offset.top
+        });
         TweenMax.fromTo(sunburst.node, 20, {rotation: 0}, {rotation: 360, repeat: -1, ease: Power0.easeInOut})
         // 🍃 The leaf mask is for the leafs that float out of the
         // container, it is full window height and starts on the left
         // inline with the card
 
-        leafMask.attr({x: sizes.card.offset.left, y: 0, width: sizes.container.width - sizes.card.offset.left,  height: sizes.container.height});
+        leafMask.attr({
+            x: sizes.card.offset.left,
+            y: 0,
+            width: sizes.container.width - sizes.card.offset.left,
+            height: sizes.container.height
+        });
     }
 
     /*function drawCloud(cloud, i)
@@ -235,8 +242,7 @@ $(function (){
         }, 0)
     }*/
 
-    function makeRain()
-    {
+    function makeRain() {
         // 💧 This is where we draw one drop of rain
 
         // first we set the line width of the line, we use this
@@ -272,11 +278,16 @@ $(function (){
         // Start the falling animation, calls onRainEnd when the
         // animation finishes.
 
-        TweenMax.fromTo(line.node, 1, {x: x, y: 0- lineLength}, {delay: Math.random(), y: sizes.card.height, ease: Power2.easeIn, onComplete: onRainEnd, onCompleteParams: [line, lineWidth, x, currentWeather.type]});
+        TweenMax.fromTo(line.node, 1, {x: x, y: 0 - lineLength}, {
+            delay: Math.random(),
+            y: sizes.card.height,
+            ease: Power2.easeIn,
+            onComplete: onRainEnd,
+            onCompleteParams: [line, lineWidth, x, currentWeather.type]
+        });
     }
 
-    function onRainEnd(line, width, x, type)
-    {
+    function onRainEnd(line, width, x, type) {
         // first lets get rid of the drop of rain 💧
 
         line.remove();
@@ -284,28 +295,25 @@ $(function (){
 
         // We also remove it from the array
 
-        for(var i in rain)
-        {
-            if(!rain[i].paper) rain.splice(i, 1);
+        for (var i in rain) {
+            if (!rain[i].paper) rain.splice(i, 1);
         }
 
         // If there is less rain than the rainCount we should
         // make more.
 
-        if(rain.length < settings.rainCount)
-        {
+        if (rain.length < settings.rainCount) {
             makeRain();
 
             // 💦 If the line width was more than 2 we also create a
             // splash. This way it looks like the closer (bigger)
             // drops hit the the edge of the card
 
-            if(width > 2) makeSplash(x, type);
+            if (width > 2) makeSplash(x, type);
         }
     }
 
-    function makeSplash(x, type)
-    {
+    function makeSplash(x, type) {
         // 💦 The splash is a single line added to the outer svg.
 
         // The splashLength is how long the animated line will be
@@ -352,23 +360,34 @@ $(function (){
         splash.node.style.strokeDasharray = splashLength + ' ' + pathLength;
 
         // Start the splash animation, calling onSplashComplete when finished
-        TweenMax.fromTo(splash.node, speed, {strokeWidth: 2, y: yOffset, x: xOffset + 20 + x, opacity: 1, strokeDashoffset: splashLength}, {strokeWidth: 0, strokeDashoffset: - pathLength, opacity: 1, onComplete: onSplashComplete, onCompleteParams: [splash], ease:  SlowMo.ease.config(0.4, 0.1, false)})
+        TweenMax.fromTo(splash.node, speed, {
+            strokeWidth: 2,
+            y: yOffset,
+            x: xOffset + 20 + x,
+            opacity: 1,
+            strokeDashoffset: splashLength
+        }, {
+            strokeWidth: 0,
+            strokeDashoffset: -pathLength,
+            opacity: 1,
+            onComplete: onSplashComplete,
+            onCompleteParams: [splash],
+            ease: SlowMo.ease.config(0.4, 0.1, false)
+        })
     }
 
-    function onSplashComplete(splash)
-    {
+    function onSplashComplete(splash) {
         // 💦 The splash has finished animating, we need to get rid of it
 
         splash.remove();
         splash = null;
     }
 
-    function makeLeaf()
-    {
+    function makeLeaf() {
         var scale = 0.5 + (Math.random() * 0.5);
         var newLeaf;
 
-        var areaY = sizes.card.height/2;
+        var areaY = sizes.card.height / 2;
         var y = areaY + (Math.random() * areaY);
         var endY = y - ((Math.random() * (areaY * 2)) - areaY)
         var x;
@@ -377,8 +396,7 @@ $(function (){
         var color = colors[Math.floor(Math.random() * colors.length)];
         var xBezier;
 
-        if(scale > 0.8)
-        {
+        if (scale > 0.8) {
             newLeaf = leaf.clone().appendTo(outerLeafHolder)
                 .attr({
                     fill: color
@@ -389,9 +407,7 @@ $(function (){
             x = sizes.card.offset.left - 100;
             xBezier = x + (sizes.container.width - sizes.card.offset.left) / 2;
             endX = sizes.container.width + 50;
-        }
-        else
-        {
+        } else {
             newLeaf = leaf.clone().appendTo(innerLeafHolder)
                 .attr({
                     fill: color
@@ -405,28 +421,35 @@ $(function (){
         leafs.push(newLeaf);
 
 
-        var bezier = [{x:x, y:y}, {x: xBezier, y:(Math.random() * endY) + (endY / 3)}, {x: endX, y:endY}]
-        TweenMax.fromTo(newLeaf.node, 2, {rotation: Math.random()* 180, x: x, y: y, scale:scale}, {rotation: Math.random()* 360, bezier: bezier, onComplete: onLeafEnd, onCompleteParams: [newLeaf], ease: Power0.easeIn})
+        var bezier = [{x: x, y: y}, {x: xBezier, y: (Math.random() * endY) + (endY / 3)}, {x: endX, y: endY}]
+        TweenMax.fromTo(newLeaf.node, 2, {
+            rotation: Math.random() * 180,
+            x: x,
+            y: y,
+            scale: scale
+        }, {
+            rotation: Math.random() * 360,
+            bezier: bezier,
+            onComplete: onLeafEnd,
+            onCompleteParams: [newLeaf],
+            ease: Power0.easeIn
+        })
     }
 
-    function onLeafEnd(leaf)
-    {
+    function onLeafEnd(leaf) {
         leaf.remove();
         leaf = null;
 
-        for(var i in leafs)
-        {
-            if(!leafs[i].paper) leafs.splice(i, 1);
+        for (var i in leafs) {
+            if (!leafs[i].paper) leafs.splice(i, 1);
         }
 
-        if(leafs.length < settings.leafCount)
-        {
+        if (leafs.length < settings.leafCount) {
             makeLeaf();
         }
     }
 
-    function makeSnow()
-    {
+    function makeSnow() {
         var scale = 0.5 + (Math.random() * 0.5);
         var newSnow;
 
@@ -435,21 +458,18 @@ $(function (){
         var y = -10;
         var endY;
 
-        if(scale > 0.8)
-        {
+        if (scale > 0.8) {
             newSnow = outerSnowHolder.circle(0, 0, 5)
                 .attr({
                     fill: '#d9d9d9'
                 })
             endY = sizes.container.height + 10;
             y = sizes.card.offset.top /*+ settings.cloudHeight*/;
-            x =  x + sizes.card.offset.left;
+            x = x + sizes.card.offset.left;
             //xBezier = x + (sizes.container.width - sizes.card.offset.left) / 2;
             //endX = sizes.container.width + 50;
-        }
-        else
-        {
-            newSnow = innerSnowHolder.circle(0, 0 ,5)
+        } else {
+            newSnow = innerSnowHolder.circle(0, 0, 5)
                 .attr({
                     fill: 'white'
                 })
@@ -463,37 +483,42 @@ $(function (){
         snow.push(newSnow);
 
 
-        TweenMax.fromTo(newSnow.node, 3 + (Math.random() * 5), {x: x, y: y}, {y: endY, onComplete: onSnowEnd, onCompleteParams: [newSnow], ease: Power0.easeIn})
-        TweenMax.fromTo(newSnow.node, 1,{scale: 0}, {scale: scale, ease: Power1.easeInOut})
-        TweenMax.to(newSnow.node, 3, {x: x+((Math.random() * 150)-75), repeat: -1, yoyo: true, ease: Power1.easeInOut})
+        TweenMax.fromTo(newSnow.node, 3 + (Math.random() * 5), {x: x, y: y}, {
+            y: endY,
+            onComplete: onSnowEnd,
+            onCompleteParams: [newSnow],
+            ease: Power0.easeIn
+        })
+        TweenMax.fromTo(newSnow.node, 1, {scale: 0}, {scale: scale, ease: Power1.easeInOut})
+        TweenMax.to(newSnow.node, 3, {
+            x: x + ((Math.random() * 150) - 75),
+            repeat: -1,
+            yoyo: true,
+            ease: Power1.easeInOut
+        })
     }
 
-    function onSnowEnd(flake)
-    {
+    function onSnowEnd(flake) {
         flake.remove();
         flake = null;
 
-        for(var i in snow)
-        {
-            if(!snow[i].paper) snow.splice(i, 1);
+        for (var i in snow) {
+            if (!snow[i].paper) snow.splice(i, 1);
         }
 
-        if(snow.length < settings.snowCount)
-        {
+        if (snow.length < settings.snowCount) {
             makeSnow();
         }
     }
 
-    function tick()
-    {
+    function tick() {
         tickCount++;
         var check = tickCount % settings.renewCheck;
 
-        if(check)
-        {
-            if(rain.length < settings.rainCount) makeRain();
-            if(leafs.length < settings.leafCount) makeLeaf();
-            if(snow.length < settings.snowCount) makeSnow();
+        if (check) {
+            if (rain.length < settings.rainCount) makeRain();
+            if (leafs.length < settings.leafCount) makeLeaf();
+            if (snow.length < settings.snowCount) makeSnow();
         }
 
         /*for(var i = 0; i < clouds.length; i++)
@@ -515,41 +540,34 @@ $(function (){
         requestAnimationFrame(tick);
     }
 
-    function reset()
-    {
-        for(var i = 0; i < weather.length; i++)
-        {
+    function reset() {
+        for (var i = 0; i < weather.length; i++) {
             container.removeClass(weather[i].type);
             weather[i].button.removeClass('active');
         }
     }
 
-    function updateSummaryText()
-    {
+    function updateSummaryText() {
         summary.html(currentWeather.name);
         TweenMax.fromTo(summary, 1.5, {x: 30}, {opacity: 1, x: 0, ease: Power4.easeOut});
     }
 
-    function startLightningTimer()
-    {
-        if(lightningTimeout) clearTimeout(lightningTimeout);
-        if(currentWeather.type == 'thunder')
-        {
-            lightningTimeout = setTimeout(lightning, Math.random()*6000);
+    function startLightningTimer() {
+        if (lightningTimeout) clearTimeout(lightningTimeout);
+        if (currentWeather.type == 'thunder') {
+            lightningTimeout = setTimeout(lightning, Math.random() * 6000);
         }
     }
 
-    function lightning()
-    {
+    function lightning() {
         startLightningTimer();
-        TweenMax.fromTo(card, 0.75, {y: -30}, {y:0, ease:Elastic.easeOut});
+        TweenMax.fromTo(card, 0.75, {y: -30}, {y: 0, ease: Elastic.easeOut});
 
         var pathX = 30 + Math.random() * (sizes.card.width - 60);
         var yOffset = 20;
         var steps = 20;
         var points = [pathX + ',0'];
-        for(var i = 0; i < steps; i++)
-        {
+        for (var i = 0; i < steps; i++) {
             var x = pathX + (Math.random() * yOffset - (yOffset / 2));
             var y = (sizes.card.height / steps) * (i + 1)
             points.push(x + ',' + y);
@@ -562,12 +580,16 @@ $(function (){
                 strokeWidth: 2 + Math.random()
             })
 
-        TweenMax.to(strike.node, 1, {opacity: 0, ease:Power4.easeOut, onComplete: function(){ strike.remove(); strike = null}})
+        TweenMax.to(strike.node, 1, {
+            opacity: 0, ease: Power4.easeOut, onComplete: function () {
+                strike.remove();
+                strike = null
+            }
+        })
     }
 
-    function changeWeather(weather)
-    {
-        if(weather.data) weather = weather.data;
+    function changeWeather(weather) {
+        if (weather.data) weather = weather.data;
         reset();
 
         currentWeather = weather;
@@ -580,8 +602,7 @@ $(function (){
 
         // windSpeed
 
-        switch(weather.type)
-        {
+        switch (weather.type) {
             case 'wind':
                 TweenMax.to(settings, 3, {windSpeed: 3, ease: Power2.easeInOut});
                 break;
@@ -595,8 +616,7 @@ $(function (){
 
         // rainCount
 
-        switch(weather.type)
-        {
+        switch (weather.type) {
             case 'rain':
                 TweenMax.to(settings, 3, {rainCount: 10, ease: Power2.easeInOut});
                 break;
@@ -610,8 +630,7 @@ $(function (){
 
         // leafCount
 
-        switch(weather.type)
-        {
+        switch (weather.type) {
             case 'wind':
                 TweenMax.to(settings, 3, {leafCount: 5, ease: Power2.easeInOut});
                 break;
@@ -622,8 +641,7 @@ $(function (){
 
         // snowCount
 
-        switch(weather.type)
-        {
+        switch (weather.type) {
             case 'snow':
                 TweenMax.to(settings, 3, {snowCount: 40, ease: Power2.easeInOut});
                 break;
@@ -634,15 +652,24 @@ $(function (){
 
         // sun position
 
-        switch(weather.type)
-        {
+        switch (weather.type) {
             case 'sun':
                 TweenMax.to(sun.node, 4, {x: sizes.card.width / 2, y: sizes.card.height / 2, ease: Power2.easeInOut});
-                TweenMax.to(sunburst.node, 4, {scale: 1, opacity: 0.8, y: (sizes.card.height/2) + (sizes.card.offset.top), ease: Power2.easeInOut});
+                TweenMax.to(sunburst.node, 4, {
+                    scale: 1,
+                    opacity: 0.8,
+                    y: (sizes.card.height / 2) + (sizes.card.offset.top),
+                    ease: Power2.easeInOut
+                });
                 break;
             default:
                 TweenMax.to(sun.node, 2, {x: sizes.card.width / 2, y: -100, leafCount: 0, ease: Power2.easeInOut});
-                TweenMax.to(sunburst.node, 2, {scale: 0.4, opacity: 0, y: (sizes.container.height/2)-50, ease: Power2.easeInOut});
+                TweenMax.to(sunburst.node, 2, {
+                    scale: 0.4,
+                    opacity: 0,
+                    y: (sizes.container.height / 2) - 50,
+                    ease: Power2.easeInOut
+                });
                 break;
         }
 
