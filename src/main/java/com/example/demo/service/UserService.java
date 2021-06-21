@@ -126,4 +126,8 @@ public class UserService {
     public boolean deletePickCourse(String csCode, String uCode) {
         return userMapper.deletePickCourse(csCode, uCode) == 1;
     }
+
+    public HotpleVO getPickHotple(String uCode, String htId) {
+        return userMapper.getPickHotple(uCode, htId);
+    }
 }

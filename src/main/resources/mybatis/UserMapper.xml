@@ -79,8 +79,14 @@
     </select>
 
     <select id="getPickHotpleList" resultType="HotpleVO">
+        SELECT h.htId, busnNum, goId, busnName, htAddr, htAddrDet, htZip, htCont, goGrd, htTel, htImg, goImg, uploadPath, fileName, category, pickTime
+        FROM hotple h LEFT OUTER JOIN image_attach i ON h.htImg = i.uuid JOIN pick_list p ON p.htId = h.htId
+        WHERE p.uCode = #{uCode} ORDER BY p.pickTime DESC
+    </select>
+
+    <select id="getPickHotple" resultType="HotpleVO">
         SELECT h.htId, h.busnName, h.htAddr, h.htCont, p.uCode, p.pickTime FROM hotple h join pick_list p
-        ON (h.htId = p.htId) WHERE p.uCode = #{uCode} ORDER BY p.pickTime DESC
+        ON (h.htId = p.htId) WHERE p.uCode = #{uCode} AND h.htId = #{htId}
     </select>
 
     <insert id="pickHotple">

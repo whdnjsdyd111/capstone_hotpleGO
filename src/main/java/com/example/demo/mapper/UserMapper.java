@@ -46,4 +46,6 @@ public interface UserMapper {
     public int deletePickHotple(String htId, String uCode);
 
     public int deletePickCourse(String csCode, String uCode);
+
+    public HotpleVO getPickHotple(String uCode, String htId);
 }
