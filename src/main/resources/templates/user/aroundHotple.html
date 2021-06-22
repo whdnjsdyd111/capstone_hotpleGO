@@ -159,21 +159,21 @@
         <div class="section-title-wrap"><h2 class="section-title">주변 핫플</h2></div>
         <img src="https://blog.kakaocdn.net/dn/2ChCI/btqvPbkYHXS/Bjoh4TSXHv66xRoiu6mrr1/img.gif" class="loading" srcset="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&amp;fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F2ChCI%2FbtqvPbkYHXS%2FBjoh4TSXHv66xRoiu6mrr1%2Fimg.gif" data-origin-width="0" data-origin-height="0">
         <ul class="restaurant-ul d-flex">
-            <div class="restaurant-container ">
+            <div class="restaurant-container loading">
                 <li class="restaurant-item">
                     <div class="popular_restaurant_inner_wrap card">
                         <a class="stretched-link hotples" href="#"></a>
                         <figure class="restaurant-item">
                             <div class="thumb">
-                                <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                                <img src=""
                                      class="figure-img img-fluid rounded hotple_img">
                             </div>
                             <figcaption>
                                 <div class="info">
-                                    <span class="title">식당명</span>
+                                    <span class="title"></span>
                                     <strong class="point search_point"></strong>
                                     <p class="etc">
-                                        회 / 스시
+
                                     </p>
                                 </div>
                             </figcaption>
@@ -185,15 +185,14 @@
                         <a class="stretched-link hotples" href="#"></a>
                         <figure class="restaurant-item">
                             <div class="thumb">
-                                <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                                <img src=""
                                      class="figure-img img-fluid rounded hotple_img">
                             </div>
                             <figcaption>
                                 <div class="info">
-                                    <span class="title">식당명</span>
-                                    <strong class="point search_point ">4.1</strong>
+                                    <span class="title"></span>
+                                    <strong class="point search_point "></strong>
                                     <p class="etc">
-                                        브런치 / 버거 / 샌드위치
                                     </p>
                                 </div>
                             </figcaption>
@@ -205,15 +204,15 @@
                         <a class="stretched-link hotples" href="#"></a>
                         <figure class="restaurant-item">
                             <div class="thumb">
-                                <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                                <img src=""
                                      class="figure-img img-fluid rounded hotple_img">
                             </div>
                             <figcaption>
                                 <div class="info">
-                                    <span class="title">식당명</span>
-                                    <strong class="point search_point ">3.7</strong>
+                                    <span class="title"></span>
+                                    <strong class="point search_point "></strong>
                                     <p class="etc">
-                                        카페 / 디저트
+
                                     </p>
                                 </div>
                             </figcaption>
@@ -223,6 +222,83 @@
             </div>
         </ul>
     </section>
+
+
+    <!--mbti-->
+    <th:block th:if="${#session.getAttribute('users') != null}">
+        <section class="p-5 mx-3">
+            <div class="section-title-wrap coursesM"><h2 class="section-title">MBTI 핫코스</h2></div>
+            <img src="https://blog.kakaocdn.net/dn/2ChCI/btqvPbkYHXS/Bjoh4TSXHv66xRoiu6mrr1/img.gif" class="loading" srcset="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&amp;fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F2ChCI%2FbtqvPbkYHXS%2FBjoh4TSXHv66xRoiu6mrr1%2Fimg.gif" data-origin-width="0" data-origin-height="0">
+        </section>
+        <section class="p-5 mx-3">
+            <div class="section-title-wrap"><h2 class="section-title">MBTI 핫플</h2></div>
+            <img src="https://blog.kakaocdn.net/dn/2ChCI/btqvPbkYHXS/Bjoh4TSXHv66xRoiu6mrr1/img.gif" class="loading" srcset="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&amp;fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F2ChCI%2FbtqvPbkYHXS%2FBjoh4TSXHv66xRoiu6mrr1%2Fimg.gif" data-origin-width="0" data-origin-height="0">
+            <ul class="restaurant-ul d-flex">
+                <div class="restaurant-container ">
+                    <li class="restaurant-item">
+                        <div class="popular_restaurant_inner_wrap card">
+                            <a class="stretched-link hotplesM" href="#"></a>
+                            <figure class="restaurant-item">
+                                <div class="thumb">
+                                    <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                                         class="figure-img img-fluid rounded hotpleM_img">
+                                </div>
+                                <figcaption>
+                                    <div class="info">
+                                        <span class="titleM">식당명</span>
+                                        <strong class="pointM search_point"></strong>
+                                        <p class="etcM">
+                                            회 / 스시
+                                        </p>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </li>
+                    <li class="restaurant-item">
+                        <div class="popular_restaurant_inner_wrap card">
+                            <a class="stretched-link hotplesM" href="#"></a>
+                            <figure class="restaurant-item">
+                                <div class="thumb">
+                                    <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                                         class="figure-img img-fluid rounded hotpleM_img">
+                                </div>
+                                <figcaption>
+                                    <div class="info">
+                                        <span class="titleM">식당명</span>
+                                        <strong class="pointM search_point ">4.1</strong>
+                                        <p class="etcM">
+                                            브런치 / 버거 / 샌드위치
+                                        </p>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </li>
+                    <li class="restaurant-item">
+                        <div class="popular_restaurant_inner_wrap card">
+                            <a class="stretched-link hotplesM" href="#"></a>
+                            <figure class="restaurant-item">
+                                <div class="thumb">
+                                    <img src="https://i.pinimg.com/236x/51/2c/0c/512c0ca0ab17de784240f3f1b1d681f6.jpg"
+                                         class="figure-img img-fluid rounded hotpleM_img">
+                                </div>
+                                <figcaption>
+                                    <div class="info">
+                                        <span class="titleM">식당명</span>
+                                        <strong class="pointM search_point ">3.7</strong>
+                                        <p class="etcM">
+                                            카페 / 디저트
+                                        </p>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </li>
+                </div>
+            </ul>
+        </section>
+    </th:block>
     <script>
         $('.restaurant-container').hide();
         $('.top-div').height(0);
@@ -342,6 +418,18 @@
                         $('.courses').after(makeCourse(datas.courses[key], key));
                     }
 
+                    datas.hotplesM.forEach((v, i) => {
+                        $($('.titleM')[i]).text(v.busnName);
+                        $($('.hotpleM_img')[i]).attr('src', v.goImg === undefined ? '/images/logo2.png' : v.goImg);
+                        $($('.pointM')[i]).text(v.goGrd);
+                        $($('.etcM')[i]).text(tastes[v.category]);
+                        $($('.hotplesM')[i]).attr('href', '/hotple/' + v.htId);
+                    });
+
+                    for (let key in datas.coursesM) {
+                        $('.coursesM').after(makeCourseM(datas.coursesM[key], key));
+                    }
+
                     let mySwiper = new Swiper
                     ('.swiper-container', {
                         slidesPerView: '2',
@@ -402,6 +490,40 @@
                 '<div><span class="title">' + c.busnName + '</span>' +
                 '<strong class="point search_point">' + c.goGrd + '</strong>' +
                 '<p class="etc">' + tastes[c.category] + '</p></div>' +
+                '</figcaption>' +
+                '</figure>' +
+                '</div>' +
+                '</div>';
+            return content;
+        }
+
+        function makeCourseM(cs, code) {
+            let c =
+                '<div class="swiper-container card_course">' +
+                '<div class="swiper-wrapper">';
+
+            for (let index in cs) {
+                c += makeHotpleM(cs[index]);
+            }
+            console.log(code)
+            c +=
+                '</div>' +
+                '<div class="swiper-pagination"></div><a class="stretched-link" href="/courseDetail/' +
+                code.replaceAll('/', '') + '"></a></div>';
+
+            return c;
+        }
+
+        function makeHotpleM(c) {
+            let content = '<div class="swiper-slide">' +
+                '<div class="swiper-contents">' +
+                '<figure class="figure mx-5">';
+            let img = c.goImg === undefined ? '/images/logo2.png' : c.goImg;
+            content += '<img src="' + img + '" class="figure-img rounded">' +
+                '<figcaption class="figure-caption text-right">' +
+                '<div><span class="titleM">' + c.busnName + '</span>' +
+                '<strong class="pointM search_point">' + c.goGrd + '</strong>' +
+                '<p class="etcM">' + tastes[c.category] + '</p></div>' +
                 '</figcaption>' +
                 '</figure>' +
                 '</div>' +

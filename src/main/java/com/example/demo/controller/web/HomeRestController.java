@@ -52,7 +52,9 @@ public class HomeRestController {
         UserVO userVO = (UserVO) session.getAttribute("users");
         String urlOnOff = userVO == null ? "off" : "on";
         List<HotpleVO> filteredHotple = new ArrayList<>();
+        List<HotpleVO> filteredHotpleM = new ArrayList<>();
         Map<String, List<HotpleVO>> filteredCourse = new HashMap<>();
+        Map<String, List<HotpleVO>> filteredCourseM = new HashMap<>();
 
         try {
             HttpURLConnection conn = null;
@@ -131,7 +133,30 @@ public class HomeRestController {
                     hotples.stream().filter(n -> isMatch(n, arrs)).forEach(infos::add);
                     filteredCourse.put(vo.getCsCode(), infos);
                 }
-                log.info(filteredCourse);
+
+                JSONArray hotpleMArr = array.getJSONArray(2);
+                int arrm[] = new int[hotpleMArr.length()];
+                for (int i = 0; i < hotpleMArr.length(); i++) {
+                    arrm[i] = hotpleMArr.getInt(i);
+                }
+                hotples.stream().filter(n -> isMatch(n, arrm)).forEach(filteredHotpleM::add);
+                log.info(filteredHotpleM);
+
+                org.json.JSONObject courseMObj = array.getJSONObject(3);
+                for (String obj : courseMObj.keySet()) {
+                    CourseVO vo = courses.stream().filter(n -> n.getCsCode().equals(obj)).findFirst().get();
+                    List<HotpleVO> infos = new ArrayList<>();
+                    hotpleMArr = courseMObj.getJSONArray(obj);
+                    int arrms[] = new int[hotpleMArr.length()];
+                    for (int i = 0; i < hotpleMArr.length(); i++) {
+                        arrms[i] = hotpleMArr.getInt(i);
+                    }
+                    hotples.stream().filter(n -> isMatch(n, arrms)).forEach(infos::add);
+                    filteredCourseM.put(vo.getCsCode(), infos);
+                }
+
+
+                log.info(filteredCourseM);
             } else {
                 log.info(conn.getResponseMessage());
             }
@@ -142,6 +167,8 @@ public class HomeRestController {
         org.json.JSONObject obj = new org.json.JSONObject();
         obj.put("hotples", filteredHotple);
         obj.put("courses", filteredCourse);
+        obj.put("hotplesM", filteredHotpleM);
+        obj.put("coursesM", filteredCourseM);
         return new ResponseEntity<>(obj.toString(), HttpStatus.OK);
     }
 
