@@ -50,7 +50,7 @@ public class HomeRestController {
     @PostMapping("/around")
     public ResponseEntity<String> around(HttpServletRequest request, HttpSession session) {
         UserVO userVO = (UserVO) session.getAttribute("users");
-        String urlOnOff = user == null ? "off" : "on";
+        String urlOnOff = userVO == null ? "off" : "on";
         List<HotpleVO> filteredHotple = new ArrayList<>();
         Map<String, List<HotpleVO>> filteredCourse = new HashMap<>();
 
@@ -59,7 +59,7 @@ public class HomeRestController {
             URL url = new URL("http://127.0.0.1:5000/" + urlOnOff); // 액세스 토큰 받을 주소 입력
 
             String mbti = "[{mbti: ";
-            if (user != null) {
+            if (userVO != null) {
                 mbti = this.user.getMbti(userVO.getUCode());
                 if (mbti == null) return new ResponseEntity<>("no-mbti", HttpStatus.BAD_GATEWAY);
             }
@@ -80,6 +80,7 @@ public class HomeRestController {
 
             // 키 설정
             String hotples_json = new Gson().toJson(hotples);
+            log.info(hotples_json);
             String courses_json = new Gson().toJson(courses);
             String courseInfos_json = new Gson().toJson(courseInfos);
 
@@ -218,6 +219,7 @@ public class HomeRestController {
         double lng = Double.parseDouble(request.getParameter("lng"));
         String keyword = request.getParameter("keyword");
         List<HotpleVO> list = hotple.getByKeywordGeo(keyword, lat, lng);
+        log.info("리스트 사이즈 : " + list.size());
 
         if (list.size() < 5) {
             long category = hotple.searchGoogle(keyword);
@@ -270,13 +272,13 @@ public class HomeRestController {
                     // newList 디비에 삽입
 
                     long htId = hotple.getHtId();
+                    log.info(hotple.getHtId());
 
                     JSONArray arr = new JSONArray(str);
                     for (int i = 0; i < arr.length(); i++) {
                         org.json.JSONObject obj = arr.getJSONObject(i);
                         HotpleVO vo = new HotpleVO();
                         if (hotple.readGoId(obj.getString("GOID")) == null) {
-                            vo.setHtId(htId + 1);
                             vo.setGoId(obj.getString("GOID"));
                             vo.setBusnName(obj.getString("BUSNNAME"));
                             vo.setGoGrd(obj.getDouble("GOGRD"));
@@ -291,8 +293,10 @@ public class HomeRestController {
                         }
                     }
                     list.addAll(newList);
-
-                    hotple.insertGoogle(newList);
+                    for (int i = 1; i <= newList.size(); i++) {
+                        newList.get(i - 1).setHtId(htId + i);
+                    }
+                    if (newList.size() != 0) hotple.insertGoogle(newList);
                 } else {
                     log.info(conn.getResponseMessage());
                 }

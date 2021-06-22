@@ -135,7 +135,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
                     .antMatchers("/setting").access("hasAnyAuthority('U', 'A', 'M')")
-                    .antMatchers("/bmti").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/mbti").access("hasAnyAuthority('U', 'A', 'M')")
                     .antMatchers("/taste").access("hasAnyAuthority('U', 'A', 'M')")
                     .antMatchers("/myCourse").access("hasAnyAuthority('U', 'A', 'M')")
                     .antMatchers("/board/write").access("hasAnyAuthority('U', 'A', 'M')")
@@ -143,7 +143,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/board/bookmark").access("hasAnyAuthority('U', 'A', 'M')")
                     .antMatchers("/reservation").access("hasAnyAuthority('U', 'A', 'M')")
                     .antMatchers("/aiCourse").access("hasAnyAuthority('U', 'A', 'M')")
-                    .antMatchers("/dibs").access("hasAnyAuthority('U', 'A', 'M')");
+                    .antMatchers("/dibs").access("hasAnyAuthority('U', 'A', 'M')")
+                    .antMatchers("/test").permitAll();
 
             http.csrf().ignoringAntMatchers("/popup/jusoPopup").ignoringAntMatchers("/android/**")
                     .ignoringAntMatchers("/board/rest/upload");
