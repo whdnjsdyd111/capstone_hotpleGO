@@ -6,30 +6,42 @@ import com.example.demo.domain.web.AllianceVO;
 import com.example.demo.security.CustomUser;
 import com.example.demo.service.*;
 import com.example.demo.service.web.AllianceService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.catalina.User;
+import org.apache.tomcat.jni.Local;
 import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RestController
@@ -46,6 +58,90 @@ public class HomeRestController {
     private final ReservationService reservation;
     private final PasswordEncoder passwordEncoder;
     private final GuideService guideService;
+
+    @GetMapping("/getWeather")
+    public String getWeather() throws IOException {
+        String now = LocalDateTime.now().minusHours(2).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        String yearAndDate = now.substring(0,8);
+        String hours = now.substring(8,10);
+        /*HashMap<String, Object> result = new HashMap<>();
+        String jsonInString = "";
+
+
+        String url = "/1360000/VilageFcstInfoService/getUltraSrtNcst";
+
+        try {
+            HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+            factory.setConnectTimeout(5000);
+            factory.setReadTimeout(5000);
+
+            RestTemplate restTemplate = new RestTemplate(factory);
+            HttpHeaders header = new HttpHeaders();
+            header.add("Content-Type", "application/json");
+            HttpEntity<?> entity = new HttpEntity<>(header);
+            UriComponents uri =  UriComponentsBuilder.newInstance()
+                    .scheme("http")
+                    .host("apis.data.go.kr")
+                    .path(url)
+                    .queryParam("ServiceKey","q9bGH%2Bb6Tm1UUbZ9K0EBIllJ64HC2RlamBoq%2FbTXAYTyG06JFGhTBgwtkPNhlZV9bOkOREd5l073KipQPKD0Nw%3D%3D")
+                    .queryParam("pageNo","1")
+                    .queryParam("numOfRows","10")
+                    .queryParam("dataType","JSON")
+                    .queryParam("base_date",yearAndDate)
+                    .queryParam("base_time",hours + "00")
+                    .queryParam("nx","89")
+                    .queryParam("ny","91")
+
+                    .build();
+            ResponseEntity<Map> resultMap = restTemplate.exchange(uri.toString(), HttpMethod.GET, entity, Map.class);
+            result.put("statusCode", resultMap.getStatusCodeValue());
+            result.put("header", resultMap.getHeaders());
+            result.put("body", resultMap.getBody());
+            System.out.println(uri);
+            ObjectMapper mapper = new ObjectMapper();
+            jsonInString = mapper.writeValueAsString(resultMap.getBody());
+
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            result.put("statusCode", e.getRawStatusCode());
+            result.put("body", e.getStatusText());
+            System.out.println(e);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return jsonInString;*/
+            StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService/getUltraSrtNcst"); //URL
+            urlBuilder.append("?" + URLEncoder.encode("ServiceKey","UTF-8") + "=q9bGH%2Bb6Tm1UUbZ9K0EBIllJ64HC2RlamBoq%2FbTXAYTyG06JFGhTBgwtkPNhlZV9bOkOREd5l073KipQPKD0Nw%3D%3D"); //Service Key
+            //urlBuilder.append("&" + URLEncoder.encode("ServiceKey","UTF-8") + "=" + URLEncoder.encode("-", "UTF-8")); //공공데이터포털에서 받은 인증키
+            urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); //페이지번호
+            urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("13", "UTF-8")); //한 페이지 결과 수
+            urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); //요청자료형식(XML/JSON)Default: XML
+            urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(yearAndDate, "UTF-8")); // 현재 연월일
+            urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(hours + "00", "UTF-8")); // 현재시각 - 2
+            urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode("89", "UTF-8")); //예보지점의 X 좌표값
+            urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode("91", "UTF-8")); //예보지점 Y 좌표
+            URL url = new URL(urlBuilder.toString());
+
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Content-type", "application/json");
+            System.out.println("Response code: " + conn.getResponseCode());
+            BufferedReader rd;
+            if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+                rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            } else {
+                rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            }
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            rd.close();
+            conn.disconnect();
+            return sb.toString();
+
+    }
 
     @PostMapping("/around")
     public ResponseEntity<String> around(HttpServletRequest request, HttpSession session) {
