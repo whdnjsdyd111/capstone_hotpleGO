@@ -64,6 +64,9 @@ public class HomeRestController {
         String now = LocalDateTime.now().minusHours(2).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         String yearAndDate = now.substring(0,8);
         String hours = now.substring(8,10);
+        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+        factory.setConnectTimeout(5000);
+        factory.setReadTimeout(5000);
         /*HashMap<String, Object> result = new HashMap<>();
         String jsonInString = "";
 
