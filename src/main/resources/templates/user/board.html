@@ -102,9 +102,11 @@
                 <span aria-current="page" class="prev page-numbers">이전</span>
             </th:block>
 
-            <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
-                <a th:href="@{'/board/list?pageNum=' + ${num}}" th:text="${num}"
-                   th:class="|page-numbers ${pageMaker.cri.pageNum == num ? 'current' : ''}|"></a>
+            <th:block th:if="${result.size() != 0}">
+                <th:block th:each="num : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                    <a th:href="@{'/board/list?pageNum=' + ${num}}" th:text="${num}"
+                       th:class="|page-numbers ${pageMaker.cri.pageNum == num ? 'current' : ''}|"></a>
+                </th:block>
             </th:block>
 
             <th:block th:if="${pageMaker.next}">
