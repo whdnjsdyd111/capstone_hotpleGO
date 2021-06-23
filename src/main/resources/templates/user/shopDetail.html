@@ -78,13 +78,56 @@
                         </dl>
                         <dl>
                             <dt><span>정기 휴무</span></dt>
-                            <dd>
-                                매주 월요일
-                            </dd>
+                            <th:block th:each="time : ${openInfos}">
+                                <th:block th:if="${time.TCode == null}">
+                                    <p>
+                                        <th:block th:switch="${time.htOb.split('/')[0]}">
+                                            <th:block th:case="0">
+                                                <strone>매주</strone>
+                                            </th:block>
+                                            <th:block th:case="1">
+                                                <strone>첫째 주</strone>
+                                            </th:block>
+                                            <th:block th:case="2">
+                                                <strone>둘째 주</strone>
+                                            </th:block>
+                                            <th:block th:case="3">
+                                                <strone>셋째 주</strone>
+                                            </th:block>
+                                            <th:block th:case="4">
+                                                <strone>넷째 주</strone>
+                                            </th:block>
+                                        </th:block>
+                                        <th:block th:switch="${time.htOb.split('/')[1]}">
+                                            <th:block th:case="0">
+                                                <strone>일요일</strone>
+                                            </th:block>
+                                            <th:block th:case="1">
+                                                <strone>월요일</strone>
+                                            </th:block>
+                                            <th:block th:case="2">
+                                                <strone>화요일</strone>
+                                            </th:block>
+                                            <th:block th:case="3">
+                                                <strone>수요일</strone>
+                                            </th:block>
+                                            <th:block th:case="4">
+                                                <strone>목요일</strone>
+                                            </th:block>
+                                            <th:block th:case="5">
+                                                <strone>금요일</strone>
+                                            </th:block>
+                                            <th:block th:case="6">
+                                                <strone>토요일</strone>
+                                            </th:block>
+                                        </th:block>
+                                    </p>
+                                </th:block>
+                            </th:block>
                         </dl>
                         <dl>
                             <dt><span>TEL</span></dt>
-                            <dd th:text="${#hotpleAPI.toTel(hotple.htTel)}">
+                            <dd th:text="${#hotpleAPI.toTel(hotple.htTel)}" style="border-top: 1px solid #dee2e6">
                                 010-1234-5678
                             </dd>
                         </dl>
@@ -94,12 +137,16 @@
                                 <tbody>
                                 <tr>
                                     <th>메뉴 값</th>
-                                    <th th:text="${#numbers.formatInteger(min, 3, 'COMMA')} + ' ~ ' +
+                                    <th:block th:if="${!(min == 0 || max == 0)}">
+                                        <th th:text="${#numbers.formatInteger(min, 3, 'COMMA')} + ' ~ ' +
                                         ${#numbers.formatInteger(max, 3, 'COMMA')}"></th>
+                                    </th:block>
                                 </tr>
                                 <tr>
                                     <th>평균 값</th>
-                                    <th th:text="${#numbers.formatInteger(avg, 3, 'COMMA')}"></th>
+                                    <th:block th:if="${avg != 0}">
+                                        <th th:text="${#numbers.formatInteger(avg, 3, 'COMMA')}"></th>
+                                    </th:block>
                                 </tr>
                                 </tbody>
                             </table>
