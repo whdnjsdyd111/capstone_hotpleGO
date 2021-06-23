@@ -114,34 +114,36 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <th style="word-break: keep-all;">비밀번호 변경</th>
-                <td>
-                    <div class="d-flex flex-column">
-                        <div class="form-group">
-                            <label for="password"><i class="fa fa-lock mr-2"></i>현재 비밀번호 입력</label>
-                            <input type="password" class="form-control w-50 mx-auto" id="password" name="password">
+            <th:block th:if="${#session != null && #session.getAttribute('users').UCode.split('/').length != 3}">
+                <tr>
+                    <th style="word-break: keep-all;">비밀번호 변경</th>
+                    <td>
+                        <div class="d-flex flex-column">
+                            <div class="form-group">
+                                <label for="password"><i class="fa fa-lock mr-2"></i>현재 비밀번호 입력</label>
+                                <input type="password" class="form-control w-50 mx-auto" id="password" name="password">
+                            </div>
+                            <small id="check_pw" class="form-text text-danger  mb-3"></small>
                         </div>
-                        <small id="check_pw" class="form-text text-danger  mb-3"></small>
-                    </div>
 
-                    <div class="d-flex flex-column">
-                        <div class="form-group">
-                            <label for="password"><i class="fa fa-key mr-2"></i>신규 비밀번호 입력</label>
-                            <input type="password" class="form-control w-50 mx-auto" id="new_password" name="password">
+                        <div class="d-flex flex-column">
+                            <div class="form-group">
+                                <label for="password"><i class="fa fa-key mr-2"></i>신규 비밀번호 입력</label>
+                                <input type="password" class="form-control w-50 mx-auto" id="new_password" name="password">
+                            </div>
+                            <small id="new_check_pw" class="form-text text-danger  my-3"></small>
                         </div>
-                        <small id="new_check_pw" class="form-text text-danger  my-3"></small>
-                    </div>
-                    <div class="d-flex flex-column">
-                        <div class="form-group">
-                            <label for="new_password"><i class="fa fa-key mr-2 text-muted"></i>신규 비밀번호 재입력</label>
-                            <input type="password" class="form-control w-50 mx-auto" id="new_re_passwd" name="password">
+                        <div class="d-flex flex-column">
+                            <div class="form-group">
+                                <label for="new_password"><i class="fa fa-key mr-2 text-muted"></i>신규 비밀번호 재입력</label>
+                                <input type="password" class="form-control w-50 mx-auto" id="new_re_passwd" name="password">
+                            </div>
+                            <small id="new_re_check_pw" class="form-text text-danger mb-3"></small>
+                            <button type="submit" id="submit_new_pw" class="wonyong-btn w-btn-green" style="color: whitesmoke;width: 200px;place-self: center;font-size: 14px;" disabled="disabled">비밀번호 재설정</button>
                         </div>
-                        <small id="new_re_check_pw" class="form-text text-danger mb-3"></small>
-                        <button type="submit" id="submit_new_pw" class="wonyong-btn w-btn-green" style="color: whitesmoke;width: 200px;place-self: center;font-size: 14px;" disabled="disabled">비밀번호 재설정</button>
-                    </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            </th:block>
             </tbody>
         </table>
 
