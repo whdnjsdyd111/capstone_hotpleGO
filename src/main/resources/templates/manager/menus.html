@@ -29,11 +29,11 @@
                             <tr class="row">
                                 <td class="photo-area col-12 col-sm-6">
                                     <th:block th:if="${menu.uuid == null}">
-                                        <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid m-auto" style="display: block"><!-- 디폴트 사진 -->
+                                        <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid m-auto" style="display: block; height: 225px;"><!-- 디폴트 사진 -->
                                     </th:block>
                                     <th:block th:if="${menu.uuid != null}">
                                         <img th:src="${#hotpleAPI.toImg(menu.uploadPath, menu.uuid, menu.fileName, #hotpleAPI.IMAGE)}"
-                                             alt="메뉴 이미지를 추가해주세요." class="img-fluid m-auto" style="display: block">
+                                             alt="메뉴 이미지를 추가해주세요." class="img-fluid m-auto" style="display: block; height: 225px;">
                                     </th:block>
                                 </td>
                                 <td class="menu-text col-12 col-sm-6">
