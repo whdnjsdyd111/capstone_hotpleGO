@@ -442,6 +442,6 @@ public class ManagerRestController {
             throw new Exception("환불에 실패하였습니다.");
         }
 
-        return new ResponseEntity<>("예약 취소 완료료하였습니다.", HttpStatus.OK);
+        return new ResponseEntity<>("예약 취소 완료하였습니다.", HttpStatus.OK);
     }
 }
