@@ -48,7 +48,10 @@
                         <input type="hidden" th:value="${course.csCode.replaceAll('/', '')}">
                         <span class="font-weight-bold mx-5" th:text="|함께하는 사람 : *{course.csWith}|" style="color: #7E57C2"></span>
                         <span class="font-weight-bold mx-5" th:text="|인원 : *{course.csNum}|" style="color: #7E57C2"></span>
-                        <button type="button" class="ml-5 wonyong-btn-neon2" id="moveCourse">코스 이용하기</button>
+
+                        <th:block th:if="${#session.getAttribute('users') != null}">
+                            <button type="button" class="ml-5 wonyong-btn-neon2" id="moveCourse">코스 이용하기</button>
+                        </th:block>
                         <span id="total_distance"></span>
                     </div>
                     <ul id="sortable">
