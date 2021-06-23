@@ -319,13 +319,15 @@
                 <button class="wonyong-btn ml-3 w-btn-gra2 w-btn-gra-anim" onclick="history.go(-1)">목록</button>
             </div>
             <div>
-                <th:block th:if="${board.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
-                    <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-blue" id="update"><i
-                            class="fa fa-wrench mr-2"></i>수정
-                    </button>
-                    <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-indigo" id="delete"><i
-                            class="fa fa-trash-o mr-2"></i>삭제
-                    </button>
+                <th:block th:if="${#session.getAttribute('users') != null}">
+                    <th:block th:if="${board.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
+                        <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-blue" id="update"><i
+                                class="fa fa-wrench mr-2"></i>수정
+                        </button>
+                        <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-indigo" id="delete"><i
+                                class="fa fa-trash-o mr-2"></i>삭제
+                        </button>
+                    </th:block>
                 </th:block>
                 <th:block sec:authorize-expr="!isAuthenticated()">
                     <button class="wonyong-btn w-btn-moreRed mb-3 ml-5 mr-3 go_login" id="report"><i
