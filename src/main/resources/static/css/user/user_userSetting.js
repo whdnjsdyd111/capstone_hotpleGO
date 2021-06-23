@@ -247,7 +247,7 @@ $(function () {
     // 찜 코스 삭제
     $(document).on('click','.pickCourseDelete',function (e){
         /*<input type="hidden" id="csCode" th:value="${course.csCode}">*/
-        let csCode = $(this).parent().parent().parent().parent().find('#csCode').val();
+        let csCode = $(this).next().val();
         e.stopPropagation();
         swal("정말 삭제하시겠습니까?",
             {
