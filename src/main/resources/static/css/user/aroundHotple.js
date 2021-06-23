@@ -156,6 +156,8 @@ $(function () {
                 changeWeather(weather[0]);
                 console.log('눈');
                 break;
+            default:
+                changeWeather(weather[1]);
         }
     }
 
