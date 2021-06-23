@@ -57,9 +57,14 @@
                                 <hr class="col"/>
                                 <div class="d-flex justify-content-around my-3">
                                     <span class="my-auto c-index font-weight-bold" th:text="${num + 1}">1</span>
-                                    <img style="width: 300px; height: 300px;" alt="이미지 없음"
-                                         th:src="${#hotpleAPI.toImg(courseInfos.get(num).uploadPath, courseInfos.get(num).uuid,
-                                     courseInfos.get(num).fileName, #hotpleAPI.IMAGE)}">
+                                    <th:block th:if="${courseInfos.get(num).uuid != null}">
+                                        <img th:src="${#hotpleAPI.toImg(courseInfos.get(num).uploadPath,
+                                    courseInfos.get(num).uuid, courseInfos.get(num).fileName, #hotpleAPI.IMAGE)}"
+                                             alt="이미지가 없습니다." style="width: 300px; height: 300px;">
+                                    </th:block>
+                                    <th:block th:if="${courseInfos.get(num).uuid == null && courseInfos.get(num).goImg != null}">
+                                        <img th:src="${courseInfos.get(num).goImg}" alt="이미지가 없습니다." style="width: 300px; height: 300px;"/>
+                                    </th:block>
                                     <div class="d-flex flex-column my-auto" style="width:160px;">
                                         <span th:text="|*{courseInfos.get(num).busnName}|">가게 이름 ( 대략 소요 시간 30분)</span>
                                         <span th:text="|*{courseInfos.get(num).htAddr}|">도로명 주소</span>
@@ -92,9 +97,17 @@
                         <div class="rd-header__info-wrapper d-flex justify-content-center">
                             <p class="rd-header__rst-map">
                                 <a class="c-img-target">
-                                    <img class="c-img c-img--frame"
-                                         th:src="${#hotpleAPI.toImg(hotple.uploadPath, hotple.htImg, hotple.fileName, #hotpleAPI.IMAGE)}"
-                                         style="border: 2px solid #cbcbcb; border-radius: 30px; margin-top: 10px; margin-bottom: 10px;margin-right: 50px;">
+                                    <th:block th:if="${hotple.htImg == null && hotple.goImg == null}">
+                                        <img src="/images/logo.jpg" class="c-img c-img--frame" alt="이미지가 없습니다.">
+                                    </th:block>
+                                    <th:block th:if="${hotple.htImg != null}">
+                                        <img th:src="${#hotpleAPI.toImg(hotple.uploadPath,
+                                    hotple.htImg, hotple.fileName, #hotpleAPI.IMAGE)}"
+                                             alt="이미지가 없습니다." class="c-img c-img--frame" style="height: 300px; width:400px">
+                                    </th:block>
+                                    <th:block th:if="${hotple.htImg == null && hotple.goImg != null}">
+                                        <img th:src="${hotple.goImg}" alt="이미지가 없습니다." class="c-img c-img--frame"/>
+                                    </th:block>
                                 </a>
                             </p>
                             <div class="rd-header__info-table p-3">
@@ -319,13 +332,17 @@
                 <button class="wonyong-btn ml-3 w-btn-gra2 w-btn-gra-anim" onclick="history.go(-1)">목록</button>
             </div>
             <div>
-                <th:block th:if="${board.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
-                    <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-blue" id="update"><i
-                            class="fa fa-wrench mr-2"></i>수정
-                    </button>
-                    <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-indigo" id="delete"><i
-                            class="fa fa-trash-o mr-2"></i>삭제
-                    </button>
+                <th:block th:if="${#session.getAttribute('users') != null}">
+                    <th:block th:if="${board.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
+                        <th:block th:if="${board.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]}">
+                            <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-blue" id="update"><i
+                                    class="fa fa-wrench mr-2"></i>수정
+                            </button>
+                        </th:block>
+                        <button class="wonyong-btn btn-sm mx-2 mb-3 w-btn-indigo" id="delete"><i
+                                class="fa fa-trash-o mr-2"></i>삭제
+                        </button>
+                    </th:block>
                 </th:block>
                 <th:block sec:authorize-expr="!isAuthenticated()">
                     <button class="wonyong-btn w-btn-moreRed mb-3 ml-5 mr-3 go_login" id="report"><i

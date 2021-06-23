@@ -14,9 +14,6 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <style>
-        div > img {
-            width: 350px;
-        }
 
         .time > span {
             font-size: 10px;
@@ -24,10 +21,19 @@
 
         div > img {
             width: 240px;
+            height: 240px;
         }
         .course-container{
             display: flex;
         }
+
+        @media (max-width: 700px) {
+            div > img {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
         @media (max-width:960px) {
             .course-container{
                 flex-direction: column;
@@ -129,15 +135,15 @@
                         <div class="jumbotron mx-4">
                             <div class="container">
                                 <th:block th:if="${vo.htImg == null && vo.goImg == null}">
-                                    <img src="/images/logo.jpg" class="img-fluid" alt="이미지가 없습니다.">
+                                    <img src="/images/logo.jpg" class="my-auto" alt="이미지가 없습니다.">
                                 </th:block>
                                 <th:block th:if="${vo.htImg != null}">
                                     <img th:src="${#hotpleAPI.toImg(vo.uploadPath,
                                     vo.htImg, vo.fileName, #hotpleAPI.IMAGE)}"
-                                         alt="이미지가 없습니다." class="img-fluid">
+                                         alt="이미지가 없습니다." class="my-auto">
                                 </th:block>
                                 <th:block th:if="${vo.htImg == null && vo.goImg != null}">
-                                    <img th:src="${vo.goImg}" alt="이미지가 없습니다." class="img-fluid"/>
+                                    <img th:src="${vo.goImg}" alt="이미지가 없습니다." class="my-auto"/>
                                 </th:block>
                                 <div style="margin-left:30px; ">
                                     <p>
@@ -205,10 +211,10 @@
                             <p th:text="|함께할 사람 : *{course.csWith}|">함께할 사람 : 친구</p>
                             <p th:text="|인원 : *{course.csNum}|">인원 : 2명</p>
                             <button type="button" class="w-btn-green wonyong-btn my-1 course-share">공유하기</button>
-                            <input type="hidden" id="csCode" th:value="${course.csCode}">
                             <input type="hidden" id="csCode1" name="csCode1" th:value="${course.csCode.replaceAll('/', '')}">
                             <button type="button" class="w-btn-red wonyong-btn my-1 pickCourseDelete" >삭제하기
                             </button>
+                            <input type="hidden" th:value="${course.csCode}" />
                             <a th:href="|/courseDetail/*{course.csCode.replaceAll('/', '')}|">
                                 상세보기
                             </a>

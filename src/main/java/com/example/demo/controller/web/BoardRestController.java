@@ -115,13 +115,13 @@ public class BoardRestController {
 
 
     @PostMapping("/view/update/{bdCode}")
-    public ResponseEntity<String> updateComment(HttpServletRequest request, @PathVariable(value = "bdCode") String bdCode, HttpSession session, @RequestBody CommentVO commentVO) {
+    public ResponseEntity<String> updateComment(@PathVariable(value = "bdCode") String bdCode, HttpSession session, @RequestBody CommentVO commentVO) {
         UserVO vo = (UserVO) session.getAttribute("users");
         String uCode = vo.getUCode();
-        String comCode = request.getParameter("comCode");
+        String comCode = commentVO.getComCode();
         commentVO.setBdCode(HotpleAPI.strToCode(bdCode));
         commentVO.setReplyCode(commentVO.getReplyCode());
-        String comCont = request.getParameter("comCont");
+        String comCont = commentVO.getComCont();
         log.info(commentVO);
         boolean isCommUpdate = commentService.commentUpdate(uCode, comCode, comCont);
         try {

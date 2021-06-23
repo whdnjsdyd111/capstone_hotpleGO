@@ -67,7 +67,7 @@ $(function () {
                 },
             }).then((v) => {
             if (v === "add") {
-                requestServlet({
+                requestBody({
                     comCode: comCode
                 }, "/board/rest/delete/comment/" + comCode, function (data){
                     swal({
@@ -79,6 +79,33 @@ $(function () {
                 }, basicErrorFunc)
             }
         });
+    });
+
+    $(document).on('click', '.modify-save', function () {
+        let comCode = $(this).next().val();
+        let comCont = $(this).parent().prev().children().val();
+        let bdCode = $('#bdCode').val();
+        swal("수정하시겠습니까?",
+            {
+                buttons: {
+                    cancel: "아니오!",
+                    add: "네!"
+                },
+            }).then((v)=>{
+            if (v === "add") {
+                requestBody({
+                    comCode: comCode,
+                    comCont: comCont
+                }, "/board/rest/view/update/" + bdCode, function (data) {
+                    swal({
+                        title: "수정 완료",
+                        text: data,
+                        icon: "success",
+                        button: "확인"
+                    }).then(v => reload(rec))
+                }, basicErrorFunc);
+            }
+        })
     });
 
     $('#comment_image').on("change", function() {
