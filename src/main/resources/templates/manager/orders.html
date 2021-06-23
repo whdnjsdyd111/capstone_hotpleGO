@@ -53,7 +53,12 @@
                         </tr>
                         <tr>
                             <td class="align-middle">상세 보기</td>
-                            <td><button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${reservation.value.get(0).riCode.replaceAll('/', '')}" aria-expanded="false">펼치기</button></td>
+                            <td>
+                                <button class="btn btn-info collapsed" type="button" data-toggle="collapse" th:data-target="'#res' + ${reservation.value.get(0).riCode.replaceAll('/', '')}" aria-expanded="false">펼치기</button>
+                                <button class="btn btn-warning cancel ml-3" type="button">예약 취소</button>
+                                <input type="hidden" th:value="${reservation.value.get(0).riCode}" />
+                            </td>
+
                         </tr>
                     </table>
                 </div>
