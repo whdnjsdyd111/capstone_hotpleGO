@@ -136,15 +136,15 @@
                             <table class="table">
                                 <tbody>
                                 <tr>
-                                    <th>메뉴 값</th>
                                     <th:block th:if="${!(min == 0 || max == 0)}">
+                                        <th>메뉴 값</th>
                                         <th th:text="${#numbers.formatInteger(min, 3, 'COMMA')} + ' ~ ' +
                                         ${#numbers.formatInteger(max, 3, 'COMMA')}"></th>
                                     </th:block>
                                 </tr>
                                 <tr>
-                                    <th>평균 값</th>
                                     <th:block th:if="${avg != 0}">
+                                        <th>평균 값</th>
                                         <th th:text="${#numbers.formatInteger(avg, 3, 'COMMA')}"></th>
                                     </th:block>
                                 </tr>
