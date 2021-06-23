@@ -40,11 +40,11 @@ $(function(){
         let str = "";
         let total = 0;
         rs_map[riCode].forEach(i => {
-            str += "<tr><td>" + i.meName + "</td><td>" + i.mePrice + "</td><td>" + i.rsMeNum + "</td></tr>";
+            str += "<tr><td>" + i.meName + "</td><td>" + i.mePrice.toLocaleString() + "</td><td>" + i.rsMeNum + "</td></tr>";
             total += i.mePrice;
         });
         $('#menu-info').html(str);
-        $('#total').text(total);
+        $('#total').text(total.toLocaleString());
         let time = new Date(rs_map[riCode][0].riTime);
         $('#riTime').text(time.toLocaleDateString() + " " + time.toLocaleTimeString());
     });
