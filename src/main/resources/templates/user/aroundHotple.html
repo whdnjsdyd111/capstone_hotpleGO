@@ -247,7 +247,7 @@
 
 
     <!--mbti-->
-    <th:block th:if="${#session.getAttribute('users') != null}">
+    <th:block th:if="${#session != null && #session.getAttribute('users') != null}">
         <section class="p-5 mx-3">
             <div class="section-title-wrap coursesM"><h2 class="section-title">MBTI 핫코스</h2></div>
             <img src="https://blog.kakaocdn.net/dn/2ChCI/btqvPbkYHXS/Bjoh4TSXHv66xRoiu6mrr1/img.gif" class="loading" srcset="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&amp;fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F2ChCI%2FbtqvPbkYHXS%2FBjoh4TSXHv66xRoiu6mrr1%2Fimg.gif" data-origin-width="0" data-origin-height="0">

@@ -86,23 +86,26 @@ $(function() {
     });
 
     $('#updateAccount').click(function() {
-        $.ajax({
-            type: "post",
-            url: "/manager/rest/setting-account",
-            data: JSON.stringify({
-                mBank : $('#bank').val(),
-                mAccount : $('#mAccount').val()
-            }),
-            contentType: "application/json;charset=UTF-8",
-            async: false, //동기, 비동기 여부
-            cache : false, // 캐시 여부
-            success: function(data) {
-                alert(data);
-            },
-            error: function (xhr, status, err) {
-                alert(xhr);
-            }
-        });
+        requestServlet({
+            mBank : $('#bank').val(),
+            mAccount : $('#mAccount').val()
+        }, "/manager/rest/setting-account", function(data) {
+            swal(data);
+        }, basicErrorFunc);
+        // $.ajax({
+        //     type: "post",
+        //     url: "/manager/rest/setting-account",
+        //     data: datas,
+        //     contentType: "application/json;charset=UTF-8",
+        //     async: false, //동기, 비동기 여부
+        //     cache : false, // 캐시 여부
+        //     success: function(data) {
+        //         alert(data);
+        //     },
+        //     error: function (xhr, status, err) {
+        //         alert(xhr);
+        //     }
+        // });
     });
 
     $("#bank").val(origin_bank).prop("selected", true);

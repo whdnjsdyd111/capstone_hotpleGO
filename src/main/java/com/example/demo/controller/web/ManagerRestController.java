@@ -201,8 +201,14 @@ public class ManagerRestController {
     }
 
     @PostMapping("/setting-account")
-    public ResponseEntity<String> settingAccount(@RequestBody ManagerVO vo, @AuthenticationPrincipal CustomUser manager) {
+    public ResponseEntity<String> settingAccount(HttpServletRequest request, @AuthenticationPrincipal CustomUser manager) {
+        String mBank = request.getParameter("mBank");
+        String mAccout = request.getParameter("mAccount");
+        ManagerVO vo = new ManagerVO();
+        vo.setMBank(mBank);
+        vo.setMAccount(mAccout);
         vo.setUCode(manager.user.getUCode());
+        log.info(vo);
         if (user.updateAccount(vo)) {
             return new ResponseEntity<>("계좌 변경 완료하였습니다.", HttpStatus.OK);
         } else {
