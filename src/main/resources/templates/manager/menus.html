@@ -12,6 +12,7 @@
             <h1 class="mr-2">메뉴 추가</h1>
             <input type="button" class="btn btn-light border-dark rounded-circle" value="+" id="add-menu" data-toggle="modal" data-target="#menu-add-modal" style="width: 50px; height: 50px">
         </div>
+        <input type="hidden" id="htId" th:value="${hotple.htId}" />
         <div class="area3" style="border: 0px;"></div>
         <div id="field" class="p-3">
             <div th:name="${menus.key}" th:each="menus : ${menu_map}" class="menu-div p-2 border-dark border rounded mb-5">

@@ -3,6 +3,7 @@ $(function(){
 
     $('#submit-menu').click( function() {
         let formData = new FormData();
+        formData.append("meCode", $('#htId').val());
         formData.append("meCate", $('#me-category').val());
         formData.append("meName", $('#me-name').val());
         formData.append("mePrice", $('#me-price').val());
