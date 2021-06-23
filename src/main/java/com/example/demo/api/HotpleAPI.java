@@ -123,10 +123,11 @@ public class HotpleAPI {
             Date writtenTime = sdf.parse(code.split("/")[0]);
             Date cur = new Date();
             long before = cur.getTime() - writtenTime.getTime();
+            long day = before / 1000 / 60 / 60 / 24;
             long hour = before / 1000 / 60 / 60 % 24;
             long minute = before / 1000/ 60 % 60;
             long second = before / 1000 % 60;
-            str += (hour == 0 ? "" : hour + "시간 전") + (minute == 0 ? "" : minute + "분 전") +
+            str += (day < 1 ? "" : day + "일 전") + (hour == 0 ? "" : hour + "시간 전") + (minute == 0 ? "" : minute + "분 전") +
                     (second == 0 ? "" : second + "초 전");
         } catch (ParseException e) {
             e.printStackTrace();
@@ -141,11 +142,14 @@ public class HotpleAPI {
             Date writtenTime = sdf.parse(code.split("/")[0]);
             Date cur = new Date();
             long before = cur.getTime() - writtenTime.getTime();
-            long day = before / 1000 / 60 / 60 / 24 / 24 % 30;
+            long day = before / 1000 / 60 / 60 / 24;
             long hour = before / 1000 / 60 / 60 % 24;
             long minute = before / 1000/ 60 % 60;
             long second = before / 1000 % 60;
-            if (hour > 0) {
+            if (day > 0) {
+                str += day + "일 전";
+                return str;
+            } else if (hour > 0) {
                 str += hour + "시간 전";
                 return str;
             } else if (minute > 0) {
