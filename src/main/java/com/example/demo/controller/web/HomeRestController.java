@@ -593,7 +593,7 @@ public class HomeRestController {
         obj = new JSONObject();
         obj.put("merchant_uid", ri.getRiOdNum()); // 내 디비의 merchant_uid 얻기
         obj.put("amount", reservation.getTotalFee(ri.getRiCode())); // 내 디비의 총 메뉴 가격
-        obj.put("reason", "취소 테스트");
+        obj.put("reason", "환불 요청");
 
         if (!reservation.removeRes(ri.getRiCode())) {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST); // 먼저 디비부터 삭제
