@@ -51,7 +51,9 @@
                         <th:block sec:authorize-expr="isAuthenticated()">
                             <th:block th:if="${comm.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
                                 <div class="writer-visible-box">
-                                    <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    <th:block th:if="${comm.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]}">
+                                        <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    </th:block>
                                     <input type="hidden" th:value="${comm.comCode.replaceAll('/', '')}"/>
                                     <input type="hidden" th:value="comm"/>
                                     <span class="btn comment-delete">삭제</span>
@@ -168,8 +170,9 @@
                             </div>
                             <div class="next-to-cmmt-nick">
                                 <th:block th:if="${reply.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]} or ${#session.getAttribute('users').UCode.split('/')[1] == 'A'}">
-
-                                    <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    <th:block th:if="${reply.UCode.split('/')[0] == #session.getAttribute('users').UCode.split('/')[0]}">
+                                        <span class="btn btn-modify">수정</span> <!-- 댓글 수정 -->
+                                    </th:block>
                                     <input type="hidden" th:value="|{replyStat.index}*{comm.comCode.replaceAll('/', '')}|">
                                     <input type="hidden" th:value="reply">
                                     <span class="btn comment-delete">삭제</span>
