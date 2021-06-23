@@ -151,6 +151,8 @@ public class HomeRestController {
         List<HotpleVO> filteredHotpleM = new ArrayList<>();
         Map<String, List<HotpleVO>> filteredCourse = new HashMap<>();
         Map<String, List<HotpleVO>> filteredCourseM = new HashMap<>();
+        String lat = request.getParameter("lat");
+        String lng = request.getParameter("lng");
 
         try {
             HttpURLConnection conn = null;
@@ -172,13 +174,14 @@ public class HomeRestController {
 
             conn.setDoOutput(true); // OutputStream 으로 POST 데이터를 넘겨주겠다는 설정
 
-            List<HotpleVO> hotples = hotple.getByGeoAndArea(35.8992601, 128.6215081, 3);
+            List<HotpleVO> hotples = hotple.getByGeoAndArea(lat == null ? 35.8992601 : Double.parseDouble(lat),
+                    lng == null ? 128.6215081 : Double.parseDouble(lng), 3);
             List<CourseVO> courses = course.getCourses();
             List<CourseInfoVO> courseInfos = course.getCourseInfos();
 
             // 키 설정
             String hotples_json = new Gson().toJson(hotples);
-            log.info(hotples_json);
+//            log.info(hotples_json);
             String courses_json = new Gson().toJson(courses);
             String courseInfos_json = new Gson().toJson(courseInfos);
 
@@ -202,10 +205,10 @@ public class HomeRestController {
                     sb.append(line);
                 }
                 br.close();
-                log.info("" + sb.toString());
+//                log.info("" + sb.toString());
 
                 String str = sb.toString();
-                log.info(str);
+//                log.info(str);
 
                 JSONArray array = new JSONArray(str);
 
@@ -215,7 +218,7 @@ public class HomeRestController {
                     arr[i] = hotpleArr.getInt(i);
                 }
                 hotples.stream().filter(n -> isMatch(n, arr)).forEach(filteredHotple::add);
-                log.info(filteredHotple);
+//                log.info(filteredHotple);
 
                 org.json.JSONObject courseObj = array.getJSONObject(1);
                 for (String obj : courseObj.keySet()) {
@@ -230,29 +233,28 @@ public class HomeRestController {
                     filteredCourse.put(vo.getCsCode(), infos);
                 }
 
-                JSONArray hotpleMArr = array.getJSONArray(2);
-                int arrm[] = new int[hotpleMArr.length()];
-                for (int i = 0; i < hotpleMArr.length(); i++) {
-                    arrm[i] = hotpleMArr.getInt(i);
-                }
-                hotples.stream().filter(n -> isMatch(n, arrm)).forEach(filteredHotpleM::add);
-                log.info(filteredHotpleM);
-
-                org.json.JSONObject courseMObj = array.getJSONObject(3);
-                for (String obj : courseMObj.keySet()) {
-                    CourseVO vo = courses.stream().filter(n -> n.getCsCode().equals(obj)).findFirst().get();
-                    List<HotpleVO> infos = new ArrayList<>();
-                    hotpleMArr = courseMObj.getJSONArray(obj);
-                    int arrms[] = new int[hotpleMArr.length()];
+                if (userVO != null) {
+                    JSONArray hotpleMArr = array.getJSONArray(2);
+                    int arrm[] = new int[hotpleMArr.length()];
                     for (int i = 0; i < hotpleMArr.length(); i++) {
-                        arrms[i] = hotpleMArr.getInt(i);
+                        arrm[i] = hotpleMArr.getInt(i);
                     }
-                    hotples.stream().filter(n -> isMatch(n, arrms)).forEach(infos::add);
-                    filteredCourseM.put(vo.getCsCode(), infos);
+                    hotples.stream().filter(n -> isMatch(n, arrm)).forEach(filteredHotpleM::add);
+//                    log.info(filteredHotpleM);
+
+                    org.json.JSONObject courseMObj = array.getJSONObject(3);
+                    for (String obj : courseMObj.keySet()) {
+                        CourseVO vo = courses.stream().filter(n -> n.getCsCode().equals(obj)).findFirst().get();
+                        List<HotpleVO> infos = new ArrayList<>();
+                        hotpleMArr = courseMObj.getJSONArray(obj);
+                        int arrms[] = new int[hotpleMArr.length()];
+                        for (int i = 0; i < hotpleMArr.length(); i++) {
+                            arrms[i] = hotpleMArr.getInt(i);
+                        }
+                        hotples.stream().filter(n -> isMatch(n, arrms)).forEach(infos::add);
+                        filteredCourseM.put(vo.getCsCode(), infos);
+                    }
                 }
-
-
-                log.info(filteredCourseM);
             } else {
                 log.info(conn.getResponseMessage());
             }
@@ -263,8 +265,10 @@ public class HomeRestController {
         org.json.JSONObject obj = new org.json.JSONObject();
         obj.put("hotples", filteredHotple);
         obj.put("courses", filteredCourse);
-        obj.put("hotplesM", filteredHotpleM);
-        obj.put("coursesM", filteredCourseM);
+        if (userVO != null) {
+            obj.put("hotplesM", filteredHotpleM);
+            obj.put("coursesM", filteredCourseM);
+        }
         return new ResponseEntity<>(obj.toString(), HttpStatus.OK);
     }
 
