@@ -48,11 +48,21 @@ $(function() {
             data: formData,
             url: "/manager/rest/comp-update",
             success: function (data, status, xhr) {
-                alert(data);
-                self.location.reload();
+                swal({
+                    title: "등록 완료!",
+                    text: data,
+                    icon: "success",
+                    button: "확인"
+                }).then(v=>self.location.reload());
+
             },
             error: function (xhr, status, err) {
-                alert(xhr.responseText);
+                swal({
+                    title: "실패!",
+                    text: xhr,
+                    icon: "error",
+                    button: "확인"
+                });
             }
         });
     });

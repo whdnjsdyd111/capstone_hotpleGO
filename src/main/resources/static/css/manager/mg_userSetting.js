@@ -100,7 +100,7 @@ $(function() {
                 alert(data);
             },
             error: function (xhr, status, err) {
-                alert(xhr.responseText);
+                alert(xhr);
             }
         });
     });
