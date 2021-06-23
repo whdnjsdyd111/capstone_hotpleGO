@@ -139,10 +139,7 @@ $(function () {
         TweenMax.set(sunburst.node, {opacity: 0})
 
         switch (+currentSky) {
-            case 0 :
-                changeWeather(weather[4]);
-                console.log('맑음');
-                break;
+
             case 1 :
             case 2 :
             case 5 :

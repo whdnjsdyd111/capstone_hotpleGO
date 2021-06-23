@@ -42,6 +42,9 @@
         .section-title {
             text-align: left;
         }
+        .info>* {
+            color : #6c757d;
+        }
 
 
         @keyframes down {
@@ -264,8 +267,8 @@
                                 </div>
                                 <figcaption>
                                     <div class="info">
-                                        <span class="titleM">식당명</span>
-                                        <strong class="pointM search_point"></strong>
+                                        <span class="titleM point">식당명</span>
+                                        <strong class="pointM point search_point"></strong>
                                         <p class="etcM">
                                             회 / 스시
                                         </p>
@@ -284,8 +287,8 @@
                                 </div>
                                 <figcaption>
                                     <div class="info">
-                                        <span class="titleM">식당명</span>
-                                        <strong class="pointM search_point ">4.1</strong>
+                                        <span class="titleM point">식당명</span>
+                                        <strong class="pointM point search_point ">4.1</strong>
                                         <p class="etcM">
                                             브런치 / 버거 / 샌드위치
                                         </p>
@@ -304,8 +307,8 @@
                                 </div>
                                 <figcaption>
                                     <div class="info">
-                                        <span class="titleM">식당명</span>
-                                        <strong class="pointM search_point ">3.7</strong>
+                                        <span class="titleM point">식당명</span>
+                                        <strong class="pointM point search_point ">3.7</strong>
                                         <p class="etcM">
                                             카페 / 디저트
                                         </p>
@@ -442,16 +445,23 @@
                         $('.courses').after(makeCourse(datas.courses[key], key));
                     }
 
-                    datas.hotplesM.forEach((v, i) => {
-                        $($('.titleM')[i]).text(v.busnName);
-                        $($('.hotpleM_img')[i]).attr('src', v.goImg === undefined ? '/images/logo2.png' : v.goImg);
-                        $($('.pointM')[i]).text(v.goGrd);
-                        $($('.etcM')[i]).text(tastes[v.category]);
-                        $($('.hotplesM')[i]).attr('href', '/hotple/' + v.htId);
-                    });
+                    if (datas.hotplesM !== undefined) {
+                        datas.hotplesM.forEach((v, i) => {
+                            $($('.titleM')[i]).text(v.busnName);
+                            $($('.hotpleM_img')[i]).attr('src', v.goImg === undefined ? '/images/logo2.png' : v.goImg);
+                            let starts = '';
+                            for (let i = 0; i < Math.floor(v.goGrd); i++) {
+                                starts += '★';
+                            }
+                            if ((v.goGrd % 1) >= 0.5) starts += '☆';
+                            $($('.pointM')[i]).text(starts + ' ' + v.goGrd);
+                            $($('.etcM')[i]).text(tastes[v.category]);
+                            $($('.hotplesM')[i]).attr('href', '/hotple/' + v.htId);
+                        });
 
-                    for (let key in datas.coursesM) {
-                        $('.coursesM').after(makeCourseM(datas.coursesM[key], key));
+                        for (let key in datas.coursesM) {
+                            $('.coursesM').after(makeCourseM(datas.coursesM[key], key));
+                        }
                     }
 
                     let mySwiper = new Swiper
@@ -550,10 +560,15 @@
                 '<div class="swiper-contents">' +
                 '<figure class="figure mx-5">';
             let img = c.goImg === undefined ? '/images/logo2.png' : c.goImg;
+            let starts = '';
+            for (let i = 0; i < Math.floor(c.goGrd); i++) {
+                starts += '★';
+            }
+            if ((c.goGrd % 1) >= 0.5) starts += '☆';
             content += '<img src="' + img + '" class="figure-img rounded">' +
-                '<figcaption class="figure-caption text-right">' +
+                '<figcaption class="figure-caption ">' +
                 '<div><span class="titleM">' + c.busnName + '</span>' +
-                '<strong class="pointM search_point">' + c.goGrd + '</strong>' +
+                '<strong class="pointM point search_point ">' + starts + ' '  + c.goGrd + '</strong>' +
                 '<p class="etcM">' + tastes[c.category] + '</p></div>' +
                 '</figcaption>' +
                 '</figure>' +
