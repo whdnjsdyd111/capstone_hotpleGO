@@ -4,13 +4,19 @@
       layout:decorator="~{admin/default}">
 <th:block layout:fragment="styles">
     <script src="/css/admin/adm_member.js"></script>
+    <style>
+        .img-fluid {
+            width: 184px;
+            height: 184px;
+        }
+    </style>
 </th:block>
 <div layout:fragment="content">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="mb-3"
                 style="font-size: 30px; font-weight: bold; color: indianred; text-shadow: 1px 1px 1.2px midnightblue;">
-                회원 관리</h2>
+                업체 관리</h2>
             <div class="mb-3 pull-right">
                 <form method="post" class="form-inline">
                     <div class="form-group">

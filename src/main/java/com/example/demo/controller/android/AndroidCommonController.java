@@ -867,7 +867,11 @@ public class AndroidCommonController {
         String uCode = request.getParameter("uCode");
         String urlOnOff = uCode == null ? "off" : "on";
         List<HotpleVO> filteredHotple = new ArrayList<>();
+        List<HotpleVO> filteredHotpleM = new ArrayList<>();
         Map<String, List<HotpleVO>> filteredCourse = new HashMap<>();
+        Map<String, List<HotpleVO>> filteredCourseM = new HashMap<>();
+        double lat = Double.parseDouble(request.getParameter("lat"));
+        double lng = Double.parseDouble(request.getParameter("lng"));
 
         try {
             HttpURLConnection conn = null;
@@ -889,7 +893,7 @@ public class AndroidCommonController {
 
             conn.setDoOutput(true); // OutputStream 으로 POST 데이터를 넘겨주겠다는 설정
 
-            List<HotpleVO> hotples = hotple.getByGeoAndArea(35.8992601, 128.6215081, 3);
+            List<HotpleVO> hotples = hotple.getByGeoAndArea(lat, lng, 3);
             List<CourseVO> courses = course.getCourses();
             List<CourseInfoVO> courseInfos = course.getCourseInfos();
 
@@ -918,10 +922,10 @@ public class AndroidCommonController {
                     sb.append(line);
                 }
                 br.close();
-                log.info("" + sb.toString());
+//                log.info("" + sb.toString());
 
                 String str = sb.toString();
-                log.info(str);
+//                log.info(str);
 
                 JSONArray array = new JSONArray(str);
 
@@ -931,7 +935,7 @@ public class AndroidCommonController {
                     arr[i] = hotpleArr.getInt(i);
                 }
                 hotples.stream().filter(n -> isMatch(n, arr)).forEach(filteredHotple::add);
-                log.info(filteredHotple);
+//                log.info(filteredHotple);
 
                 org.json.JSONObject courseObj = array.getJSONObject(1);
                 for (String obj : courseObj.keySet()) {
@@ -945,7 +949,29 @@ public class AndroidCommonController {
                     hotples.stream().filter(n -> isMatch(n, arrs)).forEach(infos::add);
                     filteredCourse.put(vo.getCsCode(), infos);
                 }
-                log.info(filteredCourse);
+
+                if (uCode != null) {
+                    JSONArray hotpleMArr = array.getJSONArray(2);
+                    int arrm[] = new int[hotpleMArr.length()];
+                    for (int i = 0; i < hotpleMArr.length(); i++) {
+                        arrm[i] = hotpleMArr.getInt(i);
+                    }
+                    hotples.stream().filter(n -> isMatch(n, arrm)).forEach(filteredHotpleM::add);
+//                    log.info(filteredHotpleM);
+
+                    org.json.JSONObject courseMObj = array.getJSONObject(3);
+                    for (String obj : courseMObj.keySet()) {
+                        CourseVO vo = courses.stream().filter(n -> n.getCsCode().equals(obj)).findFirst().get();
+                        List<HotpleVO> infos = new ArrayList<>();
+                        hotpleMArr = courseMObj.getJSONArray(obj);
+                        int arrms[] = new int[hotpleMArr.length()];
+                        for (int i = 0; i < hotpleMArr.length(); i++) {
+                            arrms[i] = hotpleMArr.getInt(i);
+                        }
+                        hotples.stream().filter(n -> isMatch(n, arrms)).forEach(infos::add);
+                        filteredCourseM.put(vo.getCsCode(), infos);
+                    }
+                }
             } else {
                 log.info(conn.getResponseMessage());
             }
@@ -956,6 +982,10 @@ public class AndroidCommonController {
         JSONObject obj = new JSONObject();
         obj.put("hotples", filteredHotple);
         obj.put("courses", filteredCourse);
+        if (uCode != null) {
+            obj.put("hotplesM", filteredHotpleM);
+            obj.put("coursesM", filteredCourseM);
+        }
         return obj.toString();
     }
 
@@ -966,10 +996,18 @@ public class AndroidCommonController {
         return false;
     }
 
-    @PostMapping("course_cn")
+    @PostMapping("/course_cn")
     public String getCourseCN(HttpServletRequest request) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("courses", course.getAllCourse(request.getParameter("uCode")));
         return jsonObject.toString();
+    }
+
+    @PostMapping("/get_course")
+    public String getCourse(HttpServletRequest request) {
+        String csCode = request.getParameter("csCode");
+        JSONObject object = new JSONObject();
+        object.put("course_info", course.getCourseInfoDetail(csCode));
+        return object.toString();
     }
 }

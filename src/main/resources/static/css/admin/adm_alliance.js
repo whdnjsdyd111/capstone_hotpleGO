@@ -3,8 +3,8 @@ $(function() {
     const header = $("meta[name='_csrf_header']").attr("content");
 
     $('.watch_content').click(function() {
-        $('#alc_content').html($(this).next().html());
-        $('#alc_phone').html("제휴자 휴대번호 : " + $(this).next().next().html())
+        $('#alc_phone').text("제휴자 휴대번호 : " + $(this).next().next().val());
+        $('#alc_content').text("내용 : " +$(this).next().val());
         $('.modal').modal('show');
     });
 

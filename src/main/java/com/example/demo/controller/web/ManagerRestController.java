@@ -94,8 +94,6 @@ public class ManagerRestController {
     @PostMapping("/menu-add")
     @ResponseBody
     public ResponseEntity<MenuVO> menuAdd(MenuVO vo, MultipartFile upload) {
-        vo.setMeCode(String.valueOf(5));
-
         if (vo.getMeCode().isEmpty() || vo.getMeCate().isEmpty() || vo.getMeHashTag().isEmpty() || vo.getMeIntr().isEmpty() ||
                 vo.getMeName().isEmpty() || vo.getMePrice() < 0) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

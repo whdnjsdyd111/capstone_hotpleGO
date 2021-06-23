@@ -69,6 +69,14 @@ public class HomeController {
         return "user/mbti";
     }
 
+    @CrossOrigin("*")
+    @GetMapping("/test")
+    public String test() {
+
+        return "user/test";
+    }
+
+
 
     @GetMapping("/taste")
     public String taste(@RequestParam(value = "required", required = false) String required, Model model,

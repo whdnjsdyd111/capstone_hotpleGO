@@ -93,6 +93,7 @@ public class ManagerController {
 
     @GetMapping("/menus")
     public String menuManagement(Model model, @AuthenticationPrincipal CustomUser manager) {
+        model.addAttribute("hotple", hotple.getByUCode(manager.user.getUCode()));
         List<MenuVO> list = menu.getListByUser(manager.getUsername() + "/" + manager.getAuthorities().toArray()[0] + "/");
         if (list == null || list.size() == 0) return "manager/menus";
         Map<String, List<MenuVO>> map = new HashMap<>();
