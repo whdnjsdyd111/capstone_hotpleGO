@@ -12,6 +12,7 @@
             <h1 class="mr-2">메뉴 추가</h1>
             <input type="button" class="btn btn-light border-dark rounded-circle" value="+" id="add-menu" data-toggle="modal" data-target="#menu-add-modal" style="width: 50px; height: 50px">
         </div>
+        <input type="hidden" id="htId" th:value="${hotple.htId}" />
         <div class="area3" style="border: 0px;"></div>
         <div id="field" class="p-3">
             <div th:name="${menus.key}" th:each="menus : ${menu_map}" class="menu-div p-2 border-dark border rounded mb-5">
@@ -28,11 +29,11 @@
                             <tr class="row">
                                 <td class="photo-area col-12 col-sm-6">
                                     <th:block th:if="${menu.uuid == null}">
-                                        <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid m-auto" style="display: block"><!-- 디폴트 사진 -->
+                                        <img src="/images/clip.jpg" alt="메뉴 이미지를 추가해주세요." class="img-fluid m-auto" style="display: block; height: 225px;"><!-- 디폴트 사진 -->
                                     </th:block>
                                     <th:block th:if="${menu.uuid != null}">
                                         <img th:src="${#hotpleAPI.toImg(menu.uploadPath, menu.uuid, menu.fileName, #hotpleAPI.IMAGE)}"
-                                             alt="메뉴 이미지를 추가해주세요." class="img-fluid m-auto" style="display: block">
+                                             alt="메뉴 이미지를 추가해주세요." class="img-fluid m-auto" style="display: block; height: 225px;">
                                     </th:block>
                                 </td>
                                 <td class="menu-text col-12 col-sm-6">
