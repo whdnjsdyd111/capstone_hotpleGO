@@ -293,6 +293,7 @@ public class HomeRestController {
     public ResponseEntity<String> settingNick(@RequestBody UserVO vo, HttpSession session) {
         UserVO vo1 = (UserVO) session.getAttribute("users");
         if (this.user.updateNick(vo.getNick(), vo1.getUCode())) {
+            vo1.setNick(vo.getNick());
             return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
