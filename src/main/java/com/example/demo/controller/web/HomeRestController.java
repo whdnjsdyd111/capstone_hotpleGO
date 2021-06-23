@@ -295,11 +295,17 @@ public class HomeRestController {
     @PostMapping("/setting-nick")
     public ResponseEntity<String> settingNick(@RequestBody UserVO vo, HttpSession session) {
         UserVO vo1 = (UserVO) session.getAttribute("users");
-        if (this.user.updateNick(vo.getNick(), vo1.getUCode())) {
-            vo1.setNick(vo.getNick());
-            return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
+        UserVO nicks = user.aleadyNick(vo.getNick());
+        log.info(nicks);
+        if (nicks == null) {
+            if (this.user.updateNick(vo.getNick(), vo1.getUCode())) {
+                vo1.setNick(vo.getNick());
+                return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+            }
         } else {
-            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("이미 존재하는 닉네임입니다.", HttpStatus.BAD_REQUEST);
         }
     }
 

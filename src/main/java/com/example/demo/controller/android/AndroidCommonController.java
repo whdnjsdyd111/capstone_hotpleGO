@@ -425,10 +425,14 @@ public class AndroidCommonController {
     public String changeNick(HttpServletRequest request) {
         String uCode = request.getParameter("uCode");
         String nick = request.getParameter("nick");
-        if (users.updateNick(nick, uCode)) {
-            return "{message:'수정 완료하였습니다.', status:200}";
+        if (users.aleadyNick(nick) == null) {
+            if (users.updateNick(nick, uCode)) {
+                return "{message:'수정 완료하였습니다.', status:200}";
+            } else {
+                return "{message:'다시 시도해주십시오.', status:500}";
+            }
         } else {
-            return "{message:'다시 시도해주십시오.', status:500}";
+            return "{message: '이미 존재하는 닉네임입니다.', status:500}";
         }
     }
 
@@ -568,9 +572,14 @@ public class AndroidCommonController {
 
     @PostMapping("/nick_update")
     public String nickUpdate(HttpServletRequest request) {
-        if (users.updateNick(request.getParameter("nick"),
-                request.getParameter("uCode"))) return "{message: true}";
-        else return "{message: false}";
+        String nick = request.getParameter("nick");
+        if (users.aleadyNick(nick) == null) {
+            if (users.updateNick(nick,
+                    request.getParameter("uCode"))) return "{message: true}";
+            else return "{message: false}";
+        } else {
+            return "{message: false}";
+        }
     }
 
     @PostMapping("/comp_update")

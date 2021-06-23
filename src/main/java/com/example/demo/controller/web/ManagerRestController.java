@@ -203,10 +203,14 @@ public class ManagerRestController {
 
     @PostMapping("/setting-nick")
     public ResponseEntity<String> settingNick(@RequestBody ManagerVO vo, @AuthenticationPrincipal CustomUser manager) {
-        if (user.updateNick(vo.getNick(), manager.user.getUCode())) {
-            return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
+        if (user.aleadyNick(vo.getNick()) == null) {
+            if (user.updateNick(vo.getNick(), manager.user.getUCode())) {
+                return new ResponseEntity<>("닉네임 변경 완료하였습니다.", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+            }
         } else {
-            return new ResponseEntity<>("다시 시도해주십시오.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("이미 존재하는 닉네임입니다.", HttpStatus.BAD_REQUEST);
         }
     }
 

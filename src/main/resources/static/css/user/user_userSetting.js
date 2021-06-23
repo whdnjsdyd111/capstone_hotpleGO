@@ -42,22 +42,11 @@ $(function () {
     });
 
     $('#updateNick').click(function () {
-        $.ajax({
-            type: "post",
-            url: "/setting-nick",
-            data: JSON.stringify({
-                nick: $('#nickname').val()
-            }),
-            contentType: "application/json;charset=UTF-8",
-            async: false, //동기, 비동기 여부
-            cache: false, // 캐시 여부
-            success: function (data) {
-                alert(data);
-            },
-            error: function (xhr, status, err) {
-                alert("다시 시도해주십시오.");
-            }
-        });
+        requestBody({
+            nick: $('#nickname').val()
+        }, "/setting-nick", function(data) {
+            swal("변경 완료", "닉네임 수정 완료하였습니다.", "success");
+        }, basicErrorFunc);
     });
 
     // 신규 비밀번호 체크

@@ -16,6 +16,10 @@
         SELECT * FROM users WHERE uCode LIKE #{email} || '%'
     </select>
 
+    <select id="readByNick" resultType="UserVO">
+        SELECT * FROM users WHERE nick = #{nick}
+    </select>
+
     <insert id="insert">
         INSERT INTO users (uCode, pw, nick, birth, gender, phone
         <if test="!(profileImg == null or profileImg == '')">
