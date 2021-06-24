@@ -22,6 +22,7 @@ public class CourseInfoVO {
     private String goImg;
     private Double htLat;
     private Double htLng;
+    private Double goGrd;
 
     // 해당 핫플 이미지 정보
     private String uuid;
