@@ -100,7 +100,6 @@ public class AndroidCommonController {
         log.info(vo);
 
         vo.setUCode(vo.getUCode() + "/U/");
-        vo.setPw(passwordEncoder.encode(vo.getPw()));
         vo.setBirth(birth);
         if (users.register(vo)) {
             return "{message: true}";
@@ -134,7 +133,7 @@ public class AndroidCommonController {
         String uCode = request.getParameter("email") + "/U/" + request.getParameter("socialType");
         UserVO vo = users.get(uCode);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("user", vo);
+        jsonObject.put("user", new JSONObject(vo));
         jsonObject.put("message", vo == null ? "false" : "true");
         return jsonObject.toString();
     }
@@ -144,7 +143,6 @@ public class AndroidCommonController {
         log.info(vo);
 
         vo.setUCode(vo.getUCode() + "/M/");
-        vo.setPw(passwordEncoder.encode(vo.getPw()));
         if (users.registerManager(vo)) {
             return "{message: true}";
         } else {
@@ -506,7 +504,7 @@ public class AndroidCommonController {
             ImageAttachVO imageAttachVO = new ImageAttachVO();
             imageAttachVO.upload(upload);
 
-            if (vo.getUuid().isEmpty()) {
+            if (vo.getUuid() == null) {
                 if (imageAttach.upload(imageAttachVO)) {
                     vo.setUuid(imageAttachVO.getUuid());
                     vo.setUploadPath(imageAttachVO.getUploadPath());
