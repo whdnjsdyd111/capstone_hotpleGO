@@ -103,9 +103,16 @@ public class HotpleAPI {
     public static String toTel(String str) {
         if (str == null) return null;
         StringBuffer sb = new StringBuffer(str);
-        sb.insert(7, '-');
-        sb.insert(3, '-');
-        return sb.toString();
+        if (sb.indexOf("010") == 0) {
+            sb.insert(7, '-');
+            sb.insert(3, '-');
+            return sb.toString();
+        } else {
+            sb.insert(6, '-');
+            sb.insert(3, '-');
+            return sb.toString();
+        }
+
     }
 
     public static String tCodeToTime(String tCode) {
