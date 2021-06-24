@@ -13,6 +13,10 @@
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);
             border-radius: 25px;
         }
+        .img-fluid {
+            width: 183px;
+            height: 183px;
+        }
     </style>
 </th:block>
 <div layout:fragment="content">
@@ -108,23 +112,7 @@
                                         <textarea class="form-control review-content" cols="30" rows="4"
                                                   th:text="${reviews.get(hotple.riCode) == null ? '' :
                                                   reviews.get(hotple.riCode).rvCont}" required></textarea>
-                                        <!-- 사진 업로드 (사장 댓 없을 경우 있고 사장이 달면 수정 못하게 숨기기) -->
-                                        <div class="file-upload">
-                                            <div class="image-upload-wrap">
-                                                <input class="file-upload-input" type='file' onchange="readURL(this);"
-                                                       accept="image/*"/>
-                                                <div class="drag-text">
-                                                    <i class="far fa-image"></i>
-                                                    <p>사진 업로드</p></div>
-                                            </div>
-                                            <div class="file-upload-content">
-                                                <img class="file-upload-image" src="#" alt="your image"/>
-                                                <div class="image-title-wrap">
-                                                    <button type="button" onclick="removeUpload()" class="remove-image">
-                                                        Remove <span class="image-title">Uploaded Image</span></button>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                         <th:block th:if="${reviews.get(hotple.riCode) == null ? false :
                                         reviews.get(hotple.riCode).rvOwnCont == null ? false : true }">
                                             <div th:id="|ceo-reply*{hotple.riCode.replaceAll('/', '')}|">
