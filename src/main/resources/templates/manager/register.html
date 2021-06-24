@@ -16,6 +16,20 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <script src="/css/manager/mg_register.js"></script>
+    <style>
+        @media screen and (min-width: 768px) {
+            #regBtn {
+                padding: 10px 10px;
+                width : 452px;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            #regBtn {
+                width : 262px;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
@@ -131,7 +145,7 @@
 
         <div class="form-group">
             <div class="col-lg-offset-2 col-lg-10" style="text-align: center;">
-                <button id="regBtn" type="submit" class="btn btn-primary" style="padding:10px 100px; width: 452px;"
+                <button id="regBtn" type="submit" class="btn btn-primary"
                         disabled="disabled">가입하기
                 </button>
             </div>
