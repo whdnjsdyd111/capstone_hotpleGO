@@ -15,6 +15,7 @@ public class ReservationAllVO {
     private String riOdNum;
     private String riCont;
     private String uCode;
+    private String rName;
 
     // 예약 상태
     private Byte rsMeNum;

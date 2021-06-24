@@ -16,4 +16,5 @@ public class ReservationInfoVO {
     private String riCont;
     private Long htId;
     private String uCode;
+    private String rName;
 }

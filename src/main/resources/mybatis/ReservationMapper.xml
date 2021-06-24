@@ -17,7 +17,7 @@
     </select>
 
     <select id="getReservationByManager" resultType="ReservationAllVO">
-        SELECT r.riCode, htId, riTime, riPerson, riNoShow, riOdNum, riCont, u.uCode, rsMeNum,
+        SELECT r.riCode, htId, riTime, riPerson, riNoShow, riOdNum, riCont, u.uCode, rName, rsMeNum,
         meCode, meCate, meName, mePrice, meIntr, meHashTag, i.uuid, uploadPath, fileName, phone
         FROM res_info r JOIN res_status s ON (r.riCode = s.riCode)
         NATURAL JOIN menu m FULL OUTER JOIN image_attach i ON (m.uuid = i.uuid) JOIN users u ON (r.uCode = u.uCode)
@@ -84,8 +84,8 @@
         <selectKey keyProperty="riCode" resultType="String" order="BEFORE">
             SELECT TO_CHAR(CURRENT_TIMESTAMP, 'RRMMDDHH24MISS/') || LPAD(seq_ri.NEXTVAL, 2, '0') FROM DUAL
         </selectKey>
-        INSERT INTO res_info (riCode, riTime, riPerson, riOdNum, riCont, htId, uCode)
-        VALUES (#{riCode}, #{riTime}, #{riPerson}, #{riOdNum}, #{riCont}, #{htId}, #{uCode})
+        INSERT INTO res_info (riCode, riTime, riPerson, riOdNum, riCont, htId, uCode, rName)
+        VALUES (#{riCode}, #{riTime}, #{riPerson}, #{riOdNum}, #{riCont}, #{htId}, #{uCode}, #{rName})
     </insert>
 
     <insert id="insertResStatus">

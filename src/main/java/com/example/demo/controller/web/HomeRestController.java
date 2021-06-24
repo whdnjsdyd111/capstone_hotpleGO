@@ -500,10 +500,11 @@ public class HomeRestController {
     public ResponseEntity<String> resComplete(@RequestParam("meCode[]") List<String> meCode,
                                               @RequestParam("rsMeNum[]") List<Integer> rsMeNum, @RequestParam("riTime") String riTime,
                                               @RequestParam("riPerson") short riPerson, @RequestParam("riOdNum") String riOdNum,
-                                              @RequestParam("riCont") String riCont, HttpSession session) {
+                                              @RequestParam("riCont") String riCont,
+                                              @RequestParam("rName") String rName, HttpSession session) {
         UserVO vo = (UserVO) session.getAttribute("users");
         ReservationInfoVO ri = ReservationInfoVO.builder().riPerson(riPerson)
-                .riOdNum(riOdNum).riCont(riCont).uCode(vo.getUCode())
+                .riOdNum(riOdNum).riCont(riCont).uCode(vo.getUCode()).rName(rName)
                 .riTime(Timestamp.valueOf(riTime)).htId(Long.parseLong(meCode.get(0).split("/")[0])).build();
         log.info(ri);
         if (reservation.registerRes(ri)) {

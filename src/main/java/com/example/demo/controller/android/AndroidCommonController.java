@@ -700,9 +700,10 @@ public class AndroidCommonController {
         String riOdNum = request.getParameter("riOdNum");
         String riCont = request.getParameter("riCont");
         String uCode = request.getParameter("uCode");
+        String rName = request.getParameter("rName");
 
         ReservationInfoVO info = ReservationInfoVO.builder().riTime(Timestamp.valueOf(riTime))
-                .riPerson(Short.valueOf(riPerson)).riOdNum(riOdNum).riCont(riCont).uCode(uCode)
+                .riPerson(Short.valueOf(riPerson)).riOdNum(riOdNum).riCont(riCont).uCode(uCode).rName(rName)
                 .htId(Long.parseLong(orders.get(0).getMenu().getMeCode().split("/")[0])).build();
         if (reservation.registerRes(info)) {
             List<ReservationStatusVO> list = new ArrayList<>();

@@ -114,7 +114,22 @@
                                 <td>고객 전화번호</td>
                             </tr>
                             <tr>
-                                <td th:text="${#hotpleAPI.toTel(reservation.value.get(0).phone)}"></td>
+                                <td>
+                                    <table class="table ">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th>예약자 번호</th>
+                                            <th>예약자 이름</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td th:text="${#hotpleAPI.toTel(reservation.value.get(0).phone)}">010-6848-0083</td>
+                                            <td th:text="${reservation.value.get(0).RName}">조원용</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
                             </tr>
                         </table>
                     </div>

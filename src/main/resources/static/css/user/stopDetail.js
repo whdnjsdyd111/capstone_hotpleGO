@@ -214,8 +214,9 @@ function list_append(menuCode, menuTitle, menuPrice) {
 var test = function test() {
     let riTime = $('#reservation-time').val();
     let riPerson = +$('#riPerson').text();
+    let rName = $('#name').val();
     if (menu.length === 0 || riPerson < 1
-        || riTime === "" || odNum === undefined) {
+        || riTime === "" || odNum === undefined || rName === "") {
         return;
     }
 
@@ -231,7 +232,8 @@ var test = function test() {
             riTime: riTime + ":00",
             riPerson: riPerson,
             riOdNum: odNum,
-            riCont: $('#reservation-request').val()
+            riCont: $('#reservation-request').val(),
+            rName: rName
         }, "/reservation-complete",
         function (data) {
             swal("예약 성공!", data, "success", {
