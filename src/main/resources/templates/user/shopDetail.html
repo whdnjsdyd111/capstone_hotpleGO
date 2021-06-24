@@ -9,7 +9,7 @@
     <script src="/css/user/stopDetail.js"></script>
     <style>
         .img-fluid {
-            height: 300px;
+            height: 220px;
             width: 300px;
         }
     </style>
@@ -202,11 +202,13 @@
                                                          alt="메뉴 이미지를 추가해주세요." class="img-fluid">
                                                 </th:block>
                                             </td>
-                                            <td class="menu-text col-12 col-sm-6">
-                                                <div><h3 class="menu-title" th:text="${menu.meName}"></h3></div>
-                                                <div><h6 class="menu-expl" th:text="${menu.meIntr}"></h6></div>
-                                                <div><h6 class="menu-price" th:text="|${#numbers.formatInteger(menu.mePrice, 0, 'COMMA')}원|"></h6></div>
-                                                <input type="hidden" class="menu-code" th:value="${menu.meCode}" />
+                                            <td class="menu-text col-12 col-sm-6 d-flex">
+                                                <div class="m-auto">
+                                                    <div><h3 class="menu-title" th:text="${menu.meName}"></h3></div>
+                                                    <div><h6 class="menu-expl" th:text="${menu.meIntr}"></h6></div>
+                                                    <div><h6 class="menu-price" th:text="|${#numbers.formatInteger(menu.mePrice, 0, 'COMMA')}원|"></h6></div>
+                                                    <input type="hidden" class="menu-code" th:value="${menu.meCode}" />
+                                                </div>
                                             </td>
                                         </tr>
                                         </tbody>
