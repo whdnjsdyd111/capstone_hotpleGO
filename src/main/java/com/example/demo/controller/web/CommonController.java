@@ -100,6 +100,6 @@ public class CommonController {
         if(vo.getProfileImg().isEmpty()) vo.setProfileImg(null);
 
         log.info(vo);
-        return user.register(vo) ? "redirect:login" : "error_page";
+        return user.register(vo) ? "redirect:login" : "redirect:/error/500";
     }
 }

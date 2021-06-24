@@ -130,4 +130,8 @@ public class UserService {
     public HotpleVO getPickHotple(String uCode, String htId) {
         return userMapper.getPickHotple(uCode, htId);
     }
+
+    public UserVO aleadyNick(String nick) {
+        return userMapper.readByNick(nick);
+    }
 }

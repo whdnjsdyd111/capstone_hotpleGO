@@ -43,7 +43,7 @@
         </div>
     </fieldset>
     <script>
-        let webSocket = new WebSocket('ws://3.13.167.35:8000/admin/websocket');
+        let webSocket = new WebSocket('ws://www.hotplego.p-e.kr:8000/admin/websocket');
 
         webSocket.onerror = function(event) { onError(event) };
         webSocket.onopen = function(event) { onOpen(event) };
@@ -147,11 +147,11 @@
 
         function codeToDateStr(data) {
             let yy = data.substr(0, 2);
-            let mm = data.substr(2, 4);
-            let dd = data.substr(4, 6);
-            let hh = data.substr(6, 8);
-            let mi = data.substr(8, 10);
-            let ss = data.substr(10, 12);
+            let mm = data.substr(2, 2);
+            let dd = data.substr(4, 2);
+            let hh = data.substr(6, 2);
+            let mi = data.substr(8, 2);
+            let ss = data.substr(10, 2);
             let date_str = yy + "." + mm + "." + dd + " " + hh + ":" + mi + ":" + ss;
             console.log(date_str);
         }
