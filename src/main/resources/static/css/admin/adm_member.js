@@ -1,16 +1,16 @@
 $(function () {
-    $(document).on('click', '.member-action-btn',async function () {
-        let ele = this;
-            $('#content_modal').load('/admin/content_modal?uCode=' + $(ele).next().val(),function (){
-                const arr = $(ele).parent().prevAll();
-                $('#mem-role').val($(arr[0]).text());
-                $('#mem-regDate').val($(arr[1]).text());
-                $('#mem-email').val($(arr[2]).text());
-                $('#mem-nick').val($(arr[3]).text());
-
-
-                $('#user-action').modal('toggle');
-            });
+    $(document).on('click', '.member-action-btn', function () {
+        let elements = $(this);
+        console.log(elements)
+        $('#content_modal').load('/admin/content_modal?uCode=' + elements.next().val(), function (){
+            debugger
+            const arr = $(elements).parent().prevAll();
+            $('#mem-role').val($(arr[0]).text());
+            $('#mem-regDate').val($(arr[1]).text());
+            $('#mem-email').val($(arr[2]).text());
+            $('#mem-nick').val($(arr[3]).text());
+            $('#user-action').modal('toggle');
+        });
     });
     $(document).on('click', '.warn-authority-btn', function () {
         const arr = $(this).parent().prevAll();
@@ -24,10 +24,10 @@ $(function () {
         location.href = '/board/view/' + $(this).text().replaceAll('/','');
 
     })
-    /*$(document).on('click', '#modal-close', function () {
+    $(document).on('click', '#modal-close', function () {
         $('#user-action').modal('hide');
         $('#content_modal').html('');
-    });*/
+    });
 
     $('button[data-toggle=modal]').click(function() {
         $('#repCont').text($(this).prev().val());
