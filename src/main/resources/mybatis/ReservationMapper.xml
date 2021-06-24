@@ -17,10 +17,11 @@
     </select>
 
     <select id="getReservationByManager" resultType="ReservationAllVO">
-        SELECT * FROM res_info NATURAL JOIN res_status
-        NATURAL JOIN menu m
-        FULL OUTER JOIN image_attach i
-        ON (m.uuid = i.uuid) WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
+        SELECT r.riCode, htId, riTime, riPerson, riNoShow, riOdNum, riCont, u.uCode, rsMeNum,
+        meCode, meCate, meName, mePrice, meIntr, meHashTag, i.uuid, uploadPath, fileName, phone
+        FROM res_info r JOIN res_status s ON (r.riCode = s.riCode)
+        NATURAL JOIN menu m FULL OUTER JOIN image_attach i ON (m.uuid = i.uuid) JOIN users u ON (r.uCode = u.uCode)
+        WHERE htId = (SELECT htId FROM hotple WHERE uCode = #{uCode})
     </select>
 
     <select id="getReservationByUser" resultType="ReservationAllVO">

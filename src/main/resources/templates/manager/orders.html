@@ -110,6 +110,12 @@
                                     <input type="text" class="form-control bg-light" readonly th:value="${reservation.value.get(0).riCont}"/>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>고객 전화번호</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${#hotpleAPI.toTel(reservation.value.get(0).phone)}"></td>
+                            </tr>
                         </table>
                     </div>
                 </div>

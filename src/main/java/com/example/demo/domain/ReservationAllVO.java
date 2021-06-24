@@ -29,4 +29,7 @@ public class ReservationAllVO {
     private String uuid;
     private String uploadPath;
     private String fileName;
+
+    // 예약자 전화번호
+    private String phone;
 }
